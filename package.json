@@ -20,7 +20,8 @@
   "scripts": {
     "build:css": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.css --style=expanded --source-map",
     "build:css:min": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.min.css --style=compressed --no-source-map",
-    "build": "npm run build:css && npm run build:css:min"
+    "build:docs-assets": "node -e \"require('fs').mkdirSync('docs/assets/css',{recursive:true});require('fs').copyFileSync('dist/dsgovbr-bootstraped.min.css','docs/assets/css/dsgovbr-bootstraped.css')\"",
+    "build": "npm run build:css && npm run build:css:min && npm run build:docs-assets"
   },
   "devDependencies": {
     "sass": "^1.80.0"
