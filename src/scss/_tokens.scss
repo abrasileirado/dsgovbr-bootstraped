@@ -1,8 +1,63 @@
 // Tokens do GOV.BR DS mapeados para variáveis Sass do Bootstrap.
 //
-// Placeholder criado na issue #2 (scaffold). O mapeamento real de cores,
-// tipografia (Rawline/Raleway, font-size base 14px — DP-10) e demais tokens
-// de fundação é implementado na issue #3 (PoC tokens + .btn), a partir dos
-// arquivos em vendor/govbr-ds-core/src/partial/scss/configs/.
-//
-// Ver docs/requisitos.md §12.1 (DP-01, DP-10) para as decisões já registradas.
+// Os valores abaixo são cópias literais, extraídas do submodule
+// vendor/govbr-ds-core (tag v3.7.0) — não são importados via @import/@use
+// porque os parciais de origem dependem de um conjunto próprio de mixins e
+// funções (family-blue, get-rgb, tokens()) que geram custom properties e
+// trariam risco de colisão de seletores com o Bootstrap (RNF-04). Cada valor
+// cita o arquivo de origem para rastreabilidade (RF-02). Revalidar estas
+// cópias sempre que a tag do submodule for atualizada (DP-09).
+
+// --- Cores semânticas ---
+// vendor/govbr-ds-core/src/partial/scss/_tokens.scss (bloco :root)
+
+// --interactive: var(--blue-warm-vivid-70)
+// vendor/govbr-ds-core/.../configs/colors/_blue-warm-vivid.scss
+$govbr-interactive: #1351b4;
+
+// --info: var(--blue-warm-vivid-60)
+$govbr-info: #155bcb;
+
+// --success: var(--green-cool-vivid-50)
+// vendor/govbr-ds-core/.../configs/colors/_green-cool-vivid.scss
+$govbr-success: #168821;
+
+// --warning: var(--yellow-vivid-20)
+// vendor/govbr-ds-core/.../configs/colors/_yellow-vivid.scss
+$govbr-warning: #ffcd07;
+
+// --danger: var(--red-vivid-50)
+// vendor/govbr-ds-core/.../configs/colors/_red-vivid.scss
+$govbr-danger: #e52207;
+
+// --- Neutros ---
+// vendor/govbr-ds-core/.../configs/colors/_gray.scss
+$govbr-gray-90: #1b1b1b; // tom mais escuro (usado como $dark)
+$govbr-gray-80: #333;    // --color-light (texto padrão)
+$govbr-gray-20: #ccc;    // --border-color
+$govbr-gray-5: #f0f0f0;  // fundo alternativo (usado como $light)
+
+// --background-light: var(--pure-0)
+// vendor/govbr-ds-core/.../configs/colors/_pure.scss
+$govbr-background: #fff;
+
+// --- Tipografia ---
+// vendor/govbr-ds-core/src/partial/scss/configs/_typography.scss
+$govbr-font-family: "Rawline", "Raleway", sans-serif;
+$govbr-font-size-base: 14px;    // DP-10 — ver nota em _bootstrap-settings.scss
+$govbr-font-weight-semibold: 600;
+
+// --- Espaçamento ---
+// vendor/govbr-ds-core/src/partial/scss/configs/_spacing.scss ($spacer)
+// Não é remapeado nesta issue (ver matriz em docs/requisitos.md §6: Layout
+// mantém o Bootstrap); registrado aqui apenas para referência futura.
+$govbr-spacer: 8px;
+
+// --- Botão ---
+// vendor/govbr-ds-core/src/components/button/_mixins.scss
+// (button-tokens, button-default)
+$govbr-button-radius: 100em;         // --button-radius: pílula
+$govbr-button-height-small: 32px;    // --button-small
+$govbr-button-height-medium: 40px;   // --button-medium (padrão)
+$govbr-button-height-large: 48px;    // --button-large
+$govbr-button-padding-x: 24px;       // padding: 0 var(--spacing-scale-3x)
