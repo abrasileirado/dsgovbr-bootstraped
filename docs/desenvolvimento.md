@@ -8,6 +8,27 @@ Produzir uma integração SCSS/CSS que mantenha classes Bootstrap 5 nos componen
 
 Leia primeiro [os requisitos](requisitos.md), sobretudo a matriz inicial, os critérios de aceite e as decisões pendentes.
 
+## Roteiro do MVP
+
+O MVP foi quebrado nas issues abaixo, cada uma associada a um marco concreto. A ordem reflete as
+dependências entre elas (uma issue geralmente depende da anterior estar concluída):
+
+| Issue | Marco | Estimativa |
+|---|---|---|
+| [#2](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/2) | Estrutura inicial: submodules (Bootstrap + govbr-ds-core) e scaffold do projeto | 6h |
+| [#3](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/3) | Prova de conceito: tokens de fundação + adaptação de `.btn` | 8h |
+| [#4](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/4) | Adaptação: campos de texto, checkbox e radio | 8h |
+| [#5](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/5) | Adaptação: alert e card | 6h |
+| [#6](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/6) | Matriz pública de suporte + página de showcase dos componentes | 10h |
+| [#7](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/7) | Exemplo(s) de uso concreto | 6h |
+| [#8](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/8) | Documentação: Getting Started e Setup | 4h |
+| [#9](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/9) | README.md com screenshots | 3h |
+| [#10](https://github.com/abrasileirado/dsgovbr-bootstraped/issues/10) | Pipeline de CI/CD de release | 6h |
+
+Cada issue detalha objetivo, escopo, critério de aceite e dependências no próprio GitHub. A página
+de showcase (#6) é estática (HTML/CSS, sem framework), publicada em `docs/showcase/` via o GitHub
+Pages já habilitado neste repositório.
+
 ## Organização proposta
 
 ```text
