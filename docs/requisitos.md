@@ -1,6 +1,6 @@
 # Requisitos de software — dsgovbr-bootstraped
 
-- **Versão do documento:** 0.1 (proposta inicial).
+- **Versão do documento:** 0.2 (decisões atualizadas após inspeção do código-fonte upstream).
 - **Estado:** especificação; não descreve funcionalidades já implementadas.
 - **Projeto:** integração comunitária e não oficial da API de classes Bootstrap 5 com aspectos visuais do GOV.BR DS.
 - **Repositório:** <https://github.com/abrasileirado/dsgovbr-bootstraped>.
@@ -40,9 +40,9 @@ A composição SCSS dos projetos é uma oportunidade de reaproveitamento, **não
 
 ## 5. Premissas e restrições
 
-- A linha inicial de compatibilidade proposta é **Bootstrap 5.3.x**; a faixa exata será definida e testada antes da primeira publicação.
+- A compatibilidade é fixada em **Bootstrap v5.3.8** e **@govbr-ds/core v3.7.0**, ambos incluídos como git submodules apontando para os repositórios oficiais upstream (não forks) e fixados por tag (ver DP-01/DP-03).
 - A versão ou revisão de GOV.BR DS usada como referência deve ser explicitamente fixada antes da implementação. Não se deve depender de `latest` na geração de releases.
-- O escopo npm `@abrasileirado/dsgovbr-bootstraped` é **proposto**, não reservado ou publicado por este documento.
+- O escopo npm `@abrasileirado/dsgovbr-bootstraped` foi **verificado como disponível**, mas ainda **não reservado** no npm (ver DP-07).
 - O projeto distingue contrato **visual**, contrato de **markup** e contrato de **comportamento**. A aprovação em um contrato não implica aprovação nos outros.
 - Qualquer versão que contenha CSS pronto deverá informar se ele é **autônomo** (inclui Bootstrap) ou **camada adicional** (exige Bootstrap carregado separadamente), com ordem de carregamento e cobertura demonstradas.
 - Cores, medidas e nomes de tokens nos artefatos finais devem vir das fontes versionadas escolhidas; não são definidos por suposição neste documento.
@@ -54,7 +54,7 @@ Legenda: **A** = adaptação principalmente por tokens/SCSS; **B** = exige conve
 | Área | API Bootstrap pretendida | Referência GOV.BR DS | Classe inicial | MVP | Condição para declarar suporte |
 |---|---|---|---|---|---|
 | Fundamentos | Tokens e variáveis Bootstrap | Tokens de design | A | Sim | Mapeamento versionado, origem registrada e testes de compilação. |
-| Layout | `.container`, `.row`, `.col-*` | Princípios de layout | A | Manter Bootstrap | Documentar divergências; não prometer identidade de grid. |
+| Layout | `.container`, `.row`, `.col-*` | Princípios de layout | A | Manter Bootstrap | Documentar divergências — os breakpoints do GOV.BR DS (xs:0, sm:576, md:992, lg:1280, xl:1600) não correspondem numericamente aos do Bootstrap (sm:576, md:768, lg:992, xl:1200, xxl:1400) além do `sm` compartilhado; não prometer identidade de grid. |
 | Botões | `.btn` e variantes selecionadas | Button | B | Sim | Variantes e estados testados; mapeamento de ênfases explícito. |
 | Texto e formulários | `.form-control`, `.form-label` | Input | B | Sim | Estados, labels, ajuda e erro testados sem dependência oculta de `.br-input`. |
 | Seleção | `.form-check`, `.form-check-input` | Checkbox e Radio | B | Sim | Foco, marcação, desabilitado e uso por teclado verificados. |
@@ -107,6 +107,8 @@ A proposta de publicação é um pacote npm contendo `dist/` com CSS compilado e
 - Dependências de compilação e fontes GOV.BR DS não podem depender implicitamente de arquivos que não constem do pacote ou das dependências declaradas.
 - GitHub Releases e, opcionalmente, documentação online complementam o npm; não substituem o registro primário.
 
+A criação de uma nova Release no GitHub aciona a pipeline de publicação (CI/CD): (1) publica o pacote no npm, preferencialmente via trusted publishing/OIDC (RNF-06); (2) publica o site de documentação/catálogo via GitHub Pages, a partir da pasta `docs/` deste mesmo repositório (já habilitado); (3) anexa os artefatos compilados de `dist/` (CSS, minificado, source maps) como assets da própria Release.
+
 Um trecho de instalação só poderá ser publicado como instrução oficial após o primeiro tarball ser validado num projeto consumidor limpo.
 
 ## 10. Estratégia de implementação
@@ -119,6 +121,8 @@ Um trecho de instalação só poderá ser publicado como instrução oficial ap�
 6. Publicar versão pré-1.0 com limites claros; só ampliar suporte após regressão visual, de acessibilidade e de comportamento.
 
 Preferir código novo em `@use`/`@forward` quando possível. Se uma dependência exigir `@import`, isolar o uso, registrar avisos de depreciação e planejar migração; não presumir que é possível converter fontes de terceiros sem impacto.
+
+> Nota: o passo 1 (inspeção das versões upstream) foi concluído; os achados e decisões resultantes estão registrados em §12.1.
 
 ## 11. Critérios de aceite do MVP
 
@@ -136,17 +140,29 @@ Preferir código novo em `@use`/`@forward` quando possível. Se uma dependência
 
 ## 12. Decisões pendentes
 
+### 12.1 Decisões já registradas
+
+Resultado da inspeção direta do código-fonte upstream (Bootstrap 5.3.8 e `@govbr-ds/core` 3.7.0) e
+de decisões tomadas com o mantenedor após essa inspeção.
+
+| ID | Decisão | Registro |
+|---|---|---|
+| DP-01 | Referência GOV.BR DS | Fixado `@govbr-ds/core` **v3.7.0**, incluído como git submodule apontando para o repositório oficial (GitLab) na tag correspondente. Confirmado por inspeção: é uma biblioteca completa de ~34 componentes (não apenas tokens), com classes CSS + JS "vanilla" (não Web Components, apesar do próprio README do projeto usar esse termo — o wrapper real de Custom Elements é o projeto separado `govbr-ds-wbc`), estrutura semelhante ao padrão de plugin JS do Bootstrap. |
+| DP-02 | Formato de CSS pronto | **Build autônoma**: o Bootstrap é recompilado por completo a partir do submódulo oficial, com variáveis Sass (`$primary`, `$font-family-base`, `$border-radius` etc., todas `!default` em `_variables.scss`) sobrescritas pelos tokens do GOV.BR DS antes do `@import "bootstrap/scss/bootstrap"` — caminho de customização já documentado oficialmente pelo Bootstrap. O CSS final publicado inclui o Bootstrap inteiro + tema; não é uma camada leve de custom properties `--bs-*` sobre um Bootstrap externo ao pacote. |
+| DP-03 | Política de dependências | Bootstrap (`twbs/bootstrap`, tag **v5.3.8**) e `@govbr-ds/core` (repositório oficial, tag **v3.7.0**) são incluídos como **git submodules** deste repositório, sempre apontando para os repositórios oficiais upstream (nunca forks) e fixados por tag. Não são dependências resolvidas em tempo de instalação pelo consumidor final — o CSS distribuído já é autônomo (ver DP-02). |
+| DP-05 | Fonte e ícones | A fonte "Rawline" e os ícones Font Awesome 5 continuam **externos, via CDN**, documentados como pré-requisito de instalação — mesma abordagem que o próprio GOV.BR DS já adota hoje (confirmado por inspeção: nenhum dos dois é embutido no pacote `@govbr-ds/core`). Não serão empacotados nem redistribuídos por este projeto. |
+| DP-07 | Nome do pacote | Escopo `@abrasileirado/dsgovbr-bootstraped` **verificado como disponível** no npm, mas ainda **não reservado**. Reserva deve ocorrer antes da primeira publicação; o projeto continua indicando explicitamente que não é oficial. |
+| DP-09 (parcial) | Versões e suporte — navegadores | O projeto segue a **política de navegadores do Bootstrap 5** (sem suporte a Internet Explorer), mesmo o GOV.BR DS declarando hoje suporte a IE 9–11 em seu `.browserslistrc`. A política de atualização das tags dos submodules permanece pendente (ver §12.2). |
+| DP-10 (novo) | Tamanho de fonte base | O `font-size` base segue o valor do GOV.BR DS (**14px**), priorizando fidelidade visual sobre compatibilidade com o padrão do Bootstrap (16px/1rem). Como o sistema de espaçamento e tipografia do Bootstrap é majoritariamente `rem`-relativo, esta escolha altera proporcionalmente todo o layout de aplicações que hoje usam o Bootstrap padrão — impacto que deve ser destacado no README/changelog da primeira versão publicada. |
+
+### 12.2 Decisões ainda pendentes
+
 | ID | Decisão | Alternativas e critério |
 |---|---|---|
-| DP-01 | Referência GOV.BR DS | Definir versão/revisão e origem consumível dos tokens e fontes SCSS; avaliar estabilidade e licença dos artefatos. |
-| DP-02 | Formato de CSS pronto | Camada adicional sobre Bootstrap ou build autônomo; comparar tamanho, sobreposição, ergonomia e risco de conflito. |
-| DP-03 | Política de dependências | Definir `peerDependencies` e dependências de build conforme DP-02 e disponibilidade dos insumos upstream. |
 | DP-04 | Contrato de Sass | Testar `@use`/`@forward`, imports legados do upstream, package importer, bundlers alvo e caminhos expostos em `exports`. |
-| DP-05 | Fonte e ícones | Decidir se serão externos, dependências, incorporados ou excluídos; verificar licenças, tamanho e fallback. |
 | DP-06 | Variantes Bootstrap | Delimitar quais classes (`primary`, `secondary`, `outline-*` etc.) têm mapeamento semântico defensável. |
-| DP-07 | Nome do pacote | Confirmar disponibilidade e titularidade do escopo npm e manter indicação de que o projeto não é oficial. |
-| DP-08 | Política de licenciamento | Confirmar licença do repositório e avisos de todos os arquivos efetivamente copiados ou redistribuídos. |
-| DP-09 | Versões e suporte | Definir política de atualização, navegadores alvo e comportamento diante de mudanças upstream. |
+| DP-08 | Política de licenciamento | Licenças de origem já confirmadas por inspeção direta: Bootstrap e `@govbr-ds/core` são ambos **MIT** (o segundo com copyright SERPRO, 2022) — compatíveis entre si. Falta definir o procedimento de `THIRD_PARTY_NOTICES.md` e a revisão de licença dos assets externos de DP-05 (Rawline, Font Awesome 5). |
+| DP-09 (restante) | Versões e suporte — política de atualização | Definir com que frequência e critério as tags dos submodules Bootstrap/GOV.BR DS serão avançadas, e o comportamento diante de mudanças upstream que quebrem compatibilidade. |
 
 ## 13. Riscos iniciais
 
