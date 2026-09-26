@@ -1,0 +1,6 @@
+// Sobrescritas de variáveis Sass do Bootstrap, a partir dos tokens em _tokens.scss.
+//
+// Placeholder criado na issue #2 (scaffold). As sobrescritas (ex.: $primary,
+// $font-family-base, $font-size-base, $border-radius) são implementadas na
+// issue #3 (PoC tokens + .btn), sempre definidas ANTES do @import do
+// Bootstrap em index.scss (build autônoma — DP-02 de docs/requisitos.md).
