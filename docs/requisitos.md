@@ -159,7 +159,7 @@ de decisões tomadas com o mantenedor após essa inspeção.
 
 | ID | Decisão | Alternativas e critério |
 |---|---|---|
-| DP-04 | Contrato de Sass | Testar `@use`/`@forward`, imports legados do upstream, package importer, bundlers alvo e caminhos expostos em `exports`. |
+| DP-04 | Contrato de Sass | Testar `@use`/`@forward`, imports legados do upstream, package importer, bundlers alvo e caminhos expostos em `exports`. **Achado confirmado por `npm pack --dry-run` (issue #10):** hoje `src/scss/index.scss` importa `../../vendor/bootstrap/scss/bootstrap` por caminho relativo ao submodule — funciona dentro deste repositório, mas quebraria para um consumidor externo via npm, que não recebe `vendor/`. Enquanto DP-04 não for fechado, `src/scss/` deve ser tratado como não pronto para consumo externo (RF-10 continua "desejável", não obrigatório); o CSS pronto em `dist/` não é afetado. |
 | DP-06 | Variantes Bootstrap | Delimitar quais classes (`primary`, `secondary`, `outline-*` etc.) têm mapeamento semântico defensável. |
 | DP-08 | Política de licenciamento | Licenças de origem já confirmadas por inspeção direta: Bootstrap e `@govbr-ds/core` são ambos **MIT** (o segundo com copyright SERPRO, 2022) — compatíveis entre si. Falta definir o procedimento de `THIRD_PARTY_NOTICES.md` e a revisão de licença dos assets externos de DP-05 (Rawline, Font Awesome 5). |
 | DP-09 (restante) | Versões e suporte — política de atualização | Definir com que frequência e critério as tags dos submodules Bootstrap/GOV.BR DS serão avançadas, e o comportamento diante de mudanças upstream que quebrem compatibilidade. |

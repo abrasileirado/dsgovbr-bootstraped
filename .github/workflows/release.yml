@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write # para anexar artefatos à Release
+  id-token: write # para publicação confiável (OIDC) no npm
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Atualizar npm (necessário para trusted publishing via OIDC)
+        run: npm install -g npm@latest
+
+      - name: Compilar
+        run: npm run build
+
+      - name: Validar o conteúdo do pacote (dry run)
+        run: npm pack --dry-run
+
+      - name: Publicar no npm
+        # Requer "Trusted Publisher" configurado uma única vez pelo mantenedor
+        # em https://www.npmjs.com/package/@abrasileirado/dsgovbr-bootstraped
+        # → Settings → Trusted Publishers, apontando para este repositório e
+        # este workflow (DP-07 em docs/requisitos.md). Sem essa configuração,
+        # esta etapa falha (fail-fast) — nenhum asset é anexado à Release
+        # antes de um publish bem-sucedido no npm.
+        run: npm publish --access public
+
+      - name: Anexar artefatos à Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            dist/dsgovbr-bootstraped.css \
+            dist/dsgovbr-bootstraped.min.css \
+            dist/dsgovbr-bootstraped.css.map \
+            --clobber
