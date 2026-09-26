@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Exemplo: Tela de login — dsgovbr-bootstraped</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/dsgovbr-bootstraped.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f0f0;
+    }
+    .login-card { width: 100%; max-width: 380px; margin: 2rem; }
+    .voltar { position: fixed; top: 1rem; left: 1rem; }
+  </style>
+</head>
+<body>
+  <p class="voltar"><a href="../index.md">← Documentação</a> · <a href="../componentes/index.html">Componentes</a></p>
+
+  <div class="card login-card">
+    <div class="card-body">
+      <h1 class="h4 mb-3">Entrar</h1>
+
+      <div class="alert alert-danger py-2" role="alert">
+        Usuário ou senha inválidos. Tente novamente.
+      </div>
+
+      <form novalidate>
+        <div class="mb-3">
+          <label for="usuario" class="form-label">Usuário ou e-mail</label>
+          <input type="text" class="form-control" id="usuario" autocomplete="username">
+        </div>
+        <div class="mb-3">
+          <label for="senha" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="senha" autocomplete="current-password">
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="lembrar">
+          <label class="form-check-label" for="lembrar">Lembrar de mim</label>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+      </form>
+
+      <p class="text-center mt-3 mb-0">
+        <a href="#" class="link-primary">Esqueci minha senha</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="../../vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
