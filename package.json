@@ -1,6 +1,6 @@
 {
   "name": "@abrasileirado/dsgovbr-bootstraped",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Camada de compatibilidade visual não oficial entre o Bootstrap 5 e o Design System GOV.BR (DSGovBR)",
   "license": "MIT",
   "author": "Kelson da Costa Medeiros",
