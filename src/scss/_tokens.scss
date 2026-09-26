@@ -57,6 +57,11 @@ $govbr-gray-40: #888;
 // vendor/govbr-ds-core/src/partial/scss/configs/_surface.scss ($rounder-sm)
 $govbr-radius-sm: 4px;
 
+// --- Sombra (issue #5: card) ---
+// vendor/govbr-ds-core/src/partial/scss/configs/_elevation.scss ($shadow-sm)
+// = offset-none(0) offset-sm(1px) blur-lg(6px), cor secondary-09 (#000) a 16%
+$govbr-shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.16);
+
 // --- Espaçamento ---
 // vendor/govbr-ds-core/src/partial/scss/configs/_spacing.scss ($spacer)
 // Não é remapeado nesta issue (ver matriz em docs/requisitos.md §6: Layout

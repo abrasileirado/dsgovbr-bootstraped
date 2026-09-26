@@ -117,3 +117,26 @@ $form-check-label-cursor: pointer;
 // via pseudo-elemento; mantemos o ícone SVG nativo do Bootstrap
 // ($form-check-input-checked-bg-image), só recolorido pelo $primary já
 // mapeado (issue #3) — aproximação visual, não replicação de anatomia.
+
+// --- Alertas (RF-06) ---
+// vendor/govbr-ds-core/src/components/message/_mixins.scss: sem borda, sem
+// raio de canto, fundo tingido por cor semântica (--{cor}-alternative). O
+// Bootstrap 5.3 já gera automaticamente fundo/texto/borda "subtle" por cor
+// de tema a partir de $success/$info/$warning/$danger (mapeados na issue
+// #3) — não precisamos redefinir cores aqui, só remover borda e raio.
+$alert-border-width: 0;
+$alert-border-radius: 0;
+
+// --- Cards (RF-06) ---
+// vendor/govbr-ds-core/src/components/card/_mixins.scss: sem borda, sombra
+// em vez de borda, cabeçalho/rodapé com o MESMO fundo do corpo (sem
+// "cap" diferenciado), padding = spacing-scale-2x (16px) = já é o padrão
+// do Bootstrap ($card-spacer-y/x = $spacer = 1rem), por isso não overamos.
+$card-border-width: 0;
+$card-border-radius: 0;
+$card-box-shadow: $govbr-shadow-sm;
+$card-cap-bg: transparent;
+// Valor literal (não $spacer): estas sobrescritas rodam antes do Bootstrap
+// definir suas variáveis (mesmo motivo do $btn-border-radius acima). 1rem é
+// o próprio valor padrão de $spacer no Bootstrap.
+$card-cap-padding-y: 1rem; // GOV.BR DS usa o spacer inteiro (16px), não a metade

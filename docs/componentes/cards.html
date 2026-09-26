@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Componente: Cards — dsgovbr-bootstraped</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/dsgovbr-bootstraped.css">
+  <style>
+    body { padding: 2rem; max-width: 640px; }
+    section { margin-bottom: 2.5rem; }
+    h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <p><a href="../index.md">← Documentação</a> · <a href="index.html">Componentes</a></p>
+  <h1>Cards (<code>.card</code>)</h1>
+  <p>
+    Usa apenas classes públicas do Bootstrap — nenhuma classe
+    <code>.br-*</code> é necessária (RF-03). Esta página serve como fixture
+    de teste e como catálogo demonstrativo (RF-07/RF-11). Ver
+    <a href="../requisitos.md">docs/requisitos.md</a>.
+  </p>
+
+  <section>
+    <h2>Card simples</h2>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Título do card</h5>
+        <p class="card-text">Conteúdo de exemplo do card, sem borda e com sombra suave, conforme a referência do GOV.BR DS.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Com cabeçalho e rodapé</h2>
+    <div class="card">
+      <div class="card-header">Cabeçalho</div>
+      <div class="card-body">
+        <p class="card-text">Cabeçalho e rodapé compartilham o mesmo fundo do corpo, sem faixa destacada (diferente do padrão do Bootstrap).</p>
+      </div>
+      <div class="card-footer text-body-secondary">Rodapé</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-06)</h2>
+    <ul>
+      <li>Sombra: aproximada via <code>$card-box-shadow</code> a partir do token <code>shadow-sm</code> do GOV.BR DS; pode variar ligeiramente por navegador.</li>
+      <li>Anatomia: o GOV.BR DS usa <code>.card-content</code> em vez de <code>.card-body</code> em seu próprio markup; mantemos os nomes de classe do Bootstrap (RF-03), então a correspondência é apenas visual, não de anatomia.</li>
+    </ul>
+  </section>
+</body>
+</html>

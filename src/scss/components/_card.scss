@@ -1,0 +1,8 @@
+// Ajuste que as variáveis, sozinhas, não resolvem: o mixin box-shadow() do
+// Bootstrap só gera CSS quando $enable-shadows está ativo (padrão: false).
+// Ativar esse flag globalmente também afetaria botões e campos de texto
+// (que ganhariam sombras que o GOV.BR DS não usa nesses componentes), então
+// aplicamos a sombra do card diretamente, sem depender do flag.
+.card {
+  box-shadow: var(--bs-card-box-shadow);
+}

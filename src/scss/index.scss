@@ -12,3 +12,7 @@
 
 @import "bootstrap-settings";
 @import "../../vendor/bootstrap/scss/bootstrap";
+
+// Ajustes que as variáveis de tema, sozinhas, não resolvem — um adaptador
+// por componente (ver docs/desenvolvimento.md).
+@import "components/card";
