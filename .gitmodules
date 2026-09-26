@@ -1,0 +1,6 @@
+[submodule "vendor/bootstrap"]
+	path = vendor/bootstrap
+	url = https://github.com/twbs/bootstrap.git
+[submodule "vendor/govbr-ds-core"]
+	path = vendor/govbr-ds-core
+	url = https://gitlab.com/govbr-ds/bibliotecas/javascript/govbr-ds-core.git

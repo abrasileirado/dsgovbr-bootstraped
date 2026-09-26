@@ -1,0 +1,13 @@
+// Ponto de entrada do dsgovbr-bootstraped.
+//
+// Fase atual (issue #2 — scaffold): apenas recompila o Bootstrap a partir do
+// submodule vendorizado, sem overrides, só para validar o pipeline de build
+// ponta a ponta. O mapeamento de tokens do GOV.BR DS (_tokens.scss) e as
+// sobrescritas de variáveis (_bootstrap-settings.scss) entram na issue #3.
+//
+// O caminho de import usa @import (não @use/@forward) porque o próprio
+// Bootstrap 5.3.8 ainda importa seus parciais dessa forma internamente;
+// o contrato de Sass definitivo deste pacote é a decisão DP-04, ainda
+// pendente em docs/requisitos.md §12.2.
+
+@import "../../vendor/bootstrap/scss/bootstrap";
