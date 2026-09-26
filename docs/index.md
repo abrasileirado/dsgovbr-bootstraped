@@ -14,6 +14,8 @@ Em especificação. A existência deste documento não indica que o pacote npm, 
 
 ## Documentos
 
+- [Getting Started](getting-started.md): como instalar e usar o pacote (ou, por enquanto, como compilá-lo a partir do repositório).
+- [Setup de desenvolvimento](setup.md): como clonar, compilar e visualizar localmente para contribuir com código.
 - [Requisitos de software](requisitos.md): escopo, decisões em aberto, requisitos verificáveis, matriz inicial de componentes e critérios para o MVP.
 - [Desenvolvimento](desenvolvimento.md): proposta inicial de organização, comandos planejados e fluxo de validação; não é ainda um manual de instalação de uma implementação pronta.
 - [Como contribuir](contribua.md): diretrizes iniciais para discussões, propostas, testes e pull requests.
