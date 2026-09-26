@@ -45,7 +45,17 @@ $govbr-background: #fff;
 // vendor/govbr-ds-core/src/partial/scss/configs/_typography.scss
 $govbr-font-family: "Rawline", "Raleway", sans-serif;
 $govbr-font-size-base: 14px;    // DP-10 — ver nota em _bootstrap-settings.scss
+$govbr-font-weight-medium: 500;
 $govbr-font-weight-semibold: 600;
+
+// --- Neutro adicional (issue #4) ---
+// --border-color-alternative: var(--gray-40)
+// vendor/govbr-ds-core/.../configs/colors/_gray.scss
+$govbr-gray-40: #888;
+
+// --- Superfície (raio de borda) ---
+// vendor/govbr-ds-core/src/partial/scss/configs/_surface.scss ($rounder-sm)
+$govbr-radius-sm: 4px;
 
 // --- Espaçamento ---
 // vendor/govbr-ds-core/src/partial/scss/configs/_spacing.scss ($spacer)

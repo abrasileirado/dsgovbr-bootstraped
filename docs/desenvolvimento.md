@@ -38,14 +38,20 @@ src/scss/
   _bootstrap-settings.scss   # Ajustes de variáveis Bootstrap
   components/               # Adaptadores específicos, um por componente
 dist/                       # Artefatos gerados para publicação
-tests/fixtures/             # HTML com classes Bootstrap sem dependências ocultas
-tests/visual/               # Baselines e testes visuais, se adotados
-docs/                       # Documentação e decisões
+vendor/                     # Submodules (Bootstrap, govbr-ds-core), fixados por tag
+docs/
+  componentes/               # Fixture de teste + catálogo demonstrativo, por componente
+  *.md                        # Documentação e decisões
 package.json
 package-lock.json            # Ou lockfile do gerenciador escolhido
 ```
 
 Essa árvore é uma proposta de arquitetura, **não** uma descrição dos arquivos já existentes. Não crie/importações rígidas para fontes upstream antes de verificar a estrutura da versão selecionada.
+
+Cada página em `docs/componentes/` cumpre dupla função: é a fixture usada para
+validar a adaptação de um componente (variantes, tamanhos, estados, diferenças
+conhecidas) e, ao mesmo tempo, o catálogo demonstrativo (RF-11) publicado via
+GitHub Pages — não há uma pasta `tests/fixtures/` separada.
 
 ## Sequência recomendada
 

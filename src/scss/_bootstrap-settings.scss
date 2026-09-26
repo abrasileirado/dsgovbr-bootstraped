@@ -72,3 +72,48 @@ $btn-padding-y-lg: 0.625rem; // ~48px de altura total
 // gold-vivid-40 #c2850c) com contorno tracejado; o Bootstrap mantém sua
 // borda padrão e o anel de foco (`$focus-ring-color`) segue $primary, não a
 // paleta de foco do GOV.BR DS. Ver ficha de fixture em tests/fixtures/btn.html.
+
+// --- Campos de texto (RF-05) ---
+// vendor/govbr-ds-core/src/components/input/_mixins.scss (input-tokens,
+// input-default, input-states). Alturas de referência: 32/40/48px — as
+// mesmas do botão (issue #3); por isso reaproveitamos o mesmo padding-y
+// calibrado ali, e o resultado é coerente (o próprio GOV.BR DS usa a mesma
+// escala de altura para os dois componentes).
+$input-color: $govbr-gray-80;             // --color-light
+$input-border-color: $govbr-gray-40;      // --border-color-alternative
+$input-font-weight: $govbr-font-weight-medium;
+
+$input-border-radius: $govbr-radius-sm;      // --surface-rounder-sm (4px)
+$input-border-radius-sm: $govbr-radius-sm;
+$input-border-radius-lg: $govbr-radius-sm;   // GOV.BR DS não varia o raio por tamanho
+
+$input-padding-x: 1rem;      // 16px = spacing-scale-2x
+$input-padding-y: 0.5rem;    // ~40px de altura total (padrão) — igual ao botão
+$input-padding-y-sm: 0.375rem; // ~32px
+$input-padding-y-lg: 0.625rem; // ~48px
+
+$form-label-font-weight: $govbr-font-weight-medium;
+
+// Diferença conhecida: o GOV.BR DS engrossa a borda (2px) nos estados de
+// validação (.success/.danger/.warning/.info); o Bootstrap só troca a cor
+// da borda em .is-valid/.is-invalid, mantendo a espessura padrão. Não
+// replicado nesta issue (exigiria CSS específico além de variáveis).
+
+// --- Checkbox e radio (RF-05) ---
+// vendor/govbr-ds-core/src/components/checkbox/_mixins.scss e
+// .../radio/_mixins.scss (checkbox-tokens, radio-tokens): ambos usam uma
+// caixa de 24px. $form-check-radio-border-radius (50%) já bate com o radio
+// do GOV.BR DS por padrão do Bootstrap — não precisa de override.
+$form-check-input-width: 24px;
+// $form-check-padding-start soma $form-check-input-width + .5em por padrão;
+// como .5em não é compatível em Sass com um $form-check-input-width em px,
+// sobrescrevemos o resultado final também: 24px (caixa) + 8px (espaçamento,
+// spacing-scale-base do GOV.BR DS) = 32px.
+$form-check-padding-start: 2rem;
+$form-check-input-border-radius: $govbr-radius-sm; // 4px (só a caixa do checkbox)
+$form-check-label-cursor: pointer;
+
+// Diferença conhecida: o GOV.BR DS desenha o "check" com bordas rotacionadas
+// via pseudo-elemento; mantemos o ícone SVG nativo do Bootstrap
+// ($form-check-input-checked-bg-image), só recolorido pelo $primary já
+// mapeado (issue #3) — aproximação visual, não replicação de anatomia.

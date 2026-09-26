@@ -17,6 +17,7 @@ Em especificação. A existência deste documento não indica que o pacote npm, 
 - [Requisitos de software](requisitos.md): escopo, decisões em aberto, requisitos verificáveis, matriz inicial de componentes e critérios para o MVP.
 - [Desenvolvimento](desenvolvimento.md): proposta inicial de organização, comandos planejados e fluxo de validação; não é ainda um manual de instalação de uma implementação pronta.
 - [Como contribuir](contribua.md): diretrizes iniciais para discussões, propostas, testes e pull requests.
+- [Componentes](componentes/index.html): catálogo demonstrativo por componente (variantes, tamanhos, estados e diferenças conhecidas em relação ao GOV.BR DS); cada página também serve como fixture de teste.
 
 ## Público-alvo
 

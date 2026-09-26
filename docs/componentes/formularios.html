@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Componente: Formulários — dsgovbr-bootstraped</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../dist/dsgovbr-bootstraped.css">
+  <style>
+    body { padding: 2rem; max-width: 640px; }
+    section { margin-bottom: 2.5rem; }
+    h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <p><a href="../index.md">← Documentação</a> · <a href="index.html">Componentes</a></p>
+  <h1>Campos de texto, checkbox e radio</h1>
+  <p>
+    Usa apenas classes públicas do Bootstrap (<code>.form-control</code>,
+    <code>.form-label</code>, <code>.form-text</code>, <code>.form-check</code>)
+    — nenhuma classe <code>.br-*</code> é necessária (RF-03). Esta página
+    serve como fixture de teste e como catálogo demonstrativo (RF-07/RF-11).
+    Ver <a href="../requisitos.md">docs/requisitos.md</a> para a matriz de
+    compatibilidade.
+  </p>
+
+  <section>
+    <h2>Campo de texto — label, ajuda e foco</h2>
+    <form novalidate>
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome completo</label>
+        <input type="text" class="form-control" id="nome" placeholder="Digite seu nome">
+        <div class="form-text">Como aparece no seu documento oficial.</div>
+      </div>
+    </form>
+  </section>
+
+  <section>
+    <h2>Campo de texto — erro e sucesso</h2>
+    <form novalidate>
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control is-invalid" id="email" value="email-invalido">
+        <div class="invalid-feedback">Informe um e-mail válido.</div>
+      </div>
+      <div class="mb-3">
+        <label for="cpf" class="form-label">CPF</label>
+        <input type="text" class="form-control is-valid" id="cpf" value="000.000.000-00">
+        <div class="valid-feedback">CPF válido.</div>
+      </div>
+    </form>
+  </section>
+
+  <section>
+    <h2>Tamanhos (referência GOV.BR DS: 32 / 40 / 48px de altura, aproximado)</h2>
+    <input type="text" class="form-control form-control-sm mb-2" placeholder="Small">
+    <input type="text" class="form-control mb-2" placeholder="Medium (padrão)">
+    <input type="text" class="form-control form-control-lg mb-2" placeholder="Large">
+  </section>
+
+  <section>
+    <h2>Desabilitado e navegação por teclado</h2>
+    <p>Use Tab para navegar entre os campos e observar o foco visível.</p>
+    <input type="text" class="form-control mb-2" placeholder="Campo normal">
+    <input type="text" class="form-control" placeholder="Campo desabilitado" disabled>
+  </section>
+
+  <section>
+    <h2>Checkbox e radio</h2>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="check1" checked>
+      <label class="form-check-label" for="check1">Opção marcada</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="check2">
+      <label class="form-check-label" for="check2">Opção desmarcada</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="check3" disabled>
+      <label class="form-check-label" for="check3">Opção desabilitada</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="radioExemplo" id="radio1" checked>
+      <label class="form-check-label" for="radio1">Escolha A</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="radioExemplo" id="radio2">
+      <label class="form-check-label" for="radio2">Escolha B</label>
+    </div>
+  </section>
+
+  <section>
+    <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-05)</h2>
+    <ul>
+      <li>Estados de validação: o GOV.BR DS engrossa a borda (2px) em <code>.success</code>/<code>.danger</code>; o Bootstrap só troca a cor da borda em <code>.is-valid</code>/<code>.is-invalid</code>, mantendo a espessura padrão. Não replicado nesta issue.</li>
+      <li>Marca de seleção: o GOV.BR DS desenha o "check" com bordas rotacionadas via pseudo-elemento; mantemos o ícone SVG nativo do Bootstrap, recolorido pelo <code>$primary</code> já mapeado. Aproximação visual, não replicação de anatomia.</li>
+      <li>Altura dos campos: aproximada (32/40/48px), sem paridade de pixel garantida em todas as fontes/navegadores.</li>
+    </ul>
+  </section>
+</body>
+</html>
