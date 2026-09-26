@@ -1,6 +1,74 @@
-// Sobrescritas de variáveis Sass do Bootstrap, a partir dos tokens em _tokens.scss.
+// Sobrescritas de variáveis Sass do Bootstrap, a partir dos tokens em
+// _tokens.scss. Precisam ser definidas ANTES do @import do Bootstrap em
+// index.scss (build autônoma — DP-02 de docs/requisitos.md). Todas as
+// variáveis do Bootstrap usam `!default`, então só são sobrescritas aqui as
+// que definimos explicitamente abaixo.
+
+@import "tokens";
+
+// --- Cores de tema ---
+$primary: $govbr-interactive;
+$success: $govbr-success;
+$info: $govbr-info;
+$warning: $govbr-warning;
+$danger: $govbr-danger;
+$light: $govbr-gray-5;
+$dark: $govbr-gray-90;
+
+$body-color: $govbr-gray-80;
+$body-bg: $govbr-background;
+$border-color: $govbr-gray-20;
+
+// --- Tipografia ---
+// $govbr-font-family já é a lista completa ("Rawline", "Raleway", sans-serif)
+// terminando num fallback genérico — não concatenar com mais fontes aqui:
+// isso aninharia a lista (viraria `("Rawline", ...), Arial, ...` no CSS
+// final) em vez de uma pilha de fontes plana.
+$font-family-base: $govbr-font-family;
+
+// DP-10: o font-size base do GOV.BR DS (14px) é aplicado apenas à
+// tipografia ($font-size-base), não ao elemento raiz ($font-size-root
+// permanece no padrão do navegador). O próprio GOV.BR DS trata espaçamento
+// (spacer 8px) como uma escala independente do tamanho de fonte — replicamos
+// essa mesma separação aqui. Por isso o padding/margem do Bootstrap em rem
+// (relativos à raiz, não ao font-size-base) NÃO são reescalados por esta
+// mudança; apenas texto, headings, lead e o tamanho de fonte de inputs/botões
+// (que derivam de $font-size-base) diminuem proporcionalmente.
 //
-// Placeholder criado na issue #2 (scaffold). As sobrescritas (ex.: $primary,
-// $font-family-base, $font-size-base, $border-radius) são implementadas na
-// issue #3 (PoC tokens + .btn), sempre definidas ANTES do @import do
-// Bootstrap em index.scss (build autônoma — DP-02 de docs/requisitos.md).
+// 0.875rem = 14px, assumindo a raiz do navegador em 16px (não alterada).
+$font-size-base: 0.875rem;
+
+// --- Botão (RF-04) ---
+// Forma de pílula via variáveis (sem CSS adicional): GOV.BR DS usa
+// --button-radius: 100em em vendor/govbr-ds-core/.../button/_mixins.scss.
+//
+// Usamos o valor literal (não $border-radius-pill) porque estas sobrescritas
+// rodam ANTES do Bootstrap definir suas próprias variáveis — $border-radius-pill
+// ainda não existe neste ponto do build. `50rem` é o próprio valor padrão do
+// Bootstrap para $border-radius-pill (vendor/bootstrap/scss/_variables.scss).
+$btn-border-radius: 50rem;
+$btn-border-radius-sm: 50rem;
+$btn-border-radius-lg: 50rem;
+
+$btn-font-weight: $govbr-font-weight-semibold;
+
+// Padding horizontal alinhado ao spacing-scale-3x do GOV.BR DS (24px) no
+// tamanho padrão; sm/lg escalam proporcionalmente pela própria convenção do
+// Bootstrap (o GOV.BR DS não varia o padding horizontal por tamanho).
+$btn-padding-x: 1.5rem; // 24px
+$btn-padding-x-sm: 1rem; // 16px
+$btn-padding-x-lg: 2rem; // 32px
+
+// Padding vertical ajustado para aproximar as alturas de referência do
+// GOV.BR DS (32/40/48px — ver _tokens.scss). É uma aproximação deliberada,
+// não paridade de pixel: a matriz de compatibilidade (docs/requisitos.md §6)
+// não exige identidade exata, só declarar a aproximação.
+$btn-padding-y: 0.5rem;     // ~40px de altura total (padrão)
+$btn-padding-y-sm: 0.375rem; // ~32px de altura total
+$btn-padding-y-lg: 0.625rem; // ~48px de altura total
+
+// Diferença conhecida e documentada (não replicada nesta issue): o GOV.BR DS
+// usa border: 0 por padrão e cor de foco dourada (--focus-color-light,
+// gold-vivid-40 #c2850c) com contorno tracejado; o Bootstrap mantém sua
+// borda padrão e o anel de foco (`$focus-ring-color`) segue $primary, não a
+// paleta de foco do GOV.BR DS. Ver ficha de fixture em tests/fixtures/btn.html.
