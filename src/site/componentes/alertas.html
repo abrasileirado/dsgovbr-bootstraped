@@ -1,0 +1,34 @@
+<!-- title: Componente: Alertas — dsgovbr-bootstraped -->
+<h1>Alertas (<code>.alert</code>)</h1>
+<p>
+  Usa apenas classes públicas do Bootstrap — nenhuma classe
+  <code>.br-*</code> é necessária (RF-03). Esta página serve como fixture
+  de teste e como catálogo demonstrativo (RF-07/RF-11). Ver
+  <a href="../requisitos.md">docs/requisitos.md</a>.
+</p>
+
+<section>
+  <h2>Variantes</h2>
+  <div class="alert alert-primary" role="alert">Mensagem primária.</div>
+  <div class="alert alert-success" role="alert">Operação concluída com sucesso.</div>
+  <div class="alert alert-danger" role="alert">Ocorreu um erro ao processar a solicitação.</div>
+  <div class="alert alert-warning" role="alert">Atenção: revise os dados antes de continuar.</div>
+  <div class="alert alert-info" role="alert">Informação adicional sobre este processo.</div>
+</section>
+
+<section>
+  <h2>Com título e ação (fechável)</h2>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Erro de validação.</strong> Corrija os campos destacados no formulário.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-06)</h2>
+  <ul>
+    <li>Fundo/texto: o GOV.BR DS tinge o fundo com <code>--{cor}-alternative</code>; o Bootstrap 5.3 usa seu próprio sistema de cores "subtle"/"emphasis" derivado das mesmas cores de tema — visualmente próximo, mas não pixel-a-pixel idêntico.</li>
+    <li>Ícone: o GOV.BR DS sempre mostra um ícone à esquerda da mensagem; o <code>.alert</code> do Bootstrap não inclui ícone por padrão. Não replicado nesta issue.</li>
+    <li>Botão de fechar: o comportamento (<code>data-bs-dismiss</code>) é do próprio Bootstrap; o GOV.BR DS usa seu próprio componente de botão para isso.</li>
+  </ul>
+</section>

@@ -1,6 +1,7 @@
 node_modules/
 dist/
 docs/assets/
+docs/componentes/*.html
 .sass-cache/
 *.css.map
 *.sass.map

@@ -33,6 +33,11 @@ Gera:
 - `docs/assets/css/dsgovbr-bootstraped.css` — cópia usada pelas páginas de
   documentação (`docs/componentes/`, `docs/exemplos/`); é gerada a cada
   build e não é versionada (`.gitignore`).
+- `docs/componentes/*.html` — gerado a partir do template em
+  `src/site/layout.html` e dos fragmentos em `src/site/componentes/`
+  (issue #15); também não é versionado. Para criar uma página nova, edite
+  os fragmentos em `src/site/componentes/`, não os arquivos gerados — ver
+  [Desenvolvimento](desenvolvimento.md#criando-uma-nova-página-de-componente).
 
 ## Visualizar as páginas de componentes localmente
 

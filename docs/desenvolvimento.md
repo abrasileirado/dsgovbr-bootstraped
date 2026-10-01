@@ -53,6 +53,32 @@ validar a adaptação de um componente (variantes, tamanhos, estados, diferença
 conhecidas) e, ao mesmo tempo, o catálogo demonstrativo (RF-11) publicado via
 GitHub Pages — não há uma pasta `tests/fixtures/` separada.
 
+`docs/componentes/*.html` é **gerado** por `npm run build` (script
+`build:site`, issue #15) a partir de um template único em
+`src/site/layout.html` e de fragmentos de conteúdo em
+`src/site/componentes/*.html` — não edite os arquivos em `docs/componentes/`
+diretamente, suas alterações seriam sobrescritas no próximo build (por isso
+estão no `.gitignore`). Isso existe porque as 5 páginas chegaram a duplicar o
+mesmo cabeçalho/navegação, e um caminho de CSS errado precisou ser corrigido
+em cada uma separadamente — ver histórico das issues #6 e #15.
+
+### Criando uma nova página de componente
+
+1. Crie `src/site/componentes/<nome>.html` com, na primeira linha, um
+   comentário `<!-- title: Componente: <Nome> — dsgovbr-bootstraped -->`
+   (vira o `<title>` da página) seguido do conteúdo do `<body>` — sem
+   repetir a navegação nem o `<link>` do CSS, que já vêm do template. Uma
+   seção "Diferenças conhecidas em relação à referência GOV.BR DS" é
+   esperada (ver convenção nas páginas existentes).
+2. Rode `npm run build` (ou só `npm run build:site` se o CSS já estiver
+   atualizado) — gera `docs/componentes/<nome>.html`.
+3. Se for um componente novo (não apenas uma página adicional), adicione
+   uma linha na tabela de `src/site/componentes/index.html` apontando para
+   ele, com o status e o número da issue.
+4. Abra a página gerada localmente (ver "Visualizar as páginas de
+   componentes localmente" em [Setup](setup.md)) para conferir antes de
+   commitar.
+
 ## Sequência recomendada
 
 1. Registrar revisão e licença das fontes Bootstrap e GOV.BR DS; inventariar tokens, dependências, mixins e seletores.
