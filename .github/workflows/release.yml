@@ -49,6 +49,9 @@ jobs:
       - name: Validar o conteúdo do pacote (dry run)
         run: npm pack --dry-run
 
+      - name: Testar o pacote num consumidor limpo (CSS e SCSS)
+        run: npm test
+
       - name: Publicar no npm
         # Requer "Trusted Publisher" configurado uma única vez pelo mantenedor
         # em https://www.npmjs.com/package/@abrasileirado/dsgovbr-bootstraped

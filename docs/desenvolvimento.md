@@ -124,7 +124,7 @@ A decisão de usar fontes upstream como dependência, copiar trechos ou reimplem
 ## Publicação planejada
 
 1. Atualizar documentação e subir a versão em `package.json` (e `package-lock.json`).
-2. Rodar `npm run build` e `npm pack --dry-run`; conferir o conteúdo do tarball.
+2. Rodar `npm run build`, `npm test` (consumidor limpo: pack → instala → compila SCSS) e `npm pack --dry-run`; conferir o conteúdo do tarball.
 3. Commitar na `main` e enviar a tag: `git tag vX.Y.Z && git push origin vX.Y.Z`.
 4. O workflow `.github/workflows/release.yml` (disparado pela tag) confere que a
    tag bate com a versão do `package.json`, compila, publica no npm via trusted

@@ -12,8 +12,11 @@
   "files": [
     "dist/",
     "src/scss/",
+    "vendor/bootstrap/scss/",
+    "vendor/bootstrap/LICENSE",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "style": "./dist/dsgovbr-bootstraped.css",
   "sass": "./src/scss/index.scss",
@@ -22,7 +25,8 @@
     "build:css:min": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.min.css --style=compressed --no-source-map",
     "build:docs-assets": "node -e \"require('fs').mkdirSync('docs/assets/css',{recursive:true});require('fs').copyFileSync('dist/dsgovbr-bootstraped.min.css','docs/assets/css/dsgovbr-bootstraped.css')\"",
     "build:site": "node scripts/build-site.js",
-    "build": "npm run build:css && npm run build:css:min && npm run build:docs-assets && npm run build:site"
+    "build": "npm run build:css && npm run build:css:min && npm run build:docs-assets && npm run build:site",
+    "test": "node scripts/test-package.js"
   },
   "devDependencies": {
     "sass": "^1.80.0"

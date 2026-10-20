@@ -13,66 +13,66 @@
 
 // --interactive: var(--blue-warm-vivid-70)
 // vendor/govbr-ds-core/.../configs/colors/_blue-warm-vivid.scss
-$govbr-interactive: #1351b4;
+$govbr-interactive: #1351b4 !default;
 
 // --info: var(--blue-warm-vivid-60)
-$govbr-info: #155bcb;
+$govbr-info: #155bcb !default;
 
 // --success: var(--green-cool-vivid-50)
 // vendor/govbr-ds-core/.../configs/colors/_green-cool-vivid.scss
-$govbr-success: #168821;
+$govbr-success: #168821 !default;
 
 // --warning: var(--yellow-vivid-20)
 // vendor/govbr-ds-core/.../configs/colors/_yellow-vivid.scss
-$govbr-warning: #ffcd07;
+$govbr-warning: #ffcd07 !default;
 
 // --danger: var(--red-vivid-50)
 // vendor/govbr-ds-core/.../configs/colors/_red-vivid.scss
-$govbr-danger: #e52207;
+$govbr-danger: #e52207 !default;
 
 // --- Neutros ---
 // vendor/govbr-ds-core/.../configs/colors/_gray.scss
-$govbr-gray-90: #1b1b1b; // tom mais escuro (usado como $dark)
-$govbr-gray-80: #333;    // --color-light (texto padrão)
-$govbr-gray-20: #ccc;    // --border-color
-$govbr-gray-5: #f0f0f0;  // fundo alternativo (usado como $light)
+$govbr-gray-90: #1b1b1b !default; // tom mais escuro (usado como $dark)
+$govbr-gray-80: #333 !default;    // --color-light (texto padrão)
+$govbr-gray-20: #ccc !default;    // --border-color
+$govbr-gray-5: #f0f0f0 !default;  // fundo alternativo (usado como $light)
 
 // --background-light: var(--pure-0)
 // vendor/govbr-ds-core/.../configs/colors/_pure.scss
-$govbr-background: #fff;
+$govbr-background: #fff !default;
 
 // --- Tipografia ---
 // vendor/govbr-ds-core/src/partial/scss/configs/_typography.scss
-$govbr-font-family: "Rawline", "Raleway", sans-serif;
-$govbr-font-size-base: 14px;    // DP-10 — ver nota em _bootstrap-settings.scss
-$govbr-font-weight-medium: 500;
-$govbr-font-weight-semibold: 600;
+$govbr-font-family: "Rawline", "Raleway", sans-serif !default;
+$govbr-font-size-base: 14px !default;    // DP-10 — ver nota em _bootstrap-settings.scss
+$govbr-font-weight-medium: 500 !default;
+$govbr-font-weight-semibold: 600 !default;
 
 // --- Neutro adicional (issue #4) ---
 // --border-color-alternative: var(--gray-40)
 // vendor/govbr-ds-core/.../configs/colors/_gray.scss
-$govbr-gray-40: #888;
+$govbr-gray-40: #888 !default;
 
 // --- Superfície (raio de borda) ---
 // vendor/govbr-ds-core/src/partial/scss/configs/_surface.scss ($rounder-sm)
-$govbr-radius-sm: 4px;
+$govbr-radius-sm: 4px !default;
 
 // --- Sombra (issue #5: card) ---
 // vendor/govbr-ds-core/src/partial/scss/configs/_elevation.scss ($shadow-sm)
 // = offset-none(0) offset-sm(1px) blur-lg(6px), cor secondary-09 (#000) a 16%
-$govbr-shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.16);
+$govbr-shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.16) !default;
 
 // --- Espaçamento ---
 // vendor/govbr-ds-core/src/partial/scss/configs/_spacing.scss ($spacer)
 // Não é remapeado nesta issue (ver matriz em docs/requisitos.md §6: Layout
 // mantém o Bootstrap); registrado aqui apenas para referência futura.
-$govbr-spacer: 8px;
+$govbr-spacer: 8px !default;
 
 // --- Botão ---
 // vendor/govbr-ds-core/src/components/button/_mixins.scss
 // (button-tokens, button-default)
-$govbr-button-radius: 100em;         // --button-radius: pílula
-$govbr-button-height-small: 32px;    // --button-small
-$govbr-button-height-medium: 40px;   // --button-medium (padrão)
-$govbr-button-height-large: 48px;    // --button-large
-$govbr-button-padding-x: 24px;       // padding: 0 var(--spacing-scale-3x)
+$govbr-button-radius: 100em !default;         // --button-radius: pílula
+$govbr-button-height-small: 32px !default;    // --button-small
+$govbr-button-height-medium: 40px !default;   // --button-medium (padrão)
+$govbr-button-height-large: 48px !default;    // --button-large
+$govbr-button-padding-x: 24px !default;       // padding: 0 var(--spacing-scale-3x)

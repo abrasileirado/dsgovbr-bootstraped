@@ -56,6 +56,20 @@ npm install @abrasileirado/dsgovbr-bootstraped
 <link rel="stylesheet" href="node_modules/@abrasileirado/dsgovbr-bootstraped/dist/dsgovbr-bootstraped.min.css">
 ```
 
-A entrada SCSS para quem quiser compilar no próprio projeto ainda não tem
-um contrato estável (DP-04 em requisitos.md) — evite depender de um
-caminho `@use`/`@import` específico até essa decisão ser fechada.
+### Compilando a partir do SCSS
+
+O pacote inclui o SCSS do projeto **e** o do Bootstrap (`vendor/bootstrap/scss`),
+então dá para compilar no seu projeto e sobrescrever os tokens do GOV.BR DS.
+Defina as variáveis **antes** de importar a entrada (todas são `!default`):
+
+```scss
+// seu-estilo.scss
+$primary: #0b5cad; // sobrescreve o azul do GOV.BR DS
+@import "@abrasileirado/dsgovbr-bootstraped/src/scss/index";
+```
+
+Compile com Dart Sass apontando o `node_modules` como load path
+(`sass --load-path=node_modules seu-estilo.scss saida.css`) ou use o
+resolvedor do seu bundler. O pacote usa `@import` (o Bootstrap 5.3 ainda não
+usa `@use`/`@forward`), então o Dart Sass emite avisos de depreciação
+`import`/`color-functions` vindos do próprio Bootstrap; `--quiet` os silencia.
