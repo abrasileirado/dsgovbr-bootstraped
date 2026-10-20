@@ -21,4 +21,5 @@ updates:
   # deliberadamente em tags específicas (DP-01/DP-03 em docs/requisitos.md),
   # não na "latest". O Dependabot rastreia o commit mais recente do submodule
   # (não tags semânticas), o que já causou um bump indevido além da tag
-  # pinada (PR #12). Avançar a tag é uma decisão manual, por issue.
+  # pinada (PR #12). Avançar a tag é decisão manual, por issue; o aviso de
+  # versão nova vem de .github/workflows/upstream-check.yml (DP-09).

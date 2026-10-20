@@ -1,0 +1,26 @@
+name: Verificar atualizações upstream
+
+# O Dependabot não cobre submodules por tag (ver .github/dependabot.yml e
+# DP-09 em docs/requisitos.md). Este workflow avisa, por issue, quando há tag
+# estável nova de Bootstrap ou GOV.BR DS — a atualização em si é manual.
+on:
+  schedule:
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # Sem submodules: o script lê o commit fixado via `git ls-tree` e as
+      # tags remotas via `git ls-remote`.
+      - uses: actions/checkout@v7
+
+      - name: Comparar tags fixadas com as últimas upstream
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/check-upstream.js --open-issues

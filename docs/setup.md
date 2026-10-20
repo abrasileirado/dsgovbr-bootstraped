@@ -58,23 +58,39 @@ configurado com esse mesmo servidor.
 
 ## Atualizando os submodules (Bootstrap / GOV.BR DS)
 
-Os submodules são fixados por tag deliberadamente — **nunca** aponte para
-a branch padrão ou para "latest". O Dependabot não monitora os submodules
-(`.github/dependabot.yml` só cobre `npm`); isso já causou um bump indevido
-no passado (revertido — ver histórico do repositório) e por isso avançar a
-tag é sempre uma decisão manual, feita numa issue dedicada:
+Os submodules são fixados por **tag estável** (`vX.Y.Z`) deliberadamente —
+**nunca** aponte para a branch padrão ou para um commit solto. O Dependabot
+não cobre submodules por tag (isso já causou um bump indevido, revertido),
+então a detecção é do workflow `.github/workflows/upstream-check.yml`: toda
+segunda ele roda `scripts/check-upstream.js` e abre a issue "Atualizar
+vendor/<nome> para vX.Y.Z" quando há tag estável mais nova. Para conferir na
+hora: `node scripts/check-upstream.js`. Política completa: DP-09 em
+[requisitos](requisitos.md).
 
-```bash
-cd vendor/bootstrap  # ou vendor/govbr-ds-core
-git fetch --tags
-git checkout vX.Y.Z
-cd ../..
-git add vendor/bootstrap  # ou vendor/govbr-ds-core
-git commit -m "build(deps): [UPG] Atualiza vendor/bootstrap para vX.Y.Z"
-```
+### Checklist de atualização (a partir da issue aberta)
 
-Depois rode `npm run build` e revalide visualmente as páginas em
-`docs/componentes/` antes de commitar.
+1. Mudança de **major**? Trate como decisão nova (revisar tokens, SCSS, markup)
+   antes de seguir.
+2. Avançar a tag:
+
+   ```bash
+   cd vendor/bootstrap  # ou vendor/govbr-ds-core
+   git fetch --tags
+   git checkout vX.Y.Z
+   cd ../..
+   git add vendor/bootstrap  # ou vendor/govbr-ds-core
+   ```
+
+3. GOV.BR DS: reconferir cada valor de `src/scss/_tokens.scss` contra o
+   arquivo de origem citado no comentário (os valores são cópias, não imports).
+4. `npm run build` e `npm test` (consumidor limpo) precisam passar.
+5. Revalidar visualmente as páginas de `docs/componentes/`.
+6. Atualizar a versão citada em `docs/requisitos.md` (DP-01/DP-03),
+   `THIRD_PARTY_NOTICES.md` e, se for o Bootstrap, nos comentários de
+   `src/scss/index.scss`.
+7. Subir a versão do pacote e publicar (ver "Publicação planejada" em
+   [desenvolvimento](desenvolvimento.md)).
+8. Se algo quebrar, mantenha a tag atual e registre o motivo na issue.
 
 ## Contribuindo com um componente
 
