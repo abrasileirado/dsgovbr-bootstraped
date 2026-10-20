@@ -33,11 +33,22 @@ recompilado com os tokens do GOV.BR DS.
 ## Pré-requisitos externos
 
 - **Fonte "Rawline"** (fallback: Raleway, sans-serif): não é incluída no
-  pacote (DP-05). Se quiser fidelidade tipográfica total, carregue-a via
-  CDN ou como fonte local — sem ela, o navegador usa o fallback.
+  pacote (DP-05). Sem ela o navegador usa o fallback. O GOV.BR DS a publica
+  num CDN do SERPRO:
+
+  ```html
+  <link rel="stylesheet" href="https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css">
+  ```
+
+  A licença da Rawline não foi confirmada em fonte oficial — ver
+  [THIRD_PARTY_NOTICES](https://github.com/abrasileirado/dsgovbr-bootstraped/blob/main/THIRD_PARTY_NOTICES.md).
 - **Ícones Font Awesome 5**: não incluídos. Só são necessários se você for
-  replicar manualmente ícones do GOV.BR DS que os componentes adaptados
-  ainda não usam (nenhum componente do MVP atual exige ícones).
+  replicar manualmente ícones do GOV.BR DS (nenhum componente do MVP atual
+  exige ícones). Versão usada na documentação do GOV.BR DS:
+
+  ```html
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+  ```
 
 ## O que já está suportado
 
