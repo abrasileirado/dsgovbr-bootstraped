@@ -123,13 +123,17 @@ A decisão de usar fontes upstream como dependência, copiar trechos ou reimplem
 
 ## Publicação planejada
 
-1. Abrir PR com build, testes, atualização de documentação e changelog.
-2. Validar `npm pack --dry-run` e o conteúdo real do tarball.
-3. Criar tag da versão aprovada.
-4. Publicar no npm, preferencialmente via trusted publishing/OIDC quando configurado.
-5. Registrar versão e compatibilidade em GitHub Release.
+1. Atualizar documentação e subir a versão em `package.json` (e `package-lock.json`).
+2. Rodar `npm run build` e `npm pack --dry-run`; conferir o conteúdo do tarball.
+3. Commitar na `main` e enviar a tag: `git tag vX.Y.Z && git push origin vX.Y.Z`.
+4. O workflow `.github/workflows/release.yml` (disparado pela tag) confere que a
+   tag bate com a versão do `package.json`, compila, publica no npm via trusted
+   publishing/OIDC e cria a GitHub Release com os assets de `dist/`.
 
-Nenhuma etapa deste documento configura o npm ou publica o pacote por si só.
+**Não** rode `gh release create` antes: o workflow cria a release já com os
+assets (rascunho → publicada). Criar a release antes causa o erro
+`Cannot upload asset to an immutable release`. Pré-requisito único: Trusted
+Publisher com "Allow npm publish" configurado no npmjs.com (DP-07).
 
 ## Leituras úteis
 

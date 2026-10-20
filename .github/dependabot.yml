@@ -9,6 +9,14 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
   # Não usamos "gitsubmodule": os submodules em vendor/ são fixados
   # deliberadamente em tags específicas (DP-01/DP-03 em docs/requisitos.md),
   # não na "latest". O Dependabot rastreia o commit mais recente do submodule

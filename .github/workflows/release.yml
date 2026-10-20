@@ -1,11 +1,14 @@
 name: Release
 
+# Dispare com: git tag vX.Y.Z && git push origin vX.Y.Z
+# Não rode `gh release create` antes — a release é criada aqui, já com os
+# assets (evita "Cannot upload asset to an immutable release").
 on:
-  release:
-    types: [published]
+  push:
+    tags: ["v*"]
 
 permissions:
-  contents: write # para anexar artefatos à Release
+  contents: write # para criar a Release e anexar artefatos
   id-token: write # para publicação confiável (OIDC) no npm
 
 jobs:
@@ -13,14 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org
           cache: npm
 
@@ -28,10 +31,17 @@ jobs:
         run: npm ci
 
       - name: Atualizar npm (necessário para trusted publishing via OIDC)
-        # npm@latest (12.x) exige Node >=22; o runner usa Node 20 (LTS).
-        # npm 11.5+ já suporta trusted publishing via OIDC e é compatível
-        # com Node 20, então fixamos a major 11 em vez de "latest".
+        # npm 11.5+ suporta trusted publishing via OIDC. Fixamos a major 11
+        # em vez de "latest" para não mudar de major sem revisão.
         run: npm install -g npm@11
+
+      - name: Conferir que a tag bate com a versão do package.json
+        run: |
+          PKG="v$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$PKG" ]; then
+            echo "Tag $GITHUB_REF_NAME diferente de package.json ($PKG)" >&2
+            exit 1
+          fi
 
       - name: Compilar
         run: npm run build
@@ -43,17 +53,20 @@ jobs:
         # Requer "Trusted Publisher" configurado uma única vez pelo mantenedor
         # em https://www.npmjs.com/package/@abrasileirado/dsgovbr-bootstraped
         # → Settings → Trusted Publishers, apontando para este repositório e
-        # este workflow (DP-07 em docs/requisitos.md). Sem essa configuração,
-        # esta etapa falha (fail-fast) — nenhum asset é anexado à Release
-        # antes de um publish bem-sucedido no npm.
+        # este workflow, com "Allow npm publish" habilitado (DP-07 em
+        # docs/requisitos.md). Sem isso, esta etapa falha (fail-fast) —
+        # nenhuma Release é criada antes de um publish bem-sucedido no npm.
         run: npm publish --access public
 
-      - name: Anexar artefatos à Release
+      - name: Criar a Release (rascunho com assets) e publicar
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}" \
+          gh release create "$GITHUB_REF_NAME" \
+            --draft \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
             dist/dsgovbr-bootstraped.css \
             dist/dsgovbr-bootstraped.min.css \
-            dist/dsgovbr-bootstraped.css.map \
-            --clobber
+            dist/dsgovbr-bootstraped.css.map
+          gh release edit "$GITHUB_REF_NAME" --draft=false
