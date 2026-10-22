@@ -80,6 +80,13 @@ test("campo de texto: raio 4px, borda cinza, padding e peso do GOV.BR DS", () =>
   assert.equal(decl(input, "border"), "var(--bs-border-width) solid #888");
 });
 
+test("validação: 2px visuais (borda de 1px + sombra interna de 1px na cor do estado)", () => {
+  const invalido = block(css, ".form-control.is-invalid, .form-select.is-invalid, .was-validated .form-control:invalid, .was-validated .form-select:invalid");
+  assert.equal(decl(invalido, "box-shadow"), "inset 0 0 0 1px var(--bs-form-invalid-border-color)");
+  const valido = block(css, ".form-control.is-valid, .form-select.is-valid, .was-validated .form-control:valid, .was-validated .form-select:valid");
+  assert.equal(decl(valido, "box-shadow"), "inset 0 0 0 1px var(--bs-form-valid-border-color)");
+});
+
 test("checkbox e radio: caixa de 24px", () => {
   const box = block(css, ".form-check-input");
   assert.equal(decl(box, "width"), "24px");

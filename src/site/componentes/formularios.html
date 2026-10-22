@@ -77,7 +77,7 @@
 <section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-05)</h2>
   <ul>
-    <li>Estados de validação: o GOV.BR DS engrossa a borda (2px) em <code>.success</code>/<code>.danger</code>; o Bootstrap só troca a cor da borda em <code>.is-valid</code>/<code>.is-invalid</code>, mantendo a espessura padrão. Não replicado nesta issue.</li>
+    <li>Estados de validação: o GOV.BR DS usa borda de 2px na cor do estado. Aqui o desenho é o mesmo (borda de 1px + sombra interna de 1px na mesma cor), mas a espessura <em>computada</em> da borda segue 1px — escolha para não alterar a altura do campo. O GOV.BR DS também tem os estados <code>warning</code> e <code>info</code> nos campos, que o Bootstrap não tem (não replicados).</li>
     <li>Marca de seleção: o GOV.BR DS desenha o "check" com bordas rotacionadas via pseudo-elemento; mantemos o ícone SVG nativo do Bootstrap, recolorido pelo <code>$primary</code> já mapeado. Aproximação visual, não replicação de anatomia.</li>
     <li>Foco: campos de texto usam o foco do GOV.BR DS (borda dourada <code>#c2850c</code> + anel de 2px); <strong>checkbox e radio</strong> ainda usam o anel azul do Bootstrap, não o foco dourado.</li>
     <li>Altura dos campos: aproximada (32/40/48px), sem paridade de pixel garantida em todas as fontes/navegadores.</li>

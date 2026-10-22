@@ -8,3 +8,23 @@
   box-shadow: 0 0 0 $govbr-focus-ring-width $govbr-focus !important;
   outline: 0;
 }
+
+// Estados de validação: o GOV.BR DS engrossa a borda do campo para 2px na cor
+// do estado (input-states: border-width: 2px). Engrossar a borda aqui mudaria
+// a altura (e exigiria compensar o padding em cada tamanho), então os 2px
+// visuais saem de 1px de borda (a cor do estado já vem do Bootstrap) + 1px de
+// sombra interna na mesma cor: mesmo desenho, layout intocado. Em :focus a
+// regra acima (dourada, !important) prevalece, como no GOV.BR DS.
+.form-control.is-valid,
+.form-select.is-valid,
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+  box-shadow: inset 0 0 0 1px var(--bs-form-valid-border-color);
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid,
+.was-validated .form-control:invalid,
+.was-validated .form-select:invalid {
+  box-shadow: inset 0 0 0 1px var(--bs-form-invalid-border-color);
+}

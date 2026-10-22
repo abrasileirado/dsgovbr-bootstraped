@@ -91,6 +91,17 @@ test.describe("campos e seleção", () => {
     expect((await css(page, "#cpf", ["border-top-color"]))["border-top-color"]).toBe("rgb(22, 136, 33)");
   });
 
+  test("validação: 2px visuais na cor do estado, sem mudar a altura do campo", async ({ page }) => {
+    const normal = (await css(page, "#nome", [])).height;
+    const inv = await css(page, "#email", ["box-shadow", "border-top-width"]);
+    const val = await css(page, "#cpf", ["box-shadow", "border-top-width"]);
+    expect(inv["box-shadow"]).toBe("rgb(229, 34, 7) 0px 0px 0px 1px inset");
+    expect(val["box-shadow"]).toBe("rgb(22, 136, 33) 0px 0px 0px 1px inset");
+    expect(inv["border-top-width"]).toBe("1px");
+    expect(inv.height).toBe(normal);
+    expect(val.height).toBe(normal);
+  });
+
   test("checkbox: caixa de 24px; marcado fica azul", async ({ page }) => {
     const box = await page.locator("#check1").boundingBox();
     expect(Math.round(box.width)).toBe(24);
