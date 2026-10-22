@@ -28,16 +28,24 @@ const MIME = {
 
 function resolveFile(urlPath) {
   const rel = decodeURIComponent(urlPath.split("?")[0]);
+  // Guarda contra path traversal logo abaixo: o resultado só é usado se ficar
+  // dentro de root.
+  // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
   let file = path.resolve(root, "." + rel);
   if (file !== root && !file.startsWith(root + path.sep)) {
     return null;
   }
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) {
+    // "file" já foi validado como filho de root; só acrescenta um nome fixo.
+    // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
     file = path.join(file, "index.html");
   }
   return fs.existsSync(file) && fs.statSync(file).isFile() ? file : null;
 }
 
+// Servidor local de desenvolvimento/teste: escuta só em 127.0.0.1 (ver listen
+// abaixo), então TLS não se aplica.
+// nosemgrep: problem-based-packs.insecure-transport.js-node.using-http-server.using-http-server
 const server = http.createServer((req, res) => {
   let file;
   try {

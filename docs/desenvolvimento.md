@@ -140,6 +140,34 @@ Os testes de navegador já acharam problemas reais: assets referenciados fora de
 `docs/` (404 no Pages), o JS do Bootstrap ausente nas páginas de componentes
 (alerta não fechava) e o contraste de 1,5:1 do `btn-outline-warning`.
 
+### Análise estática (Semgrep)
+
+`.github/workflows/semgrep.yml` roda `semgrep scan --config auto` (container
+oficial, regras públicas, sem conta no semgrep.dev) em push, PR e toda segunda,
+e envia o SARIF ao code scanning. Os achados são informativos. Para reproduzir
+local:
+
+```bash
+docker run --rm -v "$PWD:/src" -w /src semgrep/semgrep semgrep scan --config auto   --exclude vendor --exclude node_modules --exclude dist --exclude docs/assets   --exclude-rule yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag
+```
+
+Política (issue #28): o objetivo é **zero achados ativos**.
+
+- **Actions por major, não por SHA.** A regra `github-actions-mutable-action-tag`
+  fica excluída de propósito: fixamos actions oficiais do GitHub pela major
+  (`@v7`) e deixamos o Dependabot (grupo `github-actions`) mantê-las. Fixar por
+  SHA é mais forte contra a troca de uma tag, mas custa legibilidade e PRs de
+  atualização; se a política mudar, remova a exclusão e fixe os SHAs.
+- **Dependabot com `cooldown` de 7 dias** (`npm` e `github-actions`): não propõe
+  versão recém-publicada. Alertas de segurança ignoram o cooldown.
+- **Supressão só com motivo.** `// nosemgrep: <regra>` precisa de um comentário
+  na linha de cima explicando por que o achado é falso positivo (ex.: o caminho
+  já é validado por guarda). Os casos atuais estão em `scripts/serve.js` (guarda
+  de path traversal; servidor só em `127.0.0.1`) e `scripts/test-package.js`
+  (nome do tarball vindo do nosso `npm pack`).
+- Scripts do projeto usam `execFileSync` com argumentos, nunca `execSync` com
+  string (que passa por shell).
+
 Antes da primeira publicação de um formato novo (ex.: outro entry point), testar o `.tgz` gerado por `npm pack` num projeto consumidor limpo; `test:package` já cobre o caminho atual (CSS pronto e SCSS).
 
 ## Verificações por componente

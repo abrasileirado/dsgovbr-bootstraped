@@ -9,10 +9,18 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Espera 7 dias antes de propor uma versão recém-publicada (pacote novo pode
+    # ser malicioso ou instável). Alertas de segurança ignoram o cooldown.
+    cooldown:
+      default-days: 7
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    # Espera 7 dias antes de propor uma versão recém-publicada (pacote novo pode
+    # ser malicioso ou instável). Alertas de segurança ignoram o cooldown.
+    cooldown:
+      default-days: 7
     groups:
       github-actions:
         patterns:

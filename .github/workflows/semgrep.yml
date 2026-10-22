@@ -19,6 +19,10 @@ jobs:
       contents: read # actions/checkout
       security-events: write # github/codeql-action/upload-sarif
       actions: read # só exigido em repositório privado pelo upload-sarif
+    # Regra github-actions-mutable-action-tag excluída DE PROPÓSITO: a política
+    # do projeto é fixar actions pela major (@v7), não por SHA — são actions
+    # oficiais do GitHub, mantidas atualizadas pelo Dependabot (agrupado). Ver
+    # "Análise estática (Semgrep)" em docs/desenvolvimento.md.
     # Imagem oficial (a returntocorp/semgrep-action está deprecada). Sem
     # SEMGREP_APP_TOKEN: usa regras públicas (--config auto) e não depende de
     # conta no semgrep.dev. Achados são informativos (sem --error): não
@@ -33,6 +37,7 @@ jobs:
         run: >-
           semgrep scan --config auto
           --exclude vendor --exclude node_modules --exclude dist --exclude docs/assets
+          --exclude-rule yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag
           --sarif-output=semgrep.sarif
 
       - name: Upload SARIF file

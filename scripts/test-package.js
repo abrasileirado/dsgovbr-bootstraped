@@ -6,7 +6,7 @@
 // a este repositório e compila a entrada SCSS — com e sem override de variável.
 // Pré-requisito: `npm run build` (gera dist/).
 
-const { execSync } = require("child_process");
+const { execFileSync } = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -14,8 +14,18 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const PKG = "@abrasileirado/dsgovbr-bootstraped";
 
-function run(cmd, cwd) {
-  return execSync(cmd, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+const OPTS = { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] };
+
+// Sem shell: argumentos vão direto ao processo. Sob `npm run`, npm_execpath
+// aponta o npm-cli.js; fora dele, cai no executável npm (npm.cmd no Windows,
+// que exige shell desde o Node 20.12).
+function npm(args, cwd) {
+  const cli = process.env.npm_execpath;
+  if (cli && cli.endsWith(".js")) {
+    return execFileSync(process.execPath, [cli, ...args], { ...OPTS, cwd });
+  }
+  const win = process.platform === "win32";
+  return execFileSync(win ? "npm.cmd" : "npm", args, { ...OPTS, cwd, shell: win });
 }
 
 function assert(cond, msg) {
@@ -26,10 +36,13 @@ function assert(cond, msg) {
 }
 
 function compile(consumerDir, scssName, cssName) {
-  run(
-    `node node_modules/sass/sass.js --quiet --load-path=node_modules ${scssName} ${cssName}`,
-    consumerDir
+  execFileSync(
+    process.execPath,
+    ["node_modules/sass/sass.js", "--quiet", "--load-path=node_modules", scssName, cssName],
+    { ...OPTS, cwd: consumerDir }
   );
+  // cssName é um nome fixo passado por este próprio teste, nunca entrada externa.
+  // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
   return fs.readFileSync(path.join(consumerDir, cssName), "utf8");
 }
 
@@ -40,14 +53,16 @@ function main() {
 
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "dsgovbr-consumer-"));
   try {
-    const packOut = run(`npm pack --pack-destination "${tmp}" --silent`, ROOT).trim().split(/\r?\n/);
+    const packOut = npm(["pack", "--pack-destination", tmp, "--silent"], ROOT).trim().split(/\r?\n/);
+    // O nome do tarball vem do `npm pack` que acabamos de rodar, não de entrada externa.
+    // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
     const tarball = path.join(tmp, packOut[packOut.length - 1]);
     assert(fs.existsSync(tarball), "npm pack gerou o tarball");
 
     const consumer = path.join(tmp, "consumer");
     fs.mkdirSync(consumer);
     fs.writeFileSync(path.join(consumer, "package.json"), JSON.stringify({ private: true }));
-    run(`npm install --no-audit --no-fund "${tarball}" sass`, consumer);
+    npm(["install", "--no-audit", "--no-fund", tarball, "sass"], consumer);
 
     const pkgDir = path.join(consumer, "node_modules", ...PKG.split("/"));
     for (const rel of [
