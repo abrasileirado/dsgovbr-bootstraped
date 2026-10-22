@@ -1,0 +1,10 @@
+// Foco dos campos de texto (mixin focus-soft do GOV.BR DS): borda dourada mais
+// um anel de 2px, no lugar do anel azul translúcido do Bootstrap.
+// !important como no GOV.BR DS: o foco vence a cor de borda e o anel dos
+// estados de validação (.is-valid/.is-invalid), que têm especificidade maior.
+.form-control:focus,
+.form-select:focus {
+  border-color: $govbr-focus !important;
+  box-shadow: 0 0 0 $govbr-focus-ring-width $govbr-focus !important;
+  outline: 0;
+}

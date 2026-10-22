@@ -35,3 +35,14 @@
 [class*="btn-outline-"] {
   --bs-btn-border-width: 1px;
 }
+
+// Foco por teclado do GOV.BR DS (mixin focus em partial/scss/mixins/_focus.scss):
+// contorno tracejado dourado, afastado do botão, no lugar do anel azul
+// translúcido (box-shadow) do Bootstrap. Contraste do dourado sobre branco
+// ~3,2:1 (WCAG 1.4.11 pede 3:1 para componentes de interface).
+.btn:focus-visible,
+.btn-check:focus-visible + .btn {
+  outline: $govbr-focus-width dashed $govbr-focus;
+  outline-offset: $govbr-focus-offset;
+  box-shadow: none;
+}

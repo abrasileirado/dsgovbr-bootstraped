@@ -59,6 +59,19 @@ $govbr-font-weight-semibold: 600 !default;
 // vendor/govbr-ds-core/.../configs/colors/_gray.scss
 $govbr-gray-40: #888 !default;
 
+// --- Foco (issue #30) ---
+// --focus: var(--focus-color) = var(--focus-color-light) = var(--gold-vivid-40)
+// vendor/govbr-ds-core/src/partial/scss/_tokens.scss (bloco :root)
+// vendor/govbr-ds-core/.../configs/colors/_gold-vivid.scss
+$govbr-focus: #c2850c !default;
+// --focus-width: var(--surface-width-lg) (contorno do botão)
+// vendor/govbr-ds-core/src/partial/scss/configs/_surface.scss ($width-lg)
+$govbr-focus-width: 4px !default;
+// focus-soft (campos): box-shadow 0 0 0 var(--surface-width-md) ($width-md)
+$govbr-focus-ring-width: 2px !default;
+// --focus-offset: var(--spacing-scale-half) = $spacer * 0.5
+$govbr-focus-offset: 4px !default;
+
 // --- Superfície (raio de borda) ---
 // vendor/govbr-ds-core/src/partial/scss/configs/_surface.scss ($rounder-sm)
 $govbr-radius-sm: 4px !default;

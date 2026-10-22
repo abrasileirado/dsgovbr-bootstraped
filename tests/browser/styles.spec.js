@@ -49,7 +49,7 @@ test.describe("botão", () => {
     expect((await css(page, ".btn-outline-primary", ["border-top-width"]))["border-top-width"]).toBe("1px");
   });
 
-  test("teclado: Tab chega ao botão e mostra o anel de foco", async ({ page }) => {
+  test("teclado: Tab chega ao botão e mostra o contorno dourado tracejado", async ({ page }) => {
     // avança com Tab (links de navegação primeiro) até chegar num botão
     for (let i = 0; i < 10; i++) {
       await page.keyboard.press("Tab");
@@ -59,8 +59,12 @@ test.describe("botão", () => {
     }
     const focado = page.locator(".btn:focus-visible").first();
     await expect(focado).toBeVisible();
-    const shadow = await focado.evaluate((el) => getComputedStyle(el).boxShadow);
-    expect(shadow).not.toBe("none");
+    const f = await focado.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { style: cs.outlineStyle, width: cs.outlineWidth, color: cs.outlineColor, offset: cs.outlineOffset, shadow: cs.boxShadow };
+    });
+    // contorno tracejado dourado do GOV.BR DS (#c2850c), 4px, afastado 4px
+    expect(f).toEqual({ style: "dashed", width: "4px", color: "rgb(194, 133, 12)", offset: "4px", shadow: "none" });
   });
 
   test("desabilitado não recebe foco", async ({ page }) => {
@@ -101,6 +105,19 @@ test.describe("campos e seleção", () => {
     await expect(c).toBeChecked();
     await page.keyboard.press("Space");
     await expect(c).not.toBeChecked();
+  });
+
+  test("foco: borda dourada e anel de 2px, também no campo inválido", async ({ page }) => {
+    for (const id of ["#nome", "#email"]) {
+      await page.locator(id).focus();
+      // o campo anima a borda e o anel (transition de 150ms): espera terminar
+      await expect
+        .poll(async () => (await css(page, id, ["border-top-color"]))["border-top-color"], { message: id })
+        .toBe("rgb(194, 133, 12)");
+      await expect
+        .poll(async () => (await css(page, id, ["box-shadow"]))["box-shadow"], { message: id })
+        .toContain("rgb(194, 133, 12) 0px 0px 0px 2px");
+    }
   });
 
   test("label associado: clicar no texto foca o campo", async ({ page }) => {

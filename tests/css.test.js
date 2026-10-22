@@ -53,6 +53,16 @@ test("botão: sem borda nos preenchidos, 1px nos outline, altura mínima 32/40/4
   assert.equal(decl(block(css, "[class*=btn-outline-]"), "--bs-btn-border-width"), "1px");
 });
 
+test("foco: contorno dourado tracejado no botão, borda e anel dourados no campo (GOV.BR DS)", () => {
+  const btn = block(css, ".btn:focus-visible, .btn-check:focus-visible + .btn");
+  assert.equal(decl(btn, "outline"), "4px dashed #c2850c");
+  assert.equal(decl(btn, "outline-offset"), "4px");
+  assert.equal(decl(btn, "box-shadow"), "none");
+  const campo = block(css, ".form-control:focus, .form-select:focus");
+  assert.equal(decl(campo, "border-color"), "#c2850c !important");
+  assert.equal(decl(campo, "box-shadow"), "0 0 0 2px #c2850c !important");
+});
+
 test("contraste: texto do btn-outline-warning escurecido (WCAG 1.4.3)", () => {
   assert.equal(decl(block(css, ".btn-outline-warning"), "--bs-btn-color"), "#776017");
 });
