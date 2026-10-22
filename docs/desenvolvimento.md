@@ -162,9 +162,13 @@ Política (issue #28): o objetivo é **zero achados ativos**.
   versão recém-publicada. Alertas de segurança ignoram o cooldown.
 - **Supressão só com motivo.** `// nosemgrep: <regra>` precisa de um comentário
   na linha de cima explicando por que o achado é falso positivo (ex.: o caminho
-  já é validado por guarda). Os casos atuais estão em `scripts/serve.js` (guarda
-  de path traversal; servidor só em `127.0.0.1`) e `scripts/test-package.js`
-  (nome do tarball vindo do nosso `npm pack`).
+  já é validado por guarda). Os casos atuais: `scripts/serve.js` (servidor só em
+  `127.0.0.1`, sem TLS) e `scripts/test-package.js` (nome do tarball vindo do
+  nosso `npm pack`). O servidor não usa guarda de caminho: a URL nunca vira
+  caminho de arquivo, só é buscada num índice dos arquivos existentes sob `docs/`
+  (`tests/serve.test.js` tenta `../`, `%2e%2e`, `%5c` etc.). Isso fechou os
+  alertas `js/path-injection` do CodeQL, que não reconheciam o guarda com
+  `startsWith`.
 - Scripts do projeto usam `execFileSync` com argumentos, nunca `execSync` com
   string (que passa por shell).
 

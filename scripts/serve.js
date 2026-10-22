@@ -4,7 +4,12 @@
 // Servidor estático sem dependências para visualizar e testar o site.
 //   node scripts/serve.js [diretório=docs] [porta=4173]
 // Serve só o diretório informado (por padrão docs/, a mesma raiz que o GitHub
-// Pages publica): referência a arquivos fora dele dá 404, como no site.
+// Pages publica): referência a arquivo fora dele dá 404, como no site.
+//
+// Segurança: a URL nunca vira caminho de arquivo. A cada requisição o servidor
+// lista os arquivos existentes sob a raiz e só serve quem estiver nessa lista
+// (URL -> arquivo). Não há path.join/resolve com texto vindo da requisição,
+// então "../" e variações simplesmente não casam com nenhuma entrada.
 
 const fs = require("fs");
 const http = require("http");
@@ -26,21 +31,27 @@ const MIME = {
   ".woff2": "font/woff2",
 };
 
-function resolveFile(urlPath) {
-  const rel = decodeURIComponent(urlPath.split("?")[0]);
-  // Guarda contra path traversal logo abaixo: o resultado só é usado se ficar
-  // dentro de root.
-  // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
-  let file = path.resolve(root, "." + rel);
-  if (file !== root && !file.startsWith(root + path.sep)) {
-    return null;
+// "/componentes/botao.html" -> caminho absoluto, para todo arquivo sob root.
+// Os nomes vêm do readdir (sistema de arquivos), não da requisição.
+function listFiles(dir, prefix, out) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const url = `${prefix}/${entry.name}`;
+    const full = `${dir}${path.sep}${entry.name}`;
+    if (entry.isDirectory()) {
+      listFiles(full, url, out);
+    } else if (entry.isFile()) {
+      out.set(url, full);
+    }
   }
-  if (fs.existsSync(file) && fs.statSync(file).isDirectory()) {
-    // "file" já foi validado como filho de root; só acrescenta um nome fixo.
-    // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
-    file = path.join(file, "index.html");
+  return out;
+}
+
+function lookup(urlPath) {
+  let key = decodeURIComponent(urlPath.split("?")[0]);
+  if (key.endsWith("/")) {
+    key += "index.html";
   }
-  return fs.existsSync(file) && fs.statSync(file).isFile() ? file : null;
+  return listFiles(root, "", new Map()).get(key) || null;
 }
 
 // Servidor local de desenvolvimento/teste: escuta só em 127.0.0.1 (ver listen
@@ -49,7 +60,7 @@ function resolveFile(urlPath) {
 const server = http.createServer((req, res) => {
   let file;
   try {
-    file = resolveFile(req.url);
+    file = lookup(req.url);
   } catch {
     file = null;
   }
