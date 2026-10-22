@@ -25,6 +25,17 @@
 </section>
 
 <section>
+  <h2>Equivalência das variantes com o GOV.BR DS (DP-06)</h2>
+  <table>
+    <thead><tr><th>Classe Bootstrap</th><th>No GOV.BR DS (Message)</th><th>Classificação</th></tr></thead>
+    <tbody>
+      <tr><td><code>alert-success</code>, <code>alert-danger</code>, <code>alert-warning</code>, <code>alert-info</code></td><td><code>success</code>, <code>danger</code>, <code>warning</code>, <code>info</code></td><td>Equivalente</td></tr>
+      <tr><td><code>alert-primary</code>, <code>alert-secondary</code>, <code>alert-light</code>, <code>alert-dark</code></td><td>— (só há as quatro severidades)</td><td>Extensão: recebe os tokens, mas não existe no GOV.BR DS</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-06)</h2>
   <ul>
     <li>Fundo/texto: o GOV.BR DS tinge o fundo com <code>--{cor}-alternative</code>; o Bootstrap 5.3 usa seu próprio sistema de cores "subtle"/"emphasis" derivado das mesmas cores de tema — visualmente próximo, mas não pixel-a-pixel idêntico.</li>

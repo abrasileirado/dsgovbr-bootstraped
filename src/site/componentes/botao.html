@@ -50,6 +50,31 @@
 </section>
 
 <section>
+  <h2>Equivalência das variantes com o GOV.BR DS (DP-06)</h2>
+  <p>
+    No GOV.BR DS, <code>primary</code> e <code>secondary</code> são <em>níveis de
+    ênfase</em> (botão preenchido e botão só com borda), não cores de tema como
+    no Bootstrap. Por isso a equivalência é por papel, não por nome:
+  </p>
+  <table>
+    <thead><tr><th>Classe Bootstrap</th><th>No GOV.BR DS</th><th>Classificação</th></tr></thead>
+    <tbody>
+      <tr><td><code>btn-primary</code></td><td><code>.primary</code> (ênfase alta, preenchido)</td><td>Equivalente</td></tr>
+      <tr><td><code>btn-success</code>, <code>btn-danger</code>, <code>btn-warning</code>, <code>btn-info</code></td><td>cores <code>success</code>/<code>danger</code>/<code>warning</code>/<code>info</code>, preenchidas</td><td>Equivalente</td></tr>
+      <tr><td><code>btn-outline-primary</code></td><td><code>.secondary</code> (ênfase média, borda)</td><td>Aproximado: o GOV.BR DS usa fundo claro, o Bootstrap fundo transparente</td></tr>
+      <tr><td><code>btn-link</code></td><td>sem classe (ênfase baixa, só texto)</td><td>Aproximado: o Bootstrap sublinha o texto</td></tr>
+      <tr><td><code>btn-secondary</code></td><td>— (o <code>secondary</code> do GOV.BR DS é a ênfase de borda)</td><td>Extensão: cinza do Bootstrap, mantido por decisão</td></tr>
+      <tr><td><code>btn-light</code>, <code>btn-dark</code></td><td>—</td><td>Extensão</td></tr>
+      <tr><td><code>btn-outline-</code> + <code>secondary</code>, <code>success</code>, <code>danger</code>, <code>warning</code>, <code>info</code>, <code>light</code>, <code>dark</code></td><td>— (o GOV.BR DS não tem cores só com borda)</td><td>Extensão</td></tr>
+    </tbody>
+  </table>
+  <p>
+    <strong>Extensão</strong> = funciona e recebe os tokens do GOV.BR DS (fonte,
+    raio, altura), mas não existe no GOV.BR DS; não afirme equivalência.
+  </p>
+</section>
+
+<section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-04)</h2>
   <ul>
     <li>Borda: o GOV.BR DS usa <code>border: 0</code> por padrão nas variantes preenchidas; o Bootstrap mantém sua borda padrão (mesma cor do fundo). Não alterado nesta issue.</li>
