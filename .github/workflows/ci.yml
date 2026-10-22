@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build e testes
+    runs-on: ubuntu-latest
+    steps:
+      # Submodules: os testes comparam tokens com vendor/govbr-ds-core e o
+      # build compila vendor/bootstrap.
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Compilar
+        run: npm run build
+
+      # unitários (deriva de tokens, asserções no CSS) + consumidor limpo
+      - name: Testar
+        run: npm test

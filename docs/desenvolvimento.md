@@ -88,18 +88,36 @@ em cada uma separadamente — ver histórico das issues #6 e #15.
 5. Implementar componentes restantes do MVP com testes correspondentes.
 6. Validar instalação de um tarball local antes de publicar.
 
-## Comandos planejados
-
-Após a criação do `package.json`, manter scripts com contratos simples como estes (nomes ainda sujeitos à decisão de implementação):
+## Comandos e testes
 
 ```bash
 npm ci
-npm run build
-npm test
+npm run build      # CSS (dist/), cópia para docs/assets/ e páginas de docs/componentes/
+npm test           # test:unit + test:package
 npm pack --dry-run
 ```
 
-Antes da primeira publicação, testar o `.tgz` gerado por `npm pack` em **dois projetos consumidores limpos**: um que use apenas CSS pronto e outro que compile SCSS. Registrar no README a ordem de inclusão de estilos, dependências necessárias e ferramenta Sass suportada. Não publicar exemplos `@use` ou imports CSS como instruções finais até que tenham sido executados com o pacote empacotado.
+`npm test` roda duas camadas (exige `npm run build` antes e os submodules
+inicializados):
+
+- `npm run test:unit` — `node:test`, sem dependências, em `tests/`:
+  - `tokens.test.js`: **deriva de tokens** (RF-02). Cada valor de
+    `src/scss/_tokens.scss` é conferido contra o arquivo de origem em
+    `vendor/govbr-ds-core`; todo `$govbr-*` precisa ter origem registrada
+    no teste. Para um token novo, acrescente a origem em `ORIGEM`.
+  - `css.test.js`: asserções no CSS compilado — tokens no `:root`, botão,
+    campo de texto, checkbox/radio, alerta e card, nenhuma classe `.br-*`
+    (RF-03) e `btn-secondary` no cinza do Bootstrap (DP-06). Ao adaptar um
+    componente novo, acrescente aqui o que o torna "GOV.BR DS".
+- `npm run test:package` — consumidor limpo: `npm pack`, instala o tarball
+  num projeto temporário e compila a entrada SCSS com e sem override (DP-04).
+
+`.github/workflows/ci.yml` roda `build` + `test` em todo push/PR na `main`, e
+o `release.yml` roda `npm test` antes do publish. Ainda **não** há teste de
+navegador (regressão visual, teclado, contraste — RNF-02/RNF-09): a conferência
+visual das páginas de `docs/componentes/` continua manual.
+
+Antes da primeira publicação de um formato novo (ex.: outro entry point), testar o `.tgz` gerado por `npm pack` num projeto consumidor limpo; `test:package` já cobre o caminho atual (CSS pronto e SCSS).
 
 ## Verificações por componente
 

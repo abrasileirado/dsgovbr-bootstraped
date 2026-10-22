@@ -81,9 +81,11 @@ hora: `node scripts/check-upstream.js`. Política completa: DP-09 em
    git add vendor/bootstrap  # ou vendor/govbr-ds-core
    ```
 
-3. GOV.BR DS: reconferir cada valor de `src/scss/_tokens.scss` contra o
-   arquivo de origem citado no comentário (os valores são cópias, não imports).
-4. `npm run build` e `npm test` (consumidor limpo) precisam passar.
+3. `npm run build` e `npm test` precisam passar. O teste de deriva de tokens
+   (`tests/tokens.test.js`) confere cada valor de `src/scss/_tokens.scss`
+   contra o GOV.BR DS: se falhar, atualize o token (e a origem citada no
+   comentário) ou registre por que o valor foi mantido.
+4. Consumidor limpo (`test:package`) também roda dentro de `npm test`.
 5. Revalidar visualmente as páginas de `docs/componentes/`.
 6. Atualizar a versão citada em `docs/requisitos.md` (DP-01/DP-03),
    `THIRD_PARTY_NOTICES.md` e, se for o Bootstrap, nos comentários de
