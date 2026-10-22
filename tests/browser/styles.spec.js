@@ -30,15 +30,23 @@ test.describe("botão", () => {
     expect(s["font-size"]).toBe("14px");
   });
 
-  test("alturas aproximam 32/40/48px", async ({ page }) => {
-    expect((await css(page, ".btn-primary.btn-sm", [])).height).toBeGreaterThan(30);
-    expect((await css(page, ".btn-primary.btn-sm", [])).height).toBeLessThan(35);
-    const md = (await css(page, ".btn-primary:not(.btn-sm):not(.btn-lg)", [])).height;
-    expect(md).toBeGreaterThan(37);
-    expect(md).toBeLessThan(43);
-    const lg = (await css(page, ".btn-primary.btn-lg", [])).height;
-    expect(lg).toBeGreaterThan(46);
-    expect(lg).toBeLessThan(51);
+  test("altura exata 32/40/48px, em variantes preenchidas e outline", async ({ page }) => {
+    for (const [seletor, altura] of [
+      [".btn-primary.btn-sm", 32],
+      [".btn-primary:not(.btn-sm):not(.btn-lg)", 40],
+      [".btn-primary.btn-lg", 48],
+      [".btn-danger:not(.btn-sm):not(.btn-lg)", 40],
+      [".btn-outline-primary", 40],
+      [".btn-link", 40],
+    ]) {
+      expect((await css(page, seletor, [])).height, seletor).toBe(altura);
+    }
+  });
+
+  test("borda: zero nas preenchidas, 1px nas outline", async ({ page }) => {
+    expect((await css(page, ".btn-primary", ["border-top-width"]))["border-top-width"]).toBe("0px");
+    expect((await css(page, ".btn-warning", ["border-top-width"]))["border-top-width"]).toBe("0px");
+    expect((await css(page, ".btn-outline-primary", ["border-top-width"]))["border-top-width"]).toBe("1px");
   });
 
   test("teclado: Tab chega ao botão e mostra o anel de foco", async ({ page }) => {

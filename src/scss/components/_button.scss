@@ -6,3 +6,32 @@
 .btn-outline-warning {
   --bs-btn-color: #{$govbr-warning-text};
 }
+
+// Forma do botão do GOV.BR DS (vendor/govbr-ds-core/.../button/_mixins.scss):
+// sem borda nas variantes preenchidas e altura FIXA por tamanho (32/40/48px),
+// conteúdo centralizado. Usamos min-height (não height) para um rótulo que
+// quebre linha fazer o botão crescer em vez de transbordar. O padding vertical
+// de _bootstrap-settings.scss deixa de definir a altura; só dá respiro se quebrar.
+.btn {
+  --bs-btn-border-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: $govbr-button-height-medium;
+}
+
+.btn-sm,
+.btn-group-sm > .btn {
+  min-height: $govbr-button-height-small;
+}
+
+.btn-lg,
+.btn-group-lg > .btn {
+  min-height: $govbr-button-height-large;
+}
+
+// No GOV.BR DS só a ênfase "secondary" tem borda (1px). Aqui: as variantes
+// outline do Bootstrap (extensão, exceto outline-primary — ver DP-06).
+[class*="btn-outline-"] {
+  --bs-btn-border-width: 1px;
+}

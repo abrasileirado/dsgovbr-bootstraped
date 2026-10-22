@@ -35,7 +35,7 @@
 </section>
 
 <section>
-  <h2>Tamanhos (referência GOV.BR DS: 32 / 40 / 48px de altura, aproximado — ver DP-02)</h2>
+  <h2>Tamanhos (32 / 40 / 48px de altura, como no GOV.BR DS)</h2>
   <button type="button" class="btn btn-primary btn-sm">Small</button>
   <button type="button" class="btn btn-primary">Medium (padrão)</button>
   <button type="button" class="btn btn-primary btn-lg">Large</button>
@@ -77,8 +77,7 @@
 <section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-04)</h2>
   <ul>
-    <li>Borda: o GOV.BR DS usa <code>border: 0</code> por padrão nas variantes preenchidas; o Bootstrap mantém sua borda padrão (mesma cor do fundo). Não alterado nesta issue.</li>
     <li>Cor de foco: o GOV.BR DS usa contorno tracejado dourado (<code>gold-vivid-40</code>, <code>#c2850c</code>); o anel de foco do Bootstrap (<code>$focus-ring-color</code>) segue <code>$primary</code> (azul), não a paleta de foco do GOV.BR DS. Não alterado nesta issue.</li>
-    <li>Altura: os valores de <code>padding-y</code> foram calibrados para aproximar 32/40/48px, mas não há paridade de pixel garantida em todas as fontes/navegadores.</li>
+    <li>Altura: exata (32/40/48px) pelo <code>min-height</code> dos tokens do GOV.BR DS; um rótulo que quebre de linha faz o botão crescer em vez de transbordar (o GOV.BR DS usa altura fixa).</li>
   </ul>
 </section>

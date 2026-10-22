@@ -43,6 +43,16 @@ test("botão: pílula, semi-bold e padding calibrado por tamanho", () => {
   assert.equal(decl(block(css, ".btn-lg, .btn-group-lg > .btn"), "--bs-btn-padding-y"), "0.625rem");
 });
 
+test("botão: sem borda nos preenchidos, 1px nos outline, altura mínima 32/40/48px (GOV.BR DS)", () => {
+  const btn = block(css, ".btn");
+  assert.equal(decl(btn, "--bs-btn-border-width"), "0");
+  assert.equal(decl(btn, "min-height"), "40px");
+  assert.equal(decl(btn, "display"), "inline-flex");
+  assert.equal(decl(block(css, ".btn-sm, .btn-group-sm > .btn"), "min-height"), "32px");
+  assert.equal(decl(block(css, ".btn-lg, .btn-group-lg > .btn"), "min-height"), "48px");
+  assert.equal(decl(block(css, "[class*=btn-outline-]"), "--bs-btn-border-width"), "1px");
+});
+
 test("contraste: texto do btn-outline-warning escurecido (WCAG 1.4.3)", () => {
   assert.equal(decl(block(css, ".btn-outline-warning"), "--bs-btn-color"), "#776017");
 });

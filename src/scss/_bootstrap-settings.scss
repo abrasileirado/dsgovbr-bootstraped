@@ -59,10 +59,9 @@ $btn-padding-x: 1.5rem !default; // 24px
 $btn-padding-x-sm: 1rem !default; // 16px
 $btn-padding-x-lg: 2rem !default; // 32px
 
-// Padding vertical ajustado para aproximar as alturas de referência do
-// GOV.BR DS (32/40/48px — ver _tokens.scss). É uma aproximação deliberada,
-// não paridade de pixel: a matriz de compatibilidade (docs/requisitos.md §6)
-// não exige identidade exata, só declarar a aproximação.
+// A altura exata (32/40/48px — ver _tokens.scss) vem de min-height em
+// components/_button.scss. Este padding vertical só dá respiro quando o
+// rótulo quebra de linha (aí o botão cresce além do mínimo).
 $btn-padding-y: 0.5rem !default;     // ~40px de altura total (padrão)
 $btn-padding-y-sm: 0.375rem !default; // ~32px de altura total
 $btn-padding-y-lg: 0.625rem !default; // ~48px de altura total
