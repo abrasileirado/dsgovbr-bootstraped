@@ -43,6 +43,10 @@ test("botão: pílula, semi-bold e padding calibrado por tamanho", () => {
   assert.equal(decl(block(css, ".btn-lg, .btn-group-lg > .btn"), "--bs-btn-padding-y"), "0.625rem");
 });
 
+test("contraste: texto do btn-outline-warning escurecido (WCAG 1.4.3)", () => {
+  assert.equal(decl(block(css, ".btn-outline-warning"), "--bs-btn-color"), "#776017");
+});
+
 test("DP-06: btn-secondary segue o cinza do Bootstrap (decisão do mantenedor)", () => {
   assert.equal(decl(block(css, ".btn-secondary"), "--bs-btn-bg"), "#6c757d");
 });

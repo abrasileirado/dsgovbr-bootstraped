@@ -30,6 +30,12 @@ $govbr-warning: #ffcd07 !default;
 // vendor/govbr-ds-core/.../configs/colors/_red-vivid.scss
 $govbr-danger: #e52207 !default;
 
+// Texto amarelo legível: o amarelo do tema (#ffcd07) como TEXTO sobre fundo
+// claro dá contraste 1.5:1 (WCAG 1.4.3 exige 4.5:1). Usado só em
+// .btn-outline-warning (components/_button.scss). yellow-vivid-60 dá ~6:1.
+// vendor/govbr-ds-core/.../configs/colors/_yellow-vivid.scss
+$govbr-warning-text: #776017 !default;
+
 // --- Neutros ---
 // vendor/govbr-ds-core/.../configs/colors/_gray.scss
 $govbr-gray-90: #1b1b1b !default; // tom mais escuro (usado como $dark)

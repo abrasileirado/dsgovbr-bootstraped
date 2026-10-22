@@ -6,3 +6,5 @@ docs/componentes/*.html
 *.css.map
 *.sass.map
 *.scss.map
+test-results/
+playwright-report/

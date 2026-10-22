@@ -41,20 +41,34 @@ Gera:
 
 ## Visualizar as páginas de componentes localmente
 
-As páginas em `docs/componentes/` e `docs/exemplos/` carregam o CSS por
-caminho relativo (`../assets/css/...`), o que não funciona abrindo o
-arquivo direto no navegador (`file://`) — é preciso um servidor HTTP
-simples:
+As páginas carregam o CSS por caminho relativo (`../assets/css/...`), o que
+não funciona abrindo o arquivo direto no navegador (`file://`). Depois de
+`npm run build`:
 
 ```bash
-python -m http.server 4173
-# ou, sem Python:
-npx http-server -p 4173
+npm run serve        # node scripts/serve.js — serve docs/ em http://127.0.0.1:4173/
 ```
 
-Depois abra `http://localhost:4173/docs/componentes/index.html`. Se você
-usa o Claude Code neste projeto, já existe `.claude/launch.json`
-configurado com esse mesmo servidor.
+Abra `http://127.0.0.1:4173/componentes/index.html`. O servidor serve **só**
+`docs/`, a mesma raiz que o GitHub Pages publica: referenciar um arquivo fora
+de `docs/` (ex.: `../../vendor/...`) dá 404 aqui e no site — foi um bug real,
+agora coberto por teste. Se você usa o Claude Code neste projeto, o
+`.claude/launch.json` já aponta para esse mesmo servidor.
+
+## Testes de navegador (Playwright)
+
+```bash
+npx playwright install chromium   # uma vez, para rodar local
+npm run test:browser              # estilos, teclado, acessibilidade, páginas sem 404
+npm run test:visual:update        # regenera as capturas de referência (precisa de Docker)
+```
+
+Os testes **visuais** só rodam no container oficial do Playwright (Linux), com
+`VISUAL=1`, porque a renderização muda com o sistema e as fontes; localmente
+eles são ignorados. As capturas de referência ficam em
+`tests/browser/visual.spec.js-snapshots/` e são geradas por
+`npm run test:visual:update` — rode-o e revise as imagens no diff quando mudar
+o visual de propósito. Detalhes em [Desenvolvimento](desenvolvimento.md).
 
 ## Atualizando os submodules (Bootstrap / GOV.BR DS)
 

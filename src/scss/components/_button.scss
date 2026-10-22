@@ -1,0 +1,8 @@
+// Contraste (WCAG 1.4.3): o Bootstrap usa a cor do tema como texto do
+// .btn-outline-warning; com o amarelo do GOV.BR DS (#ffcd07) sobre fundo claro
+// são 1.5:1 (mínimo 4.5:1). Escurecemos só o texto; a borda e o estado hover
+// (fundo amarelo com texto preto) continuam os do tema. Variante que não
+// existe no GOV.BR DS (extensão — DP-06), mas não pode ficar ilegível.
+.btn-outline-warning {
+  --bs-btn-color: #{$govbr-warning-text};
+}

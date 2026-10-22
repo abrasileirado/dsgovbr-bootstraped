@@ -23,14 +23,19 @@
   "scripts": {
     "build:css": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.css --style=expanded --source-map",
     "build:css:min": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.min.css --style=compressed --no-source-map",
-    "build:docs-assets": "node -e \"require('fs').mkdirSync('docs/assets/css',{recursive:true});require('fs').copyFileSync('dist/dsgovbr-bootstraped.min.css','docs/assets/css/dsgovbr-bootstraped.css')\"",
+    "build:docs-assets": "node scripts/build-docs-assets.js",
     "build:site": "node scripts/build-site.js",
     "build": "npm run build:css && npm run build:css:min && npm run build:docs-assets && npm run build:site",
     "test": "npm run test:unit && npm run test:package",
     "test:unit": "node --test \"tests/**/*.test.js\"",
-    "test:package": "node scripts/test-package.js"
+    "test:package": "node scripts/test-package.js",
+    "test:browser": "playwright test",
+    "serve": "node scripts/serve.js",
+    "test:visual:update": "node scripts/test-visual-update.js"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "1.64.1",
     "sass": "^1.80.0"
   }
 }

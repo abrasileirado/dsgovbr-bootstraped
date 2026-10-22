@@ -112,10 +112,33 @@ inicializados):
 - `npm run test:package` — consumidor limpo: `npm pack`, instala o tarball
   num projeto temporário e compila a entrada SCSS com e sem override (DP-04).
 
-`.github/workflows/ci.yml` roda `build` + `test` em todo push/PR na `main`, e
-o `release.yml` roda `npm test` antes do publish. Ainda **não** há teste de
-navegador (regressão visual, teclado, contraste — RNF-02/RNF-09): a conferência
-visual das páginas de `docs/componentes/` continua manual.
+### Testes de navegador (Playwright)
+
+`npm run test:browser` abre o site (`docs/` servido por `scripts/serve.js`, como
+no Pages) num Chromium real, em `tests/browser/`:
+
+- `pages.spec.js`: toda página HTML publicada carrega sem 404 e sem erro de
+  console. Páginas novas entram sozinhas (a lista vem de `docs/`).
+- `styles.spec.js`: estilos **computados** (cor, raio, alturas aproximadas de
+  32/40/48px, 14px), foco por teclado, marcar checkbox com espaço, clique no
+  rótulo, fechar alerta.
+- `a11y.spec.js`: axe-core (WCAG 2 A/AA) nas páginas de componentes e no exemplo
+  de login — RNF-02. Violação nova faz o teste falhar.
+- `visual.spec.js`: captura de tela de cada página em desktop (1280px) e mobile
+  (375px) comparada com a imagem de referência — RNF-09. Só roda com `VISUAL=1`
+  no container oficial.
+
+O `ci.yml` tem dois jobs: **Build e testes** (`npm test`) e **Testes de
+navegador**, este dentro de `mcr.microsoft.com/playwright:v1.64.1-noble`, a mesma
+imagem em que `npm run test:visual:update` gera as capturas — fontes e
+renderização idênticas. A versão dessa imagem acompanha o `@playwright/test`
+fixado no `package.json`: **atualize os dois juntos** (`ci.yml`,
+`package.json` e o script `test:visual:update`) e regenere as capturas. O
+`release.yml` roda `npm test` antes do publish.
+
+Os testes de navegador já acharam problemas reais: assets referenciados fora de
+`docs/` (404 no Pages), o JS do Bootstrap ausente nas páginas de componentes
+(alerta não fechava) e o contraste de 1,5:1 do `btn-outline-warning`.
 
 Antes da primeira publicação de um formato novo (ex.: outro entry point), testar o `.tgz` gerado por `npm pack` num projeto consumidor limpo; `test:package` já cobre o caminho atual (CSS pronto e SCSS).
 

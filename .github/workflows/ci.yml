@@ -33,3 +33,38 @@ jobs:
       # unitários (deriva de tokens, asserções no CSS) + consumidor limpo
       - name: Testar
         run: npm test
+
+  browser:
+    name: Testes de navegador (Playwright)
+    runs-on: ubuntu-latest
+    # Container oficial: mesma imagem em que as capturas de referência são
+    # geradas (npm run test:visual:update), então fontes e renderização
+    # batem. A versão da imagem precisa acompanhar @playwright/test (fixada
+    # em package.json): ao atualizar um, atualize o outro.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    env:
+      VISUAL: "1"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - run: npm ci
+
+      - name: Compilar
+        run: npm run build
+
+      - name: Testar no navegador (estilos, teclado, acessibilidade, visual)
+        run: npx playwright test
+
+      - name: Relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
