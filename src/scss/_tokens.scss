@@ -14,6 +14,12 @@
 // --interactive: var(--blue-warm-vivid-70)
 // vendor/govbr-ds-core/.../configs/colors/_blue-warm-vivid.scss
 $govbr-interactive: #1351b4 !default;
+// --active: var(--blue-warm-vivid-80)
+// vendor/govbr-ds-core/.../configs/colors/_blue-warm-vivid.scss
+$govbr-active: #0c326f !default;
+// --hover: var(--surface-opacity-xs) = 0.16
+// vendor/govbr-ds-core/.../configs/_states.scss + _elevation.scss
+$govbr-hover-opacity: 0.16 !default;
 
 // --info: var(--blue-warm-vivid-60)
 $govbr-info: #155bcb !default;

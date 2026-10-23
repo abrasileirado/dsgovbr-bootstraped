@@ -75,6 +75,29 @@ $badge-padding-x: 0.75rem !default; // spacing-scale-baseh = 12px
 $badge-padding-y: 0 !default;
 $badge-border-radius: $govbr-radius-sm !default;
 
+// Paginação estática GOV.BR DS (issue #37).
+$pagination-padding-y: 0 !default;
+$pagination-padding-x: 0.5rem !default;
+$pagination-color: $govbr-interactive !default;
+$pagination-bg: transparent !default;
+$pagination-border-width: 1px !default;
+$pagination-border-color: transparent !default;
+$pagination-border-radius: 50rem !default;
+$pagination-hover-color: $govbr-interactive !default;
+$pagination-hover-bg: transparent !default;
+$pagination-hover-border-color: transparent !default;
+$pagination-focus-color: $govbr-interactive !default;
+$pagination-focus-bg: transparent !default;
+$pagination-focus-box-shadow: none !default;
+$pagination-focus-outline: 4px dashed $govbr-focus !default;
+$pagination-active-color: #fff !default;
+$pagination-active-bg: $govbr-active !default;
+$pagination-active-border-color: $govbr-active !default;
+$pagination-disabled-color: $govbr-gray-40 !default;
+$pagination-disabled-bg: transparent !default;
+$pagination-disabled-border-color: transparent !default;
+$pagination-margin-start: 0 !default;
+
 // Diferença conhecida e documentada (não replicada nesta issue): o GOV.BR DS
 // usa border: 0 por padrão e cor de foco dourada (--focus-color-light,
 // gold-vivid-40 #c2850c) com contorno tracejado; o Bootstrap mantém sua

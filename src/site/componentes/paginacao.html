@@ -1,0 +1,42 @@
+<!-- title: Componente: Paginação — dsgovbr-bootstraped -->
+<h1>Paginação estática (<code>.pagination</code>)</h1>
+<p>
+  Adaptação visual limitada da paginação Bootstrap. Mantém a estrutura e as classes
+  públicas do Bootstrap, sem JavaScript adicional nem classes <code>.br-*</code>.
+</p>
+
+<section>
+  <h2>Estados e navegação</h2>
+  <nav aria-label="Paginação de resultados">
+    <ul class="pagination">
+      <li class="page-item disabled">
+        <span class="page-link" aria-disabled="true">Anterior</span>
+      </li>
+      <li class="page-item"><a class="page-link" href="#pagina-1">1</a></li>
+      <li class="page-item active">
+        <a class="page-link" href="#pagina-2" aria-current="page">2</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#pagina-3">3</a></li>
+      <li class="page-item"><a class="page-link" href="#pagina-3">Próxima</a></li>
+    </ul>
+  </nav>
+  <p>Use Tab para conferir o foco visível; passe o ponteiro sobre os links para ver o estado hover.</p>
+</section>
+
+<section>
+  <h2>Uso acessível</h2>
+  <ul>
+    <li>Envolva a lista em <code>&lt;nav&gt;</code> com nome acessível.</li>
+    <li>Indique a página atual com <code>aria-current="page"</code>; não dependa apenas da cor.</li>
+    <li>Para página indisponível, use <code>.disabled</code> e <code>aria-disabled="true"</code>; links continuam sendo navegação real e exigem URLs válidas.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Diferenças e limites em relação ao GOV.BR DS</h2>
+  <ul>
+    <li>Estados ativo, desabilitado, foco e hover são estilizados no markup Bootstrap.</li>
+    <li>Esta adaptação não implementa seletor de itens por página, dropdowns de reticências ou lógica de navegação.</li>
+    <li>Os tamanhos <code>.pagination-sm</code> e <code>.pagination-lg</code> mantêm os paddings Bootstrap; apenas o mínimo dos links é preservado em 32px.</li>
+  </ul>
+</section>

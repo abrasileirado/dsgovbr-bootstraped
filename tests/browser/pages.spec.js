@@ -40,6 +40,14 @@ test("catálogo abre a demonstração do badge", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Badge estático (.badge)" })).toBeVisible();
 });
 
+test("catálogo abre a demonstração da paginação", async ({ page }) => {
+  await page.goto("/componentes/index.html");
+  const link = page.getByRole("link", { name: ".pagination estática" });
+  await expect(link).toHaveAttribute("href", "paginacao.html");
+  await link.click();
+  await expect(page.getByRole("heading", { name: "Paginação estática (.pagination)" })).toBeVisible();
+});
+
 for (const url of allPages) {
   test(`${url} carrega sem 404 nem erro de console`, async ({ page }) => {
     const problemas = [];

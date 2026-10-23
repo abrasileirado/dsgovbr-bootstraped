@@ -179,6 +179,40 @@ test("badge estático: aparência GOV.BR DS e variantes Bootstrap preservam cont
   await expect(page.locator("button.btn")).toHaveAccessibleName("Mensagens 4");
 });
 
+test.describe("paginação", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/componentes/paginacao.html");
+  });
+
+  test("links têm 32px, formato circular; ativo tem fundo GOV.BR DS", async ({ page }) => {
+    const links = page.locator(".pagination .page-link");
+    const first = await links.nth(1).evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { width: el.getBoundingClientRect().width, height: el.getBoundingClientRect().height, radius: cs.borderTopLeftRadius };
+    });
+    expect(first.width).toBeGreaterThanOrEqual(32);
+    expect(first.height).toBe(32);
+    expect(parseFloat(first.radius)).toBeGreaterThan(100);
+    const active = await css(page, ".page-item.active .page-link", ["background-color", "color", "font-weight"]);
+    expect(active["background-color"]).toBe("rgb(12, 50, 111)");
+    expect(active.color).toBe("rgb(255, 255, 255)");
+    expect(active["font-weight"]).toBe("600");
+  });
+
+  test("hover destaca sem remover foco visível; desabilitado não navega", async ({ page }) => {
+    const next = page.getByRole("link", { name: "Próxima" });
+    await next.hover();
+    await expect
+      .poll(async () => (await css(page, "a.page-link:hover", ["background-image"]))["background-image"])
+      .toContain("rgba(19, 81, 180, 0.16)");
+    await next.focus();
+    const focus = await css(page, "a.page-link:focus-visible", ["outline-style", "outline-width", "outline-color", "outline-offset"]);
+    expect(focus).toMatchObject({ "outline-style": "dashed", "outline-width": "4px", "outline-color": "rgb(194, 133, 12)", "outline-offset": "4px" });
+    await expect(page.locator(".page-item.disabled .page-link")).toHaveAttribute("aria-disabled", "true");
+    await expect(page.locator(".page-item.active .page-link")).toHaveAttribute("aria-current", "page");
+  });
+});
+
 test("alerta: ícone de severidade nas quatro severidades e nenhum nas extensões", async ({ page }) => {
   await page.goto("/componentes/alertas.html");
   const pseudo = (cls) =>

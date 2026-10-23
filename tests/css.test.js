@@ -149,3 +149,23 @@ test("badge: aparência da tag estática GOV.BR DS e utilidades de contraste", (
   assert.equal(decl(block(css, ".badge + .badge"), "margin-left"), "4px");
   assert.match(css, /\.text-bg-warning\s*\{[^}]*color:\s*#000\s*!important/s);
 });
+
+test("paginação: links circulares, espaçados, ativo azul e foco dourado", () => {
+  const pagination = block(css, ".pagination");
+  assert.equal(decl(pagination, "gap"), "4px");
+  assert.equal(decl(pagination, "margin-bottom"), "0");
+  assert.equal(decl(pagination, "--bs-pagination-color"), "#1351b4");
+  assert.equal(decl(block(css, ".page-item:not(:first-child) .page-link"), "margin-left"), "0");
+  assert.equal(decl(pagination, "--bs-pagination-bg"), "transparent");
+  assert.equal(decl(pagination, "--bs-pagination-border-color"), "transparent");
+  const link = block(css, ".page-link");
+  assert.equal(decl(link, "min-height"), "32px");
+  assert.equal(decl(link, "min-width"), "32px");
+  assert.match(decl(block(css, ".page-link:hover:not(:disabled):not([aria-disabled=true])"), "background-image"), /rgba\(19, 81, 180, 0\.16\)/);
+  assert.equal(decl(block(css, ".page-item .page-link"), "border-radius"), "var(--bs-pagination-border-radius)");
+  assert.equal(decl(block(css, ".page-item.active .page-link, .page-link.active"), "font-weight"), "600");
+  const focus = block(css, ".page-link:focus-visible");
+  assert.equal(decl(focus, "outline"), "4px dashed #c2850c");
+  assert.equal(decl(focus, "outline-offset"), "4px");
+  assert.equal(decl(block(css, ".page-item.disabled .page-link, .page-link:disabled, .page-link[aria-disabled=true]"), "pointer-events"), "none");
+});

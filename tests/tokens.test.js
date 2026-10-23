@@ -43,6 +43,11 @@ function shadowSm() {
 // token (sem o prefixo $govbr-) -> valor esperado, lido da origem.
 const ORIGEM = {
   interactive: () => src(`${COLORS}_blue-warm-vivid.scss`, "blue-warm-vivid-70"),
+  active: () => src(`${COLORS}_blue-warm-vivid.scss`, "blue-warm-vivid-80"),
+  "hover-opacity": () => {
+    assert.equal(src(`${G}_states.scss`, "hover"), "var(--surface-opacity-xs)");
+    return src(`${G}_elevation.scss`, "opacity-xs");
+  },
   info: () => src(`${COLORS}_blue-warm-vivid.scss`, "blue-warm-vivid-60"),
   success: () => src(`${COLORS}_green-cool-vivid.scss`, "green-cool-vivid-50"),
   warning: () => src(`${COLORS}_yellow-vivid.scss`, "yellow-vivid-20"),

@@ -27,7 +27,7 @@ e o [catálogo de componentes](https://abrasileirado.github.io/dsgovbr-bootstrap
 ## Estado do projeto
 
 Em desenvolvimento ativo (MVP). A compatibilidade é parcial: consulte a
-[matriz de compatibilidade](docs/requisitos.md#6-matriz-de-compatibilidade-atual-v040)
+[matriz de compatibilidade](docs/requisitos.md#6-matriz-de-compatibilidade-atual-v050)
 para ver os subconjuntos suportados, limitações e itens fora do escopo. Consulte
 a [página de releases](https://github.com/abrasileirado/dsgovbr-bootstraped/releases)
 para obter versões e arquivos publicados.
