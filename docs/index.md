@@ -19,6 +19,7 @@ Em desenvolvimento ativo (MVP). O repositório contém fontes SCSS, CSS compilad
 - [Requisitos de software](requisitos.md): escopo, decisões registradas, requisitos verificáveis e matriz atual de compatibilidade.
 - [Desenvolvimento](desenvolvimento.md): estrutura, comandos, testes e fluxo de validação do projeto.
 - [Como contribuir](contribua.md): diretrizes iniciais para discussões, propostas, testes e pull requests.
+- [Análise de modal e navegação](analise-modal-navegacao.md): diferenças de estrutura, comportamento e acessibilidade em relação ao Bootstrap; os componentes seguem não suportados até validação própria.
 - [Componentes](componentes/index.html): catálogo demonstrativo por componente (variantes, tamanhos, estados e diferenças conhecidas em relação ao GOV.BR DS); cada página também serve como fixture de teste.
 - [Exemplos](exemplos/login.html): telas completas montadas só com classes Bootstrap, para ver os componentes compostos num caso de uso real.
 - [Comparação lado a lado](exemplos/comparacao-tema.html): o mesmo HTML renderizado com o [Bootstrap padrão](exemplos/comparacao-padrao.html) e com o dsgovbr-bootstraped.
