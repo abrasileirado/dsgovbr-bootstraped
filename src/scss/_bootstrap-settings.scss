@@ -109,6 +109,11 @@ $form-check-input-width: 24px !default;
 // sobrescrevemos o resultado final também: 24px (caixa) + 8px (espaçamento,
 // spacing-scale-base do GOV.BR DS) = 32px.
 $form-check-padding-start: 2rem !default;
+// Linha do GOV.BR DS: altura da caixa (24px) e 8px entre linhas
+// (spacing-scale-base). Os padrões do Bootstrap (21px e .125rem) são menores
+// que a caixa, e as caixas de linhas seguidas quase se tocavam.
+$form-check-min-height: 24px !default;
+$form-check-margin-bottom: 0.5rem !default;
 $form-check-input-border-radius: $govbr-radius-sm !default; // 4px (só a caixa do checkbox)
 $form-check-label-cursor: pointer !default;
 

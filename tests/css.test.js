@@ -93,6 +93,13 @@ test("checkbox e radio: caixa de 24px", () => {
   assert.equal(decl(box, "height"), "24px");
 });
 
+test("checkbox e radio: caixa centrada na linha do rótulo e 8px entre linhas", () => {
+  assert.equal(decl(block(css, ".form-check-input"), "margin-top"), "calc((var(--bs-body-line-height) * 1em - 24px) / 2)");
+  const linha = block(css, ".form-check");
+  assert.equal(decl(linha, "min-height"), "24px");
+  assert.equal(decl(linha, "margin-bottom"), "0.5rem");
+});
+
 test("alerta: sem borda e sem raio", () => {
   const alert = block(css, ".alert");
   assert.equal(decl(alert, "--bs-alert-border"), "0 solid var(--bs-alert-border-color)");

@@ -109,6 +109,18 @@ test.describe("campos e seleção", () => {
     expect((await css(page, "#check1", ["background-color"]))["background-color"]).toBe("rgb(19, 81, 180)");
   });
 
+  test("checkbox: centrado na linha do rótulo e 8px entre as linhas", async ({ page }) => {
+    const caixa = await page.locator("#check1").boundingBox();
+    const rotulo = await page.locator("label[for=check1]").boundingBox();
+    const centroCaixa = caixa.y + caixa.height / 2;
+    const centroRotulo = rotulo.y + rotulo.height / 2;
+    expect(Math.abs(centroCaixa - centroRotulo)).toBeLessThanOrEqual(1);
+    const proxima = await page.locator("#check2").boundingBox();
+    const vao = proxima.y - (caixa.y + caixa.height);
+    expect(vao).toBeGreaterThanOrEqual(7);
+    expect(vao).toBeLessThanOrEqual(9);
+  });
+
   test("teclado: espaço marca e desmarca o checkbox", async ({ page }) => {
     const c = page.locator("#check2");
     await c.focus();

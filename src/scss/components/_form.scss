@@ -28,3 +28,11 @@
 .was-validated .form-select:invalid {
   box-shadow: inset 0 0 0 1px var(--bs-form-invalid-border-color);
 }
+
+// Centraliza a caixa na primeira linha do rótulo. O Bootstrap faz
+// ($line-height-base - $form-check-input-width) * .5, que só funciona com a
+// largura em em (1.5 - 1em); com a caixa de 24px vira 1.5 - 24px = -11.25px e
+// a caixa sobe ~10px. Aqui: (altura da linha - 24px) / 2 = -1.5px.
+.form-check-input {
+  margin-top: calc((var(--bs-body-line-height) * 1em - #{$form-check-input-width}) / 2);
+}
