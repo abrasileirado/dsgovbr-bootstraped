@@ -3,7 +3,7 @@
 // Acessibilidade (RNF-02): axe-core com as regras WCAG 2.x A e AA nas páginas
 // que exercitam o tema (contraste, rótulos, nomes acessíveis, semântica).
 
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 const AxeBuilder = require("@axe-core/playwright").default;
 const { themedPages } = require("./pages");
 

@@ -5,7 +5,7 @@
 // as imagens de referência são geradas. Para regenerar:
 //   npm run test:visual:update   (precisa de Docker)
 
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 const { themedPages } = require("./pages");
 
 test.skip(!process.env.VISUAL, "visuais só rodam com VISUAL=1 (container do Playwright)");

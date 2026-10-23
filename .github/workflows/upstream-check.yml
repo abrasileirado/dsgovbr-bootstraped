@@ -24,3 +24,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: node scripts/check-upstream.js --open-issues
+
+      # A documentação carrega a fonte Rawline deste CDN (issue #34): se ele
+      # sair do ar ou mudar de endereço, o site degrada em silêncio para a
+      # fonte de reserva; aqui a falha aparece.
+      - name: CDN da fonte Rawline responde
+        run: curl --fail --silent --show-error --output /dev/null --max-time 30 https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css

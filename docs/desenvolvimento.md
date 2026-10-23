@@ -140,6 +140,14 @@ Os testes de navegador já acharam problemas reais: assets referenciados fora de
 `docs/` (404 no Pages), o JS do Bootstrap ausente nas páginas de componentes
 (alerta não fechava) e o contraste de 1,5:1 do `btn-outline-warning`.
 
+**Fonte Rawline nas páginas de docs.** As páginas (layout de componentes e
+exemplos, exceto `comparacao-padrao.html`, que mostra o Bootstrap puro) linkam
+`rawline.css` do CDN do SERPRO — a fonte não é redistribuída (DP-05). Os testes
+de navegador interceptam essa requisição com CSS vazio (`tests/browser/fixtures.js`):
+rodam offline e as capturas visuais ficam determinísticas (caem no fallback).
+`pages.spec.js` garante o `<link>` em cada página, e o `upstream-check.yml`
+semanal verifica que a URL do CDN continua respondendo.
+
 ### Análise estática (Semgrep)
 
 `.github/workflows/semgrep.yml` roda `semgrep scan --config auto` (container

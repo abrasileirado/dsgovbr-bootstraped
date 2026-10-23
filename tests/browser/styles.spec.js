@@ -4,7 +4,7 @@
 // no arquivo CSS. As alturas são aproximações deliberadas (32/40/48px — ver
 // "Diferenças conhecidas" nas páginas), por isso faixas e não valores exatos.
 
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require("./fixtures");
 
 async function css(page, selector, props) {
   return page.locator(selector).first().evaluate((el, ps) => {
