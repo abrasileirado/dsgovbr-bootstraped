@@ -4,20 +4,20 @@
 
 ## Propósito
 
-O **dsgovbr-bootstraped** pretende fornecer uma camada de integração entre o Bootstrap 5 e a linguagem visual do Padrão Digital de Governo (GOV.BR DS). O objetivo é permitir que aplicações continuem usando a API de classes do Bootstrap, como `.btn`, `.form-control` e `.alert`, enquanto adotam, nos componentes explicitamente suportados, tokens e características visuais derivados do GOV.BR DS.
+O **dsgovbr-bootstraped** fornece uma camada de integração visual entre o Bootstrap 5 e o Padrão Digital de Governo (GOV.BR DS). Aplicações continuam usando a API de classes do Bootstrap, como `.btn`, `.form-control` e `.alert`, enquanto adotam, nos subconjuntos explicitamente suportados, tokens e características visuais derivados do GOV.BR DS.
 
 O projeto **não** pressupõe que juntar os arquivos SCSS dos dois projetos produza componentes equivalentes. Estilos, estrutura HTML e comportamento JavaScript são contratos diferentes; a compatibilidade será analisada e documentada por componente.
 
 ## Estado do projeto
 
-Em especificação. A existência deste documento não indica que o pacote npm, os arquivos CSS/SCSS, a documentação de componentes ou a automação de publicação já estejam disponíveis.
+Em desenvolvimento ativo (MVP). O repositório contém fontes SCSS, CSS compilado, documentação demonstrativa, testes automatizados e automação de publicação. A compatibilidade é parcial e limitada aos componentes e variantes identificados como suportados na matriz; não implica equivalência geral nem homologação oficial.
 
 ## Documentos
 
 - [Getting Started](getting-started.md): como instalar e usar o pacote (ou, por enquanto, como compilá-lo a partir do repositório).
 - [Setup de desenvolvimento](setup.md): como clonar, compilar e visualizar localmente para contribuir com código.
-- [Requisitos de software](requisitos.md): escopo, decisões em aberto, requisitos verificáveis, matriz inicial de componentes e critérios para o MVP.
-- [Desenvolvimento](desenvolvimento.md): proposta inicial de organização, comandos planejados e fluxo de validação; não é ainda um manual de instalação de uma implementação pronta.
+- [Requisitos de software](requisitos.md): escopo, decisões registradas, requisitos verificáveis e matriz atual de compatibilidade.
+- [Desenvolvimento](desenvolvimento.md): estrutura, comandos, testes e fluxo de validação do projeto.
 - [Como contribuir](contribua.md): diretrizes iniciais para discussões, propostas, testes e pull requests.
 - [Componentes](componentes/index.html): catálogo demonstrativo por componente (variantes, tamanhos, estados e diferenças conhecidas em relação ao GOV.BR DS); cada página também serve como fixture de teste.
 - [Exemplos](exemplos/login.html): telas completas montadas só com classes Bootstrap, para ver os componentes compostos num caso de uso real.

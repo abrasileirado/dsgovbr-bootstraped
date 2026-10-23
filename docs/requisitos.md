@@ -47,23 +47,25 @@ A composição SCSS dos projetos é uma oportunidade de reaproveitamento, **não
 - Qualquer versão que contenha CSS pronto deverá informar se ele é **autônomo** (inclui Bootstrap) ou **camada adicional** (exige Bootstrap carregado separadamente), com ordem de carregamento e cobertura demonstradas.
 - Cores, medidas e nomes de tokens nos artefatos finais devem vir das fontes versionadas escolhidas; não são definidos por suposição neste documento.
 
-## 6. Matriz inicial de compatibilidade
+## 6. Matriz de compatibilidade atual (v0.3.0)
 
-Legenda: **A** = adaptação principalmente por tokens/SCSS; **B** = exige convenção de markup e validação por componente; **C** = adaptação estrutural e/ou comportamental relevante; **D** = fora do escopo inicial. Classificações são hipóteses a verificar, não garantia de implementação.
+Legenda de esforço: **A** = adaptação principalmente por tokens/SCSS; **B** = exige convenção de markup e validação por componente; **C** = adaptação estrutural e/ou comportamental relevante; **D** = fora do escopo atual. O status descreve o que foi implementado e verificado neste projeto; não implica equivalência integral com GOV.BR DS. Referências upstream consideradas: Bootstrap v5.3.8 e `@govbr-ds/core` v3.7.0.
 
-| Área | API Bootstrap pretendida | Referência GOV.BR DS | Classe inicial | MVP | Condição para declarar suporte |
+| Área | API Bootstrap pretendida | Referência GOV.BR DS | Esforço | Status atual | Limite / condição para ampliar suporte |
 |---|---|---|---|---|---|
-| Fundamentos | Tokens e variáveis Bootstrap | Tokens de design | A | Sim | Mapeamento versionado, origem registrada e testes de compilação. |
-| Layout | `.container`, `.row`, `.col-*` | Princípios de layout | A | Manter Bootstrap | Documentar divergências — os breakpoints do GOV.BR DS (xs:0, sm:576, md:992, lg:1280, xl:1600) não correspondem numericamente aos do Bootstrap (sm:576, md:768, lg:992, xl:1200, xxl:1400) além do `sm` compartilhado; não prometer identidade de grid. |
-| Botões | `.btn` e variantes selecionadas | Button | B | Sim | Variantes e estados testados; mapeamento de ênfases explícito. |
-| Texto e formulários | `.form-control`, `.form-label` | Input | B | Sim | Estados, labels, ajuda e erro testados sem dependência oculta de `.br-input`. |
-| Seleção | `.form-check`, `.form-check-input` | Checkbox e Radio | B | Sim | Foco, marcação, desabilitado e uso por teclado verificados. |
-| Feedback | `.alert` e variantes selecionadas | Message | B | Sim | Severidades e eventual ícone/fechamento documentados. |
-| Conteúdo | `.card` e partes selecionadas | Card | B | Sim | Anatomia suportada e variações aceitas explicitadas. |
-| Modal | `.modal` e plugin Bootstrap | Modal | C | Não | Projeto e testes próprios de markup, foco e comportamento. |
-| Menu/header | `.navbar`, `.dropdown` | Header/menu | C/D | Não | Decisão arquitetural específica e testes de interação. |
+| Fundamentos | Tokens e variáveis Bootstrap | Fundamentos visuais / tokens | A | Limitado | Mapeamento versionado, origem registrada e testes de compilação; não cobre todos os tokens do GOV.BR DS. |
+| Layout | `.container`, `.row`, `.col-*` | Grid e layout | A | Não suportado (Bootstrap sem adaptação) | Preservam-se as classes Bootstrap, mas não se promete paridade visual: breakpoints GOV.BR DS (xs:0, sm:576, md:992, lg:1280, xl:1600) diferem dos Bootstrap (sm:576, md:768, lg:992, xl:1200, xxl:1400). |
+| Botões | `.btn` e variantes selecionadas | Button | B | Limitado | Apenas variantes e estados documentados e testados; `btn-secondary` mantém o padrão Bootstrap. |
+| Texto e formulários | `.form-control`, `.form-label` | Input | B | Limitado | Estados, labels, ajuda e erro testados sem exigir `.br-input`; diferenças visuais conhecidas permanecem documentadas. |
+| Seleção | `.form-check`, `.form-check-input` | Checkbox e Radio | B | Limitado | Conjunto atual verificado para foco, marcação, desabilitado, teclado e alinhamento; sem equivalência geral de markup. |
+| Feedback | `.alert` e variantes selecionadas | Message | B | Limitado | Severidades e ícones adaptados; fechamento requer o JavaScript Bootstrap e segue seu comportamento. |
+| Conteúdo | `.card` e partes selecionadas | Card | B | Limitado | Apenas anatomia e variações demonstradas na documentação. |
+| Badge/tag | `.badge` Bootstrap | Tag | B/C | Planejado | Começar pelo badge estático. Tag selecionável, removível ou interativa exige markup, semântica e comportamento próprios; não converter automaticamente para `.br-tag`. |
+| Paginação | `.pagination`, `.page-item`, `.page-link` | Pagination | B/C | Planejado | Avaliar primeiro paginação Bootstrap estática. Elipses, seletor de itens por página, dropdown e lógica de navegação do DS não são cobertos por uma adaptação visual simples. |
+| Modal | `.modal` e plugin Bootstrap | Modal | C | Não suportado | Requer análise própria de markup, foco, teclado, ciclo de vida e diferenças entre os plugins; sem promessa de substituir o comportamento Bootstrap. |
+| Navegação | `.navbar`, `.dropdown` | Header/menu | C/D | Não suportado | Análise arquitetural separada, incluindo responsividade, estados, foco e interação; não implementar como parte de badge/paginação. |
 
-O suporte não é global: cada componente terá status **planejado**, **experimental**, **estável**, **limitado** ou **não suportado**. Apenas componentes com critérios atendidos poderão ser anunciados como estáveis.
+O suporte é por subconjunto e versão: **planejado** significa ainda sem adaptação; **experimental**, implementado sem cobertura suficiente; **limitado**, apenas variantes/estados enumerados e verificados; **estável**, critérios completos atendidos; **não suportado**, sem adaptação GOV.BR DS. Apenas componentes com critérios atendidos poderão ser anunciados como estáveis. A ordem recomendada para novas adaptações é badge estático antes de paginação estática; interações específicas do GOV.BR DS ficam fora até análise e testes próprios.
 
 ## 7. Requisitos funcionais
 
