@@ -1,0 +1,17 @@
+// Adapta somente o badge estático do Bootstrap ao formato padrão de .br-tag.
+// Variantes .text-bg-* permanecem sob controle das utilidades Bootstrap, que
+// escolhem a cor de texto para manter contraste conforme o fundo escolhido.
+.badge {
+  align-items: center;
+  background-color: $govbr-tag-background;
+  display: inline-flex;
+  font-size: $govbr-font-size-base;
+  line-height: inherit;
+  margin: 0;
+  min-height: $govbr-spacer * 3.5;
+  padding: 0 $govbr-spacer * 1.5;
+}
+
+.badge + .badge {
+  margin-left: $govbr-spacer * 0.5;
+}

@@ -66,6 +66,15 @@ $btn-padding-y: 0.5rem !default;     // ~40px de altura total (padrão)
 $btn-padding-y-sm: 0.375rem !default; // ~32px de altura total
 $btn-padding-y-lg: 0.625rem !default; // ~48px de altura total
 
+// Badge estático alinhado à tag padrão do GOV.BR DS (issue #36). As classes
+// utilitárias Bootstrap .text-bg-* continuam responsáveis pelas variantes.
+$badge-color: $govbr-background !default;
+$badge-font-size: $govbr-font-size-base !default;
+$badge-font-weight: $govbr-font-weight-medium !default;
+$badge-padding-x: 0.75rem !default; // spacing-scale-baseh = 12px
+$badge-padding-y: 0 !default;
+$badge-border-radius: $govbr-radius-sm !default;
+
 // Diferença conhecida e documentada (não replicada nesta issue): o GOV.BR DS
 // usa border: 0 por padrão e cor de foco dourada (--focus-color-light,
 // gold-vivid-40 #c2850c) com contorno tracejado; o Bootstrap mantém sua

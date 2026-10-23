@@ -160,6 +160,25 @@ test("alerta: sem borda e sem raio; fechar remove o alerta", async ({ page }) =>
   await expect(fechavel).toHaveCount(0);
 });
 
+test("badge estático: aparência GOV.BR DS e variantes Bootstrap preservam contraste", async ({ page }) => {
+  await page.goto("/componentes/badges.html");
+  const base = await css(page, ".badge:not([class*=text-bg-])", ["background-color", "color", "border-radius", "font-size", "font-weight", "line-height", "padding"]);
+  expect(base["background-color"]).toBe("rgb(7, 29, 65)");
+  expect(base.color).toBe("rgb(255, 255, 255)");
+  expect(base["border-radius"]).toBe("4px");
+  expect(base["font-size"]).toBe("14px");
+  expect(base["font-weight"]).toBe("500");
+  expect(base["line-height"]).toBe("21px");
+  expect(base.padding).toBe("0px 12px");
+  const altura = await page.locator(".badge:not([class*=text-bg-])").evaluate((el) => el.getBoundingClientRect().height);
+  expect(altura).toBe(28);
+  const warning = await css(page, ".badge.text-bg-warning", ["background-color", "color"]);
+  expect(warning.color).toBe("rgb(0, 0, 0)");
+  const counter = page.locator("button.btn .badge");
+  await expect(counter).toHaveText("4");
+  await expect(page.locator("button.btn")).toHaveAccessibleName("Mensagens 4");
+});
+
 test("alerta: ícone de severidade nas quatro severidades e nenhum nas extensões", async ({ page }) => {
   await page.goto("/componentes/alertas.html");
   const pseudo = (cls) =>

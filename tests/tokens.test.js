@@ -48,6 +48,7 @@ const ORIGEM = {
   warning: () => src(`${COLORS}_yellow-vivid.scss`, "yellow-vivid-20"),
   danger: () => src(`${COLORS}_red-vivid.scss`, "red-vivid-50"),
   "warning-text": () => src(`${COLORS}_yellow-vivid.scss`, "yellow-vivid-60"),
+  "tag-background": () => src(`${COLORS}_blue-warm-vivid.scss`, "blue-warm-vivid-90"),
   "gray-90": () => src(`${COLORS}_gray.scss`, "gray-90"),
   "gray-80": () => src(`${COLORS}_gray.scss`, "gray-80"),
   "gray-40": () => src(`${COLORS}_gray.scss`, "gray-40"),

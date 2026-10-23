@@ -132,3 +132,20 @@ test("sombras do Bootstrap seguem desligadas (botão e campo não ganham sombra)
   assert.equal(decl(block(css, ".btn"), "box-shadow"), undefined);
   assert.equal(decl(block(css, ".form-control"), "box-shadow"), undefined);
 });
+
+test("badge: aparência da tag estática GOV.BR DS e utilidades de contraste", () => {
+  const badge = block(css, ".badge");
+  assert.equal(decl(badge, "background-color"), "#071d41");
+  assert.equal(decl(badge, "--bs-badge-color"), "#fff");
+  assert.equal(decl(badge, "color"), "var(--bs-badge-color)");
+  assert.equal(decl(badge, "--bs-badge-border-radius"), "4px");
+  assert.equal(decl(badge, "border-radius"), "var(--bs-badge-border-radius)");
+  assert.equal(decl(badge, "font-size"), "14px");
+  assert.equal(decl(badge, "--bs-badge-font-weight"), "500");
+  assert.equal(decl(badge, "font-weight"), "var(--bs-badge-font-weight)");
+  assert.equal(decl(badge, "line-height"), "inherit");
+  assert.equal(decl(badge, "min-height"), "28px");
+  assert.equal(decl(badge, "padding"), "0 12px");
+  assert.equal(decl(block(css, ".badge + .badge"), "margin-left"), "4px");
+  assert.match(css, /\.text-bg-warning\s*\{[^}]*color:\s*#000\s*!important/s);
+});

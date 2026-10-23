@@ -6,7 +6,7 @@
   estados e as diferenças conhecidas em relação à referência do GOV.BR DS
   para cada componente Bootstrap suportado. Nenhuma página exige classes
   <code>.br-*</code> (RF-03). Esta tabela resume a matriz completa de
-  <a href="../requisitos.md#6-matriz-inicial-de-compatibilidade">docs/requisitos.md §6</a>.
+  <a href="../requisitos.md#6-matriz-de-compatibilidade-atual-v040">docs/requisitos.md §6</a>.
 </p>
 <p>
   <strong>Legenda de status:</strong> <em>Planejado</em> (ainda não
@@ -23,56 +23,62 @@
     <tr>
       <td>Fundamentos</td>
       <td>Tokens e variáveis Bootstrap</td>
-      <td>Estável</td>
+      <td>Limitado</td>
       <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/3">#3</a></td>
     </tr>
-    <tr>
+    <tr class="status-nao-suportado">
       <td>Layout</td>
       <td><code>.container</code>, <code>.row</code>, <code>.col-*</code></td>
-      <td>Estável <small>(mantido igual ao Bootstrap — sem adaptação)</small></td>
+      <td>Não suportado <small>(mantido Bootstrap; sem paridade visual)</small></td>
       <td>—</td>
     </tr>
     <tr>
       <td>Botões</td>
       <td><a href="botao.html"><code>.btn</code> e variantes</a></td>
-      <td>Experimental</td>
+      <td>Limitado</td>
       <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/3">#3</a></td>
     </tr>
     <tr>
       <td>Texto e formulários</td>
       <td><a href="formularios.html"><code>.form-control</code>, <code>.form-label</code></a></td>
-      <td>Experimental</td>
+      <td>Limitado</td>
       <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/4">#4</a></td>
     </tr>
     <tr>
       <td>Seleção</td>
       <td><a href="formularios.html"><code>.form-check</code>, <code>.form-check-input</code></a></td>
-      <td>Experimental</td>
+      <td>Limitado</td>
       <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/4">#4</a></td>
     </tr>
     <tr>
       <td>Feedback</td>
       <td><a href="alertas.html"><code>.alert</code> e variantes</a></td>
-      <td>Experimental</td>
+      <td>Limitado</td>
       <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/5">#5</a></td>
+    </tr>
+    <tr>
+      <td>Badge/tag</td>
+      <td><a href="badges.html"><code>.badge</code> estático</a></td>
+      <td>Limitado <small>(variantes documentadas; sem interação)</small></td>
+      <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/36">#36</a></td>
     </tr>
     <tr>
       <td>Conteúdo</td>
       <td><a href="cards.html"><code>.card</code> e partes</a></td>
-      <td>Experimental</td>
+      <td>Limitado</td>
       <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/5">#5</a></td>
     </tr>
     <tr class="status-nao-suportado">
       <td>Modal</td>
       <td><code>.modal</code> e plugin Bootstrap</td>
       <td>Não suportado <small>(fora do MVP)</small></td>
-      <td>—</td>
+      <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/38">#38 (análise)</a></td>
     </tr>
     <tr class="status-nao-suportado">
       <td>Menu/header</td>
       <td><code>.navbar</code>, <code>.dropdown</code></td>
       <td>Não suportado <small>(fora do MVP)</small></td>
-      <td>—</td>
+      <td><a href="https://github.com/abrasileirado/dsgovbr-bootstraped/issues/38">#38 (análise)</a></td>
     </tr>
   </tbody>
 </table>

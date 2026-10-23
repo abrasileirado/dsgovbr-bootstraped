@@ -47,7 +47,7 @@ A composição SCSS dos projetos é uma oportunidade de reaproveitamento, **não
 - Qualquer versão que contenha CSS pronto deverá informar se ele é **autônomo** (inclui Bootstrap) ou **camada adicional** (exige Bootstrap carregado separadamente), com ordem de carregamento e cobertura demonstradas.
 - Cores, medidas e nomes de tokens nos artefatos finais devem vir das fontes versionadas escolhidas; não são definidos por suposição neste documento.
 
-## 6. Matriz de compatibilidade atual (v0.3.0)
+## 6. Matriz de compatibilidade atual (v0.4.0)
 
 Legenda de esforço: **A** = adaptação principalmente por tokens/SCSS; **B** = exige convenção de markup e validação por componente; **C** = adaptação estrutural e/ou comportamental relevante; **D** = fora do escopo atual. O status descreve o que foi implementado e verificado neste projeto; não implica equivalência integral com GOV.BR DS. Referências upstream consideradas: Bootstrap v5.3.8 e `@govbr-ds/core` v3.7.0.
 
@@ -60,7 +60,7 @@ Legenda de esforço: **A** = adaptação principalmente por tokens/SCSS; **B** =
 | Seleção | `.form-check`, `.form-check-input` | Checkbox e Radio | B | Limitado | Conjunto atual verificado para foco, marcação, desabilitado, teclado e alinhamento; sem equivalência geral de markup. |
 | Feedback | `.alert` e variantes selecionadas | Message | B | Limitado | Severidades e ícones adaptados; fechamento requer o JavaScript Bootstrap e segue seu comportamento. |
 | Conteúdo | `.card` e partes selecionadas | Card | B | Limitado | Apenas anatomia e variações demonstradas na documentação. |
-| Badge/tag | `.badge` Bootstrap | Tag | B/C | Planejado | Começar pelo badge estático. Tag selecionável, removível ou interativa exige markup, semântica e comportamento próprios; não converter automaticamente para `.br-tag`. |
+| Badge/tag | `.badge` Bootstrap | Tag | B/C | Limitado | Badge estático: fundo padrão, variantes `.text-bg-*` e contador; sem interação. Tag selecionável, removível ou interativa exige markup, semântica e comportamento próprios; não converter automaticamente para `.br-tag`. |
 | Paginação | `.pagination`, `.page-item`, `.page-link` | Pagination | B/C | Planejado | Avaliar primeiro paginação Bootstrap estática. Elipses, seletor de itens por página, dropdown e lógica de navegação do DS não são cobertos por uma adaptação visual simples. |
 | Modal | `.modal` e plugin Bootstrap | Modal | C | Não suportado | Requer análise própria de markup, foco, teclado, ciclo de vida e diferenças entre os plugins; sem promessa de substituir o comportamento Bootstrap. |
 | Navegação | `.navbar`, `.dropdown` | Header/menu | C/D | Não suportado | Análise arquitetural separada, incluindo responsividade, estados, foco e interação; não implementar como parte de badge/paginação. |

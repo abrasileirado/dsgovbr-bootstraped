@@ -1,0 +1,50 @@
+<!-- title: Componente: Badge — dsgovbr-bootstraped -->
+<h1>Badge estático (<code>.badge</code>)</h1>
+<p>
+  Adaptação visual do badge Bootstrap para a tag padrão do GOV.BR DS. Mantém
+  somente classes públicas Bootstrap e não requer JavaScript nem classes
+  <code>.br-*</code>.
+</p>
+
+<section>
+  <h2>Padrão e variantes</h2>
+  <p>
+    <span class="badge">Padrão</span>
+    <span class="badge text-bg-primary">Primário</span>
+    <span class="badge text-bg-secondary">Secundário</span>
+    <span class="badge text-bg-success">Sucesso</span>
+    <span class="badge text-bg-danger">Erro</span>
+    <span class="badge text-bg-warning">Atenção</span>
+    <span class="badge text-bg-info">Informação</span>
+    <span class="badge text-bg-light">Claro</span>
+    <span class="badge text-bg-dark">Escuro</span>
+  </p>
+</section>
+
+<section>
+  <h2>Contador em um botão</h2>
+  <button type="button" class="btn btn-primary">
+    Mensagens <span class="badge text-bg-light">4</span>
+  </button>
+  <p>O badge continua informativo; a ação e o foco pertencem ao botão Bootstrap.</p>
+</section>
+
+<section>
+  <h2>Uso acessível</h2>
+  <p>
+    O texto sempre identifica o significado da variante; a cor não é o único
+    indicador. Para fundos coloridos, use <code>.text-bg-*</code>, que escolhe
+    texto contrastante. Não use esta adaptação para tags removíveis,
+    selecionáveis ou com interação própria.
+  </p>
+</section>
+
+<section>
+  <h2>Diferenças e limites em relação ao GOV.BR DS</h2>
+  <ul>
+    <li>Este suporte cobre somente o badge estático: fundo padrão, variantes de cor e contador.</li>
+    <li>As variantes <code>.text-bg-*</code> usam as cores e o cálculo de contraste do Bootstrap; não reproduzem todos os estados de cor da tag GOV.BR DS.</li>
+    <li>Tags selecionáveis, removíveis, de status circular, contagem com comportamento especial e interação não são suportadas.</li>
+    <li>O badge não recebe foco nem papel interativo próprio; controles interativos continuam sendo elementos Bootstrap separados.</li>
+  </ul>
+</section>

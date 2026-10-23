@@ -32,6 +32,14 @@ test("há páginas para testar", () => {
   expect(allPages.length).toBeGreaterThan(5);
 });
 
+test("catálogo abre a demonstração do badge", async ({ page }) => {
+  await page.goto("/componentes/index.html");
+  const link = page.getByRole("link", { name: ".badge estático" });
+  await expect(link).toHaveAttribute("href", "badges.html");
+  await link.click();
+  await expect(page.getByRole("heading", { name: "Badge estático (.badge)" })).toBeVisible();
+});
+
 for (const url of allPages) {
   test(`${url} carrega sem 404 nem erro de console`, async ({ page }) => {
     const problemas = [];
