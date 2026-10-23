@@ -106,6 +106,20 @@ test("alerta: sem borda e sem raio", () => {
   assert.equal(decl(alert, "--bs-alert-border-radius"), "0");
 });
 
+test("alerta: ícone de severidade por ::before (máscara SVG), só nas quatro severidades", () => {
+  const cores = { success: "var(--bs-success)", danger: "var(--bs-danger)", info: "var(--bs-info)", warning: "var(--bs-body-color)" };
+  for (const [nome, cor] of Object.entries(cores)) {
+    const icone = block(css, `.alert-${nome}::before`);
+    assert.equal(decl(icone, "content"), '""', nome);
+    assert.equal(decl(icone, "background-color"), cor, nome);
+    assert.ok(decl(icone, "mask").startsWith('url("data:image/svg+xml,'), `${nome}: mask`);
+    assert.ok(decl(icone, "-webkit-mask").startsWith('url("data:image/svg+xml,'), `${nome}: -webkit-mask`);
+  }
+  for (const extensao of ["primary", "secondary", "light", "dark"]) {
+    assert.ok(!css.includes(`.alert-${extensao}::before`), extensao);
+  }
+});
+
 test("card: sem borda, sem raio, sombra aplicada sem depender de $enable-shadows", () => {
   const card = block(css, ".card");
   assert.equal(decl(card, "--bs-card-border-width"), "0");

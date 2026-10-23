@@ -39,7 +39,7 @@
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-06)</h2>
   <ul>
     <li>Fundo/texto: o GOV.BR DS tinge o fundo com <code>--{cor}-alternative</code>; o Bootstrap 5.3 usa seu próprio sistema de cores "subtle"/"emphasis" derivado das mesmas cores de tema — visualmente próximo, mas não pixel-a-pixel idêntico.</li>
-    <li>Ícone: o GOV.BR DS sempre mostra um ícone à esquerda da mensagem; o <code>.alert</code> do Bootstrap não inclui ícone por padrão. Não replicado nesta issue.</li>
+    <li>Ícone: no GOV.BR DS o ícone é um elemento do markup (<code>.icon</code>, com Font Awesome). Aqui ele sai de um <code>::before</code> com formas SVG próprias (sem Font Awesome e sem markup novo), nas quatro severidades — <strong>sempre presente</strong>, sem opção de ocultar; <code>alert-primary/secondary/light/dark</code> ficam sem ícone. O ícone é decorativo: a severidade continua no texto e no <code>role="alert"</code>.</li>
     <li>Botão de fechar: o comportamento (<code>data-bs-dismiss</code>) é do próprio Bootstrap; o GOV.BR DS usa seu próprio componente de botão para isso.</li>
   </ul>
 </section>

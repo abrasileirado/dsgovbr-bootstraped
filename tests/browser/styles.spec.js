@@ -160,6 +160,28 @@ test("alerta: sem borda e sem raio; fechar remove o alerta", async ({ page }) =>
   await expect(fechavel).toHaveCount(0);
 });
 
+test("alerta: ícone de severidade nas quatro severidades e nenhum nas extensões", async ({ page }) => {
+  await page.goto("/componentes/alertas.html");
+  const pseudo = (cls) =>
+    page.locator(`.alert-${cls}`).first().evaluate((el) => {
+      const cs = getComputedStyle(el, "::before");
+      return { content: cs.content, largura: cs.width, mascara: cs.maskImage, recuo: getComputedStyle(el).paddingLeft };
+    });
+  for (const cls of ["success", "danger", "warning", "info"]) {
+    const p = await pseudo(cls);
+    expect(p.content, cls).toBe('""');
+    expect(p.largura, cls).toBe("20px");
+    expect(p.mascara, cls).toContain("data:image/svg+xml");
+    expect(p.recuo, cls).toBe("48px"); // 16px de padding + 20px do ícone + 12px de respiro
+  }
+  for (const cls of ["primary", "secondary", "light", "dark"]) {
+    const p = await page.locator(`.alert-${cls}`).count();
+    if (p > 0) {
+      expect((await pseudo(cls)).content, cls).toBe("none");
+    }
+  }
+});
+
 test("card: sem borda e sem raio, com sombra suave", async ({ page }) => {
   await page.goto("/componentes/cards.html");
   const s = await css(page, ".card", ["border-top-width", "border-top-left-radius", "box-shadow"]);
