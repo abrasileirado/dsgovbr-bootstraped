@@ -47,7 +47,7 @@ A composição SCSS dos projetos é uma oportunidade de reaproveitamento, **não
 - Qualquer versão que contenha CSS pronto deverá informar se ele é **autônomo** (inclui Bootstrap) ou **camada adicional** (exige Bootstrap carregado separadamente), com ordem de carregamento e cobertura demonstradas.
 - Cores, medidas e nomes de tokens nos artefatos finais devem vir das fontes versionadas escolhidas; não são definidos por suposição neste documento.
 
-## 6. Matriz de compatibilidade atual (v0.5.0)
+## 6. Matriz de compatibilidade atual (v0.5.1)
 
 Legenda de esforço: **A** = adaptação principalmente por tokens/SCSS; **B** = exige convenção de markup e validação por componente; **C** = adaptação estrutural e/ou comportamental relevante; **D** = fora do escopo atual. O status descreve o que foi implementado e verificado neste projeto; não implica equivalência integral com GOV.BR DS. Referências upstream consideradas: Bootstrap v5.3.8 e `@govbr-ds/core` v3.7.0.
 
@@ -62,10 +62,10 @@ Legenda de esforço: **A** = adaptação principalmente por tokens/SCSS; **B** =
 | Conteúdo | `.card` e partes selecionadas | Card | B | Limitado | Apenas anatomia e variações demonstradas na documentação. |
 | Badge/tag | `.badge` Bootstrap | Tag | B/C | Limitado | Badge estático: fundo padrão, variantes `.text-bg-*` e contador; sem interação. Tag selecionável, removível ou interativa exige markup, semântica e comportamento próprios; não converter automaticamente para `.br-tag`. |
 | Paginação | `.pagination`, `.page-item`, `.page-link` | Pagination | B/C | Limitado | Estados ativo, desabilitado, foco e hover adaptados para paginação estática. Sem seletor de itens por página, dropdowns de reticências ou lógica de navegação do DS; variantes pequenas/grandes preservam os paddings Bootstrap. |
-| Modal | `.modal` e plugin Bootstrap | Modal | C | Não suportado | Requer análise própria de markup, foco, teclado, ciclo de vida e diferenças entre os plugins; sem promessa de substituir o comportamento Bootstrap. |
-| Navegação | `.navbar`, `.dropdown` | Header/menu | C/D | Não suportado | Análise arquitetural separada, incluindo responsividade, estados, foco e interação; não implementar como parte de badge/paginação. |
+| Modal | `.modal` e plugin Bootstrap | Modal + Scrim | C | Não suportado | Análise #38: manter o plugin Bootstrap; visual GOV.BR DS exige fixture e testes de backdrop, ciclo de vida, rolagem e foco. Não converter para `.br-modal`/`.br-scrim`. Ver [análise](analise-modal-navegacao.md#modal). |
+| Navegação | `.navbar`, `.dropdown` | Header/menu | C/D | Não suportado | Análise #38 recomenda avaliar navbar simples e dropdown plano em issues separadas, preservando plugins Bootstrap. `.br-header`, `.br-menu`, menu push/contextual e hierarquia seguem fora do suporte. Ver [análise](analise-modal-navegacao.md#navbar-dropdown-header-e-menu). |
 
-O suporte é por subconjunto e versão: **planejado** significa ainda sem adaptação; **experimental**, implementado sem cobertura suficiente; **limitado**, apenas variantes/estados enumerados e verificados; **estável**, critérios completos atendidos; **não suportado**, sem adaptação GOV.BR DS. Apenas componentes com critérios atendidos poderão ser anunciados como estáveis. Paginação cobre somente estados estáticos e não implementa interações específicas do GOV.BR DS.
+O suporte é por subconjunto e versão: **planejado** significa ainda sem adaptação; **experimental**, implementado sem cobertura suficiente; **limitado**, apenas variantes/estados enumerados e verificados; **estável**, critérios completos atendidos; **não suportado**, sem adaptação GOV.BR DS. Apenas componentes com critérios atendidos poderão ser anunciados como estáveis. Paginação cobre somente estados estáticos e não implementa interações específicas do GOV.BR DS. A análise de modal e navegação está em [analise-modal-navegacao.md](analise-modal-navegacao.md); as possibilidades propostas ali não alteram o status da matriz.
 
 ## 7. Requisitos funcionais
 
