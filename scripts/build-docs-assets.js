@@ -16,6 +16,8 @@ const COPIES = [
   // Bootstrap puro, para a página de comparação "antes/depois", e seu JS
   ["vendor/bootstrap/dist/css/bootstrap.min.css", "docs/assets/vendor/bootstrap/css/bootstrap.min.css"],
   ["vendor/bootstrap/dist/js/bootstrap.bundle.min.js", "docs/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"],
+  // chave de tema e inicialização de plugins do catálogo (docs/componentes/)
+  ["src/site/catalogo.js", "docs/assets/js/catalogo.js"],
   // aviso de licença do que é redistribuído no site (MIT)
   ["vendor/bootstrap/LICENSE", "docs/assets/vendor/bootstrap/LICENSE"],
 ];

@@ -1,0 +1,60 @@
+<!-- title: Componente: Progresso — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: progress -->
+<h1>Barra de progresso (<code>.progress</code>)</h1>
+<p>
+  Indica o andamento de uma tarefa. Referência no GOV.BR DS:
+  <em>Loading</em> com porcentagem (circular).
+</p>
+
+<section>
+  <h2>Valores e rótulo</h2>
+  <div class="progress catalogo-exemplo" role="progressbar" aria-label="Progresso sem texto" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar" style="width: 25%"></div>
+  </div>
+  <div class="progress catalogo-exemplo" role="progressbar" aria-label="Envio do arquivo" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar" style="width: 60%">60%</div>
+  </div>
+  <div class="progress catalogo-exemplo" role="progressbar" aria-label="Progresso mais alto" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="height: 20px">
+    <div class="progress-bar" style="width: 80%"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Cores, listras e animação</h2>
+  <div class="progress catalogo-exemplo" role="progressbar" aria-label="Sucesso" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar bg-success" style="width: 100%"></div>
+  </div>
+  <div class="progress catalogo-exemplo" role="progressbar" aria-label="Atenção" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar text-bg-warning" style="width: 50%">50%</div>
+  </div>
+  <div class="progress catalogo-exemplo" role="progressbar" aria-label="Listrada" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar progress-bar-striped" style="width: 40%"></div>
+  </div>
+  <div class="progress catalogo-exemplo" role="progressbar" aria-label="Listrada animada" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Empilhada (<code>.progress-stacked</code>)</h2>
+  <div class="progress-stacked">
+    <div class="progress" role="progressbar" aria-label="Etapa 1" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: 15%">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="progress" role="progressbar" aria-label="Etapa 2" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
+      <div class="progress-bar bg-success"></div>
+    </div>
+    <div class="progress" role="progressbar" aria-label="Etapa 3" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+      <div class="progress-bar bg-info"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O GOV.BR DS mostra progresso com o <em>Loading</em> circular e porcentagem no centro; não há barra linear equivalente.</li>
+    <li>As cores vêm dos tokens globais.</li>
+  </ul>
+</section>

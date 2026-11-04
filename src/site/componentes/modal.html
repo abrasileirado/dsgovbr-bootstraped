@@ -1,0 +1,77 @@
+<!-- title: Componente: Modal — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: modal -->
+<h1>Modal (<code>.modal</code>)</h1>
+<p>
+  Janela de diálogo com o plugin Modal do Bootstrap. Referência no
+  GOV.BR DS: <em>Modal</em> com <em>Scrim</em>. Ver a
+  <a href="../analise-modal-navegacao.md#modal">análise do modal</a>.
+</p>
+
+<section>
+  <h2>Interativo</h2>
+  <p>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-exemplo">Abrir modal</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal-estatico">Abrir modal estático</button>
+  </p>
+
+  <div class="modal fade" id="modal-exemplo" tabindex="-1" aria-labelledby="modal-exemplo-titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="modal-exemplo-titulo">Confirmar envio</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">Depois de enviada, a solicitação não poderá ser alterada.</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-estatico" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-estatico-titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="modal-estatico-titulo">Termos de uso</h2>
+        </div>
+        <div class="modal-body">
+          <p>Fundo estático: clicar fora ou apertar Esc não fecha este modal.</p>
+          <p>Com <code>.modal-dialog-scrollable</code>, só o corpo rola quando o conteúdo é longo.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Li e concordo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Estático (sem plugin, para comparação visual)</h2>
+  <div class="modal position-static d-block" tabindex="-1" role="presentation">
+    <div class="modal-dialog m-0">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title fs-5">Título do modal</h3>
+          <button type="button" class="btn-close" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">Corpo do modal.</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary">Cancelar</button>
+          <button type="button" class="btn btn-primary">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O fundo escurecido é o backdrop do Bootstrap, não o <em>Scrim</em> do GOV.BR DS.</li>
+    <li>Cabeçalho, raio e sombras seguem o Bootstrap; o <em>Modal</em> do GOV.BR DS tem título maior e ações alinhadas à direita sem divisor.</li>
+  </ul>
+</section>

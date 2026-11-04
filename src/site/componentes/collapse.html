@@ -1,0 +1,55 @@
+<!-- title: Componente: Collapse — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: collapse -->
+<h1>Collapse (<code>.collapse</code>)</h1>
+<p>
+  Mostra e esconde conteúdo com o plugin Collapse do Bootstrap. No
+  GOV.BR DS, é o comportamento <em>collapse</em> usado por vários
+  componentes.
+</p>
+
+<section>
+  <h2>Acionado por link e por botão</h2>
+  <p>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse-exemplo" role="button" aria-expanded="false" aria-controls="collapse-exemplo">Link com href</a>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-exemplo" aria-expanded="false" aria-controls="collapse-exemplo">Botão com data-bs-target</button>
+  </p>
+  <div class="collapse" id="collapse-exemplo">
+    <div class="card card-body">Conteúdo exibido ao acionar o collapse.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Horizontal (<code>.collapse-horizontal</code>)</h2>
+  <p>
+    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-horizontal" aria-expanded="false" aria-controls="collapse-horizontal">Alternar largura</button>
+  </p>
+  <div class="catalogo-exemplo" style="min-height: 120px;">
+    <div class="collapse collapse-horizontal" id="collapse-horizontal">
+      <div class="card card-body" style="width: 300px;">Este painel cresce na horizontal.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Vários alvos</h2>
+  <p>
+    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target=".collapse-multiplo" aria-expanded="false" aria-controls="collapse-multiplo-1 collapse-multiplo-2">Alternar os dois</button>
+  </p>
+  <div class="row">
+    <div class="col">
+      <div class="collapse collapse-multiplo" id="collapse-multiplo-1"><div class="card card-body">Primeiro alvo.</div></div>
+    </div>
+    <div class="col">
+      <div class="collapse collapse-multiplo" id="collapse-multiplo-2"><div class="card card-body">Segundo alvo.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O collapse é só comportamento; o visual vem dos componentes que o acionam e dos <a href="cards.html">cards</a> adaptados.</li>
+    <li>A animação usa a duração do Bootstrap (0,35s), não a do GOV.BR DS.</li>
+  </ul>
+</section>

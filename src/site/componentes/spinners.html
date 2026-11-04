@@ -1,0 +1,49 @@
+<!-- title: Componente: Spinners — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: spinners -->
+<h1>Spinners (<code>.spinner-border</code>, <code>.spinner-grow</code>)</h1>
+<p>
+  Indicadores de carregamento sem porcentagem. Referência no GOV.BR DS:
+  <em>Loading</em>.
+</p>
+
+<section>
+  <h2>Borda e crescimento</h2>
+  <p>
+    <span class="spinner-border" role="status"><span class="visually-hidden">Carregando...</span></span>
+    <span class="spinner-grow" role="status"><span class="visually-hidden">Carregando...</span></span>
+  </p>
+</section>
+
+<section>
+  <h2>Cores e tamanhos</h2>
+  <p>
+    <span class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></span>
+    <span class="spinner-border text-success" role="status"><span class="visually-hidden">Carregando...</span></span>
+    <span class="spinner-border text-danger" role="status"><span class="visually-hidden">Carregando...</span></span>
+    <span class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Carregando...</span></span>
+    <span class="spinner-border" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Carregando...</span></span>
+  </p>
+</section>
+
+<section>
+  <h2>Dentro de botões</h2>
+  <p>
+    <button class="btn btn-primary" type="button" disabled>
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span role="status">Enviando...</span>
+    </button>
+    <button class="btn btn-outline-primary" type="button" disabled>
+      <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+      <span role="status">Carregando...</span>
+    </button>
+  </p>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O <em>Loading</em> do GOV.BR DS é um arco azul sobre trilho cinza, em 3 tamanhos fixos; o spinner do Bootstrap é uma borda com uma falha e tamanhos livres.</li>
+    <li>A cor padrão é a cor do texto (<code>currentColor</code>), não o azul interativo do GOV.BR DS.</li>
+  </ul>
+</section>

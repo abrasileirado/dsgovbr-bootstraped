@@ -1,0 +1,42 @@
+<!-- title: Componente: Popovers — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: popovers -->
+<h1>Popovers (<code>data-bs-toggle="popover"</code>)</h1>
+<p>
+  Caixas flutuantes com título e conteúdo, com o plugin Popover do
+  Bootstrap (iniciado pelo catálogo em todos os
+  <code>[data-bs-toggle="popover"]</code>). Referência no GOV.BR DS:
+  <em>Tooltip</em> com conteúdo rico.
+</p>
+
+<section>
+  <h2>Ao clicar, nas quatro direções</h2>
+  <div class="d-flex flex-wrap gap-2">
+    <button type="button" class="btn btn-primary" data-bs-toggle="popover" data-bs-placement="top" data-bs-title="Prazo" data-bs-content="O prazo conta a partir do envio.">Em cima</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Popover à direita.">À direita</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Popover embaixo.">Embaixo</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Popover à esquerda.">À esquerda</button>
+  </div>
+</section>
+
+<section>
+  <h2>Fecha no próximo clique (<code>data-bs-trigger="focus"</code>)</h2>
+  <a tabindex="0" class="btn btn-secondary" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Dica" data-bs-content="Clique em qualquer lugar para fechar.">Dispensável</a>
+</section>
+
+<section>
+  <h2>Estático (para comparação visual)</h2>
+  <div class="popover bs-popover-end position-relative d-block" role="tooltip" style="max-width: 276px;">
+    <div class="popover-arrow" style="position: absolute; top: 1rem;"></div>
+    <h3 class="popover-header">Título do popover</h3>
+    <div class="popover-body">Conteúdo do popover.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O <em>Tooltip</em> rico do GOV.BR DS tem fundo azul-escuro e texto claro; o popover mantém fundo branco, borda e cabeçalho cinza do Bootstrap.</li>
+    <li>Não há a variação de popover com botão de fechar do GOV.BR DS.</li>
+  </ul>
+</section>

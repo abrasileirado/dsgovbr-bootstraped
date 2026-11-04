@@ -1,0 +1,48 @@
+<!-- title: Componente: Placeholders — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: placeholders -->
+<h1>Placeholders (<code>.placeholder</code>)</h1>
+<p>
+  Blocos de carregamento que antecipam o formato do conteúdo. O GOV.BR DS
+  não tem componente equivalente (o mais próximo é o <em>Loading</em>).
+</p>
+
+<section>
+  <h2>Card carregando</h2>
+  <div class="card" style="max-width: 22rem;" aria-busy="true">
+    <svg class="card-img-top" height="140" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#ccc"></rect></svg>
+    <div class="card-body">
+      <h2 class="card-title placeholder-glow h5"><span class="placeholder col-6"></span><span class="visually-hidden">Carregando título</span></h2>
+      <p class="card-text placeholder-glow" aria-hidden="true">
+        <span class="placeholder col-7"></span>
+        <span class="placeholder col-4"></span>
+        <span class="placeholder col-4"></span>
+        <span class="placeholder col-6"></span>
+      </p>
+      <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true" tabindex="-1"><span class="visually-hidden">Carregando ação</span></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Larguras, tamanhos, cores e animações</h2>
+  <div aria-hidden="true">
+    <p><span class="placeholder col-12"></span></p>
+    <p><span class="placeholder w-75"></span></p>
+    <p><span class="placeholder col-12 placeholder-lg"></span></p>
+    <p><span class="placeholder col-12 placeholder-sm"></span></p>
+    <p><span class="placeholder col-12 placeholder-xs"></span></p>
+    <p><span class="placeholder col-12 bg-primary"></span></p>
+    <p><span class="placeholder col-12 bg-success"></span></p>
+    <p class="placeholder-glow"><span class="placeholder col-12"></span></p>
+    <p class="placeholder-wave"><span class="placeholder col-12"></span></p>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>Sem equivalente no GOV.BR DS; o <em>Loading</em> indica carregamento com spinner, não com blocos no formato do conteúdo.</li>
+    <li>As cores vêm dos tokens globais (<code>$primary</code>, <code>$success</code>...).</li>
+  </ul>
+</section>

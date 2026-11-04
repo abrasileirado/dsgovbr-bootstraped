@@ -1,0 +1,80 @@
+<!-- title: Componente: Grupo de botões — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: button-group -->
+<h1>Grupo de botões (<code>.btn-group</code>)</h1>
+<p>
+  Agrupa botões relacionados em linha ou coluna. O GOV.BR DS não tem
+  componente equivalente; os botões individuais usam a adaptação de
+  <a href="botao.html"><code>.btn</code></a>.
+</p>
+
+<section>
+  <h2>Básico</h2>
+  <div class="catalogo-exemplo">
+    <div class="btn-group" role="group" aria-label="Alinhamento do texto">
+      <button type="button" class="btn btn-primary">Esquerda</button>
+      <button type="button" class="btn btn-primary">Centro</button>
+      <button type="button" class="btn btn-primary">Direita</button>
+    </div>
+  </div>
+  <div class="catalogo-exemplo">
+    <div class="btn-group" role="group" aria-label="Período">
+      <button type="button" class="btn btn-outline-primary">Dia</button>
+      <button type="button" class="btn btn-outline-primary active" aria-pressed="true">Semana</button>
+      <button type="button" class="btn btn-outline-primary">Mês</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Radio como botões (<code>.btn-check</code>)</h2>
+  <div class="btn-group" role="group" aria-label="Formato de exportação">
+    <input type="radio" class="btn-check" name="formato" id="formato-pdf" autocomplete="off" checked>
+    <label class="btn btn-outline-primary" for="formato-pdf">PDF</label>
+    <input type="radio" class="btn-check" name="formato" id="formato-csv" autocomplete="off">
+    <label class="btn btn-outline-primary" for="formato-csv">CSV</label>
+    <input type="radio" class="btn-check" name="formato" id="formato-ods" autocomplete="off">
+    <label class="btn btn-outline-primary" for="formato-ods">ODS</label>
+  </div>
+</section>
+
+<section>
+  <h2>Tamanhos e barra de ferramentas</h2>
+  <div class="catalogo-exemplo">
+    <div class="btn-group btn-group-sm" role="group" aria-label="Grupo pequeno">
+      <button type="button" class="btn btn-outline-primary">Pequeno 1</button>
+      <button type="button" class="btn btn-outline-primary">Pequeno 2</button>
+    </div>
+    <div class="btn-group btn-group-lg" role="group" aria-label="Grupo grande">
+      <button type="button" class="btn btn-outline-primary">Grande 1</button>
+      <button type="button" class="btn btn-outline-primary">Grande 2</button>
+    </div>
+  </div>
+  <div class="btn-toolbar" role="toolbar" aria-label="Barra de ferramentas">
+    <div class="btn-group me-2" role="group" aria-label="Páginas">
+      <button type="button" class="btn btn-primary">1</button>
+      <button type="button" class="btn btn-primary">2</button>
+      <button type="button" class="btn btn-primary">3</button>
+    </div>
+    <div class="btn-group" role="group" aria-label="Ações">
+      <button type="button" class="btn btn-secondary">Desfazer</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Vertical</h2>
+  <div class="btn-group-vertical" role="group" aria-label="Grupo vertical">
+    <button type="button" class="btn btn-primary">Primeiro</button>
+    <button type="button" class="btn btn-primary">Segundo</button>
+    <button type="button" class="btn btn-primary">Terceiro</button>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>Sem equivalente no GOV.BR DS: o arredondamento em pílula da adaptação de <code>.btn</code> aparece só nas pontas do grupo, efeito do próprio Bootstrap.</li>
+    <li>O estado ativo de <code>.btn-check</code> segue o padrão Bootstrap.</li>
+  </ul>
+</section>

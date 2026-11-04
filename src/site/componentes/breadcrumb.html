@@ -1,0 +1,49 @@
+<!-- title: Componente: Breadcrumb — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: breadcrumb -->
+<h1>Breadcrumb (<code>.breadcrumb</code>)</h1>
+<p>
+  Trilha de navegação que indica a posição da página na hierarquia.
+  Referência no GOV.BR DS: <em>Breadcrumb</em>.
+</p>
+
+<section>
+  <h2>Níveis</h2>
+  <nav aria-label="Trilha de navegação com um nível">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Início</li>
+    </ol>
+  </nav>
+  <nav aria-label="Trilha de navegação com dois níveis">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Início</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Serviços</li>
+    </ol>
+  </nav>
+  <nav aria-label="Trilha de navegação com três níveis">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Início</a></li>
+      <li class="breadcrumb-item"><a href="#">Serviços</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Emitir certidão</li>
+    </ol>
+  </nav>
+</section>
+
+<section>
+  <h2>Divisor personalizado (<code>--bs-breadcrumb-divider</code>)</h2>
+  <nav class="catalogo-breadcrumb-chevron" aria-label="Trilha de navegação com divisor em chevron">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Início</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Serviços</li>
+    </ol>
+  </nav>
+  <style>.catalogo-breadcrumb-chevron { --bs-breadcrumb-divider: "\203A"; }</style>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O <em>Breadcrumb</em> do GOV.BR DS começa com o ícone de casa e usa chevron como divisor; aqui o divisor padrão é a barra do Bootstrap.</li>
+    <li>Não há o recolhimento dos níveis intermediários em telas pequenas nem o menu com os níveis ocultos.</li>
+  </ul>
+</section>

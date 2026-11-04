@@ -1,0 +1,42 @@
+<!-- title: Componente: Scrollspy — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: scrollspy -->
+<h1>Scrollspy (<code>data-bs-spy="scroll"</code>)</h1>
+<p>
+  Destaca na navegação a seção visível de uma área rolável, com o plugin
+  ScrollSpy do Bootstrap. O GOV.BR DS não tem componente equivalente.
+</p>
+
+<section>
+  <h2>Com lista de links</h2>
+  <div class="row">
+    <div class="col-4">
+      <div id="scrollspy-lista" class="list-group">
+        <a class="list-group-item list-group-item-action" href="#scrollspy-item-1">Item 1</a>
+        <a class="list-group-item list-group-item-action" href="#scrollspy-item-2">Item 2</a>
+        <a class="list-group-item list-group-item-action" href="#scrollspy-item-3">Item 3</a>
+      </div>
+    </div>
+    <div class="col-8">
+      <div data-bs-spy="scroll" data-bs-target="#scrollspy-lista" data-bs-smooth-scroll="true" class="border p-3" style="height: 200px; overflow-y: auto;" tabindex="0" role="region" aria-label="Conteúdo rolável">
+        <h3 id="scrollspy-item-1" class="h6">Item 1</h3>
+        <p>Role esta área: o link correspondente à seção visível fica ativo na lista ao lado.</p>
+        <p>Texto de preenchimento para permitir a rolagem do primeiro item.</p>
+        <h3 id="scrollspy-item-2" class="h6">Item 2</h3>
+        <p>Segunda seção do conteúdo rolável.</p>
+        <p>Texto de preenchimento para permitir a rolagem do segundo item.</p>
+        <h3 id="scrollspy-item-3" class="h6">Item 3</h3>
+        <p>Terceira seção do conteúdo rolável.</p>
+        <p>Texto de preenchimento para permitir a rolagem do terceiro item.</p>
+        <p>Fim do conteúdo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>Sem equivalente no GOV.BR DS; o destaque usa o estado ativo do <a href="list-group.html">list group</a>.</li>
+  </ul>
+</section>

@@ -15,6 +15,11 @@ O CSS em `dist/` é a compilação do Bootstrap com os tokens do GOV.BR DS
 aplicados, portanto também é um trabalho derivado do Bootstrap, sob a mesma
 licença.
 
+As páginas do catálogo (`src/site/componentes/`, publicadas em
+`docs/componentes/`) adaptam a estrutura de marcação dos exemplos de
+<https://getbootstrap.com/docs/5.3/components/>, código sob a mesma licença
+MIT. Os textos das páginas são próprios deste projeto.
+
 ## GOV.BR DS (`@govbr-ds/core`)
 
 - Não redistribuído como arquivo. Valores de tokens (cores, tipografia,

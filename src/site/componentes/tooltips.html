@@ -1,0 +1,45 @@
+<!-- title: Componente: Tooltips — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: tooltips -->
+<h1>Tooltips (<code>data-bs-toggle="tooltip"</code>)</h1>
+<p>
+  Dicas curtas ao passar o mouse ou focar, com o plugin Tooltip do
+  Bootstrap (iniciado pelo catálogo em todos os
+  <code>[data-bs-toggle="tooltip"]</code>). Referência no GOV.BR DS:
+  <em>Tooltip</em>.
+</p>
+
+<section>
+  <h2>Nas quatro direções</h2>
+  <div class="d-flex flex-wrap gap-2">
+    <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Dica em cima">Em cima</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Dica à direita">À direita</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Dica embaixo">Embaixo</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Dica à esquerda">À esquerda</button>
+  </div>
+</section>
+
+<section>
+  <h2>Em links e com HTML</h2>
+  <p>
+    Consulte o <a href="#" data-bs-toggle="tooltip" data-bs-title="Abre a página do regulamento">regulamento</a>
+    antes de enviar.
+    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<em>Dica</em> com <strong>HTML</strong>">Com HTML</button>
+  </p>
+</section>
+
+<section>
+  <h2>Estático (para comparação visual)</h2>
+  <div class="tooltip bs-tooltip-top show position-relative d-inline-block" role="tooltip">
+    <div class="tooltip-arrow" style="left: calc(50% - .4rem);"></div>
+    <div class="tooltip-inner">Dica estática</div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O <em>Tooltip</em> do GOV.BR DS tem fundo azul-escuro, raio pequeno e texto maior; o do Bootstrap é preto, mais compacto e com fonte menor.</li>
+    <li>Não há a variação de tooltip de status (sucesso, erro, atenção) do GOV.BR DS.</li>
+  </ul>
+</section>

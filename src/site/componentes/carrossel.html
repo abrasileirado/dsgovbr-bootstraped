@@ -1,0 +1,59 @@
+<!-- title: Componente: Carrossel — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: carousel -->
+<h1>Carrossel (<code>.carousel</code>)</h1>
+<p>
+  Sequência de slides com o plugin Carousel do Bootstrap. Referência no
+  GOV.BR DS: <em>Carousel</em>.
+</p>
+
+<section>
+  <h2>Com indicadores, controles e legendas</h2>
+  <div id="carrossel-exemplo" class="carousel slide" role="region" aria-label="Destaques">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carrossel-exemplo" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carrossel-exemplo" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carrossel-exemplo" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <svg class="d-block w-100" height="260" role="img" aria-label="Fundo azul-escuro" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#071d41"></rect></svg>
+        <div class="carousel-caption">
+          <h3 class="h5">Primeiro destaque</h3>
+          <p>Legenda do primeiro slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="d-block w-100" height="260" role="img" aria-label="Fundo azul" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#1351b4"></rect></svg>
+        <div class="carousel-caption">
+          <h3 class="h5">Segundo destaque</h3>
+          <p>Legenda do segundo slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="d-block w-100" height="260" role="img" aria-label="Fundo cinza-escuro" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#333333"></rect></svg>
+        <div class="carousel-caption">
+          <h3 class="h5">Terceiro destaque</h3>
+          <p>Legenda do terceiro slide.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carrossel-exemplo" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carrossel-exemplo" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Próximo</span>
+    </button>
+  </div>
+  <p>Sem <code>data-bs-ride</code>: o carrossel não avança sozinho (WCAG 2.2.2), só pelos controles.</p>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O <em>Carousel</em> do GOV.BR DS põe os controles circulares fora da área do slide e usa indicadores em ponto; aqui são os do Bootstrap.</li>
+    <li>Não há o modo de passos numerados do GOV.BR DS.</li>
+  </ul>
+</section>

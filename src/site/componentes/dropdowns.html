@@ -1,0 +1,74 @@
+<!-- title: Componente: Dropdowns — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: dropdowns -->
+<h1>Dropdowns (<code>.dropdown</code>)</h1>
+<p>
+  Menus suspensos com o plugin Dropdown do Bootstrap (Popper incluído no
+  <code>bootstrap.bundle</code>). No GOV.BR DS, é o comportamento
+  <em>dropdown</em> aplicado a uma <em>List</em>. Ver a
+  <a href="../analise-modal-navegacao.md#navbar-dropdown-header-e-menu">análise de navegação</a>.
+</p>
+
+<section>
+  <h2>Básico</h2>
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Ações
+    </button>
+    <ul class="dropdown-menu">
+      <li><h3 class="dropdown-header h6">Documento</h3></li>
+      <li><a class="dropdown-item" href="#">Editar</a></li>
+      <li><a class="dropdown-item active" href="#" aria-current="true">Duplicar</a></li>
+      <li><a class="dropdown-item disabled" aria-disabled="true">Arquivar</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#">Excluir</a></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Botão dividido e direções</h2>
+  <div class="d-flex flex-wrap gap-2">
+    <div class="btn-group">
+      <button type="button" class="btn btn-outline-primary">Salvar</button>
+      <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="visually-hidden">Mais opções de salvar</span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Salvar como rascunho</a></li>
+        <li><a class="dropdown-item" href="#">Salvar e publicar</a></li>
+      </ul>
+    </div>
+    <div class="btn-group dropup">
+      <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Para cima</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Item</a></li>
+      </ul>
+    </div>
+    <div class="btn-group dropend">
+      <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">À direita</button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Item</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Menu escuro (<code>.dropdown-menu-dark</code>)</h2>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Tema escuro</button>
+    <ul class="dropdown-menu dropdown-menu-dark">
+      <li><a class="dropdown-item" href="#">Primeiro</a></li>
+      <li><a class="dropdown-item" href="#">Segundo</a></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O menu usa borda, sombra e espaçamento do Bootstrap; a <em>List</em> do GOV.BR DS usa itens de 56px com divisores.</li>
+    <li>O item ativo usa o fundo <code>$primary</code> (azul GOV.BR DS) por herança dos tokens, sem o estado selecionado do GOV.BR DS.</li>
+  </ul>
+</section>

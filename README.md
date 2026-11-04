@@ -21,8 +21,11 @@ O mesmo HTML, com dois CSS diferentes:
 | [ver ao vivo →](https://abrasileirado.github.io/dsgovbr-bootstraped/exemplos/comparacao-padrao.html) | [ver ao vivo →](https://abrasileirado.github.io/dsgovbr-bootstraped/exemplos/comparacao-tema.html) |
 
 Veja também a [tela de login completa](https://abrasileirado.github.io/dsgovbr-bootstraped/exemplos/login.html)
-e o [catálogo de componentes](https://abrasileirado.github.io/dsgovbr-bootstraped/componentes/index.html)
-(variantes, tamanhos, estados e diferenças conhecidas por componente).
+e o [catálogo de componentes](https://abrasileirado.github.io/dsgovbr-bootstraped/componentes/index.html):
+uma página para cada componente de
+[getbootstrap.com/docs/5.3/components](https://getbootstrap.com/docs/5.3/components/)
+(variantes, tamanhos, estados e diferenças conhecidas), com a chave
+**Aplicar GOV.BR DS** para comparar cada uma com o Bootstrap puro.
 
 ## Estado do projeto
 
@@ -57,7 +60,7 @@ Guia completo: [Getting Started](docs/getting-started.md) ·
 
 - [docs/index.md](docs/index.md) — índice completo da documentação.
 - [docs/requisitos.md](docs/requisitos.md) — escopo, decisões e matriz de compatibilidade.
-- [Catálogo de componentes](https://abrasileirado.github.io/dsgovbr-bootstraped/componentes/index.html) — por componente suportado.
+- [Catálogo de componentes](https://abrasileirado.github.io/dsgovbr-bootstraped/componentes/index.html) — todos os componentes do Bootstrap 5.3, com a chave para ativar/inativar o GOV.BR DS.
 - [Como contribuir](docs/contribua.md).
 
 ## Licença

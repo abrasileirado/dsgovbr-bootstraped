@@ -5,20 +5,43 @@
   <title><!--TITLE--></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Fonte Rawline (GOV.BR DS): só linkada do CDN do SERPRO, não redistribuída (DP-05) -->
-  <link rel="stylesheet" href="https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css">
-  <link rel="stylesheet" href="../assets/css/dsgovbr-bootstraped.css">
+  <link id="catalogo-fonte" rel="stylesheet" href="https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css">
+  <!-- CSS ativo: o GOV.BR DS por padrão. A chave "Aplicar GOV.BR DS" troca
+       pelo Bootstrap puro para comparação (ver src/site/catalogo.js). -->
+  <link id="catalogo-tema" rel="stylesheet" href="../assets/css/dsgovbr-bootstraped.css"
+        data-dsgovbr="../assets/css/dsgovbr-bootstraped.css"
+        data-bootstrap="../assets/vendor/bootstrap/css/bootstrap.min.css">
+  <script src="../assets/js/catalogo.js"></script>
   <style>
-    body { padding: 2rem; max-width: 820px; }
+    body { padding: 0 2rem 2rem; max-width: 820px; }
     section { margin-bottom: 2.5rem; }
     h2 { font-size: 1.1rem; margin-bottom: 1rem; }
-    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #ccc; vertical-align: top; }
+    table:not(.table) { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    table:not(.table) th, table:not(.table) td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #ccc; vertical-align: top; }
     td.status-nao-suportado { color: #6c757d; }
+    .catalogo-barra {
+      position: sticky; top: 0; z-index: 1030;
+      display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; justify-content: space-between;
+      margin: 0 -2rem 1.5rem; padding: 0.75rem 2rem;
+      background: #fff; border-bottom: 1px solid #ccc;
+    }
+    .catalogo-barra p, .catalogo-barra .form-check { margin: 0; }
+    .catalogo-status { margin-bottom: 1.5rem; padding: 0.5rem 0.75rem; border-left: 4px solid #6c757d; background: #f8f9fa; color: #212529; }
+    .catalogo-exemplo { margin-bottom: 1rem; }
   </style>
 </head>
 <body>
-  <p><a href="../index.md">← Documentação</a> · <a href="index.html">Componentes</a> · <a href="../exemplos/login.html">Exemplos</a></p>
+  <header class="catalogo-barra">
+    <p><a href="../index.md">← Documentação</a> · <a href="index.html">Componentes</a> · <a href="../exemplos/login.html">Exemplos</a></p>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="catalogo-alternar-tema" checked>
+      <label class="form-check-label" for="catalogo-alternar-tema">Aplicar GOV.BR DS</label>
+    </div>
+  </header>
+  <main>
+<!--STATUS-->
 <!--CONTENT-->
+  </main>
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

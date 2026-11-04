@@ -1,0 +1,49 @@
+<!-- title: Componente: Toasts — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: toasts -->
+<h1>Toasts (<code>.toast</code>)</h1>
+<p>
+  Notificações leves e temporárias, com o plugin Toast do Bootstrap.
+  Referência no GOV.BR DS: <em>Message</em> do tipo toast.
+</p>
+
+<section>
+  <h2>Interativo</h2>
+  <button type="button" class="btn btn-primary" data-catalogo-toast="#toast-interativo">Mostrar toast</button>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toast-interativo" class="toast" role="status" aria-live="polite" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Solicitação</strong>
+        <small>agora</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+      </div>
+      <div class="toast-body">Sua solicitação foi enviada.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Estáticos (para comparação visual)</h2>
+  <div class="toast show catalogo-exemplo" role="status" aria-live="polite" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Com cabeçalho</strong>
+      <small>há 2 min</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+    </div>
+    <div class="toast-body">Mensagem do toast.</div>
+  </div>
+  <div class="toast show align-items-center text-bg-primary border-0 catalogo-exemplo" role="status" aria-live="polite" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">Toast colorido, sem cabeçalho.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>A <em>Message</em> toast do GOV.BR DS tem ícone de severidade e faixa colorida à esquerda, como os <a href="alertas.html">alertas</a> adaptados; o toast mantém o visual translúcido do Bootstrap.</li>
+    <li>O tempo para esconder (5s) é o padrão do plugin Bootstrap.</li>
+  </ul>
+</section>

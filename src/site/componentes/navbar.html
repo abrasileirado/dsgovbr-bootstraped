@@ -1,0 +1,65 @@
+<!-- title: Componente: Navbar — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: navbar -->
+<h1>Navbar (<code>.navbar</code>)</h1>
+<p>
+  Barra de navegação responsiva com collapse e dropdown do Bootstrap.
+  Referência no GOV.BR DS: <em>Header</em> e <em>Menu</em>. Ver a
+  <a href="../analise-modal-navegacao.md#navbar-dropdown-header-e-menu">análise de navegação</a>.
+</p>
+
+<section>
+  <h2>Clara, com marca, links, dropdown e busca</h2>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" aria-label="Navegação principal (clara)">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Serviço</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-clara" aria-controls="navbar-clara" aria-expanded="false" aria-label="Alternar navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-clara">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Serviços</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ajuda</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Perguntas frequentes</a></li>
+              <li><a class="dropdown-item" href="#">Fale conosco</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Desabilitado</a></li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="O que você procura?" aria-label="Buscar">
+          <button class="btn btn-outline-primary" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</section>
+
+<section>
+  <h2>Escura (<code>data-bs-theme="dark"</code>)</h2>
+  <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark" aria-label="Navegação principal (escura)">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Serviço</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-escura" aria-controls="navbar-escura" aria-expanded="false" aria-label="Alternar navegação">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-escura">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Serviços</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O <em>Header</em> do GOV.BR DS tem logo, assinatura, links de acesso rápido, funcionalidades do sistema, login e busca em linhas próprias; a navbar não reproduz essa anatomia.</li>
+    <li>O menu responsivo é o collapse do Bootstrap, não o <em>Menu</em> lateral (gaveta) do GOV.BR DS.</li>
+  </ul>
+</section>

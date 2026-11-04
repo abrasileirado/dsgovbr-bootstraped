@@ -1,0 +1,78 @@
+<!-- title: Componente: Acordeão — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: accordion -->
+<h1>Acordeão (<code>.accordion</code>)</h1>
+<p>
+  Painéis recolhíveis com o plugin Collapse do Bootstrap. Referência no
+  GOV.BR DS: <em>Accordion</em>.
+</p>
+
+<section>
+  <h2>Padrão (um painel aberto por vez)</h2>
+  <div class="accordion" id="acordeao-padrao">
+    <div class="accordion-item">
+      <h3 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acordeao-um" aria-expanded="true" aria-controls="acordeao-um">
+          Quem pode solicitar o serviço?
+        </button>
+      </h3>
+      <div id="acordeao-um" class="accordion-collapse collapse show" data-bs-parent="#acordeao-padrao">
+        <div class="accordion-body">Qualquer cidadão com conta gov.br nível prata ou ouro.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h3 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acordeao-dois" aria-expanded="false" aria-controls="acordeao-dois">
+          Quais documentos são necessários?
+        </button>
+      </h3>
+      <div id="acordeao-dois" class="accordion-collapse collapse" data-bs-parent="#acordeao-padrao">
+        <div class="accordion-body">Documento de identificação com foto e comprovante de residência.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h3 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acordeao-tres" aria-expanded="false" aria-controls="acordeao-tres">
+          Qual é o prazo de atendimento?
+        </button>
+      </h3>
+      <div id="acordeao-tres" class="accordion-collapse collapse" data-bs-parent="#acordeao-padrao">
+        <div class="accordion-body">Até 30 dias corridos a partir da data da solicitação.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Sem borda externa (<code>.accordion-flush</code>), itens independentes</h2>
+  <div class="accordion accordion-flush" id="acordeao-flush">
+    <div class="accordion-item">
+      <h3 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acordeao-flush-um" aria-expanded="false" aria-controls="acordeao-flush-um">
+          Primeiro item
+        </button>
+      </h3>
+      <div id="acordeao-flush-um" class="accordion-collapse collapse">
+        <div class="accordion-body">Sem <code>data-bs-parent</code>: vários itens podem ficar abertos ao mesmo tempo.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h3 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acordeao-flush-dois" aria-expanded="false" aria-controls="acordeao-flush-dois">
+          Segundo item
+        </button>
+      </h3>
+      <div id="acordeao-flush-dois" class="accordion-collapse collapse">
+        <div class="accordion-body">Conteúdo do segundo item.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O cabeçalho aberto mantém o fundo azul-claro e a seta do Bootstrap; o <em>Accordion</em> do GOV.BR DS usa divisores e o ícone à direita sem fundo.</li>
+    <li>O foco usa o anel do Bootstrap (<code>box-shadow</code>), não o foco tracejado dourado.</li>
+  </ul>
+</section>

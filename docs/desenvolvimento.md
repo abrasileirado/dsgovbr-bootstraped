@@ -64,18 +64,33 @@ em cada uma separadamente — ver histórico das issues #6 e #15.
 
 ### Criando uma nova página de componente
 
-1. Crie `src/site/componentes/<nome>.html` com, na primeira linha, um
-   comentário `<!-- title: Componente: <Nome> — dsgovbr-bootstraped -->`
-   (vira o `<title>` da página) seguido do conteúdo do `<body>` — sem
-   repetir a navegação nem o `<link>` do CSS, que já vêm do template. Uma
-   seção "Diferenças conhecidas em relação à referência GOV.BR DS" é
-   esperada (ver convenção nas páginas existentes).
+1. Crie `src/site/componentes/<nome>.html` começando por este cabeçalho
+   de comentários, um por linha:
+
+   ```html
+   <!-- title: Componente: <Nome> — dsgovbr-bootstraped -->
+   <!-- status: Não suportado -->
+   <!-- bootstrap: <slug> -->
+   ```
+
+   `title` (obrigatório) vira o `<title>` da página. `status` é o status
+   na matriz (`Planejado`, `Experimental`, `Limitado`, `Estável` ou
+   `Não suportado`). `bootstrap` é o nome da página do componente em
+   <https://getbootstrap.com/docs/5.3/components/> (ex.: `list-group`).
+   Os dois geram a faixa de status no topo da página. Depois do cabeçalho
+   vem o conteúdo do `<main>` — sem repetir a navegação, a chave de tema
+   nem o `<link>` do CSS, que já vêm do template. Uma seção "Diferenças
+   conhecidas em relação à referência GOV.BR DS" é obrigatória
+   (`tests/site.test.js` confere).
 2. Rode `npm run build` (ou só `npm run build:site` se o CSS já estiver
    atualizado) — gera `docs/componentes/<nome>.html`.
 3. Se for um componente novo (não apenas uma página adicional), adicione
    uma linha na tabela de `src/site/componentes/index.html` apontando para
    ele, com o status e o número da issue.
-4. Abra a página gerada localmente (ver "Visualizar as páginas de
+4. Ao adaptar um componente antes "Não suportado", atualize o `status`
+   no cabeçalho, a linha do índice e a matriz em
+   [requisitos.md](requisitos.md#6-matriz-de-compatibilidade-atual-v051).
+5. Abra a página gerada localmente (ver "Visualizar as páginas de
    componentes localmente" em [Setup](setup.md)) para conferir antes de
    commitar.
 
@@ -109,6 +124,11 @@ inicializados):
     campo de texto, checkbox/radio, alerta e card, nenhuma classe `.br-*`
     (RF-03) e `btn-secondary` no cinza do Bootstrap (DP-06). Ao adaptar um
     componente novo, acrescente aqui o que o torna "GOV.BR DS".
+  - `site.test.js`: o catálogo cobre **todo** componente de
+    `vendor/bootstrap/site/src/content/docs/components/` (uma página por
+    `<!-- bootstrap: <slug> -->`), o índice aponta para todas as páginas e
+    cada página declara status e diferenças conhecidas. Um componente novo
+    numa versão futura do Bootstrap faz este teste falhar até ganhar página.
 - `npm run test:package` — consumidor limpo: `npm pack`, instala o tarball
   num projeto temporário e compila a entrada SCSS com e sem override (DP-04).
 
@@ -122,6 +142,9 @@ no Pages) num Chromium real, em `tests/browser/`:
 - `styles.spec.js`: estilos **computados** (cor, raio, alturas aproximadas de
   32/40/48px, 14px), foco por teclado, marcar checkbox com espaço, clique no
   rótulo, fechar alerta.
+- `tema.spec.js`: a chave *Aplicar GOV.BR DS* (padrão ligado, `?tema=`,
+  persistência entre páginas, valor inválido) e os plugins que o catálogo
+  inicia (tooltip, popover, toast) e o modal.
 - `a11y.spec.js`: axe-core (WCAG 2 A/AA) nas páginas de componentes e no exemplo
   de login — RNF-02. Violação nova faz o teste falhar.
 - `visual.spec.js`: captura de tela de cada página em desktop (1280px) e mobile
@@ -145,6 +168,8 @@ exemplos, exceto `comparacao-padrao.html`, que mostra o Bootstrap puro) linkam
 `rawline.css` do CDN do SERPRO — a fonte não é redistribuída (DP-05). Os testes
 de navegador interceptam essa requisição com CSS vazio (`tests/browser/fixtures.js`):
 rodam offline e as capturas visuais ficam determinísticas (caem no fallback).
+Com a chave *Aplicar GOV.BR DS* desligada (`src/site/catalogo.js`), a página
+troca o CSS pelo `bootstrap.min.css` puro e desliga o `<link>` da Rawline.
 `pages.spec.js` garante o `<link>` em cada página, e o `upstream-check.yml`
 semanal verifica que a URL do CDN continua respondendo.
 

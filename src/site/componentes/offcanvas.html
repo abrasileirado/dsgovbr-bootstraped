@@ -1,0 +1,73 @@
+<!-- title: Componente: Offcanvas — dsgovbr-bootstraped -->
+<!-- status: Não suportado -->
+<!-- bootstrap: offcanvas -->
+<h1>Offcanvas (<code>.offcanvas</code>)</h1>
+<p>
+  Painel lateral que desliza sobre a página, com o plugin Offcanvas do
+  Bootstrap. Referência no GOV.BR DS: <em>Menu</em> (gaveta) com
+  <em>Scrim</em>.
+</p>
+
+<section>
+  <h2>Interativo, nas quatro posições</h2>
+  <div class="d-flex flex-wrap gap-2">
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-inicio" aria-controls="offcanvas-inicio">Início (esquerda)</button>
+    <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-fim" aria-controls="offcanvas-fim">Fim (direita)</button>
+    <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-topo" aria-controls="offcanvas-topo">Topo</button>
+    <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-base" aria-controls="offcanvas-base">Base</button>
+  </div>
+
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-inicio" aria-labelledby="offcanvas-inicio-titulo">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title fs-5" id="offcanvas-inicio-titulo">Menu</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">
+      <nav class="nav flex-column" aria-label="Menu lateral">
+        <a class="nav-link" href="#">Página inicial</a>
+        <a class="nav-link" href="#">Serviços</a>
+        <a class="nav-link" href="#">Ajuda</a>
+      </nav>
+    </div>
+  </div>
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-fim" aria-labelledby="offcanvas-fim-titulo">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title fs-5" id="offcanvas-fim-titulo">Filtros</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">Painel à direita.</div>
+  </div>
+  <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvas-topo" aria-labelledby="offcanvas-topo-titulo">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title fs-5" id="offcanvas-topo-titulo">Aviso</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">Painel no topo.</div>
+  </div>
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvas-base" aria-labelledby="offcanvas-base-titulo">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title fs-5" id="offcanvas-base-titulo">Cookies</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">Painel na base.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Estático (aberto, para comparação visual)</h2>
+  <div class="offcanvas offcanvas-start show position-static border" tabindex="-1" style="visibility: visible; transform: none;" aria-labelledby="offcanvas-estatico-titulo">
+    <div class="offcanvas-header">
+      <h3 class="offcanvas-title fs-5" id="offcanvas-estatico-titulo">Offcanvas</h3>
+      <button type="button" class="btn-close" aria-label="Fechar"></button>
+    </div>
+    <div class="offcanvas-body">Conteúdo do painel.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
+  <ul>
+    <li>O <em>Menu</em> do GOV.BR DS tem cabeçalho com logo, itens de 56px com ícone, divisores e rodapé com logos e redes sociais; o offcanvas é um painel genérico.</li>
+    <li>O fundo escurecido é o backdrop do Bootstrap, não o <em>Scrim</em>.</li>
+  </ul>
+</section>
