@@ -1,0 +1,16 @@
+// Tooltip e popover do GOV.BR DS (vendor/govbr-ds-core/src/components/tooltip):
+// fundo azul informativo, texto branco em peso médio, raio 4px e sombra.
+.tooltip-inner {
+  font-weight: $govbr-font-weight-medium;
+  box-shadow: $govbr-tooltip-shadow;
+  text-align: left;
+}
+
+.popover-header {
+  font-weight: $govbr-font-weight-semibold;
+  padding-bottom: 0;
+}
+
+.popover-body {
+  font-weight: $govbr-font-weight-medium;
+}

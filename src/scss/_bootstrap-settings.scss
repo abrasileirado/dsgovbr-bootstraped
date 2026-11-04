@@ -176,3 +176,135 @@ $card-cap-bg: transparent !default;
 // definir suas variáveis (mesmo motivo do $btn-border-radius acima). 1rem é
 // o próprio valor padrão de $spacer no Bootstrap.
 $card-cap-padding-y: 1rem !default; // GOV.BR DS usa o spacer inteiro (16px), não a metade
+
+// --- Issue #43: componentes do catálogo (referências em src/scss/components/) ---
+
+// Foco: o anel translúcido (box-shadow) do Bootstrap sai destes componentes;
+// o contorno tracejado dourado vem de components/_focus.scss.
+$accordion-button-focus-box-shadow: none !default;
+$nav-link-focus-box-shadow: none !default;
+$btn-close-focus-shadow: none !default;
+$navbar-toggler-focus-width: 0 !default;
+
+// Accordion (GOV.BR DS: Accordion) — cabeçalho sem fundo, texto e ícone no
+// azul interativo, divisores cinza entre os itens, sem raio.
+$accordion-border-color: $govbr-gray-20 !default;
+$accordion-border-radius: 0 !default;
+$accordion-inner-border-radius: 0 !default;
+$accordion-button-padding-y: 16px !default;     // spacing-scale-2x
+$accordion-button-padding-x: 12px !default;     // margem do ícone: spacing-scale-baseh
+$accordion-button-color: $govbr-interactive !default;
+$accordion-button-bg: transparent !default;
+$accordion-button-active-color: $govbr-interactive !default;
+$accordion-button-active-bg: transparent !default;
+$accordion-icon-color: $govbr-interactive !default;
+$accordion-icon-active-color: $govbr-interactive !default;
+
+// Breadcrumb (GOV.BR DS: Breadcrumb) — fonte menor, peso médio, chevron cinza.
+$breadcrumb-font-size: $govbr-font-size-down-01 !default;
+$breadcrumb-divider: quote("\203A") !default;
+$breadcrumb-divider-color: $govbr-gray-40 !default;
+$breadcrumb-active-color: $govbr-gray-80 !default;
+$breadcrumb-item-padding-x: 8px !default;      // spacing-scale-base
+
+// Botão de fechar (GOV.BR DS: Button circular, ícone interativo, 40px).
+$btn-close-width: 16px !default;
+$btn-close-height: 16px !default;
+$btn-close-padding-x: 12px !default;           // 16 + 2 x 12 = 40px
+$btn-close-padding-y: 12px !default;
+$btn-close-color: $govbr-interactive !default;
+$btn-close-opacity: 1 !default;
+$btn-close-hover-opacity: 1 !default;
+$btn-close-disabled-opacity: 0.45 !default;    // --disabled do GOV.BR DS
+
+// List group (GOV.BR DS: List/Item) — itens sem moldura, divisores, selecionado.
+$list-group-border-color: $govbr-gray-20 !default;
+$list-group-border-radius: 0 !default;
+$list-group-item-padding-y: 8px !default;      // --item-padding-y
+$list-group-item-padding-x: 16px !default;     // --item-padding-x
+$list-group-active-bg: $govbr-selected !default;
+$list-group-active-border-color: $govbr-selected !default;
+$list-group-hover-bg: transparent !default;
+$list-group-action-color: $govbr-gray-80 !default;
+$list-group-action-hover-color: $govbr-gray-80 !default;
+$list-group-action-active-bg: transparent !default;
+
+// Dropdown (GOV.BR DS: dropdown + List) — sem borda, sombra, itens de 8px.
+$dropdown-border-width: 0 !default;
+$dropdown-border-radius: 0 !default;
+$dropdown-box-shadow: $govbr-shadow-sm !default;
+$dropdown-padding-y: 0 !default;
+$dropdown-item-padding-y: 8px !default;
+$dropdown-item-padding-x: 16px !default;
+$dropdown-link-color: $govbr-gray-80 !default;
+$dropdown-link-hover-bg: transparent !default;
+$dropdown-link-active-bg: $govbr-selected !default;
+$dropdown-divider-bg: $govbr-gray-20 !default;
+$dropdown-divider-margin-y: 0 !default;
+
+// Tooltip (GOV.BR DS: Tooltip) — fundo azul informativo, texto branco.
+$tooltip-bg: $govbr-info !default;
+$tooltip-color: $govbr-background !default;
+$tooltip-border-radius: $govbr-radius-sm !default;
+$tooltip-font-size: $govbr-font-size-down-01 !default;
+$tooltip-padding-y: 16px !default;             // spacing-scale-2x
+$tooltip-padding-x: 16px !default;
+$tooltip-max-width: $govbr-tooltip-max-width !default;
+$tooltip-opacity: 1 !default;
+
+// Popover (GOV.BR DS: Tooltip com conteúdo rico, até 320px).
+$popover-bg: $govbr-info !default;
+$popover-border-width: 0 !default;
+$popover-border-radius: $govbr-radius-sm !default;
+$popover-box-shadow: $govbr-tooltip-shadow !default;
+$popover-max-width: 320px !default;
+$popover-header-bg: $govbr-info !default;
+$popover-header-color: $govbr-background !default;
+$popover-header-padding-y: 16px !default;
+$popover-header-padding-x: 16px !default;
+$popover-body-color: $govbr-background !default;
+$popover-body-padding-y: 16px !default;
+$popover-body-padding-x: 16px !default;
+
+// Spinner (GOV.BR DS: Loading indeterminado) — 44px/4px e 24px/2px.
+$spinner-width: $govbr-loading-md !default;
+$spinner-height: $govbr-loading-md !default;
+$spinner-border-width: 4px !default;
+$spinner-width-sm: $govbr-loading-sm !default;
+$spinner-height-sm: $govbr-loading-sm !default;
+$spinner-border-width-sm: 2px !default;
+
+// Progress (sem equivalente linear) — trilho cinza do Loading determinado.
+$progress-bg: $govbr-gray-20 !default;
+$progress-border-radius: 0 !default;
+
+// Toast (GOV.BR DS: Message toast) — opaco, sem borda, com sombra.
+$toast-background-color: $govbr-background !default;
+$toast-border-width: 0 !default;
+$toast-border-radius: 0 !default;
+$toast-box-shadow: $govbr-shadow-sm !default;
+$toast-header-background-color: $govbr-background !default;
+$toast-header-color: $govbr-gray-80 !default;
+$toast-header-border-color: $govbr-gray-20 !default;
+
+// Modal e offcanvas (GOV.BR DS: Modal + Scrim).
+$modal-md: $govbr-modal-width !default;
+$modal-content-border-width: 0 !default;
+$modal-content-border-radius: 0 !default;
+$modal-content-box-shadow-xs: $govbr-shadow-sm !default;
+$modal-content-box-shadow-sm-up: $govbr-shadow-sm !default;
+$modal-header-border-width: 0 !default;
+$modal-footer-border-width: 0 !default;
+$modal-header-padding: 16px 16px 0 !default;
+$modal-inner-padding: 16px !default;
+$modal-backdrop-bg: #000 !default;
+$modal-backdrop-opacity: $govbr-scrim-opacity !default;
+$modal-title-line-height: 1.25 !default;
+$offcanvas-border-width: 0 !default;
+$offcanvas-box-shadow: $govbr-shadow-sm !default;
+
+// Carousel (GOV.BR DS: Carousel) — indicadores em ponto.
+$carousel-indicator-width: 8px !default;
+$carousel-indicator-height: 8px !default;
+$carousel-indicator-spacer: 4px !default;
+$carousel-indicator-opacity: 0.45 !default;

@@ -105,3 +105,31 @@ $govbr-button-height-small: 32px !default;    // --button-small
 $govbr-button-height-medium: 40px !default;   // --button-medium (padrão)
 $govbr-button-height-large: 48px !default;    // --button-large
 $govbr-button-padding-x: 24px !default;       // padding: 0 var(--spacing-scale-3x)
+
+// --- Issue #43: componentes do catálogo ---
+
+// --selected: var(--blue-warm-vivid-50) — item selecionado (List/Item, dropdown)
+// vendor/govbr-ds-core/.../configs/colors/_blue-warm-vivid.scss
+$govbr-selected: #2670e8 !default;
+
+// Escala tipográfica: vendor/govbr-ds-core/src/partial/scss/configs/_typography.scss
+// ($font-size-scale-base * 0.833 / 1.2 / 1.44, com a base de 14px)
+$govbr-font-size-down-01: 11.662px !default;
+$govbr-font-size-up-01: 16.8px !default;
+$govbr-font-size-up-02: 20.16px !default;
+$govbr-font-weight-bold: 700 !default; // $font-weight-bold
+
+// Scrim (fundo de modal e menu): $overlay-scrim = secondary-09 (#000) a
+// $opacity-md — vendor/govbr-ds-core/src/partial/scss/configs/_elevation.scss
+$govbr-scrim-opacity: 0.45 !default;
+
+// Tooltip: vendor/govbr-ds-core/src/components/tooltip/_mixins.scss (tooltip-configs)
+$govbr-tooltip-shadow: 0 3px 6px rgba(0, 0, 0, 0.16) !default;
+$govbr-tooltip-max-width: 240px !default;
+
+// Loading indeterminado: vendor/govbr-ds-core/src/components/loading/_mixins.scss
+$govbr-loading-sm: 24px !default; // --loading-indetermined-diameter-sm (borda 2px)
+$govbr-loading-md: 44px !default; // --loading-indetermined-diameter-md (borda 4px)
+
+// Modal: vendor/govbr-ds-core/src/components/modal/_mixins.scss (--modal-medium)
+$govbr-modal-width: 500px !default;

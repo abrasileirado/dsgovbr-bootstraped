@@ -47,6 +47,16 @@ test("o índice do catálogo aponta para todas as páginas", () => {
   }
 });
 
+test("o índice de exemplos aponta para todos os exemplos, inclusive o login", () => {
+  const dir = path.join(ROOT, "docs/exemplos");
+  const indice = fs.readFileSync(path.join(dir, "index.html"), "utf8");
+  const exemplos = fs.readdirSync(dir).filter((f) => f.endsWith(".html") && f !== "index.html");
+  assert.ok(exemplos.includes("login.html"), "falta o exemplo de login");
+  for (const file of exemplos) {
+    assert.ok(indice.includes(`href="${file}"`), `${file} não está no índice de exemplos`);
+  }
+});
+
 test("toda página de componente declara o status e tem a seção de diferenças", () => {
   for (const { file, meta, content } of fragmentos()) {
     if (file === "index.html") continue;

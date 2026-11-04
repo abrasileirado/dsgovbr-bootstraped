@@ -1,0 +1,9 @@
+// Botão de fechar como o Button circular do GOV.BR DS: 40px (16px de ícone +
+// 12px de padding), ícone azul interativo, hover em camada azul.
+.btn-close {
+  border-radius: 50%;
+
+  &:hover:not(:disabled) {
+    background-color: rgba($govbr-interactive, $govbr-hover-opacity);
+  }
+}

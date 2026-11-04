@@ -250,3 +250,126 @@ test("tipografia global: Rawline declarada, 14px no corpo", async ({ page }) => 
   expect(s["font-size"]).toBe("14px");
   expect(s.color).toBe("rgb(51, 51, 51)");
 });
+
+// --- Issue #43: componentes do catálogo adaptados por tokens e CSS ---
+
+// Uma tecla antes do focus() faz o Chromium tratar o foco como de teclado
+// (:focus-visible). As abas inativas têm tabindex="-1" (plugin Tab), então
+// não dá para chegar nelas só com Tab.
+async function focoPorTeclado(page, seletor) {
+  await page.keyboard.press("Shift");
+  await page.locator(seletor).first().focus();
+  return css(page, seletor, ["outline-style", "outline-color", "outline-width", "box-shadow"]);
+}
+
+function focoDourado(s) {
+  expect(s["outline-style"]).toBe("dashed");
+  expect(s["outline-color"]).toBe("rgb(194, 133, 12)");
+  expect(s["outline-width"]).toBe("4px");
+  expect(s["box-shadow"]).toBe("none");
+}
+
+test("accordion: cabeçalho sem fundo, azul, 16,8px, ícone antes do título, aberto em semi-bold", async ({ page }) => {
+  await page.goto("/componentes/acordeao.html");
+  const aberto = await css(page, "#acordeao-padrao .accordion-button:not(.collapsed)", [
+    "background-color", "color", "font-size", "font-weight", "box-shadow",
+  ]);
+  expect(aberto["background-color"]).toBe("rgba(0, 0, 0, 0)");
+  expect(aberto.color).toBe("rgb(19, 81, 180)");
+  expect(aberto["font-size"]).toBe("16.8px");
+  expect(aberto["font-weight"]).toBe("600");
+  expect(aberto["box-shadow"]).toBe("none");
+  const ordem = await page.locator(".accordion-button").first().evaluate((el) => getComputedStyle(el, "::after").order);
+  expect(ordem).toBe("-1");
+  const item = await css(page, ".accordion-item", ["border-left-width", "border-bottom-color"]);
+  expect(item["border-left-width"]).toBe("0px");
+  expect(item["border-bottom-color"]).toBe("rgb(204, 204, 204)");
+});
+
+test("foco tracejado dourado global: accordion, aba, item de lista e botão de fechar", async ({ page }) => {
+  await page.goto("/componentes/acordeao.html");
+  focoDourado(await focoPorTeclado(page, "#acordeao-padrao .accordion-button.collapsed"));
+  await page.goto("/componentes/navs-abas.html");
+  focoDourado(await focoPorTeclado(page, "#aba-endereco"));
+  await page.goto("/componentes/list-group.html");
+  focoDourado(await focoPorTeclado(page, ".list-group-item-action"));
+  await page.goto("/componentes/botao-fechar.html");
+  focoDourado(await focoPorTeclado(page, ".btn-close:not(:disabled)"));
+});
+
+test("aba: sem moldura, sublinhado de 4px em --active, 20,16px", async ({ page }) => {
+  await page.goto("/componentes/navs-abas.html");
+  const ativa = await css(page, "#aba-dados", [
+    "border-bottom-width", "border-bottom-color", "border-top-width", "color", "font-size",
+  ]);
+  expect(ativa["border-bottom-width"]).toBe("4px");
+  expect(ativa["border-bottom-color"]).toBe("rgb(12, 50, 111)");
+  expect(ativa["border-top-width"]).toBe("0px");
+  expect(ativa.color).toBe("rgb(12, 50, 111)");
+  expect(ativa["font-size"]).toBe("20.16px");
+  await page.locator("#aba-endereco").click();
+  await expect(page.locator("#painel-endereco")).toBeVisible();
+});
+
+test("botão de fechar: círculo de 40px", async ({ page }) => {
+  await page.goto("/componentes/botao-fechar.html");
+  const s = await css(page, ".btn-close", ["width", "border-top-left-radius"]);
+  expect(Math.round(s.height)).toBe(40);
+  expect(s["border-top-left-radius"]).toBe("50%");
+});
+
+test("list group: selecionado em --selected, sem moldura lateral", async ({ page }) => {
+  await page.goto("/componentes/list-group.html");
+  const s = await css(page, ".list-group-item.active", ["background-color", "border-left-width"]);
+  expect(s["background-color"]).toBe("rgb(38, 112, 232)");
+  expect(s["border-left-width"]).toBe("0px");
+});
+
+test("breadcrumb: chevron como divisor e ícone de casa no primeiro link", async ({ page }) => {
+  await page.goto("/componentes/breadcrumb.html");
+  const divisor = await page
+    .locator(".breadcrumb-item + .breadcrumb-item")
+    .first()
+    .evaluate((el) => getComputedStyle(el, "::before").content);
+  expect(divisor).toBe('"›"');
+  const casa = await page
+    .locator(".breadcrumb-item:first-child > a")
+    .first()
+    .evaluate((el) => getComputedStyle(el, "::before").maskImage || getComputedStyle(el, "::before").webkitMaskImage);
+  expect(casa).toContain("data:image/svg+xml");
+});
+
+test("tooltip: fundo azul informativo, texto branco, raio 4px", async ({ page }) => {
+  await page.goto("/componentes/tooltips.html");
+  const s = await css(page, ".tooltip.position-relative .tooltip-inner", [
+    "background-color", "color", "border-top-left-radius", "padding-top",
+  ]);
+  expect(s["background-color"]).toBe("rgb(21, 91, 203)");
+  expect(s.color).toBe("rgb(255, 255, 255)");
+  expect(s["border-top-left-radius"]).toBe("4px");
+  expect(s["padding-top"]).toBe("16px");
+});
+
+test("spinner: azul interativo, 44px no padrão e 24px no -sm", async ({ page }) => {
+  await page.goto("/componentes/spinners.html");
+  // height computado: a caixa gira na animação, então getBoundingClientRect varia
+  const padrao = await css(page, ".spinner-border:not(.spinner-border-sm):not([style])", ["height", "border-top-color", "border-top-width"]);
+  expect(padrao.height).toBe("44px");
+  expect(padrao["border-top-color"]).toBe("rgb(19, 81, 180)");
+  expect(padrao["border-top-width"]).toBe("4px");
+  const pequeno = await css(page, "p > .spinner-border-sm", ["height", "border-top-width"]);
+  expect(pequeno.height).toBe("24px");
+  expect(pequeno["border-top-width"]).toBe("2px");
+});
+
+test("modal: sem raio, título em negrito de 16,8px, fundo preto a 45%", async ({ page }) => {
+  await page.goto("/componentes/modal.html");
+  const s = await css(page, ".modal.position-static .modal-content", ["border-top-left-radius", "border-top-width"]);
+  expect(s["border-top-left-radius"]).toBe("0px");
+  expect(s["border-top-width"]).toBe("0px");
+  const titulo = await css(page, ".modal.position-static .modal-title", ["font-size", "font-weight"]);
+  expect(titulo["font-size"]).toBe("16.8px");
+  expect(titulo["font-weight"]).toBe("700");
+  await page.getByRole("button", { name: "Abrir modal", exact: true }).click();
+  await expect(page.locator(".modal-backdrop.show")).toHaveCSS("opacity", "0.45");
+});

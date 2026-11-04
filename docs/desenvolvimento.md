@@ -87,10 +87,17 @@ em cada uma separadamente — ver histórico das issues #6 e #15.
 3. Se for um componente novo (não apenas uma página adicional), adicione
    uma linha na tabela de `src/site/componentes/index.html` apontando para
    ele, com o status e o número da issue.
-4. Ao adaptar um componente antes "Não suportado", atualize o `status`
+4. Para adaptar um componente: prefira as variáveis Sass do Bootstrap em
+   `src/scss/_bootstrap-settings.scss` (com tokens `$govbr-*` de
+   `_tokens.scss`, cada um com origem em `tests/tokens.test.js`) e só então
+   CSS em `src/scss/components/_<componente>.scss`. Hover e foco do GOV.BR DS
+   estão em `src/scss/_mixins.scss` (`govbr-hover`, `govbr-focus`); o foco
+   tracejado dourado de todo elemento focável fica em
+   `components/_focus.scss`.
+5. Ao adaptar um componente antes "Não suportado", atualize o `status`
    no cabeçalho, a linha do índice e a matriz em
    [requisitos.md](requisitos.md#6-matriz-de-compatibilidade-atual-v051).
-5. Abra a página gerada localmente (ver "Visualizar as páginas de
+6. Abra a página gerada localmente (ver "Visualizar as páginas de
    componentes localmente" em [Setup](setup.md)) para conferir antes de
    commitar.
 
@@ -142,6 +149,9 @@ no Pages) num Chromium real, em `tests/browser/`:
 - `styles.spec.js`: estilos **computados** (cor, raio, alturas aproximadas de
   32/40/48px, 14px), foco por teclado, marcar checkbox com espaço, clique no
   rótulo, fechar alerta.
+- `styles.spec.js` também cobre os componentes adaptados na issue #43
+  (accordion, abas, list group, breadcrumb, botão de fechar, tooltip,
+  spinner, modal) e o foco tracejado dourado global.
 - `tema.spec.js`: a chave *Aplicar GOV.BR DS* (padrão ligado, `?tema=`,
   persistência entre páginas, valor inválido) e os plugins que o catálogo
   inicia (tooltip, popover, toast) e o modal.

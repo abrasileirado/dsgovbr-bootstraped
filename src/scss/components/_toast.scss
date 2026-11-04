@@ -1,0 +1,5 @@
+// Toast como a Message do GOV.BR DS: superfície opaca com sombra (variáveis
+// em _bootstrap-settings.scss) e título do cabeçalho em semi-bold.
+.toast-header strong {
+  font-weight: $govbr-font-weight-semibold;
+}

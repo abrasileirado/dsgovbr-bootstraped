@@ -1,0 +1,18 @@
+// Breadcrumb do GOV.BR DS (vendor/govbr-ds-core/src/components/breadcrumb/_mixins.scss):
+// peso médio, chevron como divisor e ícone de casa no primeiro nível. O ícone
+// é uma máscara SVG (sem fonte de ícones), na cor do link.
+.breadcrumb {
+  font-weight: $govbr-font-weight-medium;
+  align-items: center;
+}
+
+.breadcrumb-item:first-child > a::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 4px;
+  vertical-align: -0.125em;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M8 1.5 1 7.25V8h1.5v6.5h4.25V10h2.5v4.5h4.25V8H15v-.75z%22/%3E%3C/svg%3E") center / contain no-repeat;
+}

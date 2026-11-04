@@ -1,0 +1,33 @@
+// Accordion do GOV.BR DS (vendor/govbr-ds-core/src/components/accordion/_accordion.scss):
+// só divisores horizontais, cabeçalho sem fundo em azul interativo e 16,8px,
+// ícone à esquerda do título, item aberto em semi-bold, hover em camada azul.
+.accordion-item {
+  border-left: 0;
+  border-right: 0;
+}
+
+.accordion-button {
+  font-size: $govbr-font-size-up-01;
+
+  // a seta do Bootstrap é um ::after; order: -1 a leva para antes do texto
+  &::after {
+    order: -1;
+    margin-left: 0;
+    margin-right: 16px; // spacing-scale-2x
+  }
+
+  &:not(.collapsed) {
+    font-weight: $govbr-font-weight-semibold;
+    box-shadow: none;
+  }
+
+  &:hover {
+    @include govbr-hover;
+  }
+}
+
+.accordion-body {
+  // .content: margem de spacing-scale-base e padding 8px 64px 16px
+  padding: 8px 64px 16px;
+  margin: 0 8px;
+}

@@ -1,0 +1,18 @@
+// Mixins de estado do GOV.BR DS reaproveitados pelos adaptadores.
+
+// Hover: camada da cor interativa a 16% sobre o fundo
+// (vendor/govbr-ds-core/src/partial/scss/mixins/_hover.scss).
+@mixin govbr-hover($color: $govbr-interactive) {
+  background-image: linear-gradient(rgba($color, $govbr-hover-opacity), rgba($color, $govbr-hover-opacity));
+}
+
+// Foco por teclado: contorno tracejado dourado
+// (vendor/govbr-ds-core/src/partial/scss/mixins/_focus.scss). Elementos que
+// ocupam a largura toda (itens de lista, abas, cabeçalho do accordion) usam
+// deslocamento negativo, como a Tab do GOV.BR DS, para o contorno não invadir
+// o vizinho.
+@mixin govbr-focus($offset: $govbr-focus-offset) {
+  outline: $govbr-focus-width dashed $govbr-focus;
+  outline-offset: $offset;
+  box-shadow: none;
+}

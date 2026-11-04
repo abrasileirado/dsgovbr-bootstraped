@@ -1,0 +1,46 @@
+// Tab do GOV.BR DS (vendor/govbr-ds-core/src/components/tab/_mixins.scss):
+// sem moldura, linha de 1px sob a lista, aba de 20,16px em peso médio com
+// sublinhado de 4px; a ativa fica em --active. Vale para .nav-tabs e .nav-underline.
+.nav-tabs,
+.nav-underline {
+  --bs-nav-tabs-border-radius: 0;
+  --bs-nav-underline-gap: 0;
+  border-bottom: 1px solid $govbr-gray-20;
+  gap: 0;
+
+  .nav-link {
+    border: 0;
+    border-bottom: 4px solid transparent;
+    border-radius: 0;
+    margin-bottom: -1px;
+    padding: 16px 24px; // --tab-medium / --tab-padding
+    color: $govbr-gray-80;
+    font-size: $govbr-font-size-up-02;
+    font-weight: $govbr-font-weight-medium;
+    line-height: 1;
+    background-color: transparent;
+
+    &:hover:not(.active):not(:disabled):not(.disabled) {
+      @include govbr-hover($govbr-gray-80);
+      border-bottom-color: transparent;
+    }
+
+    &.disabled,
+    &:disabled {
+      color: $govbr-gray-40;
+    }
+  }
+
+  .nav-link.active,
+  .nav-item.show .nav-link {
+    color: $govbr-active;
+    background-color: transparent;
+    border-bottom-color: $govbr-active;
+    font-weight: $govbr-font-weight-medium;
+  }
+}
+
+// Pílulas não existem no GOV.BR DS (extensão): hover em camada azul.
+.nav-pills .nav-link:hover:not(.active) {
+  @include govbr-hover;
+}

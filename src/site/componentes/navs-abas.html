@@ -1,5 +1,5 @@
 <!-- title: Componente: Navs e abas — dsgovbr-bootstraped -->
-<!-- status: Não suportado -->
+<!-- status: Limitado -->
 <!-- bootstrap: navs-tabs -->
 <h1>Navs e abas (<code>.nav</code>)</h1>
 <p>
@@ -29,7 +29,7 @@
       <button class="nav-link" id="aba-contato" data-bs-toggle="tab" data-bs-target="#painel-contato" type="button" role="tab" aria-controls="painel-contato" aria-selected="false" disabled>Contato</button>
     </li>
   </ul>
-  <div class="tab-content border border-top-0 p-3">
+  <div class="tab-content pt-3">
     <div class="tab-pane fade show active" id="painel-dados" role="tabpanel" aria-labelledby="aba-dados" tabindex="0">Nome, CPF e data de nascimento.</div>
     <div class="tab-pane fade" id="painel-endereco" role="tabpanel" aria-labelledby="aba-endereco" tabindex="0">Logradouro, número e CEP.</div>
     <div class="tab-pane fade" id="painel-contato" role="tabpanel" aria-labelledby="aba-contato" tabindex="0">Telefone e e-mail.</div>
@@ -65,7 +65,8 @@
 <section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
   <ul>
-    <li>A <em>Tab</em> do GOV.BR DS marca a aba ativa com sublinhado espesso azul e sem moldura; <code>.nav-tabs</code> usa a moldura do Bootstrap. <code>.nav-underline</code> é o mais próximo, mas com espessura e cores do Bootstrap.</li>
-    <li>Não há contador por aba nem a rolagem horizontal de abas do GOV.BR DS.</li>
+    <li>Resolvido por tokens e CSS em <code>.nav-tabs</code> e <code>.nav-underline</code>: sem moldura, linha de 1px sob a lista, abas de 20,16px em peso médio com sublinhado de 4px na ativa (<code>--active</code>), hover e foco tracejado dourado.</li>
+    <li>Contador por aba, ícones e a rolagem horizontal de abas do GOV.BR DS não são reproduzidos.</li>
+    <li><code>.nav-pills</code> não existe no GOV.BR DS (extensão): só recebe o hover e o foco.</li>
   </ul>
 </section>

@@ -34,7 +34,7 @@ test("há páginas para testar", () => {
 
 test("catálogo abre a demonstração do badge", async ({ page }) => {
   await page.goto("/componentes/index.html");
-  const link = page.getByRole("link", { name: ".badge estático" });
+  const link = page.getByRole("link", { name: "Badge", exact: true });
   await expect(link).toHaveAttribute("href", "badges.html");
   await link.click();
   await expect(page.getByRole("heading", { name: "Badge estático (.badge)" })).toBeVisible();
@@ -42,7 +42,7 @@ test("catálogo abre a demonstração do badge", async ({ page }) => {
 
 test("catálogo abre a demonstração da paginação", async ({ page }) => {
   await page.goto("/componentes/index.html");
-  const link = page.getByRole("link", { name: ".pagination estática" });
+  const link = page.getByRole("link", { name: "Pagination", exact: true });
   await expect(link).toHaveAttribute("href", "paginacao.html");
   await link.click();
   await expect(page.getByRole("heading", { name: "Paginação estática (.pagination)" })).toBeVisible();

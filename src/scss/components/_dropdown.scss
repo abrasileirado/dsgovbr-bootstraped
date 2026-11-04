@@ -1,0 +1,9 @@
+// Dropdown como a List do GOV.BR DS: sombra suave sem borda, itens de 8px x
+// 16px, hover em camada azul, selecionado em --selected.
+.dropdown-menu {
+  box-shadow: $govbr-shadow-sm;
+}
+
+.dropdown-item:hover:not(.active):not(.disabled):not(:disabled) {
+  @include govbr-hover;
+}

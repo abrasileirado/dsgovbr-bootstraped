@@ -1,0 +1,23 @@
+// Foco tracejado dourado do GOV.BR DS em todos os componentes focáveis que
+// não têm adaptador próprio (botão, campos e paginação já tratam o foco).
+// Mesma especificidade das regras :focus do Bootstrap, declaradas depois,
+// então estas vencem sem !important.
+a:focus-visible,
+.btn-close:focus-visible,
+.navbar-toggler:focus-visible,
+.navbar-brand:focus-visible,
+.carousel-control-prev:focus-visible,
+.carousel-control-next:focus-visible,
+.carousel-indicators [data-bs-target]:focus-visible,
+[tabindex]:not(.form-control):not(.form-select):not(.form-check-input):focus-visible {
+  @include govbr-focus;
+}
+
+.accordion-button:focus-visible,
+.nav-link:focus-visible,
+.list-group-item-action:focus-visible,
+.dropdown-item:focus-visible {
+  @include govbr-focus(-$govbr-focus-width);
+  position: relative;
+  z-index: 3;
+}

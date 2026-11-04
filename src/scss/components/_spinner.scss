@@ -1,0 +1,12 @@
+// Loading indeterminado do GOV.BR DS: arco azul interativo (44px/4px e
+// 24px/2px, ver _bootstrap-settings.scss). Dentro de botões o spinner segue a
+// cor do texto do botão, como no Bootstrap.
+.spinner-border,
+.spinner-grow {
+  color: $govbr-interactive;
+}
+
+.btn .spinner-border,
+.btn .spinner-grow {
+  color: inherit;
+}

@@ -13,7 +13,19 @@ const G = "vendor/govbr-ds-core/src/partial/scss/configs/";
 const COLORS = `${G}colors/`;
 const BUTTON = "vendor/govbr-ds-core/src/components/button/_mixins.scss";
 
+const TOOLTIP = "vendor/govbr-ds-core/src/components/tooltip/_mixins.scss";
+const LOADING = "vendor/govbr-ds-core/src/components/loading/_mixins.scss";
+const MODAL = "vendor/govbr-ds-core/src/components/modal/_mixins.scss";
+
 const src = (rel, name) => scssVar(read(rel), name);
+
+// $font-size-scale-<nome> = $font-size-scale-base * fator (base de 14px)
+function escala(nome, fator) {
+  const typo = read(`${G}_typography.scss`);
+  assert.equal(scssVar(typo, `font-size-scale-${nome}`), `$font-size-scale-base * ${fator}`, `escala ${nome} mudou`);
+  const base = parseFloat(scssVar(typo, "font-size-scale-base"));
+  return `${Math.round(base * fator * 1000) / 1000}px`;
+}
 
 function hexToRgb(hex) {
   const h = hex.replace("#", "");
@@ -75,6 +87,20 @@ const ORIGEM = {
   "button-height-small": () => cssProp(read(BUTTON), "--button-small"),
   "button-height-medium": () => cssProp(read(BUTTON), "--button-medium"),
   "button-height-large": () => cssProp(read(BUTTON), "--button-large"),
+  selected: () => src(`${COLORS}_blue-warm-vivid.scss`, "blue-warm-vivid-50"),
+  "font-size-down-01": () => escala("down-01", 0.833),
+  "font-size-up-01": () => escala("up-01", 1.2),
+  "font-size-up-02": () => escala("up-02", 1.44),
+  "font-weight-bold": () => src(`${G}_typography.scss`, "font-weight-bold"),
+  "scrim-opacity": () => {
+    assert.equal(src(`${G}_surface.scss`, "overlay-scrim"), "rgba(var(--rgb-secondary-09), var(--surface-opacity-md))");
+    return src(`${G}_elevation.scss`, "opacity-md");
+  },
+  "tooltip-shadow": () => cssProp(read(TOOLTIP), "box-shadow"),
+  "tooltip-max-width": () => cssProp(read(TOOLTIP), "max-width"),
+  "loading-sm": () => cssProp(read(LOADING), "--loading-indetermined-diameter-sm"),
+  "loading-md": () => cssProp(read(LOADING), "--loading-indetermined-diameter-md"),
+  "modal-width": () => cssProp(read(MODAL), "--modal-medium"),
   // padding: 0 var(--spacing-scale-3x) = 3 x $spacer
   "button-padding-x": () => {
     assert.match(read(BUTTON), /padding:\s*0 var\(--spacing-scale-3x\)/, "padding do botão mudou");

@@ -1,0 +1,16 @@
+// Carousel do GOV.BR DS: indicadores em ponto e controles em círculo de 40px
+// sobre fundo escurecido (Scrim), para ficarem visíveis sobre qualquer imagem.
+.carousel-indicators [data-bs-target] {
+  border-radius: 50%;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, $govbr-scrim-opacity);
+  background-size: 16px;
+}

@@ -16,9 +16,23 @@
 
 // Ajustes que as variáveis de tema, sozinhas, não resolvem — um adaptador
 // por componente (ver docs/desenvolvimento.md).
+@import "mixins";
+
 @import "components/alert";
 @import "components/badge";
 @import "components/pagination";
 @import "components/button";
 @import "components/card";
 @import "components/form";
+@import "components/focus";
+@import "components/accordion";
+@import "components/breadcrumb";
+@import "components/close";
+@import "components/list-group";
+@import "components/nav";
+@import "components/dropdown";
+@import "components/tooltip";
+@import "components/spinner";
+@import "components/toast";
+@import "components/modal";
+@import "components/carousel";

@@ -1,0 +1,15 @@
+// List/Item do GOV.BR DS (vendor/govbr-ds-core/src/components/item, list):
+// itens sem moldura lateral, separados por divisor, texto padrão, hover em
+// camada azul e item selecionado em --selected.
+.list-group:not(.list-group-horizontal) > .list-group-item {
+  border-left: 0;
+  border-right: 0;
+}
+
+.list-group-item-action {
+  color: $govbr-gray-80;
+
+  &:hover:not(.active):not(:disabled):not(.disabled) {
+    @include govbr-hover;
+  }
+}
