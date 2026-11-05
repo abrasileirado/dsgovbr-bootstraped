@@ -147,3 +147,8 @@ $govbr-switch-on: #5992ed !default;    // --on (blue-warm-vivid-40)
 $govbr-switch-width: 52px !default;    // --switch-width-medium
 $govbr-switch-height: 30px !default;   // --switch-height-medium
 $govbr-switch-toggle: 22px !default;   // --switch-toggle-medium
+
+// Sombras grandes: vendor/govbr-ds-core/src/partial/scss/configs/_elevation.scss
+// ($shadow-lg e $shadow-lg-up: offset-lg / offset-lg-n, blur-lg, secondary-09 a opacity-xs).
+$govbr-shadow-lg: 0 6px 6px rgba(0, 0, 0, 0.16) !default;     // skiplink
+$govbr-shadow-lg-up: 0 -6px 6px rgba(0, 0, 0, 0.16) !default; // cookiebar

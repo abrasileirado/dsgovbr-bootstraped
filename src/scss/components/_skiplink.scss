@@ -1,0 +1,25 @@
+// Skiplink do GOV.BR DS (vendor/govbr-ds-core/src/components/skiplink):
+// .visually-hidden-focusable, ao receber foco, aparece fixo no topo, a 16px
+// da esquerda, com fundo, sombra grande, largura mínima de 300px e itens de
+// 56px. Um <nav class="visually-hidden-focusable"> com vários links aparece
+// inteiro, em linha (variante "full" do GOV.BR DS).
+.visually-hidden-focusable:focus,
+.visually-hidden-focusable:focus-within {
+  position: fixed;
+  top: 0;
+  left: 16px; // --skiplink-margin
+  z-index: $zindex-toast + 10;
+  display: inline-flex;
+  min-width: 300px; // --skiplink-min-width
+  background-color: var(--#{$prefix}body-bg);
+  box-shadow: $govbr-shadow-lg;
+}
+
+a.visually-hidden-focusable,
+.visually-hidden-focusable a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 8px 16px;
+  white-space: nowrap;
+}

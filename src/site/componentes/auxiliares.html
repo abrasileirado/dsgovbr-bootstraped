@@ -1,0 +1,136 @@
+<!-- title: Componente: Auxiliares — dsgovbr-bootstraped -->
+<!-- status: Limitado -->
+<nav class="visually-hidden-focusable" aria-label="Atalhos da página">
+  <a href="#skiplink">Ir para o skiplink</a>
+  <a href="#cookiebar-secao">Ir para o cookiebar</a>
+</nav>
+<h1>Skiplink, avatar, sign-in, divider e cookiebar</h1>
+<p>
+  Componentes do GOV.BR DS sem componente próprio no Bootstrap, compostos
+  com classes e utilitários públicos do Bootstrap. Nenhuma classe
+  <code>.br-*</code> é necessária (RF-03). O que não tem equivalente fica
+  em <a href="#diferencas">Diferenças conhecidas</a>.
+</p>
+
+<section id="skiplink" tabindex="-1">
+  <h2>Skiplink</h2>
+  <p>
+    <code>.visually-hidden-focusable</code> num link, ou num
+    <code>&lt;nav&gt;</code> com vários links, no início da página. Ao
+    receber foco por teclado, aparece fixo no topo com sombra, como o
+    <em>Skiplink</em> do GOV.BR DS. Esta página tem um: volte ao topo e
+    pressione Tab.
+  </p>
+<pre><code>&lt;nav class="visually-hidden-focusable" aria-label="Atalhos"&gt;
+  &lt;a href="#conteudo"&gt;Ir para o conteúdo&lt;/a&gt;
+  &lt;a href="#menu"&gt;Ir para o menu&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+</section>
+
+<section>
+  <h2>Avatar</h2>
+  <p>
+    Imagem ou inicial em círculo (<code>.rounded-circle</code>), nos
+    tamanhos do GOV.BR DS (40, 100 e 160px).
+  </p>
+  <div class="d-flex align-items-center gap-3 mb-3">
+    <img class="rounded-circle" src="../exemplos/img/avatar.svg" width="40" height="40" alt="Foto de Maria Silva">
+    <img class="rounded-circle" src="../exemplos/img/avatar.svg" width="100" height="100" alt="Foto de Maria Silva, tamanho médio">
+    <img class="rounded-circle" src="../exemplos/img/avatar.svg" width="160" height="160" alt="Foto de Maria Silva, tamanho grande">
+  </div>
+  <div class="d-flex align-items-center gap-3">
+    <span class="rounded-circle bg-primary-subtle text-primary fw-bold text-uppercase d-inline-flex align-items-center justify-content-center fs-4" style="width: 40px; height: 40px;" title="Maria Silva">
+      <span aria-hidden="true">m</span><span class="visually-hidden">Maria Silva</span>
+    </span>
+  </div>
+</section>
+
+<section>
+  <h2>Sign-in</h2>
+  <p>
+    <code>.btn.btn-light</code> é o <em>Sign-in</em> do GOV.BR DS: pílula de
+    fundo cinza-claro com texto na cor interativa. Aceita ícone e imagem de
+    até 20px.
+  </p>
+  <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+    <button type="button" class="btn btn-light">Entrar</button>
+    <button type="button" class="btn btn-light btn-sm">Entrar</button>
+    <button type="button" class="btn btn-light">Entrar com <img src="../exemplos/img/logo.svg" alt="gov.br"></button>
+  </div>
+  <div class="p-3 bg-body" data-bs-theme="dark">
+    <button type="button" class="btn btn-light">Entrar</button>
+  </div>
+</section>
+
+<section>
+  <h2>Divider</h2>
+  <p>
+    <code>&lt;hr&gt;</code> na horizontal e <code>.vr</code> na vertical,
+    em <code>--border-color</code>. Com texto no meio, dois
+    <code>&lt;hr&gt;</code> num flex.
+  </p>
+  <hr>
+  <div class="d-flex align-items-center gap-3" style="height: 40px;">
+    <span>Início</span>
+    <div class="vr"></div>
+    <span>Cadastros</span>
+  </div>
+  <div class="d-flex align-items-center gap-2 my-3">
+    <hr class="flex-grow-1 m-0">
+    <span>ou</span>
+    <hr class="flex-grow-1 m-0">
+  </div>
+</section>
+
+<section id="cookiebar-secao" tabindex="-1">
+  <h2>Cookiebar</h2>
+  <p>
+    <code>.offcanvas.offcanvas-bottom.h-auto</code>, com
+    <code>data-bs-backdrop="static"</code> e
+    <code>data-bs-keyboard="false"</code>: a pessoa precisa escolher. O
+    painel ganha a sombra para cima do <em>Cookiebar</em> do GOV.BR DS. As
+    categorias usam o <a href="formularios.html">switch</a>.
+  </p>
+  <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#cookiebar" aria-controls="cookiebar">Ver aviso de cookies</button>
+
+  <div class="offcanvas offcanvas-bottom h-auto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="cookiebar" aria-labelledby="cookiebar-titulo">
+    <div class="offcanvas-body">
+      <div class="container-lg">
+        <h2 class="fs-5" id="cookiebar-titulo">Aviso de cookies</h2>
+        <p>
+          Usamos cookies para melhorar sua experiência e analisar o uso do
+          site. Veja a <a href="#">política de privacidade</a>.
+        </p>
+        <div class="collapse" id="cookiebar-grupos">
+          <div class="form-check form-switch form-check-reverse text-start mb-2">
+            <input class="form-check-input" type="checkbox" role="switch" id="cookie-necessarios" checked disabled>
+            <label class="form-check-label" for="cookie-necessarios">Necessários (sempre ativos)</label>
+          </div>
+          <div class="form-check form-switch form-check-reverse text-start mb-2">
+            <input class="form-check-input" type="checkbox" role="switch" id="cookie-desempenho">
+            <label class="form-check-label" for="cookie-desempenho">Desempenho</label>
+          </div>
+          <div class="form-check form-switch form-check-reverse text-start mb-3">
+            <input class="form-check-input" type="checkbox" role="switch" id="cookie-funcionais">
+            <label class="form-check-label" for="cookie-funcionais">Funcionais</label>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-end gap-3">
+          <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#cookiebar-grupos" aria-expanded="false" aria-controls="cookiebar-grupos">Definir cookies</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">Aceitar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="diferencas">
+  <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-05)</h2>
+  <ul>
+    <li>Skiplink: o GOV.BR DS mostra um link por vez, com o número do atalho numa tag e <code>accesskey</code>; aqui o <code>&lt;nav&gt;</code> aparece inteiro, em linha (como a variante <em>full</em>), e números e <code>accesskey</code> ficam a cargo do HTML.</li>
+    <li>Avatar: sem classe própria; os tamanhos saem de <code>width</code>/<code>height</code>. A inicial usa <code>.bg-primary-subtle</code> com <code>.text-primary</code>: o par do GOV.BR DS (<code>blue-warm-20</code> sobre <code>blue-10</code>) tem contraste de 1,1:1 e reprovaria na WCAG 1.4.3. O avatar com ícone exige o Font Awesome (DP-05).</li>
+    <li>Sign-in: <code>.btn-light</code> deixa de ser o cinza do Bootstrap e vira o <em>Sign-in</em> em todo o tema.</li>
+    <li>Divider: sem a variante tracejada (<code>.dashed</code>) nem as espessuras do GOV.BR DS, porque o Bootstrap não tem utilitários de estilo de borda.</li>
+    <li>Cookiebar: é só a composição visual. Gravar a escolha, ler o JSON de categorias e mostrar a data de atualização, como o <code>BRCookiebar</code>, fica com a aplicação.</li>
+  </ul>
+</section>

@@ -77,24 +77,7 @@
   @include govbr-hover($govbr-interactive-dark);
 }
 
-// "Entrar" (Sign-in do GOV.BR DS): pílula de fundo cinza-claro com texto e
-// ícone na cor interativa, 16,8px.
-.navbar .btn-light {
-  --#{$prefix}btn-bg: #{$govbr-gray-2};
-  --#{$prefix}btn-color: #{$govbr-interactive};
-  --#{$prefix}btn-hover-bg: #{$govbr-gray-2};
-  --#{$prefix}btn-hover-color: #{$govbr-interactive};
-  --#{$prefix}btn-active-bg: #{$govbr-gray-2};
-  --#{$prefix}btn-active-color: #{$govbr-active};
-  gap: 8px;
-  padding-top: 0;
-  padding-bottom: 0;
-  font-size: $govbr-font-size-up-01;
-
-  &:hover {
-    @include govbr-hover;
-  }
-}
+// O "Entrar" (.btn-light) vem de components/_button.scss (Sign-in).
 
 // Busca do Header: campo de 40px com fundo cinza-claro, sem borda visível e
 // espaço à direita para o botão circular de pesquisa.
