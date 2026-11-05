@@ -1,0 +1,130 @@
+/* Rawline: cópia sem modificação dos arquivos woff2 publicados pelo GOV.BR DS
+   no CDN do SERPRO (https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/).
+   Licença: SIL Open Font License 1.1 (ver OFL.txt ao lado). Hospedada no site de
+   documentação porque o CDN não envia Access-Control-Allow-Origin, o que impede o
+   atributo integrity (SRI). */
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-100.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-100i.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-200.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-200i.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-300i.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-400i.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-500i.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-600i.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-700i.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-800.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-800i.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-900.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "rawline";
+  src: url("rawline-900i.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}

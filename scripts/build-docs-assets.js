@@ -20,6 +20,12 @@ const COPIES = [
   ["src/site/catalogo.js", "docs/assets/js/catalogo.js"],
   // aviso de licença do que é redistribuído no site (MIT)
   ["vendor/bootstrap/LICENSE", "docs/assets/vendor/bootstrap/LICENSE"],
+  // fonte Rawline (SIL OFL 1.1) hospedada no site: o CDN do SERPRO não manda
+  // CORS, então não aceita integrity (SRI). Copia CSS, woff2 e OFL.txt.
+  ...fs.readdirSync(path.join(ROOT, "src/site/fonts/rawline")).map((f) => [
+    `src/site/fonts/rawline/${f}`,
+    `docs/assets/fonts/rawline/${f}`,
+  ]),
 ];
 
 for (const [from, to] of COPIES) {

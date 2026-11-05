@@ -11,6 +11,8 @@ const fs = require("fs");
 const path = require("path");
 
 const CDN_RAWLINE_URL = "https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css";
+// o site hospeda a própria cópia (issue #45): sem CORS no CDN não há SRI
+const RAWLINE_LOCAL_URL = "../assets/fonts/rawline/rawline.css";
 const DOCS = path.join(__dirname, "..", "..", "docs");
 // o "antes" da comparação é Bootstrap puro: sem tema, sem a fonte do GOV.BR DS
 const SEM_TEMA = ["/exemplos/comparacao-padrao.html"];
@@ -22,9 +24,10 @@ test("a URL da Rawline é a mesma documentada em getting-started.md", () => {
 
 for (const url of allPages) {
   const esperado = !SEM_TEMA.includes(url);
-  test(`${url}: ${esperado ? "carrega" : "não carrega"} a fonte Rawline do CDN`, () => {
+  test(`${url}: ${esperado ? "carrega" : "não carrega"} a fonte Rawline hospedada`, () => {
     const html = fs.readFileSync(path.join(DOCS, url), "utf8");
-    expect(html.includes(CDN_RAWLINE_URL)).toBe(esperado);
+    expect(html.includes(RAWLINE_LOCAL_URL)).toBe(esperado);
+    expect(html.includes(CDN_RAWLINE_URL)).toBe(false);
   });
 }
 
