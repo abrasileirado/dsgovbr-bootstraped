@@ -534,8 +534,8 @@ test.describe("select e switch (issue #46)", () => {
   test("select: foco dourado e erro com 2px visuais", async ({ page }) => {
     await page.locator("#select1").focus();
     await expect.poll(async () => (await css(page, "#select1", ["border-top-color"]))["border-top-color"]).toBe("rgb(194, 133, 12)");
-    const f = await css(page, "#select1", ["box-shadow"]);
-    expect(f["box-shadow"]).toBe("rgb(194, 133, 12) 0px 0px 0px 2px");
+    // a transição do campo (.15s) passa por valores intermediários: espera o final
+    await expect.poll(async () => (await css(page, "#select1", ["box-shadow"]))["box-shadow"]).toBe("rgb(194, 133, 12) 0px 0px 0px 2px");
     const e = await css(page, "#select-erro", ["box-shadow"]);
     expect(e["box-shadow"]).toBe("rgb(229, 34, 7) 0px 0px 0px 1px inset");
   });
