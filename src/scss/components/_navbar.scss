@@ -1,0 +1,125 @@
+// Navbar como o Header do GOV.BR DS (vendor/govbr-ds-core/src/components/header).
+// A estrutura, os breakpoints e os plugins continuam os do Bootstrap; o Header
+// completo é uma composição (ver docs/exemplos/admin.html):
+//   linha de cima: logo, .vr e assinatura (.navbar-text); à direita, botões
+//     circulares (.btn.btn-link.rounded-circle) com dropdown e o "Entrar"
+//     (.btn.btn-light.btn-sm);
+//   linha de baixo: acionador do menu, título (.navbar-brand) com subtítulo
+//     (.navbar-text logo depois) e a busca (form[role="search"]).
+.navbar {
+  box-shadow: $govbr-shadow-sm;
+}
+
+// Título (--header-title-size): 14px no celular, 20,16px a partir de sm e
+// 24,19px a partir do lg do GOV.BR DS (1280px; aqui o xl do Bootstrap, 1200px).
+.navbar-brand {
+  font-weight: normal;
+}
+
+@include media-breakpoint-up(sm) {
+  .navbar-brand {
+    font-size: $govbr-font-size-up-02;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .navbar-brand {
+    font-size: $govbr-font-size-up-03;
+  }
+}
+
+// Assinatura e subtítulo no texto padrão, não na cor dos links.
+.navbar-text {
+  color: var(--#{$prefix}body-color);
+}
+
+// Subtítulo (--header-subtitle-size): logo abaixo do título, em peso médio;
+// oculto no celular, 11,66px a partir de sm e 14px a partir do xl.
+.navbar-brand + .navbar-text {
+  display: none;
+  padding: 4px 0 0;
+  font-size: $govbr-font-size-down-01;
+  font-weight: $govbr-font-weight-medium;
+}
+
+@include media-breakpoint-up(sm) {
+  .navbar-brand + .navbar-text {
+    display: block;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .navbar-brand + .navbar-text {
+    font-size: $govbr-font-size-base;
+  }
+}
+
+.navbar-toggler {
+  border: 0;
+}
+
+.navbar-nav .nav-link {
+  border-radius: $govbr-button-radius;
+
+  &.active {
+    font-weight: $govbr-font-weight-semibold;
+  }
+}
+
+.navbar-nav .nav-link:hover:not(.disabled),
+.navbar-toggler:hover {
+  @include govbr-hover;
+}
+
+[data-bs-theme="dark"] .navbar-nav .nav-link:hover:not(.disabled),
+[data-bs-theme="dark"] .navbar-toggler:hover,
+[data-bs-theme="dark"].navbar .navbar-toggler:hover {
+  @include govbr-hover($govbr-interactive-dark);
+}
+
+// "Entrar" (Sign-in do GOV.BR DS): pílula de fundo cinza-claro com texto e
+// ícone na cor interativa, 16,8px.
+.navbar .btn-light {
+  --#{$prefix}btn-bg: #{$govbr-gray-2};
+  --#{$prefix}btn-color: #{$govbr-interactive};
+  --#{$prefix}btn-hover-bg: #{$govbr-gray-2};
+  --#{$prefix}btn-hover-color: #{$govbr-interactive};
+  --#{$prefix}btn-active-bg: #{$govbr-gray-2};
+  --#{$prefix}btn-active-color: #{$govbr-active};
+  gap: 8px;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: $govbr-font-size-up-01;
+
+  &:hover {
+    @include govbr-hover;
+  }
+}
+
+// Busca do Header: campo de 40px com fundo cinza-claro, sem borda visível e
+// espaço à direita para o botão circular de pesquisa.
+.navbar [role="search"] {
+  position: relative;
+
+  .form-control {
+    height: $govbr-button-height-medium;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: $govbr-button-height-medium;
+    font-size: $govbr-font-size-up-01;
+    font-weight: $govbr-font-weight-medium;
+    background-color: $govbr-gray-2;
+    border-color: transparent;
+
+    &::placeholder {
+      font-style: italic;
+    }
+  }
+
+  .btn.rounded-circle {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+  }
+}

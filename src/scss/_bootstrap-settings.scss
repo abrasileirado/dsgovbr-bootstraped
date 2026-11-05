@@ -308,3 +308,44 @@ $carousel-indicator-width: 8px !default;
 $carousel-indicator-height: 8px !default;
 $carousel-indicator-spacer: 4px !default;
 $carousel-indicator-opacity: 0.45 !default;
+
+// --- Issue #45: header, menu e footer ---
+
+// Modo escuro (data-bs-theme="dark") no fundo escuro do GOV.BR DS
+// (--background-dark, --color-dark, --interactive-dark). É a superfície do
+// Footer e do Header escuro; use .bg-body nesses blocos.
+$body-bg-dark: $govbr-background-dark !default;
+$body-color-dark: $govbr-color-dark !default;
+$link-color-dark: $govbr-interactive-dark !default;
+$link-hover-color-dark: $govbr-interactive-dark !default;
+
+// Navbar como o Header do GOV.BR DS: 16px de respiro vertical, título de
+// 14px (20,16px a partir de sm) na cor do texto, links na cor interativa e acionador do menu
+// circular de 40px com o ícone na cor interativa.
+$navbar-padding-y: 16px !default;
+$navbar-brand-font-size: $govbr-font-size-base !default; // celular; sm e lg em components/_navbar.scss
+$navbar-brand-padding-y: 4px !default; // o cálculo do Bootstrap mistura rem e px
+$navbar-nav-link-padding-x: 16px !default;
+$navbar-toggler-padding-y: 8px !default;
+$navbar-toggler-padding-x: 8px !default;
+$navbar-toggler-font-size: 16px !default;
+$navbar-toggler-border-radius: 50% !default;
+$navbar-light-color: $govbr-interactive !default;
+$navbar-light-hover-color: $govbr-interactive !default;
+$navbar-light-active-color: $govbr-active !default;
+$navbar-light-disabled-color: $govbr-gray-40 !default;
+$navbar-light-icon-color: $govbr-interactive !default;
+$navbar-light-toggler-border-color: transparent !default;
+$navbar-light-brand-color: $govbr-gray-80 !default;
+$navbar-light-brand-hover-color: $govbr-gray-80 !default;
+$navbar-dark-color: $govbr-interactive-dark !default;
+$navbar-dark-hover-color: $govbr-interactive-dark !default;
+$navbar-dark-active-color: $govbr-color-dark !default;
+$navbar-dark-icon-color: $govbr-interactive-dark !default;
+$navbar-dark-toggler-border-color: transparent !default;
+$navbar-dark-brand-color: $govbr-color-dark !default;
+$navbar-dark-brand-hover-color: $govbr-color-dark !default;
+
+// Divider (GOV.BR DS: Divider) — <hr> opaco em --border-color.
+$hr-color: $govbr-gray-20 !default;
+$hr-opacity: 1 !default;

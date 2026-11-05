@@ -1,0 +1,6 @@
+// Divider do GOV.BR DS (vendor/govbr-ds-core/src/components/divider): 1px
+// opaco em --border-color. <hr> recebe pelas variáveis $hr-color/$hr-opacity;
+// o .vr (divisor vertical do Header) usa a cor de fundo.
+.vr {
+  background-color: $govbr-gray-20;
+}

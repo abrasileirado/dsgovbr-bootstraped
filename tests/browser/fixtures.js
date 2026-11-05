@@ -9,14 +9,19 @@
 const base = require("@playwright/test");
 
 const CDN_RAWLINE = /cdngovbr-ds\.estaleiro\.serpro\.gov\.br/;
+// Font Awesome 5 (ícones do GOV.BR DS, DP-05) nos exemplos: mesmo tratamento.
+const CDN_FONT_AWESOME = /cdnjs\.cloudflare\.com\/ajax\/libs\/font-awesome\//;
 
 const test = base.test.extend({
   page: async ({ page }, use) => {
     await page.route(CDN_RAWLINE, (route) =>
       route.fulfill({ status: 200, contentType: "text/css", body: "/* Rawline stubada nos testes */" })
     );
+    await page.route(CDN_FONT_AWESOME, (route) =>
+      route.fulfill({ status: 200, contentType: "text/css", body: "/* Font Awesome stubado nos testes */" })
+    );
     await use(page);
   },
 });
 
-module.exports = { test, expect: base.expect, CDN_RAWLINE };
+module.exports = { test, expect: base.expect, CDN_RAWLINE, CDN_FONT_AWESOME };

@@ -65,12 +65,12 @@ test("valor inválido em ?tema= é ignorado", async ({ page }) => {
 });
 
 test("páginas de componente mostram o status da matriz e linkam o Bootstrap", async ({ page }) => {
-  await page.goto("/componentes/navbar.html");
+  await page.goto("/componentes/collapse.html");
   const faixa = page.locator(".catalogo-status");
   await expect(faixa).toContainText("Status na matriz: Não suportado.");
   await expect(faixa.getByRole("link", { name: "documentação do Bootstrap 5.3" })).toHaveAttribute(
     "href",
-    "https://getbootstrap.com/docs/5.3/components/navbar/"
+    "https://getbootstrap.com/docs/5.3/components/collapse/"
   );
 });
 

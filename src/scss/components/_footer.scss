@@ -1,0 +1,28 @@
+// Footer do GOV.BR DS (vendor/govbr-ds-core/src/components/footer):
+// <footer data-bs-theme="dark" class="bg-body"> — fundo --background-dark (do
+// modo escuro), divisor no topo, 48px de respiro, títulos de categoria em
+// 11,66px negrito e caixa alta e itens de 56px (Item do GOV.BR DS: 8px de
+// respiro + 40px) com links em --interactive-dark.
+footer[data-bs-theme="dark"] {
+  padding-top: 48px;
+  border-top: 1px solid $govbr-gray-20;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    margin: 0;
+    padding: 8px 16px;
+    font-size: $govbr-font-size-down-01;
+    font-weight: $govbr-font-weight-bold;
+    color: $govbr-interactive-dark;
+    text-transform: uppercase;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 8px 16px;
+  }
+}

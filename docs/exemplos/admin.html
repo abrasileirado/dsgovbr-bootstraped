@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Exemplo: Painel administrativo — dsgovbr-bootstraped</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonte Rawline e ícones Font Awesome 5 (GOV.BR DS): só linkados de CDN, não redistribuídos (DP-05).
+       Sem integrity: o CDN da Rawline não publica hash (alerta já dispensado como "won't fix"). -->
+  <!-- nosemgrep: html.security.audit.missing-integrity.missing-integrity -->
+  <link rel="stylesheet" href="https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="../assets/css/dsgovbr-bootstraped.css">
+  <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    main { flex: 1; }
+  </style>
+</head>
+<body>
+  <a class="visually-hidden-focusable" href="#conteudo">Ir para o conteúdo</a>
+
+  <!-- Header do GOV.BR DS composto com a navbar do Bootstrap -->
+  <header class="navbar bg-body">
+    <div class="container-lg d-block">
+      <!-- linha de cima: logo, divisor, assinatura e ações -->
+      <div class="d-flex align-items-center gap-3">
+        <a href="#"><img src="img/logo.svg" height="40" alt="Página inicial do sistema"></a>
+        <div class="vr d-none d-sm-block"></div>
+        <span class="navbar-text p-0 fw-medium d-none d-sm-block">Ministério Exemplo</span>
+
+        <div class="d-flex align-items-center gap-1 ms-auto">
+          <!-- acesso rápido: links no desktop, menu no celular -->
+          <ul class="navbar-nav flex-row d-none d-xl-flex" aria-label="Acesso rápido">
+            <li class="nav-item"><a class="nav-link px-2" href="../index.md">Documentação</a></li>
+            <li class="nav-item"><a class="nav-link px-2" href="../componentes/index.html">Componentes</a></li>
+            <li class="nav-item"><a class="nav-link px-2" href="index.html">Exemplos</a></li>
+          </ul>
+          <div class="dropdown d-xl-none">
+            <button class="btn btn-link btn-sm rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir acesso rápido"><i class="fas fa-ellipsis-v" aria-hidden="true"></i></button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><h2 class="dropdown-header">Acesso rápido</h2></li>
+              <li><a class="dropdown-item" href="../index.md">Documentação</a></li>
+              <li><a class="dropdown-item" href="../componentes/index.html">Componentes</a></li>
+              <li><a class="dropdown-item" href="index.html">Exemplos</a></li>
+            </ul>
+          </div>
+
+          <div class="vr mx-1"></div>
+
+          <!-- funcionalidades do sistema: ícones no desktop, menu no celular -->
+          <div class="d-none d-xl-flex">
+            <a class="btn btn-link btn-sm rounded-circle" href="#" aria-label="Relatórios"><i class="fas fa-chart-bar" aria-hidden="true"></i></a>
+            <a class="btn btn-link btn-sm rounded-circle" href="#" aria-label="Suporte"><i class="fas fa-headset" aria-hidden="true"></i></a>
+            <button class="btn btn-link btn-sm rounded-circle" type="button" aria-label="Alto contraste"><i class="fas fa-adjust" aria-hidden="true"></i></button>
+          </div>
+          <div class="dropdown d-xl-none">
+            <button class="btn btn-link btn-sm rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir funcionalidades do sistema"><i class="fas fa-th" aria-hidden="true"></i></button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><h2 class="dropdown-header">Funcionalidades do sistema</h2></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar me-2" aria-hidden="true"></i>Relatórios</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-headset me-2" aria-hidden="true"></i>Suporte</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-adjust me-2" aria-hidden="true"></i>Alto contraste</a></li>
+            </ul>
+          </div>
+
+          <button class="btn btn-link rounded-circle d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#busca-header" aria-expanded="false" aria-controls="busca-header" aria-label="Abrir busca"><i class="fas fa-search" aria-hidden="true"></i></button>
+
+          <!-- usuário autenticado (Sign-in/Avatar) -->
+          <div class="dropdown ms-1">
+            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user" aria-hidden="true"></i><span class="d-none d-sm-inline">Maria Silva</span><span class="visually-hidden d-sm-none">Maria Silva</span></button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Meu perfil</a></li>
+              <li><a class="dropdown-item" href="#">Alterar senha</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="login.html">Sair</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- linha de baixo: menu, título, subtítulo e busca -->
+      <div class="d-flex flex-wrap align-items-start gap-3 mt-2">
+        <button class="btn btn-link btn-sm rounded-circle mt-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-label="Abrir menu"><i class="fas fa-bars" aria-hidden="true"></i></button>
+        <div class="me-auto">
+          <a class="navbar-brand p-0 m-0" href="#">Administração do Sistema</a>
+          <span class="navbar-text">Gestão de usuários e permissões</span>
+        </div>
+        <form class="collapse d-lg-block col-12 col-lg-5 col-xl-4" id="busca-header" role="search">
+          <label class="visually-hidden" for="busca-geral">Texto da pesquisa</label>
+          <input class="form-control" id="busca-geral" type="search" placeholder="O que você procura?">
+          <button class="btn btn-link btn-sm rounded-circle" type="submit" aria-label="Pesquisar"><i class="fas fa-search" aria-hidden="true"></i></button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu do GOV.BR DS: offcanvas lateral com list group e pastas por Collapse -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menu-principal" aria-labelledby="menu-principal-titulo">
+    <div class="offcanvas-header">
+      <div class="d-flex align-items-center gap-2 me-auto">
+        <img src="img/logo.svg" height="40" alt="">
+        <span id="menu-principal-titulo">Administração do Sistema</span>
+      </div>
+      <button type="button" class="btn btn-link rounded-circle" data-bs-dismiss="offcanvas" aria-label="Fechar o menu"><i class="fas fa-times" aria-hidden="true"></i></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-0">
+      <nav aria-label="Menu principal">
+        <div class="list-group list-group-flush">
+          <a class="list-group-item list-group-item-action" href="#"><i class="fas fa-home" aria-hidden="true"></i>Início</a>
+          <button class="list-group-item list-group-item-action" type="button" data-bs-toggle="collapse" data-bs-target="#menu-cadastros" aria-expanded="true" aria-controls="menu-cadastros"><i class="fas fa-users" aria-hidden="true"></i>Cadastros</button>
+          <div class="collapse show" id="menu-cadastros">
+            <div class="list-group list-group-flush">
+              <a class="list-group-item list-group-item-action active" aria-current="page" href="#"><i class="fas fa-user" aria-hidden="true"></i>Usuários</a>
+              <a class="list-group-item list-group-item-action" href="#"><i class="fas fa-user-shield" aria-hidden="true"></i>Grupos e permissões</a>
+            </div>
+          </div>
+          <button class="list-group-item list-group-item-action" type="button" data-bs-toggle="collapse" data-bs-target="#menu-relatorios" aria-expanded="false" aria-controls="menu-relatorios"><i class="fas fa-chart-bar" aria-hidden="true"></i>Relatórios</button>
+          <div class="collapse" id="menu-relatorios">
+            <div class="list-group list-group-flush">
+              <a class="list-group-item list-group-item-action" href="#"><i class="fas fa-history" aria-hidden="true"></i>Registros de acesso</a>
+              <a class="list-group-item list-group-item-action" href="#"><i class="fas fa-chart-line" aria-hidden="true"></i>Estatísticas</a>
+            </div>
+          </div>
+          <a class="list-group-item list-group-item-action" href="#"><i class="fas fa-cog" aria-hidden="true"></i>Configurações</a>
+        </div>
+      </nav>
+
+      <!-- rodapé do menu: logos, links externos, redes sociais e licença -->
+      <div class="mt-auto">
+        <div class="d-flex gap-3 px-5 py-2 border-top border-bottom">
+          <img src="img/logo.svg" height="33" alt="Logo do órgão">
+          <img src="img/logo.svg" height="33" alt="Logo do governo">
+        </div>
+        <div class="px-5 py-3 border-bottom">
+          <a class="d-block mb-3 text-decoration-none" href="#">Portal do órgão <i class="fas fa-external-link-square-alt ms-1" aria-hidden="true"></i></a>
+          <a class="d-block text-decoration-none" href="#">Ouvidoria <i class="fas fa-external-link-square-alt ms-1" aria-hidden="true"></i></a>
+        </div>
+        <div class="px-5 py-2 border-bottom">
+          <p class="fw-semibold mb-1">Redes sociais</p>
+          <div class="d-flex">
+            <a class="btn btn-link rounded-circle" href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a class="btn btn-link rounded-circle" href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a class="btn btn-link rounded-circle" href="#" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <p class="small text-center p-3 m-0">Conteúdo publicado sob a licença <strong>Creative Commons Atribuição 4.0</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <main class="container-lg py-4" id="conteudo" tabindex="-1">
+    <nav aria-label="Trilha de navegação">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Início</a></li>
+        <li class="breadcrumb-item"><a href="#">Cadastros</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Usuários</li>
+      </ol>
+    </nav>
+
+    <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between mb-3">
+      <h1 class="h3 m-0">Usuários</h1>
+      <button type="button" class="btn btn-primary">Adicionar usuário</button>
+    </div>
+
+    <div class="alert alert-success alert-dismissible" role="alert">
+      O usuário "João Souza" foi alterado com sucesso.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <form class="row g-3 align-items-end">
+          <div class="col-md-6">
+            <label for="busca" class="form-label">Buscar por nome ou e-mail</label>
+            <input type="search" class="form-control" id="busca">
+          </div>
+          <div class="col-md-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="somente-ativos" checked>
+              <label class="form-check-label" for="somente-ativos">Somente ativos</label>
+            </div>
+          </div>
+          <div class="col-md-3 text-md-end">
+            <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <caption>3 de 42 usuários</caption>
+        <thead>
+          <tr><th scope="col">Nome</th><th scope="col">E-mail</th><th scope="col">Grupo</th><th scope="col">Situação</th><th scope="col"><span class="visually-hidden">Ações</span></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ana Pereira</td><td>ana.pereira@exemplo.gov.br</td><td>Gestores</td>
+            <td><span class="badge text-bg-success">Ativo</span></td>
+            <td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> Ana Pereira</span></a></td>
+          </tr>
+          <tr>
+            <td>João Souza</td><td>joao.souza@exemplo.gov.br</td><td>Atendimento</td>
+            <td><span class="badge text-bg-success">Ativo</span></td>
+            <td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> João Souza</span></a></td>
+          </tr>
+          <tr>
+            <td>Carla Lima</td><td>carla.lima@exemplo.gov.br</td><td>Atendimento</td>
+            <td><span class="badge text-bg-secondary">Inativo</span></td>
+            <td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> Carla Lima</span></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <nav aria-label="Paginação de usuários">
+      <ul class="pagination">
+        <li class="page-item disabled"><span class="page-link" aria-disabled="true">Anterior</span></li>
+        <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <!-- Footer do GOV.BR DS: modo escuro + .bg-body = fundo --background-dark -->
+  <footer class="bg-body" data-bs-theme="dark">
+    <div class="container-lg">
+      <img class="d-block mb-5" src="img/logo-negativo.svg" height="48" alt="Logo do sistema">
+      <div class="row g-0 pb-5">
+        <div class="col-6 col-md-3 col-lg-2">
+          <h2>Sistema</h2>
+          <nav class="nav flex-column" aria-label="Sistema">
+            <a class="nav-link" href="#">Sobre</a>
+            <a class="nav-link" href="#">Termos de uso</a>
+          </nav>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h2>Ajuda</h2>
+          <nav class="nav flex-column" aria-label="Ajuda">
+            <a class="nav-link" href="#">Perguntas frequentes</a>
+            <a class="nav-link" href="#">Fale conosco</a>
+          </nav>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h2>Privacidade</h2>
+          <nav class="nav flex-column" aria-label="Privacidade">
+            <a class="nav-link" href="#">Política de privacidade</a>
+            <a class="nav-link" href="#">Cookies</a>
+          </nav>
+        </div>
+      </div>
+      <div class="row align-items-end justify-content-between pb-5 d-none d-sm-flex">
+        <div class="col">
+          <p class="fs-6 fw-bolder text-uppercase mb-4">Redes sociais</p>
+          <div class="d-flex gap-3">
+            <a class="btn btn-link rounded-circle" href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a class="btn btn-link rounded-circle" href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a class="btn btn-link rounded-circle" href="#" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div class="col text-end">
+          <img src="img/logo-negativo.svg" height="46" alt="Assinatura do órgão">
+        </div>
+      </div>
+    </div>
+    <hr class="my-3">
+    <div class="container-lg">
+      <p class="small fw-medium text-center pb-3 m-0">Exemplo de composição com classes Bootstrap e o tema dsgovbr-bootstraped. Projeto não oficial, sem endosso do governo. <strong>Licença MIT.</strong></p>
+    </div>
+  </footer>
+
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

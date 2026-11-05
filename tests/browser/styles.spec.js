@@ -373,3 +373,141 @@ test("modal: sem raio, título em negrito de 16,8px, fundo preto a 45%", async (
   await page.getByRole("button", { name: "Abrir modal", exact: true }).click();
   await expect(page.locator(".modal-backdrop.show")).toHaveCSS("opacity", "0.45");
 });
+
+test.describe("header, menu e footer (issue #45)", () => {
+  test("navbar clara: sombra, título na cor do texto, links interativos, acionador circular", async ({ page }) => {
+    await page.goto("/componentes/navbar.html");
+    const nav = await css(page, ".navbar:not([data-bs-theme])", ["box-shadow", "padding-top", "background-color"]);
+    expect(nav["box-shadow"]).toBe("rgba(0, 0, 0, 0.16) 0px 1px 6px 0px");
+    expect(nav["padding-top"]).toBe("16px");
+    expect(nav["background-color"]).toBe("rgb(255, 255, 255)");
+    const marca = await css(page, ".navbar:not([data-bs-theme]) .navbar-brand", ["color", "font-size"]);
+    expect(marca.color).toBe("rgb(51, 51, 51)");
+    expect(marca["font-size"]).toBe("24.192px"); // viewport desktop (lg)
+    const link = await css(page, ".navbar:not([data-bs-theme]) .nav-link:not(.active):not(.disabled):not(.dropdown-toggle)", ["color"]);
+    expect(link.color).toBe("rgb(19, 81, 180)");
+    const ativo = await css(page, ".navbar:not([data-bs-theme]) .nav-link.active", ["color", "font-weight"]);
+    expect(ativo.color).toBe("rgb(12, 50, 111)");
+    expect(ativo["font-weight"]).toBe("600");
+  });
+
+  test("navbar escura: fundo --background-dark e links --interactive-dark", async ({ page }) => {
+    await page.goto("/componentes/navbar.html");
+    const nav = await css(page, '.navbar[data-bs-theme="dark"]', ["background-color"]);
+    expect(nav["background-color"]).toBe("rgb(7, 29, 65)");
+    const link = await css(page, '.navbar[data-bs-theme="dark"] .nav-link:not(.active)', ["color"]);
+    expect(link.color).toBe("rgb(197, 212, 235)");
+    const marca = await css(page, '.navbar[data-bs-theme="dark"] .navbar-brand', ["color"]);
+    expect(marca.color).toBe("rgb(255, 255, 255)");
+  });
+
+  test("acionador do menu: círculo de 40px sem borda e foco dourado", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto("/componentes/navbar.html");
+    const t = await css(page, ".navbar-toggler", ["border-top-width", "border-top-left-radius", "width"]);
+    expect(t.height).toBe(40);
+    expect(t.width).toBe("40px");
+    expect(t["border-top-width"]).toBe("0px");
+    expect(t["border-top-left-radius"]).toBe("50%");
+    const marca = await css(page, ".navbar-brand", ["font-size"]);
+    expect(marca["font-size"]).toBe("14px"); // celular
+    focoDourado(await focoPorTeclado(page, ".navbar-toggler"));
+  });
+
+  test("footer escuro: fundo --background-dark, texto --color-dark, foco --focus-color-dark", async ({ page }) => {
+    await page.goto("/exemplos/admin.html");
+    const f = await css(page, "footer", ["background-color", "color"]);
+    expect(f["background-color"]).toBe("rgb(7, 29, 65)");
+    expect(f.color).toBe("rgb(255, 255, 255)");
+    const link = await css(page, "footer .nav-link", ["color"]);
+    expect(link.color).toBe("rgb(197, 212, 235)");
+    const foco = await focoPorTeclado(page, "footer .nav-link");
+    expect(foco["outline-style"]).toBe("dashed");
+    expect(foco["outline-color"]).toBe("rgb(255, 190, 46)");
+  });
+
+  test("painel: Header com duas linhas, busca, Entrar e botões circulares", async ({ page }) => {
+    await page.goto("/exemplos/admin.html");
+    const sub = await css(page, ".navbar-brand + .navbar-text", ["font-size", "font-weight", "color", "display"]);
+    expect(sub.display).toBe("block");
+    expect(sub["font-size"]).toBe("14px"); // xl
+    expect(sub["font-weight"]).toBe("500");
+    expect(sub.color).toBe("rgb(51, 51, 51)");
+    const busca = await css(page, '[role="search"] .form-control', ["background-color", "font-size", "min-height"]);
+    expect(busca["background-color"]).toBe("rgb(248, 248, 248)");
+    expect(busca["font-size"]).toBe("16.8px");
+    expect(busca.height).toBe(40);
+    const entrar = await css(page, ".navbar .btn-light", ["background-color", "color", "font-size", "border-top-left-radius"]);
+    expect(entrar["background-color"]).toBe("rgb(248, 248, 248)");
+    expect(entrar.color).toBe("rgb(19, 81, 180)");
+    expect(entrar.height).toBe(32);
+    const circulo = await page.getByRole("button", { name: "Abrir menu" }).boundingBox();
+    expect([circulo.width, circulo.height]).toEqual([32, 32]);
+    const vr = await css(page, ".navbar .vr", ["background-color", "opacity"]);
+    expect(vr["background-color"]).toBe("rgb(204, 204, 204)");
+    expect(vr.opacity).toBe("1");
+  });
+
+  test("painel: Menu em offcanvas com pasta, ativo em --active, foco e Escape", async ({ page }) => {
+    await page.goto("/exemplos/admin.html");
+    const menu = page.locator("#menu-principal");
+    const abrir = page.getByRole("button", { name: "Abrir menu" });
+    await abrir.click();
+    await expect(menu).toHaveClass(/show/);
+    await expect(menu).toBeFocused();
+    const ativo = await css(page, "#menu-principal .list-group-item.active", ["background-color", "color"]);
+    expect(ativo["background-color"]).toBe("rgb(12, 50, 111)");
+    expect(ativo.color).toBe("rgb(255, 255, 255)");
+    const item = await css(page, "#menu-principal .list-group-item:not(.active)", ["color", "padding-top"]);
+    expect(item.color).toBe("rgb(19, 81, 180)");
+    expect(item["padding-top"]).toBe("16px");
+    const sub = await css(page, "#menu-cadastros > .list-group", ["background-color"]);
+    expect(sub["background-color"]).toBe("rgb(248, 248, 248)");
+
+    const pasta = page.getByRole("button", { name: "Relatórios" });
+    await expect(pasta).toHaveAttribute("aria-expanded", "false");
+    await pasta.click();
+    await expect(page.locator("#menu-relatorios")).toHaveClass(/show/);
+    await expect(pasta).toHaveAttribute("aria-expanded", "true");
+
+    await page.keyboard.press("Escape");
+    await expect(menu).not.toHaveClass(/show/);
+    await expect(abrir).toBeFocused();
+  });
+
+  test("painel no celular: menu cabe na tela e busca abre por Collapse", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto("/exemplos/admin.html");
+    await expect(page.locator("#busca-header")).toBeHidden();
+    await page.getByRole("button", { name: "Abrir busca" }).click();
+    await expect(page.locator("#busca-geral")).toBeVisible();
+    await page.getByRole("button", { name: "Abrir menu" }).click();
+    const menu = page.locator("#menu-principal");
+    await expect(menu).toHaveClass(/show/);
+    await expect(menu).toBeFocused();
+    const caixa = await menu.boundingBox();
+    expect(caixa.x + caixa.width).toBeLessThanOrEqual(375);
+  });
+
+  test("footer: categorias e itens de 56px", async ({ page }) => {
+    await page.goto("/exemplos/admin.html");
+    const h = await css(page, "footer h2", ["font-size", "font-weight", "text-transform", "color"]);
+    expect(h["font-size"]).toBe("11.662px");
+    expect(h["font-weight"]).toBe("700");
+    expect(h["text-transform"]).toBe("uppercase");
+    expect(h.color).toBe("rgb(197, 212, 235)");
+    expect(h.height).toBe(56);
+    const link = await css(page, "footer .nav-link", []);
+    expect(link.height).toBe(56);
+  });
+
+  test("skip link aparece no foco e leva ao conteúdo", async ({ page }) => {
+    await page.goto("/exemplos/admin.html");
+    await page.keyboard.press("Tab");
+    const pular = page.getByRole("link", { name: "Ir para o conteúdo" });
+    await expect(pular).toBeFocused();
+    await expect(pular).toBeVisible();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#conteudo")).toBeFocused();
+  });
+});

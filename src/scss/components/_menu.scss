@@ -1,0 +1,67 @@
+// Menu do GOV.BR DS (vendor/govbr-ds-core/src/components/menu) no offcanvas
+// lateral: cabeçalho de 8px com divisor, itens de 16px na cor interativa com
+// ícone de 24px, pastas (acionadas por Collapse) com seta que gira, subnível em
+// fundo cinza-claro recuado 40px e item ativo em --active.
+.offcanvas-start,
+.offcanvas-end {
+  .offcanvas-header {
+    padding: 8px 8px 8px 16px;
+    border-bottom: 1px solid $govbr-gray-20;
+  }
+
+  .list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    color: $govbr-interactive;
+    text-align: left;
+    border-color: $govbr-gray-20;
+
+    > i {
+      flex: 0 0 24px;
+      margin-right: 16px;
+      text-align: center;
+    }
+
+    &.active {
+      color: $govbr-color-dark;
+      background-color: $govbr-active;
+      border-color: $govbr-gray-20;
+    }
+  }
+
+  // Pasta: seta para baixo à direita; gira quando aberta.
+  .list-group-item[data-bs-toggle="collapse"]::after {
+    flex: 0 0 16px;
+    height: 16px;
+    margin-left: auto;
+    content: "";
+    background-color: currentcolor;
+    mask: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>")) center / 16px no-repeat;
+    transition: transform 0.2s ease-in-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  .list-group-item[data-bs-toggle="collapse"][aria-expanded="true"]::after {
+    transform: rotate(-180deg);
+  }
+
+  // Subnível (--menu-background-submenu): sem divisores entre os itens.
+  .collapse > .list-group,
+  .collapsing > .list-group {
+    background-color: $govbr-gray-2;
+
+    > .list-group-item {
+      padding-left: 40px;
+      background-color: transparent;
+      border-width: 0;
+
+      &.active {
+        background-color: $govbr-active;
+      }
+    }
+  }
+}
