@@ -574,3 +574,64 @@ test.describe("select e switch (issue #46)", () => {
     expect(input.x).toBeGreaterThan(label.x + label.width);
   });
 });
+
+test.describe("auxiliares (issue #47)", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/componentes/auxiliares.html");
+  });
+
+  test("skiplink: fixo no topo com sombra, 300px e itens de 56px ao receber foco", async ({ page }) => {
+    const nav = page.getByRole("navigation", { name: "Atalhos da página" });
+    const link = page.getByRole("link", { name: "Ir para o skiplink" });
+    await link.focus();
+    await expect(link).toBeVisible();
+    const s = await css(page, "nav.visually-hidden-focusable", ["position", "top", "left", "box-shadow", "background-color", "min-width"]);
+    expect(s.position).toBe("fixed");
+    expect(s.top).toBe("0px");
+    expect(s.left).toBe("16px");
+    expect(s["box-shadow"]).toBe("rgba(0, 0, 0, 0.16) 0px 6px 6px 0px");
+    expect(s["background-color"]).toBe("rgb(255, 255, 255)");
+    expect(s["min-width"]).toBe("300px");
+    expect((await link.boundingBox()).height).toBe(56);
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#skiplink")).toBeFocused();
+    await expect(nav).not.toBeInViewport();
+  });
+
+  test("sign-in: .btn-light cinza-claro com texto interativo, também no escuro", async ({ page }) => {
+    const props = ["background-color", "color", "padding-left", "border-top-left-radius"];
+    const claro = await css(page, "section .btn-light", props);
+    expect(claro["background-color"]).toBe("rgb(248, 248, 248)");
+    expect(claro.color).toBe("rgb(19, 81, 180)");
+    expect(claro["padding-left"]).toBe("16px");
+    expect(claro.height).toBe(40);
+    const escuro = await css(page, '[data-bs-theme="dark"] .btn-light', props);
+    expect(escuro["background-color"]).toBe("rgb(7, 29, 65)");
+    expect(escuro.color).toBe("rgb(197, 212, 235)");
+    const img = await page.locator(".btn-light img").boundingBox();
+    expect(img.height).toBeLessThanOrEqual(20);
+  });
+
+  test("avatar: círculos de 40, 100 e 160px", async ({ page }) => {
+    const tamanhos = await page.locator("img.rounded-circle").evaluateAll((els) =>
+      els.map((e) => [e.getBoundingClientRect().width, getComputedStyle(e).borderTopLeftRadius])
+    );
+    expect(tamanhos.map((t) => t[0])).toEqual([40, 100, 160]);
+    for (const [, raio] of tamanhos) expect(raio).toBe("50%");
+  });
+
+  test("cookiebar: painel inferior com sombra para cima, sem fechar no Escape", async ({ page }) => {
+    await page.getByRole("button", { name: "Ver aviso de cookies" }).click();
+    const painel = page.locator("#cookiebar");
+    await expect(painel).toHaveClass(/show/);
+    const s = await css(page, "#cookiebar", ["box-shadow", "border-top-width"]);
+    expect(s["box-shadow"]).toBe("rgba(0, 0, 0, 0.16) 0px -6px 6px 0px");
+    expect(s["border-top-width"]).toBe("0px");
+    await page.keyboard.press("Escape");
+    await expect(painel).toHaveClass(/show/);
+    await page.getByRole("button", { name: "Definir cookies" }).click();
+    await expect(page.locator("#cookiebar-grupos")).toHaveClass(/show/);
+    await page.getByRole("button", { name: "Aceitar" }).click();
+    await expect(painel).not.toHaveClass(/show/);
+  });
+});

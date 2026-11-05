@@ -68,3 +68,44 @@
 .btn-link.rounded-circle:hover {
   @include govbr-hover;
 }
+
+// Sign-in do GOV.BR DS (vendor/govbr-ds-core/src/components/signin): .btn-light
+// vira a pílula de fundo cinza-claro (--gray-2) com texto e ícone na cor
+// interativa, 16px de respiro lateral e imagem de até 20px ("Entrar com
+// gov.br"). No modo escuro, fundo --background-dark e texto --interactive-dark.
+.btn-light {
+  --#{$prefix}btn-bg: #{$govbr-gray-2};
+  --#{$prefix}btn-color: #{$govbr-interactive};
+  --#{$prefix}btn-border-color: transparent;
+  --#{$prefix}btn-hover-bg: #{$govbr-gray-2};
+  --#{$prefix}btn-hover-color: #{$govbr-interactive};
+  --#{$prefix}btn-hover-border-color: transparent;
+  --#{$prefix}btn-active-bg: #{$govbr-gray-2};
+  --#{$prefix}btn-active-color: #{$govbr-active};
+  --#{$prefix}btn-active-border-color: transparent;
+  --#{$prefix}btn-padding-x: 16px;
+  gap: 8px;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  &:hover {
+    @include govbr-hover;
+  }
+
+  img {
+    max-height: 20px;
+  }
+}
+
+[data-bs-theme="dark"] .btn-light {
+  --#{$prefix}btn-bg: #{$govbr-background-dark};
+  --#{$prefix}btn-color: #{$govbr-interactive-dark};
+  --#{$prefix}btn-hover-bg: #{$govbr-background-dark};
+  --#{$prefix}btn-hover-color: #{$govbr-interactive-dark};
+  --#{$prefix}btn-active-bg: #{$govbr-background-dark};
+  --#{$prefix}btn-active-color: #{$govbr-color-dark};
+
+  &:hover {
+    @include govbr-hover($govbr-interactive-dark);
+  }
+}

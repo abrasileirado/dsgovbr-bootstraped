@@ -61,6 +61,20 @@ function shadowSm() {
   return normalize(`${x} ${y} ${blur} rgba(${r}, ${g}, ${b}, ${alpha})`);
 }
 
+// $shadow-lg e $shadow-lg-up: mesma cadeia do $shadow-sm com outro deslocamento.
+function sombra(nome, offset) {
+  const elevation = read(`${G}_elevation.scss`);
+  assert.equal(
+    scssVar(elevation, nome),
+    `var(--surface-offset-none) var(--surface-offset-${offset}) var(--surface-blur-lg) rgba(var(--surface-shadow-color), var(--surface-opacity-xs))`,
+    `estrutura de $${nome} mudou no GOV.BR DS`
+  );
+  const [r, g, b] = hexToRgb(scssVar(read(`${G}_colors.scss`), "color-secondary-09"));
+  const y = scssVar(elevation, `offset-${offset}`);
+  const blur = scssVar(elevation, "blur-lg");
+  return normalize(`0 ${y} ${blur} rgba(${r}, ${g}, ${b}, ${scssVar(elevation, "opacity-xs")})`);
+}
+
 // token (sem o prefixo $govbr-) -> valor esperado, lido da origem.
 const ORIGEM = {
   interactive: () => src(`${COLORS}_blue-warm-vivid.scss`, "blue-warm-vivid-70"),
@@ -106,6 +120,8 @@ const ORIGEM = {
   "color-dark": () => corDeModo("color-dark", "_pure.scss", "pure-0"),
   "interactive-dark": () => corDeModo("interactive-dark", "_blue-warm.scss", "blue-warm-20"),
   "focus-dark": () => corDeModo("focus-color-dark", "_gold-vivid.scss", "gold-vivid-20"),
+  "shadow-lg": () => sombra("shadow-lg", "lg"),
+  "shadow-lg-up": () => sombra("shadow-lg-up", "lg-n"),
   "switch-on": () => corDeModo("on", "_blue-warm-vivid.scss", "blue-warm-vivid-40"),
   "switch-width": () => cssProp(read(SWITCH), "--switch-width-medium"),
   "switch-height": () => cssProp(read(SWITCH), "--switch-height-medium"),

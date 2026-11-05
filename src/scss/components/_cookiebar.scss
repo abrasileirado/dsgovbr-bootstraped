@@ -1,0 +1,7 @@
+// Cookiebar do GOV.BR DS (vendor/govbr-ds-core/src/components/cookiebar):
+// composição com .offcanvas-bottom (ver componentes/auxiliares.html). O
+// painel inferior ganha a sombra para cima do cookiebar no lugar da borda.
+.offcanvas-bottom {
+  border-top: 0;
+  box-shadow: $govbr-shadow-lg-up;
+}
