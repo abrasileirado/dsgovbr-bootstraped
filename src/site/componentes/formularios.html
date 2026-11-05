@@ -1,9 +1,10 @@
 <!-- title: Componente: Formulários — dsgovbr-bootstraped -->
 <!-- status: Limitado -->
-<h1>Campos de texto, checkbox e radio</h1>
+<h1>Campos de texto, select, checkbox, radio e switch</h1>
 <p>
   Usa apenas classes públicas do Bootstrap (<code>.form-control</code>,
-  <code>.form-label</code>, <code>.form-text</code>, <code>.form-check</code>)
+  <code>.form-select</code>, <code>.form-label</code>, <code>.form-text</code>,
+  <code>.form-check</code>, <code>.form-switch</code>)
   — nenhuma classe <code>.br-*</code> é necessária (RF-03). Esta página
   serve como fixture de teste e como catálogo demonstrativo (RF-07/RF-11).
   Ver <a href="../requisitos.md">docs/requisitos.md</a> para a matriz de
@@ -76,11 +77,64 @@
 </section>
 
 <section>
+  <h2>Select</h2>
+  <div class="mb-3">
+    <label class="form-label" for="select1">Estado</label>
+    <select class="form-select" id="select1">
+      <option selected>Selecione o estado</option>
+      <option>Acre</option>
+      <option>Alagoas</option>
+      <option>Rio Grande do Norte</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="select-sm">Pequeno</label>
+    <select class="form-select form-select-sm" id="select-sm"><option>Opção</option></select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="select-lg">Grande</label>
+    <select class="form-select form-select-lg" id="select-lg"><option>Opção</option></select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="select-erro">Com erro</label>
+    <select class="form-select is-invalid" id="select-erro" aria-describedby="select-erro-msg"><option>Opção inválida</option></select>
+    <div class="invalid-feedback" id="select-erro-msg">Escolha uma opção válida.</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="select-desab">Desabilitado</label>
+    <select class="form-select" id="select-desab" disabled><option>Indisponível</option></select>
+  </div>
+</section>
+
+<section>
+  <h2>Switch</h2>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="switch1" checked>
+    <label class="form-check-label" for="switch1">Notificações ligadas</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="switch2">
+    <label class="form-check-label" for="switch2">Modo compacto</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="switch3" disabled>
+    <label class="form-check-label" for="switch3">Desabilitado</label>
+  </div>
+  <p class="form-text">Como no padrão do GOV.BR DS (rótulo à esquerda), com <code>.form-check-reverse</code>:</p>
+  <div class="form-check form-switch form-check-reverse d-inline-block">
+    <input class="form-check-input" type="checkbox" role="switch" id="switch4" checked>
+    <label class="form-check-label" for="switch4">Receber e-mails</label>
+  </div>
+</section>
+
+<section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-05)</h2>
   <ul>
     <li>Estados de validação: o GOV.BR DS usa borda de 2px na cor do estado. Aqui o desenho é o mesmo (borda de 1px + sombra interna de 1px na mesma cor), mas a espessura <em>computada</em> da borda segue 1px — escolha para não alterar a altura do campo. O GOV.BR DS também tem os estados <code>warning</code> e <code>info</code> nos campos, que o Bootstrap não tem (não replicados).</li>
     <li>Marca de seleção: o GOV.BR DS desenha o "check" com bordas rotacionadas via pseudo-elemento; mantemos o ícone SVG nativo do Bootstrap, recolorido pelo <code>$primary</code> já mapeado. Aproximação visual, não replicação de anatomia.</li>
     <li>Foco: campos de texto usam o foco do GOV.BR DS (borda dourada <code>#c2850c</code> + anel de 2px); <strong>checkbox e radio</strong> ainda usam o anel azul do Bootstrap, não o foco dourado.</li>
+    <li>Select: é o <code>&lt;select&gt;</code> nativo com a superfície dos campos de texto e a seta na cor interativa, no lugar do botão circular do <em>Select</em> do GOV.BR DS. A lista aberta é a do navegador: sem busca, sem seleção múltipla com checkbox e sem o "Selecionar todos".</li>
+    <li>Switch: tamanho médio do GOV.BR DS (trilho de 52x30px, botão de 22px, trilho branco também quando ligado, hover em camada e foco dourado). O Bootstrap põe o switch à esquerda do rótulo; para o padrão do GOV.BR DS (rótulo à esquerda), use <code>.form-check-reverse</code>. Sem os tamanhos pequeno e grande, a posição acima do rótulo, os ícones no botão e o texto de estado (<code>data-enabled</code>/<code>data-disabled</code>).</li>
     <li>Altura dos campos: aproximada (32/40/48px), sem paridade de pixel garantida em todas as fontes/navegadores.</li>
   </ul>
 </section>

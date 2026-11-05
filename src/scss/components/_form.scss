@@ -36,3 +36,54 @@
 .form-check-input {
   margin-top: calc((var(--bs-body-line-height) * 1em - #{$form-check-input-width}) / 2);
 }
+
+// Switch (GOV.BR DS: Switch): trilho de 30px de altura, botão de 22px
+// (imagem de fundo) a 4px da borda e trilho branco também quando ligado.
+// background-origin é a caixa de padding, então 3px + 1px de borda = 4px.
+.form-switch {
+  min-height: $govbr-switch-height;
+
+  .form-check-input {
+    height: $govbr-switch-height;
+    margin-top: calc((var(--bs-body-line-height) * 1em - #{$govbr-switch-height}) / 2);
+    background-color: $govbr-background;
+    background-position: left 3px center;
+    background-size: $govbr-switch-toggle $govbr-switch-toggle;
+    border-color: $govbr-gray-20;
+
+    &:checked {
+      background-color: $govbr-background;
+      border-color: $govbr-gray-20;
+    }
+
+    // Hover e pressionado: camada na cor do botão (--off/--on) sobre o
+    // trilho, abaixo do botão (segunda imagem de fundo).
+    &:hover:not(:disabled) {
+      background-image: var(--#{$prefix}form-switch-bg), linear-gradient(rgba($govbr-gray-20, $govbr-hover-opacity), rgba($govbr-gray-20, $govbr-hover-opacity));
+      background-position: left 3px center, 0 0;
+      background-size: $govbr-switch-toggle $govbr-switch-toggle, 100% 100%;
+    }
+
+    &:checked:hover:not(:disabled) {
+      background-image: var(--#{$prefix}form-switch-bg), linear-gradient(rgba($govbr-switch-on, $govbr-hover-opacity), rgba($govbr-switch-on, $govbr-hover-opacity));
+      background-position: $form-switch-checked-bg-position, 0 0;
+    }
+
+    // Foco do GOV.BR DS (focus-soft), como nos campos de texto.
+    &:focus-visible {
+      border-color: $govbr-focus;
+      box-shadow: 0 0 0 $govbr-focus-ring-width $govbr-focus;
+    }
+
+    &:focus:not(:focus-visible) {
+      box-shadow: none;
+    }
+  }
+}
+
+[data-bs-theme="dark"] .form-switch .form-check-input {
+  &,
+  &:checked {
+    background-color: $govbr-background;
+  }
+}

@@ -349,3 +349,31 @@ $navbar-dark-brand-hover-color: $govbr-color-dark !default;
 // Divider (GOV.BR DS: Divider) — <hr> opaco em --border-color.
 $hr-color: $govbr-gray-20 !default;
 $hr-opacity: 1 !default;
+
+// --- Issue #46: switch e select ---
+
+// Switch (GOV.BR DS: Switch, tamanho médio): trilho de 52x30px branco com
+// borda --border-color e botão de 22px a 4px da borda, cinza (--off) quando
+// desligado e azul (--on) quando ligado. O trilho não muda de cor ao ligar.
+// Altura, posição do botão e hover ficam em components/_form.scss.
+$form-switch-width: $govbr-switch-width !default;
+$form-switch-padding-start: $govbr-switch-width + 8px !default; // spacing-scale-base
+$form-switch-border-radius: 100em !default;
+$form-switch-transition: background-position 0.3s ease-in-out !default;
+$form-switch-color: $govbr-gray-20 !default;
+$form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-11 -11 22 22'><circle r='11' fill='#{$form-switch-color}'/></svg>") !default;
+$form-switch-focus-color: $govbr-gray-20 !default;
+$form-switch-focus-bg-image: $form-switch-bg-image !default;
+$form-switch-checked-color: $govbr-switch-on !default;
+$form-switch-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-11 -11 22 22'><circle r='11' fill='#{$form-switch-checked-color}'/></svg>") !default;
+$form-switch-checked-bg-position: right 3px center !default; // 4px da borda externa
+$form-switch-color-dark: $govbr-gray-20 !default;
+$form-switch-bg-image-dark: $form-switch-bg-image !default;
+
+// Select (GOV.BR DS: Select = Input + botão circular pequeno com seta na cor
+// interativa, 4px da borda, e 40px de respiro à direita): mesma superfície
+// dos campos de texto, seta na cor interativa centrada nos 32px do botão.
+$form-select-indicator-color: $govbr-interactive !default;
+$form-select-indicator-color-dark: $govbr-interactive-dark !default;
+$form-select-indicator-padding: 2.5rem !default; // 40px = --input-padding-button (spacing-scale-5x); rem porque o Bootstrap soma com $form-select-padding-x
+$form-select-bg-position: right 12px center !default; // 4px + (32px - 16px) / 2

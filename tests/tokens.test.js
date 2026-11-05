@@ -16,6 +16,7 @@ const BUTTON = "vendor/govbr-ds-core/src/components/button/_mixins.scss";
 const TOOLTIP = "vendor/govbr-ds-core/src/components/tooltip/_mixins.scss";
 const LOADING = "vendor/govbr-ds-core/src/components/loading/_mixins.scss";
 const MODAL = "vendor/govbr-ds-core/src/components/modal/_mixins.scss";
+const SWITCH = "vendor/govbr-ds-core/src/components/switch/_mixins.scss";
 
 const src = (rel, name) => scssVar(read(rel), name);
 
@@ -105,6 +106,10 @@ const ORIGEM = {
   "color-dark": () => corDeModo("color-dark", "_pure.scss", "pure-0"),
   "interactive-dark": () => corDeModo("interactive-dark", "_blue-warm.scss", "blue-warm-20"),
   "focus-dark": () => corDeModo("focus-color-dark", "_gold-vivid.scss", "gold-vivid-20"),
+  "switch-on": () => corDeModo("on", "_blue-warm-vivid.scss", "blue-warm-vivid-40"),
+  "switch-width": () => cssProp(read(SWITCH), "--switch-width-medium"),
+  "switch-height": () => cssProp(read(SWITCH), "--switch-height-medium"),
+  "switch-toggle": () => cssProp(read(SWITCH), "--switch-toggle-medium"),
   "font-weight-bold": () => src(`${G}_typography.scss`, "font-weight-bold"),
   "scrim-opacity": () => {
     assert.equal(src(`${G}_surface.scss`, "overlay-scrim"), "rgba(var(--rgb-secondary-09), var(--surface-opacity-md))");
