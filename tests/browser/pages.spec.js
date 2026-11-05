@@ -4,7 +4,7 @@
 // console. Pega referência a arquivo fora de docs/, que funciona num servidor
 // que serve o repositório inteiro mas quebra no GitHub Pages.
 
-const { test, expect } = require("./fixtures");
+const { test, expect, CDN_FONT_AWESOME } = require("./fixtures");
 const { allPages } = require("./pages");
 
 const fs = require("fs");
@@ -58,7 +58,10 @@ for (const url of allPages) {
     });
     page.on("requestfailed", (r) => problemas.push(`falhou ${r.url()}`));
     page.on("console", (m) => {
-      if (m.type() === "error") {
+      // O stub do Font Awesome (fixtures.js) não bate com o hash de integrity
+      // real do CDN, então o navegador o bloqueia: esperado só nos testes.
+      const stubBloqueado = CDN_FONT_AWESOME.test(m.text()) && m.text().includes("integrity");
+      if (m.type() === "error" && !stubBloqueado) {
         problemas.push(`console: ${m.text()}`);
       }
     });

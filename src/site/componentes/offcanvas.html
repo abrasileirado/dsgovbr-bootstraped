@@ -68,6 +68,7 @@
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
   <ul>
     <li>Resolvido por tokens e CSS: sem borda, sombra suave, título de 16,8px em negrito e fundo escurecido como o <em>Scrim</em>.</li>
-    <li>O <em>Menu</em> do GOV.BR DS tem cabeçalho com logo, itens com ícone, divisores e rodapé com logos e redes sociais; o offcanvas é um painel genérico.</li>
+    <li>Como <em>Menu</em> do GOV.BR DS (<code>.offcanvas-start</code>/<code>.offcanvas-end</code>): cabeçalho de 8px com divisor; <code>.list-group-flush</code> com itens de 16px na cor interativa e ícone de 24px (<code>&lt;i&gt;</code> no início do item); pastas como <code>.list-group-item</code> com <code>data-bs-toggle="collapse"</code>, seta que gira e subnível em fundo cinza-claro recuado 40px; item ativo em <code>--active</code>. Rodapé com logos, links e redes sociais por utilitários. Composição completa no <a href="../exemplos/admin.html">exemplo de painel</a>.</li>
+    <li>Sem os papéis <code>tree</code>/<code>treeitem</code>, a navegação por setas, o terceiro nível lateral (<em>side-menu</em>) e o modo <em>push</em> do <code>BRMenu</code>: a navegação é por Tab, com o Collapse do Bootstrap.</li>
   </ul>
 </section>

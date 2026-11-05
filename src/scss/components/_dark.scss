@@ -1,0 +1,31 @@
+// Bloco em modo escuro herda a cor do texto do body (clara); o Bootstrap só
+// troca as variáveis. Aqui o texto do bloco passa a --color-dark.
+[data-bs-theme="dark"] {
+  color: var(--#{$prefix}body-color);
+}
+
+// Modo escuro do GOV.BR DS (mixin dark-mode em partial/scss/mixins/_states.scss):
+// o foco passa a --focus-color-dark (gold-vivid-20), que contrasta com o fundo
+// escuro. Declarado por último e com um atributo a mais que as regras de foco,
+// então vence sem !important.
+[data-bs-theme="dark"] :focus-visible,
+[data-bs-theme="dark"]:focus-visible {
+  outline-color: $govbr-focus-dark;
+}
+
+// Hover dos links de navegação no fundo escuro: camada clara em vez da azul.
+[data-bs-theme="dark"] .nav-link:hover:not(.active):not(.disabled),
+[data-bs-theme="dark"] .list-group-item-action:hover:not(.active) {
+  @include govbr-hover($govbr-interactive-dark);
+}
+
+// .btn-link (ênfase baixa) no fundo escuro: --interactive-dark.
+[data-bs-theme="dark"] .btn-link {
+  --#{$prefix}btn-color: #{$govbr-interactive-dark};
+  --#{$prefix}btn-hover-color: #{$govbr-interactive-dark};
+  --#{$prefix}btn-active-color: #{$govbr-color-dark};
+}
+
+[data-bs-theme="dark"] .btn-link.rounded-circle:hover {
+  @include govbr-hover($govbr-interactive-dark);
+}

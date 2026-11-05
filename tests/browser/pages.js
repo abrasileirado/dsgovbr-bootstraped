@@ -22,7 +22,7 @@ const allPages = walk(DOCS)
 
 const componentPages = allPages.filter((p) => p.startsWith("/componentes/") && p !== "/componentes/index.html");
 
-// Páginas que exercitam o tema para a11y e visual: componentes + exemplo de login.
-const themedPages = [...componentPages, "/exemplos/login.html"];
+// Páginas que exercitam o tema para a11y e visual: componentes + exemplos de login e painel.
+const themedPages = [...componentPages, "/exemplos/login.html", "/exemplos/admin.html"];
 
 module.exports = { allPages, componentPages, themedPages };

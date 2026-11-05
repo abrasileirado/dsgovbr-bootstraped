@@ -46,3 +46,25 @@
   outline-offset: $govbr-focus-offset;
   box-shadow: none;
 }
+
+// Button circular do GOV.BR DS (classe circle): .btn + .rounded-circle. Largura
+// igual à altura (32/40/48px), sem padding, ícone de 16,8px. Com .btn-link é a
+// ênfase baixa (sem fundo), usada nos ícones do Header, do Menu e do Footer.
+.btn.rounded-circle {
+  width: $govbr-button-height-medium;
+  padding: 0;
+  font-size: $govbr-font-size-up-01;
+  text-decoration: none;
+}
+
+.btn-sm.rounded-circle {
+  width: $govbr-button-height-small;
+}
+
+.btn-lg.rounded-circle {
+  width: $govbr-button-height-large;
+}
+
+.btn-link.rounded-circle:hover {
+  @include govbr-hover;
+}

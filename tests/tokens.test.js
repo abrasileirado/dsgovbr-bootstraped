@@ -27,6 +27,14 @@ function escala(nome, fator) {
   return `${Math.round(base * fator * 1000) / 1000}px`;
 }
 
+// Token de modo escuro: --<prop> aponta para var(--<cor>) em partial/scss/_tokens.scss;
+// o valor vem da paleta.
+function corDeModo(prop, arquivo, cor) {
+  const tokens = read("vendor/govbr-ds-core/src/partial/scss/_tokens.scss");
+  assert.equal(cssProp(tokens, `--${prop}`), `var(--${cor})`, `--${prop} mudou de cor no GOV.BR DS`);
+  return src(`${COLORS}${arquivo}`, cor);
+}
+
 function hexToRgb(hex) {
   const h = hex.replace("#", "");
   const full = h.length === 3 ? [...h].map((c) => c + c).join("") : h;
@@ -71,6 +79,7 @@ const ORIGEM = {
   "gray-40": () => src(`${COLORS}_gray.scss`, "gray-40"),
   "gray-20": () => src(`${COLORS}_gray.scss`, "gray-20"),
   "gray-5": () => src(`${COLORS}_gray.scss`, "gray-5"),
+  "gray-2": () => src(`${COLORS}_gray.scss`, "gray-2"),
   background: () => src(`${COLORS}_pure.scss`, "pure-0"),
   "font-family": () => src(`${G}_typography.scss`, "font-family-base"),
   "font-size-base": () => src(`${G}_typography.scss`, "font-size-scale-base"),
@@ -91,6 +100,11 @@ const ORIGEM = {
   "font-size-down-01": () => escala("down-01", 0.833),
   "font-size-up-01": () => escala("up-01", 1.2),
   "font-size-up-02": () => escala("up-02", 1.44),
+  "font-size-up-03": () => escala("up-03", 1.728),
+  "background-dark": () => corDeModo("background-dark", "_blue-warm-vivid.scss", "blue-warm-vivid-90"),
+  "color-dark": () => corDeModo("color-dark", "_pure.scss", "pure-0"),
+  "interactive-dark": () => corDeModo("interactive-dark", "_blue-warm.scss", "blue-warm-20"),
+  "focus-dark": () => corDeModo("focus-color-dark", "_gold-vivid.scss", "gold-vivid-20"),
   "font-weight-bold": () => src(`${G}_typography.scss`, "font-weight-bold"),
   "scrim-opacity": () => {
     assert.equal(src(`${G}_surface.scss`, "overlay-scrim"), "rgba(var(--rgb-secondary-09), var(--surface-opacity-md))");
