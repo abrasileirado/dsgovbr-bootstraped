@@ -139,3 +139,11 @@ $govbr-color-dark: #fff !default;         // --color-dark (pure-0)
 $govbr-interactive-dark: #c5d4eb !default; // --interactive-dark (blue-warm-20)
 $govbr-focus-dark: #ffbe2e !default;      // --focus-color-dark (gold-vivid-20)
 $govbr-gray-2: #f8f8f8 !default;   // --menu-background-submenu, fundo do sign-in e da busca
+
+// Switch: vendor/govbr-ds-core/src/components/switch/_mixins.scss (switch-tokens,
+// tamanho médio) e --on (blue-warm-vivid-40) em partial/scss/_tokens.scss.
+// O desligado usa --off = gray-20 ($govbr-gray-20).
+$govbr-switch-on: #5992ed !default;    // --on (blue-warm-vivid-40)
+$govbr-switch-width: 52px !default;    // --switch-width-medium
+$govbr-switch-height: 30px !default;   // --switch-height-medium
+$govbr-switch-toggle: 22px !default;   // --switch-toggle-medium

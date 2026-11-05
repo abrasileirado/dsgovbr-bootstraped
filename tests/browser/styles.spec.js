@@ -511,3 +511,66 @@ test.describe("header, menu e footer (issue #45)", () => {
     await expect(page.locator("#conteudo")).toBeFocused();
   });
 });
+
+test.describe("select e switch (issue #46)", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/componentes/formularios.html");
+  });
+
+  test("select: superfície do campo de texto, 40px de respiro e seta interativa", async ({ page }) => {
+    const s = await css(page, "#select1", [
+      "border-top-left-radius", "border-top-color", "font-weight", "padding-right", "background-position", "background-image",
+    ]);
+    expect(s["border-top-left-radius"]).toBe("4px");
+    expect(s["border-top-color"]).toBe("rgb(136, 136, 136)");
+    expect(s["font-weight"]).toBe("500");
+    expect(s["padding-right"]).toBe("40px");
+    expect(s["background-position"]).toMatch(/^calc\(100% - 12px\) 50%/); // right 12px center
+    expect(s["background-image"]).toContain("%231351b4"); // --interactive
+    const campo = (await css(page, "#nome", [])).height;
+    expect(Math.abs(s.height - campo)).toBeLessThan(1);
+  });
+
+  test("select: foco dourado e erro com 2px visuais", async ({ page }) => {
+    await page.locator("#select1").focus();
+    await expect.poll(async () => (await css(page, "#select1", ["border-top-color"]))["border-top-color"]).toBe("rgb(194, 133, 12)");
+    const f = await css(page, "#select1", ["box-shadow"]);
+    expect(f["box-shadow"]).toBe("rgb(194, 133, 12) 0px 0px 0px 2px");
+    const e = await css(page, "#select-erro", ["box-shadow"]);
+    expect(e["box-shadow"]).toBe("rgb(229, 34, 7) 0px 0px 0px 1px inset");
+  });
+
+  test("switch: trilho 52x30 branco, botão de 22px cinza/azul a 4px da borda", async ({ page }) => {
+    const props = ["background-color", "border-top-color", "background-size", "background-position", "background-image"];
+    const off = await css(page, "#switch2", props);
+    const on = await css(page, "#switch1", props);
+    const caixa = await page.locator("#switch2").boundingBox();
+    expect([caixa.width, caixa.height]).toEqual([52, 30]);
+    for (const s of [off, on]) {
+      expect(s["background-color"]).toBe("rgb(255, 255, 255)");
+      expect(s["border-top-color"]).toBe("rgb(204, 204, 204)");
+      expect(s["background-size"]).toBe("22px 22px");
+    }
+    expect(off["background-position"]).toBe("3px 50%"); // left 3px center
+    expect(on["background-position"]).toBe("calc(100% - 3px) 50%"); // right 3px center
+    expect(off["background-image"]).toContain("%23ccc");
+    expect(on["background-image"]).toContain("%235992ed");
+  });
+
+  test("switch: hover em camada, foco dourado por teclado e alterna com espaço", async ({ page }) => {
+    await page.locator("#switch2").hover();
+    expect((await css(page, "#switch2", ["background-image"]))["background-image"]).toContain("linear-gradient");
+    await page.locator("#switch1").focus();
+    await page.keyboard.press("Tab");
+    await expect(page.locator("#switch2")).toBeFocused();
+    await expect.poll(async () => (await css(page, "#switch2", ["box-shadow"]))["box-shadow"]).toBe("rgb(194, 133, 12) 0px 0px 0px 2px");
+    await page.keyboard.press("Space");
+    await expect(page.locator("#switch2")).toBeChecked();
+  });
+
+  test("switch reverso: rótulo à esquerda, como o padrão do GOV.BR DS", async ({ page }) => {
+    const input = await page.locator("#switch4").boundingBox();
+    const label = await page.locator("label[for=switch4]").boundingBox();
+    expect(input.x).toBeGreaterThan(label.x + label.width);
+  });
+});
