@@ -175,13 +175,18 @@ Os testes de navegador já acharam problemas reais: assets referenciados fora de
 
 **Fonte Rawline nas páginas de docs.** As páginas (layout de componentes e
 exemplos, exceto `comparacao-padrao.html`, que mostra o Bootstrap puro) linkam
-`rawline.css` do CDN do SERPRO — a fonte não é redistribuída (DP-05). Os testes
-de navegador interceptam essa requisição com CSS vazio (`tests/browser/fixtures.js`):
+`../assets/fonts/rawline/rawline.css`, cópia hospedada no site (issue #45): o CDN
+do SERPRO não envia CORS, então não aceita `integrity`. A cópia fica em
+`src/site/fonts/rawline/` (woff2 sem modificação e `OFL.txt`) e o
+`build:docs-assets` a copia para `docs/`. Os testes de navegador interceptam essa
+requisição com CSS vazio (`tests/browser/fixtures.js`):
 rodam offline e as capturas visuais ficam determinísticas (caem no fallback).
 Com a chave *Aplicar GOV.BR DS* desligada (`src/site/catalogo.js`), a página
 troca o CSS pelo `bootstrap.min.css` puro e desliga o `<link>` da Rawline.
-`pages.spec.js` garante o `<link>` em cada página, e o `upstream-check.yml`
-semanal verifica que a URL do CDN continua respondendo.
+`pages.spec.js` garante o `<link>` local em cada página e que nenhuma página
+linka o CDN. O `upstream-check.yml` semanal ainda verifica que a URL do CDN
+continua respondendo, porque é ela que o `getting-started.md` indica ao
+consumidor do pacote.
 
 ### Análise estática (Semgrep)
 

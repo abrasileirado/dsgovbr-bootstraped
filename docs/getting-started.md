@@ -40,7 +40,8 @@ recompilado com os tokens do GOV.BR DS.
   <link rel="stylesheet" href="https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css">
   ```
 
-  A licença da Rawline não foi confirmada em fonte oficial — ver
+  A Rawline é SIL OFL 1.1 (conforme as próprias fontes). O CDN não envia CORS,
+  então não aceita `integrity`; para usar SRI, hospede a fonte você mesmo — ver
   [THIRD_PARTY_NOTICES](https://github.com/abrasileirado/dsgovbr-bootstraped/blob/main/THIRD_PARTY_NOTICES.md).
 - **Ícones Font Awesome 5**: não incluídos. Só são necessários se você for
   replicar manualmente ícones do GOV.BR DS (nenhum componente do MVP atual

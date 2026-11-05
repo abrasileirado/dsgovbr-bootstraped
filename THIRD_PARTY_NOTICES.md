@@ -29,26 +29,29 @@ MIT. Os textos das páginas são próprios deste projeto.
 - Origem: <https://gitlab.com/govbr-ds/bibliotecas/javascript/govbr-ds-core>
 - Licença: MIT — Copyright (c) 2022 SERPRO.
 
-## Ativos externos (não redistribuídos)
+## Ativos externos
 
-Carregados pelo consumidor via CDN, como no próprio GOV.BR DS (DP-05). Nenhum
-arquivo de fonte ou de ícone está neste pacote nem neste repositório; o CSS
-apenas referencia a fonte pelo nome.
+O pacote npm não inclui arquivo de fonte nem de ícone: o CSS só referencia a
+fonte pelo nome, e o consumidor carrega os dois via CDN, como no próprio
+GOV.BR DS (DP-05). A exceção é o **site de documentação**, que hospeda uma
+cópia da Rawline (abaixo).
 
 ### Fonte Rawline
 
-- Uso: `font-family: "Rawline", "Raleway", sans-serif` (só o nome; sem arquivo).
+- Uso: `font-family: "Rawline", "Raleway", sans-serif` (só o nome no pacote).
 - Origem documentada pelo GOV.BR DS (CDN do SERPRO):
   `https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css`
-- Licença: **não confirmada em fonte oficial.** A página de
+- Licença: **SIL Open Font License 1.1**, conforme a tabela `name` das próprias
+  fontes (campo de licença e copyright "The Raleway Project Authors"). A
+  Rawline deriva da Raleway. A página de
   [tipografia do Padrão Digital de Governo](https://www.gov.br/ds/fundamentos-visuais/tipografia)
-  indica a fonte e remete ao CDNFonts, sem texto de licença. Um comentário de
-  terceiros em [issue do suap-companion/chamados](https://github.com/suap-companion/chamados/issues/124)
-  afirma SIL OFL 1.1 com nome reservado "RAWLINE" — **não verificado**. A
-  Rawline deriva da Raleway (SIL OFL).
-- Efeito neste projeto: como não redistribuímos nem modificamos a fonte, não
-  assumimos obrigação de licença de fonte. Quem hospedar a Rawline por conta
-  própria deve confirmar a licença com o SERPRO/gov.br antes.
+  indica a fonte sem texto de licença; o CDN não publica arquivo de licença.
+- **Redistribuída só no site** (issue #45): `src/site/fonts/rawline/` contém os
+  18 `woff2` do CDN, sem modificação, um `rawline.css` próprio que só os
+  referencia e o `OFL.txt`; o build copia tudo para `docs/assets/fonts/rawline/`.
+  Motivo: o CDN não envia `Access-Control-Allow-Origin`, então o navegador
+  recusa o `<link>` com `integrity` (SRI) e o alerta `missing-integrity` do
+  Semgrep não tinha correção. Não vai para o pacote npm (fora de `files`).
 
 ### Font Awesome 5 (Free)
 
