@@ -17,8 +17,8 @@ const DOCS = path.join(__dirname, "..", "..", "docs");
 // o "antes" da comparação é Bootstrap puro: sem tema, sem a fonte do GOV.BR DS
 const SEM_TEMA = ["/exemplos/comparacao-padrao.html"];
 
-test("a URL da Rawline é a mesma documentada em getting-started.md", () => {
-  const doc = fs.readFileSync(path.join(DOCS, "getting-started.md"), "utf8");
+test("a URL da Rawline é a mesma documentada em getting-started.rst", () => {
+  const doc = fs.readFileSync(path.join(DOCS, "getting-started.rst"), "utf8");
   expect(doc).toContain(CDN_RAWLINE_URL);
 });
 

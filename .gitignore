@@ -8,3 +8,6 @@ docs/componentes/*.html
 *.scss.map
 test-results/
 playwright-report/
+docs/_build/
+.venv/
+__pycache__/

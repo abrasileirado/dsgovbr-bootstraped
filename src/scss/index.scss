@@ -1,13 +1,13 @@
 // Ponto de entrada do dsgovbr-bootstraped.
 //
-// Build autônoma (DP-02 de docs/requisitos.md): recompila o Bootstrap a
+// Build autônoma (DP-02 de docs/requisitos.rst): recompila o Bootstrap a
 // partir do submodule vendorizado, com as variáveis Sass sobrescritas por
 // _bootstrap-settings.scss ANTES do @import do Bootstrap — caminho de
 // customização oficialmente documentado pelo próprio Bootstrap.
 //
 // O caminho de import usa @import (não @use/@forward) porque o próprio
 // Bootstrap 5.3.8 ainda importa seus parciais dessa forma internamente.
-// Contrato de Sass: DP-04 em docs/requisitos.md §12.1 — o pacote inclui o
+// Contrato de Sass: DP-04 em docs/requisitos.rst §12.1 — o pacote inclui o
 // SCSS do Bootstrap e as variáveis deste projeto são !default, então o
 // consumidor sobrescreve tokens definindo-os antes de importar este arquivo.
 
@@ -15,7 +15,7 @@
 @import "../../vendor/bootstrap/scss/bootstrap";
 
 // Ajustes que as variáveis de tema, sozinhas, não resolvem — um adaptador
-// por componente (ver docs/desenvolvimento.md).
+// por componente (ver docs/desenvolvimento.rst).
 @import "mixins";
 
 @import "components/alert";

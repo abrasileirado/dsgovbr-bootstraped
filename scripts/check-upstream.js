@@ -83,7 +83,7 @@ function openIssue(r) {
   const body = [
     `Há tag estável nova em \`${r.path}\`: fixada em **${r.pinned}**, última **${r.latest}** (${r.url}).${major}`,
     "",
-    "Siga o checklist de \"Atualizando os submodules\" em `docs/setup.md` e a política DP-09 em `docs/requisitos.md`.",
+    "Siga o checklist de \"Atualizando os submodules\" em `docs/setup.rst` e a política DP-09 em `docs/requisitos.rst`.",
     "Se a atualização for adiada ou recusada, feche esta issue com o motivo (o alerta não reabre para a mesma versão).",
     "",
     "_Aberta automaticamente por `scripts/check-upstream.js`._",
