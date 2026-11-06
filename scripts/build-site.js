@@ -16,7 +16,7 @@
 // topo da página. O resto do arquivo é o conteúdo do <main> (a navegação e a
 // chave de tema já vêm do layout, não precisa repetir em cada página).
 //
-// Ver docs/desenvolvimento.md para o passo a passo de criar um componente novo.
+// Ver docs/desenvolvimento.rst para o passo a passo de criar um componente novo.
 
 const fs = require("fs");
 const path = require("path");

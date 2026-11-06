@@ -22,7 +22,7 @@ jobs:
     # Regra github-actions-mutable-action-tag excluída DE PROPÓSITO: a política
     # do projeto é fixar actions pela major (@v7), não por SHA — são actions
     # oficiais do GitHub, mantidas atualizadas pelo Dependabot (agrupado). Ver
-    # "Análise estática (Semgrep)" em docs/desenvolvimento.md.
+    # "Análise estática (Semgrep)" em docs/desenvolvimento.rst.
     # Imagem oficial (a returntocorp/semgrep-action está deprecada). Sem
     # SEMGREP_APP_TOKEN: usa regras públicas (--config auto) e não depende de
     # conta no semgrep.dev. Achados são informativos (sem --error): não

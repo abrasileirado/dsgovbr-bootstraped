@@ -1,6 +1,6 @@
 {
   "name": "@abrasileirado/dsgovbr-bootstraped",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Camada de compatibilidade visual não oficial entre o Bootstrap 5 e o Design System GOV.BR (DSGovBR)",
   "license": "MIT",
   "author": "Kelson da Costa Medeiros",
@@ -33,7 +33,8 @@
     "test:package": "node scripts/test-package.js",
     "test:browser": "playwright test",
     "serve": "node scripts/serve.js",
-    "test:visual:update": "node scripts/test-visual-update.js"
+    "test:visual:update": "node scripts/test-visual-update.js",
+    "docs": "sphinx-build -W --keep-going -b html docs docs/_build/html"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

@@ -1,7 +1,7 @@
 name: Verificar atualizações upstream
 
 # O Dependabot não cobre submodules por tag (ver .github/dependabot.yml e
-# DP-09 em docs/requisitos.md). Este workflow avisa, por issue, quando há tag
+# DP-09 em docs/requisitos.rst). Este workflow avisa, por issue, quando há tag
 # estável nova de Bootstrap ou GOV.BR DS — a atualização em si é manual.
 on:
   schedule:

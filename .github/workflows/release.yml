@@ -57,7 +57,7 @@ jobs:
         # em https://www.npmjs.com/package/@abrasileirado/dsgovbr-bootstraped
         # → Settings → Trusted Publishers, apontando para este repositório e
         # este workflow, com "Allow npm publish" habilitado (DP-07 em
-        # docs/requisitos.md). Sem isso, esta etapa falha (fail-fast) —
+        # docs/requisitos.rst). Sem isso, esta etapa falha (fail-fast) —
         # nenhuma Release é criada antes de um publish bem-sucedido no npm.
         run: npm publish --access public
 

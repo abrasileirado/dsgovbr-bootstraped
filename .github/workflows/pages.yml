@@ -35,14 +35,18 @@ jobs:
       - name: Compilar CSS (dist/ e docs/assets/)
         run: npm run build
 
-      - name: Build com Jekyll
-        # Replica o comportamento padrão do GitHub Pages (renderiza os .md em
-        # docs/ como HTML), já que o modo "GitHub Actions" não faz isso
-        # automaticamente como o modo "Deploy from a branch" fazia.
-        uses: actions/jekyll-build-pages@v1
+      - name: Configurar Python
+        uses: actions/setup-python@v7
         with:
-          source: docs
-          destination: ./_site
+          python-version: "3.13"
+
+      - name: Instalar Sphinx e o tema dsgovbr-sphinx-theme
+        run: python -m pip install -r docs/requirements.txt
+
+      - name: Build com Sphinx
+        # Gera as páginas reST e copia docs/assets, docs/componentes e
+        # docs/exemplos (HTML estático) para a saída (ver docs/conf.py).
+        run: sphinx-build -W --keep-going -b html docs ./_site
 
       - name: Upload do artefato do Pages
         uses: actions/upload-pages-artifact@v5

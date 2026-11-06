@@ -30,13 +30,13 @@ uma página para cada componente de
 ## Estado do projeto
 
 Em desenvolvimento ativo (MVP). A compatibilidade é parcial: consulte a
-[matriz de compatibilidade](docs/requisitos.md#6-matriz-de-compatibilidade-atual-v051)
+[matriz de compatibilidade](https://abrasileirado.github.io/dsgovbr-bootstraped/requisitos.html#matriz-de-compatibilidade-atual-v0-5-1)
 para ver os subconjuntos suportados, limitações e itens fora do escopo. Consulte
 a [página de releases](https://github.com/abrasileirado/dsgovbr-bootstraped/releases)
 para obter versões e arquivos publicados.
 
 Para as decisões e recomendações sobre modal, navbar, dropdown e navegação GOV.BR,
-consulte a [análise de compatibilidade](docs/analise-modal-navegacao.md).
+consulte a [análise de compatibilidade](https://abrasileirado.github.io/dsgovbr-bootstraped/analise-modal-navegacao.html).
 
 ## Início rápido
 
@@ -55,16 +55,16 @@ Nenhum outro CSS do Bootstrap precisa ser carregado — a build é autônoma
 (já inclui o Bootstrap inteiro recompilado com os tokens do GOV.BR DS).
 Modo claro/escuro: o JS opcional `dist/dsgovbr-bootstraped-modo.js` alterna o
 `data-bs-theme` por um botão com `data-dsgovbr-modo` (ver
-[Getting Started](docs/getting-started.md#modo-claroescuro-opcional)).
-Guia completo: [Getting Started](docs/getting-started.md) ·
-[Setup de desenvolvimento](docs/setup.md).
+[Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html#modo-claro-escuro-opcional)).
+Guia completo: [Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html) ·
+[Setup de desenvolvimento](https://abrasileirado.github.io/dsgovbr-bootstraped/setup.html).
 
 ## Documentação
 
-- [docs/index.md](docs/index.md) — índice completo da documentação.
-- [docs/requisitos.md](docs/requisitos.md) — escopo, decisões e matriz de compatibilidade.
+- [Documentação](https://abrasileirado.github.io/dsgovbr-bootstraped/) — índice completo (fonte em `docs/*.rst`, gerada com Sphinx).
+- [Requisitos](https://abrasileirado.github.io/dsgovbr-bootstraped/requisitos.html) — escopo, decisões e matriz de compatibilidade.
 - [Catálogo de componentes](https://abrasileirado.github.io/dsgovbr-bootstraped/componentes/index.html) — todos os componentes do Bootstrap 5.3, com a chave para ativar/inativar o GOV.BR DS.
-- [Como contribuir](docs/contribua.md).
+- [Como contribuir](https://abrasileirado.github.io/dsgovbr-bootstraped/contribua.html).
 
 ## Licença
 

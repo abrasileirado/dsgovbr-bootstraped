@@ -9,7 +9,8 @@ function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
     const full = path.join(dir, e.name);
     if (e.isDirectory()) {
-      return e.name === "assets" ? [] : walk(full);
+      // assets: CSS/JS copiados; _build: saída do Sphinx (npm run docs), não é fixture
+      return e.name === "assets" || e.name === "_build" ? [] : walk(full);
     }
     return e.name.endsWith(".html") ? [full] : [];
   });

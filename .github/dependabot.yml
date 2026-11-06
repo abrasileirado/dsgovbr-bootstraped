@@ -26,7 +26,7 @@ updates:
         patterns:
           - "*"
   # Não usamos "gitsubmodule": os submodules em vendor/ são fixados
-  # deliberadamente em tags específicas (DP-01/DP-03 em docs/requisitos.md),
+  # deliberadamente em tags específicas (DP-01/DP-03 em docs/requisitos.rst),
   # não na "latest". O Dependabot rastreia o commit mais recente do submodule
   # (não tags semânticas), o que já causou um bump indevido além da tag
   # pinada (PR #12). Avançar a tag é decisão manual, por issue; o aviso de

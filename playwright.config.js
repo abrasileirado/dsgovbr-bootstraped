@@ -7,7 +7,7 @@ const CI = Boolean(process.env.CI);
 // Testes de navegador (RNF-02, RNF-09). Servem docs/ como raiz, igual ao
 // GitHub Pages. Os visuais (tests/browser/visual.spec.js) só rodam com
 // VISUAL=1, dentro do container oficial do Playwright (ver ci.yml e
-// docs/desenvolvimento.md): a renderização muda com o sistema e as fontes.
+// docs/desenvolvimento.rst): a renderização muda com o sistema e as fontes.
 module.exports = defineConfig({
   testDir: "tests/browser",
   testMatch: "**/*.spec.js",
