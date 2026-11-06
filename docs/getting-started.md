@@ -58,6 +58,31 @@ completa, com exemplos de markup, variantes, tamanhos e estados — e
 [exemplos de uso concreto](exemplos/login.html) para ver os componentes
 compostos numa tela real.
 
+## Modo claro/escuro (opcional)
+
+O CSS já pinta o modo escuro pelo `data-bs-theme="dark"` do Bootstrap 5.3. Para
+o usuário alternar, carregue o JS opcional `dist/dsgovbr-bootstraped-modo.js`
+(sem dependência) de forma **síncrona no `<head>`**, depois do CSS, e marque o
+botão com `data-dsgovbr-modo`:
+
+```html
+<link rel="stylesheet" href="dist/dsgovbr-bootstraped.min.css">
+<script src="dist/dsgovbr-bootstraped-modo.js"></script>
+...
+<button class="btn btn-link btn-sm rounded-circle" type="button"
+        data-dsgovbr-modo aria-pressed="false" aria-label="Modo escuro" title="Modo escuro">
+  <i class="fas fa-adjust" aria-hidden="true"></i>
+</button>
+```
+
+- Sem escolha salva, segue o sistema (`prefers-color-scheme`), inclusive quando ele muda.
+- O clique alterna claro/escuro, grava a escolha no `localStorage` e mantém o
+  `aria-pressed` ("true" no escuro). `data-dsgovbr-modo="light"` ou `"dark"` fixa um modo.
+- API: `window.dsgovbrModo.atual()`, `.aplicar("light" | "dark")` e `.alternar()`.
+  Toda troca dispara `dsgovbr:modo` no `<html>` (`event.detail.modo`).
+
+Exemplo no header do [painel administrativo](exemplos/admin.html).
+
 ## Quando o pacote for publicado no npm (planejado)
 
 ```bash

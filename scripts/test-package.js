@@ -68,6 +68,8 @@ function main() {
     for (const rel of [
       "dist/dsgovbr-bootstraped.min.css",
       "src/scss/index.scss",
+      "dist/dsgovbr-bootstraped-modo.js",
+      "src/js/dsgovbr-bootstraped-modo.js",
       "vendor/bootstrap/scss/bootstrap.scss",
       "vendor/bootstrap/LICENSE",
       "THIRD_PARTY_NOTICES.md",

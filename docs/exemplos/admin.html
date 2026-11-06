@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="../assets/fonts/rawline/rawline.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="../assets/css/dsgovbr-bootstraped.css">
+  <!-- seletor de modo claro/escuro: síncrono, para aplicar o modo antes da primeira pintura -->
+  <script src="../assets/js/dsgovbr-bootstraped-modo.js"></script>
   <style>
     body { display: flex; flex-direction: column; min-height: 100vh; }
     main { flex: 1; }
@@ -48,7 +50,7 @@
           <div class="d-none d-xl-flex">
             <a class="btn btn-link btn-sm rounded-circle" href="#" aria-label="Relatórios"><i class="fas fa-chart-bar" aria-hidden="true"></i></a>
             <a class="btn btn-link btn-sm rounded-circle" href="#" aria-label="Suporte"><i class="fas fa-headset" aria-hidden="true"></i></a>
-            <button class="btn btn-link btn-sm rounded-circle" type="button" aria-label="Alto contraste"><i class="fas fa-adjust" aria-hidden="true"></i></button>
+            <button class="btn btn-link btn-sm rounded-circle" type="button" data-dsgovbr-modo aria-pressed="false" aria-label="Modo escuro" title="Modo escuro"><i class="fas fa-adjust" aria-hidden="true"></i></button>
           </div>
           <div class="dropdown d-xl-none">
             <button class="btn btn-link btn-sm rounded-circle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir funcionalidades do sistema"><i class="fas fa-th" aria-hidden="true"></i></button>
@@ -56,7 +58,7 @@
               <li><h2 class="dropdown-header">Funcionalidades do sistema</h2></li>
               <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar me-2" aria-hidden="true"></i>Relatórios</a></li>
               <li><a class="dropdown-item" href="#"><i class="fas fa-headset me-2" aria-hidden="true"></i>Suporte</a></li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-adjust me-2" aria-hidden="true"></i>Alto contraste</a></li>
+              <li><button class="dropdown-item" type="button" data-dsgovbr-modo aria-pressed="false"><i class="fas fa-adjust me-2" aria-hidden="true"></i>Modo escuro</button></li>
             </ul>
           </div>
 

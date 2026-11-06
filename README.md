@@ -53,6 +53,9 @@ npm run build
 
 Nenhum outro CSS do Bootstrap precisa ser carregado — a build é autônoma
 (já inclui o Bootstrap inteiro recompilado com os tokens do GOV.BR DS).
+Modo claro/escuro: o JS opcional `dist/dsgovbr-bootstraped-modo.js` alterna o
+`data-bs-theme` por um botão com `data-dsgovbr-modo` (ver
+[Getting Started](docs/getting-started.md#modo-claroescuro-opcional)).
 Guia completo: [Getting Started](docs/getting-started.md) ·
 [Setup de desenvolvimento](docs/setup.md).
 
