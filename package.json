@@ -1,6 +1,6 @@
 {
   "name": "@abrasileirado/dsgovbr-bootstraped",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Camada de compatibilidade visual não oficial entre o Bootstrap 5 e o Design System GOV.BR (DSGovBR)",
   "license": "MIT",
   "author": "Kelson da Costa Medeiros",
@@ -12,6 +12,7 @@
   "files": [
     "dist/",
     "src/scss/",
+    "src/js/",
     "vendor/bootstrap/scss/",
     "vendor/bootstrap/LICENSE",
     "README.md",
@@ -23,9 +24,10 @@
   "scripts": {
     "build:css": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.css --style=expanded --source-map",
     "build:css:min": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.min.css --style=compressed --no-source-map",
+    "build:js": "node scripts/build-js.js",
     "build:docs-assets": "node scripts/build-docs-assets.js",
     "build:site": "node scripts/build-site.js",
-    "build": "npm run build:css && npm run build:css:min && npm run build:docs-assets && npm run build:site",
+    "build": "npm run build:css && npm run build:css:min && npm run build:js && npm run build:docs-assets && npm run build:site",
     "test": "npm run test:unit && npm run test:package",
     "test:unit": "node --test \"tests/**/*.test.js\"",
     "test:package": "node scripts/test-package.js",

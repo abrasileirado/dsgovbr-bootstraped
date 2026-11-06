@@ -13,6 +13,8 @@ const ROOT = path.join(__dirname, "..");
 const COPIES = [
   // nosso CSS compilado (minificado)
   ["dist/dsgovbr-bootstraped.min.css", "docs/assets/css/dsgovbr-bootstraped.css"],
+  // seletor de modo claro/escuro (opcional)
+  ["dist/dsgovbr-bootstraped-modo.js", "docs/assets/js/dsgovbr-bootstraped-modo.js"],
   // Bootstrap puro, para a página de comparação "antes/depois", e seu JS
   ["vendor/bootstrap/dist/css/bootstrap.min.css", "docs/assets/vendor/bootstrap/css/bootstrap.min.css"],
   ["vendor/bootstrap/dist/js/bootstrap.bundle.min.js", "docs/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"],
