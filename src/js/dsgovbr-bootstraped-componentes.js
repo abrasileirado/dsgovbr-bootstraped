@@ -340,7 +340,7 @@
   // que gruda no topo, relativo ao <body>.
   //
   // Ao rolar a página, a linha de cima (logo, assinatura e ações) some e fica só a
-  // do título e da busca (atributo data-dsgovbr-rolado no host; o CSS faz o resto).
+  // do título e da busca, sem o subtítulo (atributo data-dsgovbr-rolado no host; o CSS faz o resto).
   // Há histerese (recolhe depois de 100px, volta com menos de 20px) e páginas
   // curtas não recolhem, para a mudança de altura não gerar vai-e-volta.
   class Header extends Base {
@@ -534,7 +534,7 @@
         meio.append(
           h("div", { class: "me-auto" }, [
             titulo ? h("a", { class: "navbar-brand p-0 m-0", href: href }, titulo) : null,
-            subtitulo ? h("span", { class: "navbar-text" }, subtitulo) : null,
+            subtitulo ? h("span", { class: "dsgovbr-header-subtitulo navbar-text" }, subtitulo) : null,
           ])
         );
         if (busca) {
