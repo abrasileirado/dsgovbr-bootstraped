@@ -62,6 +62,7 @@ Organização proposta
      _tokens.scss               # Mapeamento documentado de tokens
      _bootstrap-settings.scss   # Ajustes de variáveis Bootstrap
      components/               # Adaptadores específicos, um por componente
+   src/js/                      # JS opcional (modo claro/escuro e web components), copiado para dist/
    dist/                       # Artefatos gerados para publicação
    vendor/                     # Submodules (Bootstrap, govbr-ds-core), fixados por tag
    docs/
@@ -164,6 +165,9 @@ inicializados):
     campo de texto, checkbox/radio, alerta e card, nenhuma classe ``.br-*``
     (RF-03) e ``btn-secondary`` no cinza do Bootstrap (DP-06). Ao adaptar um
     componente novo, acrescente aqui o que o torna "GOV.BR DS".
+  - ``componentes-js.test.js``: o JS dos web components tem sintaxe válida,
+    define os quatro elementos sem Shadow DOM nem ``innerHTML`` e entra em
+    ``build-js``, ``build-docs-assets``, no teste do pacote e na release.
   - ``site.test.js``: o catálogo cobre **todo** componente de
     ``vendor/bootstrap/site/src/content/docs/components/`` (uma página por
     ``<!-- bootstrap: <slug> -->``), o índice aponta para todas as páginas e
@@ -210,6 +214,11 @@ no Pages) num Chromium real, em ``tests/browser/``:
 - ``tema.spec.js``: a chave *Aplicar GOV.BR DS* (padrão ligado, ``?tema=``,
   persistência entre páginas, valor inválido) e os plugins que o catálogo
   inicia (tooltip, popover, toast) e o modal.
+- ``componentes.spec.js``: web components (``src/js/dsgovbr-bootstraped-componentes.js``)
+  no painel e em ``/componentes/web-components.html``: montagem, landmarks, menu
+  (offcanvas, pasta, item atual), header, footer, ``aria-pressed`` do modo escuro,
+  remontagem por atributo, atributos sem HTML (XSS) e carga síncrona no ``<head>``.
+- ``modo.spec.js``: seletor de modo claro/escuro.
 - ``a11y.spec.js``: axe-core (WCAG 2 A/AA) nas páginas de componentes e no exemplo
   de login — RNF-02. Violação nova faz o teste falhar.
 - ``visual.spec.js``: captura de tela de cada página em desktop (1280px) e mobile

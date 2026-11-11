@@ -70,6 +70,8 @@ function main() {
       "src/scss/index.scss",
       "dist/dsgovbr-bootstraped-modo.js",
       "src/js/dsgovbr-bootstraped-modo.js",
+      "dist/dsgovbr-bootstraped-componentes.js",
+      "src/js/dsgovbr-bootstraped-componentes.js",
       "vendor/bootstrap/scss/bootstrap.scss",
       "vendor/bootstrap/LICENSE",
       "THIRD_PARTY_NOTICES.md",
