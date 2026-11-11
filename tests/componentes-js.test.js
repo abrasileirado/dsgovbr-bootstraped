@@ -33,10 +33,10 @@ test("sem custom elements, o script não faz nada nem lança erro", () => {
 });
 
 test("o arquivo é copiado para dist/ e para docs/assets/ e entra na release e no teste do pacote", () => {
-  assert.match(read("scripts/build-js.js"), new RegExp(ARQUIVO.replace(/\./g, "\\.")));
-  assert.match(read("scripts/build-docs-assets.js"), new RegExp(`dist/${ARQUIVO}`));
-  assert.match(read("scripts/test-package.js"), new RegExp(`src/js/${ARQUIVO}`));
-  assert.match(read(".github/workflows/release.yml"), new RegExp(`dist/${ARQUIVO}`));
+  assert.ok(read("scripts/build-js.js").includes(ARQUIVO), "build-js.js");
+  assert.ok(read("scripts/build-docs-assets.js").includes(`dist/${ARQUIVO}`), "build-docs-assets.js");
+  assert.ok(read("scripts/test-package.js").includes(`src/js/${ARQUIVO}`), "test-package.js");
+  assert.ok(read(".github/workflows/release.yml").includes(`dist/${ARQUIVO}`), "release.yml");
   assert.ok(require("../package.json").files.includes("src/js/"), "src/js/ precisa estar em files do package.json");
 });
 

@@ -18,7 +18,7 @@
     existirem quando o componente monta. O skip link e o <code>&lt;main id="conteudo"&gt;</code> ficam no HTML
     da página, antes do header.
   </p>
-<pre><code>&lt;link rel="stylesheet" href="dist/dsgovbr-bootstraped.min.css"&gt;
+<pre tabindex="0"><code>&lt;link rel="stylesheet" href="dist/dsgovbr-bootstraped.min.css"&gt;
 &lt;script src="dist/dsgovbr-bootstraped-modo.js"&gt;&lt;/script&gt;          &lt;!-- opcional: botão de modo escuro --&gt;
 &lt;script src="dist/dsgovbr-bootstraped-componentes.js" defer&gt;&lt;/script&gt;
 &lt;script src="bootstrap.bundle.min.js" defer&gt;&lt;/script&gt;</code></pre>
@@ -37,7 +37,7 @@
     <a href="#">Cadastros</a>
     <span>Usuários</span>
   </dsgovbr-breadcrumb>
-<pre><code>&lt;dsgovbr-breadcrumb rotulo="Trilha de navegação"&gt;
+<pre tabindex="0"><code>&lt;dsgovbr-breadcrumb rotulo="Trilha de navegação"&gt;
   &lt;a href="/"&gt;Início&lt;/a&gt;
   &lt;a href="/cadastros"&gt;Cadastros&lt;/a&gt;
   &lt;span&gt;Usuários&lt;/span&gt;   &lt;!-- o último é a página atual (aria-current="page") --&gt;
@@ -69,7 +69,7 @@
     </dsgovbr-breadcrumb>
     <button slot="acoes" type="button" class="btn btn-primary">Adicionar usuário</button>
   </dsgovbr-header>
-<pre><code>&lt;dsgovbr-header logo="logo.svg" logo-alt="Página inicial" href="/"
+<pre tabindex="0"><code>&lt;dsgovbr-header logo="logo.svg" logo-alt="Página inicial" href="/"
                 assinatura="Ministério Exemplo"
                 titulo="Sistema" subtitulo="Gestão de usuários"
                 menu="menu-principal" busca modo usuario="Maria Silva" pagina="Usuários"&gt;
@@ -120,7 +120,7 @@
       <p class="small text-center p-3 m-0">Conteúdo publicado sob a licença <strong>Creative Commons Atribuição 4.0</strong>.</p>
     </div>
   </dsgovbr-menu>
-<pre><code>&lt;dsgovbr-menu id="menu-principal" titulo="Sistema" logo="logo.svg"&gt;
+<pre tabindex="0"><code>&lt;dsgovbr-menu id="menu-principal" titulo="Sistema" logo="logo.svg"&gt;
   &lt;a href="/" icone="fas fa-home"&gt;Início&lt;/a&gt;
   &lt;details open icone="fas fa-users" id="menu-cadastros"&gt;   &lt;!-- pasta (Collapse) --&gt;
     &lt;summary&gt;Cadastros&lt;/summary&gt;
@@ -151,7 +151,7 @@
     <a slot="rede" href="#" icone="fab fa-youtube">YouTube</a>
     <p slot="aviso">Projeto não oficial, sem endosso do governo. <strong>Licença MIT.</strong></p>
   </dsgovbr-footer>
-<pre><code>&lt;dsgovbr-footer logo="logo-negativo.svg" logo-alt="Logo do sistema"
+<pre tabindex="0"><code>&lt;dsgovbr-footer logo="logo-negativo.svg" logo-alt="Logo do sistema"
                 assinatura="assinatura.svg" assinatura-alt="Assinatura do órgão"&gt;
   &lt;nav slot="coluna" titulo="Sistema"&gt;&lt;a href="/sobre"&gt;Sobre&lt;/a&gt;…&lt;/nav&gt;
   &lt;a slot="rede" href="…" icone="fab fa-facebook-f"&gt;Facebook&lt;/a&gt;
