@@ -9,14 +9,16 @@
 // antes da transformação) para ela não "piscar" na tela.
 dsgovbr-header,
 dsgovbr-footer,
-dsgovbr-breadcrumb {
+dsgovbr-breadcrumb,
+dsgovbr-cookiebar {
   display: contents;
 }
 
 dsgovbr-header,
 dsgovbr-menu,
 dsgovbr-footer,
-dsgovbr-breadcrumb {
+dsgovbr-breadcrumb,
+dsgovbr-cookiebar {
   &:not([data-dsgovbr-montado]) {
     visibility: hidden;
   }
@@ -27,4 +29,26 @@ dsgovbr-breadcrumb {
 dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-topo,
 dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-subtitulo {
   display: none !important; // vence o .d-flex do Bootstrap (!important)
+}
+
+// <dsgovbr-cookiebar>: o aviso é um painel fixo no rodapé (.fixed-bottom) com a
+// sombra para cima do Cookiebar do GOV.BR DS; não usa .offcanvas porque o
+// Bootstrap abriria sozinho (backdrop e prisão de foco) todo .offcanvas.show.
+.dsgovbr-cookiebar-barra {
+  margin: 0;
+  z-index: 1045;
+  box-shadow: $govbr-shadow-lg-up;
+}
+
+// Botão flutuante de configurações (ícone de cookie), no
+// canto inferior esquerdo, acima do conteúdo e abaixo do modal (z-index 1055).
+.dsgovbr-cookiebar-botao {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1030;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  box-shadow: $govbr-shadow-lg;
 }

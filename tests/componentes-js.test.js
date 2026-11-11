@@ -42,6 +42,6 @@ test("o arquivo é copiado para dist/ e para docs/assets/ e entra na release e n
 
 test("o CSS do tema esconde o componente até montar e usa display: contents nos wrappers", () => {
   const css = read("dist/dsgovbr-bootstraped.css");
-  assert.match(css, /dsgovbr-header,\s*\ndsgovbr-footer,\s*\ndsgovbr-breadcrumb \{\s*\n\s*display: contents;/);
+  assert.match(css, /dsgovbr-header,\s*\ndsgovbr-footer,\s*\ndsgovbr-breadcrumb,\s*\ndsgovbr-cookiebar \{\s*\n\s*display: contents;/);
   assert.match(css, /dsgovbr-menu:not\(\[data-dsgovbr-montado\]\)/);
 });

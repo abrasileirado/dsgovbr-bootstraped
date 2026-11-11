@@ -155,7 +155,7 @@ test.describe("celular", () => {
     await expect(page.getByRole("link", { name: "Documentação" })).toBeVisible();
     await page.keyboard.press("Escape");
     await page.getByRole("button", { name: "Abrir funcionalidades do sistema" }).click();
-    await expect(page.getByRole("link", { name: "Suporte" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Configurações de cookies" })).toBeVisible();
     await page.getByRole("button", { name: "Modo escuro" }).click();
     await expect(page.locator("html")).toHaveAttribute("data-bs-theme", /dark|light/);
   });

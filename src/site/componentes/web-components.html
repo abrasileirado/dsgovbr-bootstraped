@@ -73,7 +73,7 @@
 <pre tabindex="0"><code>&lt;dsgovbr-header logo="logo.svg" logo-alt="Página inicial" href="/"
                 assinatura="Ministério Exemplo"
                 titulo="Sistema" subtitulo="Gestão de usuários"
-                menu="menu-principal" busca modo usuario="Maria Silva" pagina="Usuários"&gt;
+                menu="menu-principal" busca modo cookies usuario="Maria Silva" pagina="Usuários"&gt;
   &lt;a slot="acesso-rapido" href="/docs"&gt;Documentação&lt;/a&gt;
   &lt;a slot="funcionalidade" href="#" icone="fas fa-headset"&gt;Suporte&lt;/a&gt;
   &lt;a slot="usuario" href="/perfil"&gt;Meu perfil&lt;/a&gt;
@@ -91,6 +91,7 @@
       <tr><td><code>menu</code></td><td><code>id</code> de um <code>&lt;dsgovbr-menu&gt;</code>: mostra o botão que abre o menu.</td></tr>
       <tr><td><code>busca</code></td><td>Campo de busca (recolhido por Collapse abaixo de <code>lg</code>).</td></tr>
       <tr><td><code>modo</code></td><td>Botão de modo claro/escuro (<code>data-dsgovbr-modo</code>); exige <code>dsgovbr-bootstraped-modo.js</code>.</td></tr>
+      <tr><td><code>cookies</code></td><td>Botão de ação rápida (ícone de cookie) que abre as configurações do <a href="cookiebar.html"><code>&lt;dsgovbr-cookiebar&gt;</code></a> (<code>data-dsgovbr-cookies-abrir</code>); exige <code>dsgovbr-bootstraped-cookies.js</code>. Use <code>sem-botao</code> no cookiebar para não duplicar o botão flutuante.</td></tr>
       <tr><td><code>usuario</code></td><td>Nome do usuário autenticado; abre o dropdown com os filhos <code>slot="usuario"</code> (um filho que não seja <code>&lt;a&gt;</code>, como <code>&lt;hr&gt;</code>, vira divisor).</td></tr>
       <tr><td><code>pagina</code></td><td>Título da página (<code>&lt;h1&gt;</code>), na barra logo abaixo do <code>&lt;header&gt;</code> (fora dele, como no GOV.BR DS), que gruda no topo junto com ele.</td></tr>
       <tr><td><code>estatico</code></td><td>Não fixa o header no topo (e não recolhe a linha de cima ao rolar).</td></tr>

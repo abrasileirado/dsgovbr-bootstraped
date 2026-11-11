@@ -72,6 +72,8 @@ function main() {
       "src/js/dsgovbr-bootstraped-modo.js",
       "dist/dsgovbr-bootstraped-componentes.js",
       "src/js/dsgovbr-bootstraped-componentes.js",
+      "dist/dsgovbr-bootstraped-cookies.js",
+      "src/js/dsgovbr-bootstraped-cookies.js",
       "vendor/bootstrap/scss/bootstrap.scss",
       "vendor/bootstrap/LICENSE",
       "THIRD_PARTY_NOTICES.md",

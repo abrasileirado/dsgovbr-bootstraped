@@ -1,0 +1,76 @@
+<!-- title: Componente: Cookiebar (consentimento) — dsgovbr-bootstraped -->
+<!-- status: Experimental -->
+<h1>Cookiebar (<code>&lt;dsgovbr-cookiebar&gt;</code>)</h1>
+<p>
+  Barra de consentimento de cookies do GOV.BR DS com comportamento: aviso no rodapé com
+  <em>Gerenciar cookies</em>, <em>Rejeitar cookies</em> e <em>Aceitar cookies</em>; configurações por grupo
+  (switches) num modal; e um botão flutuante, com ícone de cookie, que reabre as configurações depois da
+  escolha. A aparência estática do aviso está em <a href="auxiliares.html#cookiebar-secao">Auxiliares</a>.
+</p>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="../assets/js/dsgovbr-bootstraped-cookies.js"></script>
+
+<section>
+  <h2>Uso</h2>
+  <p>
+    Esta página tem um <code>&lt;dsgovbr-cookiebar&gt;</code>: sem escolha salva a barra aparece no rodapé; depois
+    da escolha fica só o botão no canto inferior esquerdo. Para ver a barra de novo, chame
+    <code>dsgovbrCookies.limpar()</code> ou apague a chave <code>dsgovbr-bootstraped:cookies</code> do
+    <code>localStorage</code>.
+  </p>
+<pre tabindex="0"><code>&lt;script src="dist/dsgovbr-bootstraped-cookies.js"&gt;&lt;/script&gt;   &lt;!-- no &lt;head&gt;: a API fica pronta cedo --&gt;
+...
+&lt;dsgovbr-cookiebar declaracao="/cookies"&gt;
+  &lt;p slot="texto"&gt;Usamos cookies para melhorar sua experiência.&lt;/p&gt;
+  &lt;div slot="grupo" nome="desempenho" rotulo="Desempenho"&gt;Medem o uso do site.&lt;/div&gt;
+  &lt;div slot="grupo" nome="funcionais" rotulo="Funcionais"&gt;Lembram suas preferências.&lt;/div&gt;
+&lt;/dsgovbr-cookiebar&gt;
+&lt;script src="bootstrap.bundle.min.js" defer&gt;&lt;/script&gt;</code></pre>
+  <ul>
+    <li>O grupo <code>necessarios</code> (estritamente necessários) é criado sozinho: sempre ativo e bloqueado. Declare um grupo com o atributo <code>necessario</code> para trocar o texto dele.</li>
+    <li>Atributos: <code>titulo</code> (padrão "Aviso de cookies"), <code>declaracao</code> (link da Declaração de Cookies) e <code>rotulo-declaracao</code>. O texto do aviso vem do filho <code>slot="texto"</code> (aceita HTML).</li>
+    <li>O botão flutuante pode ser trocado por um acionador seu: qualquer elemento com <code>data-dsgovbr-cookies-abrir</code> abre as configurações, e o <code>&lt;dsgovbr-header cookies&gt;</code> já traz um botão de ação rápida assim. Com <code>sem-botao</code> no cookiebar o botão flutuante não aparece.</li>
+    <li>A barra não bloqueia a página (é um aviso, não um diálogo). As configurações abrem num modal do Bootstrap, então o <code>bootstrap.bundle</code> precisa estar carregado.</li>
+    <li>Legível no claro e no escuro: usa só os tokens do tema.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>API e evento</h2>
+  <p>
+    <code>window.dsgovbrCookies</code> funciona também sem o elemento (para o site ligar ou desligar scripts por grupo):
+  </p>
+<pre tabindex="0"><code>dsgovbrCookies.escolha()            // { necessarios: true, desempenho: false } ou null (sem escolha)
+dsgovbrCookies.permitido("desempenho") // true só se a pessoa aceitou o grupo
+dsgovbrCookies.definir({ desempenho: true }, "api")
+dsgovbrCookies.limpar()             // apaga a escolha; a barra volta
+dsgovbrCookies.abrir()              // abre as configurações
+
+document.documentElement.addEventListener("dsgovbr:cookies", (e) =&gt; {
+  // e.detail.grupos: { necessarios: true, ... } (null depois de limpar)
+  // e.detail.origem: "aceitar" | "rejeitar" | "salvar" | "api" | "limpar"
+  if (e.detail.grupos &amp;&amp; e.detail.grupos.desempenho) carregarAnalytics();
+});
+if (dsgovbrCookies.permitido("desempenho")) carregarAnalytics(); // escolha de visitas anteriores</code></pre>
+  <p>
+    A escolha fica no <code>localStorage</code> (<code>dsgovbr-bootstraped:cookies</code>); se ele estiver
+    bloqueado, vale só para a página aberta. O evento dispara a cada mudança, não ao carregar:
+    use <code>permitido()</code> para a escolha de visitas anteriores.
+  </p>
+</section>
+
+<dsgovbr-cookiebar declaracao="#">
+  <p slot="texto">Usamos cookies para melhorar sua experiência e analisar o uso do site. Veja a nossa</p>
+  <div slot="grupo" nome="desempenho" rotulo="Desempenho">Medem o uso do site para melhorá-lo.</div>
+  <div slot="grupo" nome="funcionais" rotulo="Funcionais">Lembram suas preferências, como o modo escuro.</div>
+</dsgovbr-cookiebar>
+
+<section>
+  <h2>Diferenças conhecidas em relação ao GOV.BR DS</h2>
+  <ul>
+    <li>Não usa o <code>BRCookiebar</code> nem o JSON de categorias do GOV.BR DS: os grupos vêm do markup. A data de atualização da política e o consentimento por cookie individual não existem.</li>
+    <li>A escolha fica no <code>localStorage</code> do navegador, não em cookie; o servidor não a recebe sozinho.</li>
+    <li>O aviso é um painel fixo não modal (sem <code>backdrop</code> nem captura de foco), diferente da composição estática de Auxiliares, que usa <code>.offcanvas</code>.</li>
+    <li>Experimental: atributos, slots e API podem mudar antes da 1.0.</li>
+  </ul>
+</section>

@@ -12,6 +12,8 @@
   <script src="../assets/js/dsgovbr-bootstraped-modo.js"></script>
   <!-- web components de header, menu, footer e breadcrumb: defer, para os filhos já existirem ao montar -->
   <script src="../assets/js/dsgovbr-bootstraped-componentes.js" defer></script>
+  <!-- consentimento de cookies: síncrono, para a API (dsgovbrCookies.permitido) estar pronta cedo -->
+  <script src="../assets/js/dsgovbr-bootstraped-cookies.js"></script>
   <style>
     body { display: flex; flex-direction: column; min-height: 100vh; }
     main { flex: 1; }
@@ -26,13 +28,10 @@
   <dsgovbr-header logo="img/logo.svg" logo-alt="Página inicial do sistema" href="#"
                   assinatura="Ministério Exemplo"
                   titulo="Administração do Sistema" subtitulo="Gestão de usuários e permissões"
-                  menu="menu-principal" busca modo usuario="Maria Silva" pagina="Usuários">
+                  menu="menu-principal" busca modo cookies usuario="Maria Silva" pagina="Usuários">
     <a slot="acesso-rapido" href="../index.html">Documentação</a>
     <a slot="acesso-rapido" href="../componentes/index.html">Componentes</a>
     <a slot="acesso-rapido" href="index.html">Exemplos</a>
-
-    <a slot="funcionalidade" href="#" icone="fas fa-chart-bar">Relatórios</a>
-    <a slot="funcionalidade" href="#" icone="fas fa-headset">Suporte</a>
 
     <a slot="usuario" href="#">Meu perfil</a>
     <a slot="usuario" href="#">Alterar senha</a>
@@ -166,6 +165,13 @@
     <a slot="rede" href="#" icone="fab fa-youtube">YouTube</a>
     <p slot="aviso">Exemplo de composição com web components e o tema dsgovbr-bootstraped. Projeto não oficial, sem endosso do governo. <strong>Licença MIT.</strong></p>
   </dsgovbr-footer>
+
+  <!-- Cookiebar: o botão de configurações fica no header (cookies), por isso sem-botao -->
+  <dsgovbr-cookiebar sem-botao declaracao="#">
+    <p slot="texto">Usamos cookies para melhorar sua experiência e analisar o uso do sistema. Veja a nossa</p>
+    <div slot="grupo" nome="desempenho" rotulo="Desempenho">Medem o uso do sistema para melhorá-lo.</div>
+    <div slot="grupo" nome="funcionais" rotulo="Funcionais">Lembram suas preferências, como o modo escuro.</div>
+  </dsgovbr-cookiebar>
 
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
