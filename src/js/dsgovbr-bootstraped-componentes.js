@@ -15,8 +15,11 @@
 // Mudar um atributo depois remonta o componente. O modo claro/escuro continua
 // no JS à parte (dsgovbr-bootstraped-modo.js); o header só renderiza o botão.
 //
-// Convenção de filhos: `slot="nome"` agrupa filhos por função (não é Shadow DOM,
-// só um marcador); `icone="fas fa-home"` são as classes do ícone.
+// Filhos declarativos: o pai lê elementos-dado (<dsgovbr-item>, <dsgovbr-pasta>,
+// <dsgovbr-coluna>, <dsgovbr-rede>, <dsgovbr-logo>, <dsgovbr-aviso>...) e os troca
+// pelo HTML final; eles não renderizam nada sozinhos (o CSS os oculta fora de um
+// componente). `icone="fas fa-home"` são as classes do ícone. Onde se espera um
+// <dsgovbr-item>, um <a href> comum também vale.
 (function () {
   "use strict";
 
@@ -56,21 +59,42 @@
     return (el.textContent || "").replace(/\s+/g, " ").trim();
   }
 
-  // Filhos diretos com `slot="nome"`.
-  function doSlot(raiz, nome) {
+  // Filhos diretos com um dos nomes de tag (ex.: "dsgovbr-pasta").
+  function filhos(raiz, tags) {
+    var nomes = [].concat(tags);
     return Array.prototype.filter.call(raiz.children, function (el) {
-      return el.getAttribute("slot") === nome;
+      return nomes.indexOf(el.localName) !== -1;
     });
   }
 
-  // Link declarado: <a href icone atual>Texto</a> -> dados simples.
+  function ehItem(el) {
+    return el.localName === "dsgovbr-item" || el.localName === "a";
+  }
+
+  // <dsgovbr-item href icone atual externo>Texto</dsgovbr-item> (ou <a>) -> dados simples.
   function lerLink(a) {
     return {
       href: a.getAttribute("href") || "#",
       texto: texto(a),
       icone: a.getAttribute("icone"),
       atual: a.hasAttribute("atual"),
+      externo: a.hasAttribute("externo"),
     };
+  }
+
+  // Itens (<dsgovbr-item> ou <a>) filhos diretos de um elemento.
+  function lerItens(raiz) {
+    return Array.prototype.filter.call(raiz.children, ehItem).map(lerLink);
+  }
+
+  // Nós de dentro do primeiro filho com a tag (HTML livre), ou [].
+  function nosDe(raiz, tag) {
+    var achados = filhos(raiz, tag);
+    return achados.length ? Array.prototype.slice.call(achados[0].childNodes) : [];
+  }
+
+  function lerRede(el) {
+    return { href: el.getAttribute("href") || "#", texto: texto(el), icone: el.getAttribute("icone") };
   }
 
   function modoEscuro() {
@@ -112,7 +136,9 @@
 
   // ---------------------------------------------------------------- breadcrumb
   // <dsgovbr-breadcrumb rotulo="Trilha de navegação" compacto>
-  //   <a href="/">Início</a> <a href="/x">Cadastros</a> <span>Usuários</span>
+  //   <dsgovbr-item href="/">Início</dsgovbr-item>
+  //   <dsgovbr-item href="/x">Cadastros</dsgovbr-item>
+  //   <dsgovbr-item>Usuários</dsgovbr-item>
   // </dsgovbr-breadcrumb>
   // O último item é a página atual (aria-current="page"), mesmo sendo um link.
   class Breadcrumb extends Base {
@@ -122,7 +148,7 @@
 
     ler() {
       return Array.prototype.map.call(this.children, function (el) {
-        return { href: el.tagName === "A" ? el.getAttribute("href") : null, texto: texto(el) };
+        return { href: ehItem(el) ? el.getAttribute("href") : null, texto: texto(el) };
       });
     }
 
@@ -148,12 +174,16 @@
   // o alvo do botão de abrir (<dsgovbr-header menu="id">).
   //
   // <dsgovbr-menu id="menu-principal" titulo="Sistema" logo="logo.svg">
-  //   <a href="/" icone="fas fa-home">Início</a>
-  //   <details open icone="fas fa-users" id="menu-cadastros">
-  //     <summary>Cadastros</summary>
-  //     <a href="/usuarios" icone="fas fa-user" atual>Usuários</a>
-  //   </details>
-  //   <div slot="rodape"> HTML livre: logos, links, redes sociais, licença </div>
+  //   <dsgovbr-item href="/" icone="fas fa-home">Início</dsgovbr-item>
+  //   <dsgovbr-pasta rotulo="Cadastros" icone="fas fa-users" aberta id="menu-cadastros">
+  //     <dsgovbr-item href="/usuarios" icone="fas fa-user" atual>Usuários</dsgovbr-item>
+  //   </dsgovbr-pasta>
+  //   <dsgovbr-menu-rodape rotulo-redes="Redes sociais">
+  //     <dsgovbr-logo src="orgao.svg" alt="Logo do órgão"></dsgovbr-logo>
+  //     <dsgovbr-item href="https://..." externo>Portal do órgão</dsgovbr-item>
+  //     <dsgovbr-rede href="https://..." icone="fab fa-youtube">YouTube</dsgovbr-rede>
+  //     <dsgovbr-aviso>Licença <strong>CC BY 4.0</strong>.</dsgovbr-aviso>
+  //   </dsgovbr-menu-rodape>
   // </dsgovbr-menu>
   class Menu extends Base {
     static get observedAttributes() {
@@ -163,25 +193,30 @@
     ler() {
       var itens = [];
       Array.prototype.forEach.call(this.children, function (el) {
-        if (el.getAttribute("slot") === "rodape") {
-          return;
-        }
-        if (el.tagName === "A") {
+        if (ehItem(el)) {
           itens.push({ tipo: "link", link: lerLink(el) });
-        } else if (el.tagName === "DETAILS") {
-          var resumo = el.querySelector(":scope > summary");
+        } else if (el.localName === "dsgovbr-pasta") {
           itens.push({
             tipo: "pasta",
             id: el.id || null,
-            rotulo: resumo ? texto(resumo) : "",
+            rotulo: el.getAttribute("rotulo") || "",
             icone: el.getAttribute("icone"),
-            aberta: el.hasAttribute("open"),
-            links: Array.prototype.filter.call(el.children, function (f) { return f.tagName === "A"; }).map(lerLink),
+            aberta: el.hasAttribute("aberta"),
+            links: lerItens(el),
           });
         }
       });
-      var rodape = doSlot(this, "rodape");
-      return { itens: itens, rodapeNos: rodape.length ? Array.prototype.slice.call(rodape[0].childNodes) : [] };
+      var rodape = filhos(this, "dsgovbr-menu-rodape")[0];
+      return {
+        itens: itens,
+        rodape: rodape && {
+          rotuloRedes: rodape.getAttribute("rotulo-redes") || "Redes sociais",
+          logos: filhos(rodape, "dsgovbr-logo").map(function (l) { return { src: l.getAttribute("src") || "", alt: l.getAttribute("alt") || "" }; }),
+          links: lerItens(rodape),
+          redes: filhos(rodape, "dsgovbr-rede").map(lerRede),
+          avisoNos: nosDe(rodape, "dsgovbr-aviso"),
+        },
+      };
     }
 
     montar() {
@@ -227,8 +262,31 @@
       ]);
 
       var corpo = h("div", { class: "offcanvas-body d-flex flex-column p-0" }, h("nav", { "aria-label": this.attr("rotulo", "Menu principal") }, lista));
-      if (this._modelo.rodapeNos.length) {
-        corpo.append(h("div", { class: "mt-auto" }, this._modelo.rodapeNos));
+      var rodape = this._modelo.rodape;
+      if (rodape && (rodape.logos.length || rodape.links.length || rodape.redes.length || rodape.avisoNos.length)) {
+        var partes = [];
+        if (rodape.logos.length) {
+          partes.push(h("div", { class: "d-flex gap-3 px-5 py-2 border-top border-bottom" },
+            rodape.logos.map(function (l) { return h("img", { src: l.src, height: "33", alt: l.alt }); })));
+        }
+        if (rodape.links.length) {
+          partes.push(h("div", { class: "px-5 py-3 border-bottom" }, rodape.links.map(function (l, i) {
+            return h("a", { class: "d-block text-decoration-none" + (i < rodape.links.length - 1 ? " mb-3" : ""), href: l.href },
+              [l.texto, l.externo ? icone("fas fa-external-link-square-alt", "ms-1") : null]);
+          })));
+        }
+        if (rodape.redes.length) {
+          partes.push(h("div", { class: "px-5 py-2 border-bottom" }, [
+            h("p", { class: "fw-semibold mb-1" }, rodape.rotuloRedes),
+            h("div", { class: "d-flex" }, rodape.redes.map(function (r) {
+              return h("a", { class: "btn btn-link rounded-circle", href: r.href, "aria-label": r.texto }, icone(r.icone));
+            })),
+          ]));
+        }
+        if (rodape.avisoNos.length) {
+          partes.push(h("p", { class: "small text-center p-3 m-0" }, rodape.avisoNos));
+        }
+        corpo.append(h("div", { class: "mt-auto" }, partes));
       }
       this.replaceChildren(cabecalho, corpo);
     }
@@ -237,9 +295,9 @@
   // -------------------------------------------------------------------- footer
   // <dsgovbr-footer logo="logo-negativo.svg" logo-alt="Logo do sistema"
   //                 assinatura="assinatura.svg" assinatura-alt="Assinatura do órgão">
-  //   <nav slot="coluna" titulo="Sistema"><a href="/sobre">Sobre</a>…</nav>
-  //   <a slot="rede" href="…" icone="fab fa-facebook-f">Facebook</a>
-  //   <p slot="aviso">Texto legal (aceita HTML)</p>
+  //   <dsgovbr-coluna titulo="Sistema"><dsgovbr-item href="/sobre">Sobre</dsgovbr-item>…</dsgovbr-coluna>
+  //   <dsgovbr-rede href="…" icone="fab fa-facebook-f">Facebook</dsgovbr-rede>
+  //   <dsgovbr-aviso>Texto legal (aceita HTML)</dsgovbr-aviso>
   // </dsgovbr-footer>
   // Fica sempre no modo escuro (data-bs-theme="dark"), como no GOV.BR DS.
   class Footer extends Base {
@@ -248,16 +306,15 @@
     }
 
     ler() {
-      var aviso = doSlot(this, "aviso");
       return {
-        colunas: doSlot(this, "coluna").map(function (col) {
+        colunas: filhos(this, "dsgovbr-coluna").map(function (col) {
           return {
             titulo: col.getAttribute("titulo") || "",
-            links: Array.prototype.filter.call(col.children, function (f) { return f.tagName === "A"; }).map(lerLink),
+            links: lerItens(col),
           };
         }),
-        redes: doSlot(this, "rede").map(lerLink),
-        avisoNos: aviso.length ? Array.prototype.slice.call(aviso[0].childNodes) : [],
+        redes: filhos(this, "dsgovbr-rede").map(lerRede),
+        avisoNos: nosDe(this, "dsgovbr-aviso"),
       };
     }
 
@@ -327,11 +384,14 @@
   //                 titulo="Sistema" subtitulo="Gestão de usuários"
   //                 menu="menu-principal" busca modo cookies usuario="Maria Silva"
   //                 pagina="Usuários">
-  //   <a slot="acesso-rapido" href="/docs">Documentação</a>
-  //   <a slot="funcionalidade" href="#" icone="fas fa-headset">Suporte</a>
-  //   <a slot="usuario" href="/perfil">Meu perfil</a> <hr slot="usuario">
-  //   <dsgovbr-breadcrumb slot="breadcrumb">…</dsgovbr-breadcrumb>
-  //   <button slot="acoes" class="btn btn-primary">Adicionar</button>
+  //   <dsgovbr-acesso-rapido><dsgovbr-item href="/docs">Documentação</dsgovbr-item></dsgovbr-acesso-rapido>
+  //   <dsgovbr-funcionalidades><dsgovbr-item href="#" icone="fas fa-headset">Suporte</dsgovbr-item></dsgovbr-funcionalidades>
+  //   <dsgovbr-usuario-menu>
+  //     <dsgovbr-item href="/perfil">Meu perfil</dsgovbr-item> <dsgovbr-divisor></dsgovbr-divisor>
+  //     <dsgovbr-item href="/sair">Sair</dsgovbr-item>
+  //   </dsgovbr-usuario-menu>
+  //   <dsgovbr-breadcrumb>…</dsgovbr-breadcrumb>
+  //   <dsgovbr-acoes><button class="btn btn-primary">Adicionar</button></dsgovbr-acoes>
   // </dsgovbr-header>
   // O <header> traz logo, ações, título do sistema e busca. O breadcrumb, o título
   // da página e as ações ficam numa barra logo abaixo dele, fora do <header>, e
@@ -395,16 +455,24 @@
       }
     }
 
+    itensDe(tag) {
+      var grupo = filhos(this, tag)[0];
+      return grupo ? lerItens(grupo) : [];
+    }
+
     ler() {
       return {
-        acessoRapido: doSlot(this, "acesso-rapido").map(lerLink),
-        funcionalidades: doSlot(this, "funcionalidade").map(lerLink),
-        // qualquer elemento que não seja <a> (ex.: <hr>) vira divisor
-        usuario: doSlot(this, "usuario").map(function (el) {
-          return el.tagName === "A" ? lerLink(el) : null;
-        }),
-        breadcrumb: doSlot(this, "breadcrumb"),
-        acoes: doSlot(this, "acoes"),
+        acessoRapido: this.itensDe("dsgovbr-acesso-rapido"),
+        funcionalidades: this.itensDe("dsgovbr-funcionalidades"),
+        // item -> link; <dsgovbr-divisor> (ou <hr>) -> null, vira divisor
+        usuario: (function (menu) {
+          return menu
+            ? Array.prototype.filter.call(menu.children, function (el) { return ehItem(el) || el.localName === "dsgovbr-divisor" || el.localName === "hr"; })
+                .map(function (el) { return ehItem(el) ? lerLink(el) : null; })
+            : [];
+        })(filhos(this, "dsgovbr-usuario-menu")[0]),
+        breadcrumb: filhos(this, "dsgovbr-breadcrumb"),
+        acoes: nosDe(this, "dsgovbr-acoes"),
       };
     }
 
@@ -584,6 +652,18 @@
       this.ouvirRolagem();
     }
   }
+
+  // Elementos-dado: só carregam atributos e conteúdo para o componente pai, que os
+  // troca pelo HTML final. Definidos para ficarem "upgraded" e documentados; o CSS
+  // os oculta se sobrarem fora de um pai.
+  [
+    "dsgovbr-item", "dsgovbr-pasta", "dsgovbr-menu-rodape", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso",
+    "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes",
+  ].forEach(function (nome) {
+    if (!window.customElements.get(nome)) {
+      window.customElements.define(nome, class extends HTMLElement {});
+    }
+  });
 
   // Ordem importa só por clareza: o breadcrumb também funciona se for definido
   // depois do header (ele é movido e continua idempotente).

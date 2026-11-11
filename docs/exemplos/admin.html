@@ -29,57 +29,53 @@
                   assinatura="Ministério Exemplo"
                   titulo="Administração do Sistema" subtitulo="Gestão de usuários e permissões"
                   menu="menu-principal" busca modo cookies usuario="Maria Silva" pagina="Usuários">
-    <a slot="acesso-rapido" href="../index.html">Documentação</a>
-    <a slot="acesso-rapido" href="../componentes/index.html">Componentes</a>
-    <a slot="acesso-rapido" href="index.html">Exemplos</a>
+    <dsgovbr-acesso-rapido>
+      <dsgovbr-item href="../index.html">Documentação</dsgovbr-item>
+      <dsgovbr-item href="../componentes/index.html">Componentes</dsgovbr-item>
+      <dsgovbr-item href="index.html">Exemplos</dsgovbr-item>
+    </dsgovbr-acesso-rapido>
 
-    <a slot="usuario" href="#">Meu perfil</a>
-    <a slot="usuario" href="#">Alterar senha</a>
-    <hr slot="usuario">
-    <a slot="usuario" href="login.html">Sair</a>
+    <dsgovbr-usuario-menu>
+      <dsgovbr-item href="#">Meu perfil</dsgovbr-item>
+      <dsgovbr-item href="#">Alterar senha</dsgovbr-item>
+      <dsgovbr-divisor></dsgovbr-divisor>
+      <dsgovbr-item href="login.html">Sair</dsgovbr-item>
+    </dsgovbr-usuario-menu>
 
-    <dsgovbr-breadcrumb slot="breadcrumb">
-      <a href="#">Início</a>
-      <a href="#">Cadastros</a>
-      <span>Usuários</span>
+    <dsgovbr-breadcrumb>
+      <dsgovbr-item href="#">Início</dsgovbr-item>
+      <dsgovbr-item href="#">Cadastros</dsgovbr-item>
+      <dsgovbr-item>Usuários</dsgovbr-item>
     </dsgovbr-breadcrumb>
-    <button slot="acoes" type="button" class="btn btn-primary">Adicionar usuário</button>
+
+    <dsgovbr-acoes>
+      <button type="button" class="btn btn-primary">Adicionar usuário</button>
+    </dsgovbr-acoes>
   </dsgovbr-header>
 
   <dsgovbr-menu id="menu-principal" titulo="Administração do Sistema" logo="img/logo.svg">
-    <a href="#" icone="fas fa-home">Início</a>
-    <details open icone="fas fa-users" id="menu-cadastros">
-      <summary>Cadastros</summary>
-      <a href="#" icone="fas fa-user" atual>Usuários</a>
-      <a href="#" icone="fas fa-user-shield">Grupos e permissões</a>
-    </details>
-    <details icone="fas fa-chart-bar" id="menu-relatorios">
-      <summary>Relatórios</summary>
-      <a href="#" icone="fas fa-history">Registros de acesso</a>
-      <a href="#" icone="fas fa-chart-line">Estatísticas</a>
-    </details>
-    <a href="#" icone="fas fa-cog">Configurações</a>
+    <dsgovbr-item href="#" icone="fas fa-home">Início</dsgovbr-item>
+    <dsgovbr-pasta rotulo="Cadastros" icone="fas fa-users" aberta id="menu-cadastros">
+      <dsgovbr-item href="#" icone="fas fa-user" atual>Usuários</dsgovbr-item>
+      <dsgovbr-item href="#" icone="fas fa-user-shield">Grupos e permissões</dsgovbr-item>
+    </dsgovbr-pasta>
+    <dsgovbr-pasta rotulo="Relatórios" icone="fas fa-chart-bar" id="menu-relatorios">
+      <dsgovbr-item href="#" icone="fas fa-history">Registros de acesso</dsgovbr-item>
+      <dsgovbr-item href="#" icone="fas fa-chart-line">Estatísticas</dsgovbr-item>
+    </dsgovbr-pasta>
+    <dsgovbr-item href="#" icone="fas fa-cog">Configurações</dsgovbr-item>
 
-    <!-- rodapé do menu: HTML livre (logos, links externos, redes sociais e licença) -->
-    <div slot="rodape">
-      <div class="d-flex gap-3 px-5 py-2 border-top border-bottom">
-        <img src="img/logo.svg" height="33" alt="Logo do órgão">
-        <img src="img/logo.svg" height="33" alt="Logo do governo">
-      </div>
-      <div class="px-5 py-3 border-bottom">
-        <a class="d-block mb-3 text-decoration-none" href="#">Portal do órgão <i class="fas fa-external-link-square-alt ms-1" aria-hidden="true"></i></a>
-        <a class="d-block text-decoration-none" href="#">Ouvidoria <i class="fas fa-external-link-square-alt ms-1" aria-hidden="true"></i></a>
-      </div>
-      <div class="px-5 py-2 border-bottom">
-        <p class="fw-semibold mb-1">Redes sociais</p>
-        <div class="d-flex">
-          <a class="btn btn-link rounded-circle" href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-          <a class="btn btn-link rounded-circle" href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-          <a class="btn btn-link rounded-circle" href="#" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
-        </div>
-      </div>
-      <p class="small text-center p-3 m-0">Conteúdo publicado sob a licença <strong>Creative Commons Atribuição 4.0</strong>.</p>
-    </div>
+    <!-- rodapé do menu: logos, links externos, redes sociais e licença -->
+    <dsgovbr-menu-rodape>
+      <dsgovbr-logo src="img/logo.svg" alt="Logo do órgão"></dsgovbr-logo>
+      <dsgovbr-logo src="img/logo.svg" alt="Logo do governo"></dsgovbr-logo>
+      <dsgovbr-item href="#" externo>Portal do órgão</dsgovbr-item>
+      <dsgovbr-item href="#" externo>Ouvidoria</dsgovbr-item>
+      <dsgovbr-rede href="#" icone="fab fa-facebook-f">Facebook</dsgovbr-rede>
+      <dsgovbr-rede href="#" icone="fab fa-twitter">Twitter</dsgovbr-rede>
+      <dsgovbr-rede href="#" icone="fab fa-youtube">YouTube</dsgovbr-rede>
+      <dsgovbr-aviso>Conteúdo publicado sob a licença <strong>Creative Commons Atribuição 4.0</strong>.</dsgovbr-aviso>
+    </dsgovbr-menu-rodape>
   </dsgovbr-menu>
 
   <main class="container-lg py-4" id="conteudo" tabindex="-1">
@@ -148,29 +144,29 @@
   <!-- Footer do GOV.BR DS como web component: sempre no modo escuro (--background-dark) -->
   <dsgovbr-footer logo="img/logo-negativo.svg" logo-alt="Logo do sistema"
                   assinatura="img/logo-negativo.svg" assinatura-alt="Assinatura do órgão">
-    <nav slot="coluna" titulo="Sistema">
-      <a href="#">Sobre</a>
-      <a href="#">Termos de uso</a>
-    </nav>
-    <nav slot="coluna" titulo="Ajuda">
-      <a href="#">Perguntas frequentes</a>
-      <a href="#">Fale conosco</a>
-    </nav>
-    <nav slot="coluna" titulo="Privacidade">
-      <a href="#">Política de privacidade</a>
-      <a href="#">Cookies</a>
-    </nav>
-    <a slot="rede" href="#" icone="fab fa-facebook-f">Facebook</a>
-    <a slot="rede" href="#" icone="fab fa-twitter">Twitter</a>
-    <a slot="rede" href="#" icone="fab fa-youtube">YouTube</a>
-    <p slot="aviso">Exemplo de composição com web components e o tema dsgovbr-bootstraped. Projeto não oficial, sem endosso do governo. <strong>Licença MIT.</strong></p>
+    <dsgovbr-coluna titulo="Sistema">
+      <dsgovbr-item href="#">Sobre</dsgovbr-item>
+      <dsgovbr-item href="#">Termos de uso</dsgovbr-item>
+    </dsgovbr-coluna>
+    <dsgovbr-coluna titulo="Ajuda">
+      <dsgovbr-item href="#">Perguntas frequentes</dsgovbr-item>
+      <dsgovbr-item href="#">Fale conosco</dsgovbr-item>
+    </dsgovbr-coluna>
+    <dsgovbr-coluna titulo="Privacidade">
+      <dsgovbr-item href="#">Política de privacidade</dsgovbr-item>
+      <dsgovbr-item href="#">Cookies</dsgovbr-item>
+    </dsgovbr-coluna>
+    <dsgovbr-rede href="#" icone="fab fa-facebook-f">Facebook</dsgovbr-rede>
+    <dsgovbr-rede href="#" icone="fab fa-twitter">Twitter</dsgovbr-rede>
+    <dsgovbr-rede href="#" icone="fab fa-youtube">YouTube</dsgovbr-rede>
+    <dsgovbr-aviso>Exemplo de composição com web components e o tema dsgovbr-bootstraped. Projeto não oficial, sem endosso do governo. <strong>Licença MIT.</strong></dsgovbr-aviso>
   </dsgovbr-footer>
 
   <!-- Cookiebar: o botão de configurações fica no header (cookies), por isso sem-botao -->
   <dsgovbr-cookiebar sem-botao declaracao="#">
-    <p slot="texto">Usamos cookies para melhorar sua experiência e analisar o uso do sistema. Veja a nossa</p>
-    <div slot="grupo" nome="desempenho" rotulo="Desempenho">Medem o uso do sistema para melhorá-lo.</div>
-    <div slot="grupo" nome="funcionais" rotulo="Funcionais">Lembram suas preferências, como o modo escuro.</div>
+    <dsgovbr-cookies-texto>Usamos cookies para melhorar sua experiência e analisar o uso do sistema. Veja a nossa</dsgovbr-cookies-texto>
+    <dsgovbr-cookies-grupo nome="desempenho" rotulo="Desempenho">Medem o uso do sistema para melhorá-lo.</dsgovbr-cookies-grupo>
+    <dsgovbr-cookies-grupo nome="funcionais" rotulo="Funcionais">Lembram suas preferências, como o modo escuro.</dsgovbr-cookies-grupo>
   </dsgovbr-cookiebar>
 
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

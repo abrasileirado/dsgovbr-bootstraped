@@ -52,3 +52,23 @@ dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-subtitulo {
   padding: 0;
   box-shadow: $govbr-shadow-lg;
 }
+
+// Elementos-dado dos web components (itens, pastas, colunas, redes, grupos de
+// cookies...): o componente pai os lê e os troca pelo HTML final; sobrando fora
+// de um pai, não aparecem.
+dsgovbr-item,
+dsgovbr-pasta,
+dsgovbr-menu-rodape,
+dsgovbr-coluna,
+dsgovbr-rede,
+dsgovbr-logo,
+dsgovbr-aviso,
+dsgovbr-acesso-rapido,
+dsgovbr-funcionalidades,
+dsgovbr-usuario-menu,
+dsgovbr-divisor,
+dsgovbr-acoes,
+dsgovbr-cookies-grupo,
+dsgovbr-cookies-texto {
+  display: none;
+}

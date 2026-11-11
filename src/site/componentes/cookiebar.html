@@ -21,9 +21,9 @@
 <pre tabindex="0"><code>&lt;script src="dist/dsgovbr-bootstraped-cookies.js"&gt;&lt;/script&gt;   &lt;!-- no &lt;head&gt;: a API fica pronta cedo --&gt;
 ...
 &lt;dsgovbr-cookiebar declaracao="/cookies"&gt;
-  &lt;p slot="texto"&gt;Usamos cookies para melhorar sua experiência.&lt;/p&gt;
-  &lt;div slot="grupo" nome="desempenho" rotulo="Desempenho"&gt;Medem o uso do site.&lt;/div&gt;
-  &lt;div slot="grupo" nome="funcionais" rotulo="Funcionais"&gt;Lembram suas preferências.&lt;/div&gt;
+  &lt;dsgovbr-cookies-texto&gt;Usamos cookies para melhorar sua experiência.&lt;/dsgovbr-cookies-texto&gt;
+  &lt;dsgovbr-cookies-grupo nome="desempenho" rotulo="Desempenho"&gt;Medem o uso do site.&lt;/dsgovbr-cookies-grupo&gt;
+  &lt;dsgovbr-cookies-grupo nome="funcionais" rotulo="Funcionais"&gt;Lembram suas preferências.&lt;/dsgovbr-cookies-grupo&gt;
 &lt;/dsgovbr-cookiebar&gt;
 &lt;script src="bootstrap.bundle.min.js" defer&gt;&lt;/script&gt;</code></pre>
   <ul>
@@ -60,9 +60,9 @@ if (dsgovbrCookies.permitido("desempenho")) carregarAnalytics(); // escolha de v
 </section>
 
 <dsgovbr-cookiebar declaracao="#">
-  <p slot="texto">Usamos cookies para melhorar sua experiência e analisar o uso do site. Veja a nossa</p>
-  <div slot="grupo" nome="desempenho" rotulo="Desempenho">Medem o uso do site para melhorá-lo.</div>
-  <div slot="grupo" nome="funcionais" rotulo="Funcionais">Lembram suas preferências, como o modo escuro.</div>
+  <dsgovbr-cookies-texto>Usamos cookies para melhorar sua experiência e analisar o uso do site. Veja a nossa</dsgovbr-cookies-texto>
+  <dsgovbr-cookies-grupo nome="desempenho" rotulo="Desempenho">Medem o uso do site para melhorá-lo.</dsgovbr-cookies-grupo>
+  <dsgovbr-cookies-grupo nome="funcionais" rotulo="Funcionais">Lembram suas preferências, como o modo escuro.</dsgovbr-cookies-grupo>
 </dsgovbr-cookiebar>
 
 <section>
@@ -71,6 +71,6 @@ if (dsgovbrCookies.permitido("desempenho")) carregarAnalytics(); // escolha de v
     <li>Não usa o <code>BRCookiebar</code> nem o JSON de categorias do GOV.BR DS: os grupos vêm do markup. A data de atualização da política e o consentimento por cookie individual não existem.</li>
     <li>A escolha fica no <code>localStorage</code> do navegador, não em cookie; o servidor não a recebe sozinho.</li>
     <li>O aviso é um painel fixo não modal (sem <code>backdrop</code> nem captura de foco), diferente da composição estática de Auxiliares, que usa <code>.offcanvas</code>.</li>
-    <li>Experimental: atributos, slots e API podem mudar antes da 1.0.</li>
+    <li>Experimental: atributos, elementos filhos e API podem mudar antes da 1.0.</li>
   </ul>
 </section>

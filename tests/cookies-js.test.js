@@ -108,3 +108,9 @@ test("empacotamento: build, docs/assets, teste do pacote e release", () => {
   assert.ok(read("scripts/test-package.js").includes(`src/js/${ARQUIVO}`));
   assert.ok(read(".github/workflows/release.yml").includes(`dist/${ARQUIVO}`));
 });
+
+test("define os elementos filhos do cookiebar e não usa slot=", () => {
+  const js = read(`src/js/${ARQUIVO}`);
+  assert.ok(js.includes('"dsgovbr-cookies-grupo"') && js.includes('"dsgovbr-cookies-texto"'));
+  assert.ok(!/getAttribute\("slot"\)/.test(js));
+});

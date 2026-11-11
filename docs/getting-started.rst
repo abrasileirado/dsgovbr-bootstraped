@@ -109,25 +109,28 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
    <dsgovbr-header logo="logo.svg" logo-alt="Página inicial" assinatura="Ministério Exemplo"
                    titulo="Sistema" menu="menu-principal" busca modo cookies usuario="Maria Silva"
                    pagina="Usuários">
-     <a slot="usuario" href="/perfil">Meu perfil</a>
-     <dsgovbr-breadcrumb slot="breadcrumb">
-       <a href="/">Início</a>
-       <span>Usuários</span>
+     <dsgovbr-usuario-menu>
+       <dsgovbr-item href="/perfil">Meu perfil</dsgovbr-item>
+     </dsgovbr-usuario-menu>
+     <dsgovbr-breadcrumb>
+       <dsgovbr-item href="/">Início</dsgovbr-item>
+       <dsgovbr-item>Usuários</dsgovbr-item>
      </dsgovbr-breadcrumb>
-     <button slot="acoes" type="button" class="btn btn-primary">Adicionar usuário</button>
+     <dsgovbr-acoes>
+       <button type="button" class="btn btn-primary">Adicionar usuário</button>
+     </dsgovbr-acoes>
    </dsgovbr-header>
 
    <dsgovbr-menu id="menu-principal" titulo="Sistema" logo="logo.svg">
-     <a href="/" icone="fas fa-home">Início</a>
-     <details open icone="fas fa-users">
-       <summary>Cadastros</summary>
-       <a href="/usuarios" icone="fas fa-user" atual>Usuários</a>
-     </details>
+     <dsgovbr-item href="/" icone="fas fa-home">Início</dsgovbr-item>
+     <dsgovbr-pasta rotulo="Cadastros" icone="fas fa-users" aberta>
+       <dsgovbr-item href="/usuarios" icone="fas fa-user" atual>Usuários</dsgovbr-item>
+     </dsgovbr-pasta>
    </dsgovbr-menu>
 
    <dsgovbr-footer logo="logo-negativo.svg" logo-alt="Logo do sistema">
-     <nav slot="coluna" titulo="Sistema"><a href="/sobre">Sobre</a></nav>
-     <p slot="aviso">Texto legal.</p>
+     <dsgovbr-coluna titulo="Sistema"><dsgovbr-item href="/sobre">Sobre</dsgovbr-item></dsgovbr-coluna>
+     <dsgovbr-aviso>Texto legal.</dsgovbr-aviso>
    </dsgovbr-footer>
 
 - O header fica fixo no topo (``.sticky-top``) junto com o breadcrumb, o título da
@@ -138,7 +141,7 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
 - Enquanto não monta, o CSS esconde o componente (``visibility: hidden`` até o
   atributo ``data-dsgovbr-montado``); sem o JS ele permanece oculto.
 
-Todos os atributos e slots estão em `Web components
+Todos os atributos e elementos filhos (``<dsgovbr-item>``, ``<dsgovbr-pasta>``, ``<dsgovbr-coluna>``, ``<dsgovbr-rede>``...) estão em `Web components
 <componentes/web-components.html>`__ (catálogo).
 
 Consentimento de cookies (opcional)
@@ -155,9 +158,9 @@ botão flutuante que as reabre) e a API ``window.dsgovbrCookies``. Carregue de f
    <script src="dist/dsgovbr-bootstraped-cookies.js"></script>
    ...
    <dsgovbr-cookiebar declaracao="/cookies">
-     <p slot="texto">Usamos cookies para melhorar sua experiência. Veja a nossa</p>
-     <div slot="grupo" nome="desempenho" rotulo="Desempenho">Medem o uso do site.</div>
-     <div slot="grupo" nome="funcionais" rotulo="Funcionais">Lembram suas preferências.</div>
+     <dsgovbr-cookies-texto>Usamos cookies para melhorar sua experiência. Veja a nossa</dsgovbr-cookies-texto>
+     <dsgovbr-cookies-grupo nome="desempenho" rotulo="Desempenho">Medem o uso do site.</dsgovbr-cookies-grupo>
+     <dsgovbr-cookies-grupo nome="funcionais" rotulo="Funcionais">Lembram suas preferências.</dsgovbr-cookies-grupo>
    </dsgovbr-cookiebar>
 
 - O grupo "estritamente necessários" é criado sozinho (sempre ativo e bloqueado). A
