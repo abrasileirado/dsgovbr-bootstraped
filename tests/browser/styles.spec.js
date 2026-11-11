@@ -453,12 +453,13 @@ test.describe("header, menu e footer (issue #45)", () => {
     await page.goto("/exemplos/admin.html");
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
-    await expect(page.locator("header")).toHaveCSS("position", "sticky");
-    const topo = await page.locator("header").boundingBox();
+    const fixo = page.locator("dsgovbr-header > .sticky-top");
+    await expect(fixo).toHaveCSS("position", "sticky");
+    const topo = await fixo.boundingBox();
     expect(topo.y).toBe(0);
     for (const alvo of [
-      page.locator("header .breadcrumb"),
-      page.locator("header h1"),
+      page.locator("dsgovbr-header .breadcrumb"),
+      page.locator("dsgovbr-header h1"),
       page.getByRole("button", { name: "Adicionar usuário" }),
     ]) {
       await expect(alvo).toBeInViewport();

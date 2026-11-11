@@ -333,9 +333,11 @@
   //   <dsgovbr-breadcrumb slot="breadcrumb">…</dsgovbr-breadcrumb>
   //   <button slot="acoes" class="btn btn-primary">Adicionar</button>
   // </dsgovbr-header>
-  // Fixo no topo (.sticky-top) junto com o breadcrumb, o título e as ações da
-  // página; `estatico` desliga a fixação. O host usa `display: contents` (ver o
-  // CSS do tema), então o <header> gerado é que gruda no topo.
+  // O <header> traz logo, ações, título do sistema e busca. O breadcrumb, o título
+  // da página e as ações ficam numa barra logo abaixo dele, fora do <header>, e
+  // as duas grudam juntas no topo (.sticky-top); `estatico` desliga a fixação.
+  // O host usa `display: contents` (ver o CSS do tema), então o wrapper gerado é
+  // que gruda no topo, relativo ao <body>.
   class Header extends Base {
     static get observedAttributes() {
       return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "modo", "usuario", "pagina", "estatico"];
@@ -464,6 +466,7 @@
       cima.append(acoesTopo);
 
       var linhas = [cima];
+      var barraPagina = null; // breadcrumb, título e ações: fora do <header>
 
       if (menu || titulo || subtitulo || busca) {
         var meio = h("div", { class: "d-flex flex-wrap align-items-start gap-3 mt-2" });
@@ -498,18 +501,22 @@
         m.breadcrumb.forEach(function (el) {
           el.setAttribute("compacto", "");
         });
-        linhas.push(
-          h("div", { class: "border-top mt-2 pt-2" }, [].concat(
-            m.breadcrumb,
-            h("div", { class: "d-flex flex-wrap gap-3 align-items-center justify-content-between" }, [
-              pagina ? h("h1", { class: "h3 m-0" }, pagina) : null,
-            ].concat(m.acoes))
-          ))
-        );
+        barraPagina = h("div", { class: "bg-body border-bottom" }, h("div", { class: "container-lg py-2" }, [].concat(
+          m.breadcrumb,
+          h("div", { class: "d-flex flex-wrap gap-3 align-items-center justify-content-between" }, [
+            pagina ? h("h1", { class: "h3 m-0" }, pagina) : null,
+          ].concat(m.acoes))
+        )));
       }
 
+      // O <header> (com a sombra do GOV.BR DS) termina depois da busca; a barra da
+      // página vem logo abaixo e as duas grudam juntas no topo (.sticky-top). A
+      // sombra do header fica por cima da barra (z-1).
       this.replaceChildren(
-        h("header", { class: "navbar bg-body" + (this.hasAttribute("estatico") ? "" : " sticky-top") }, h("div", { class: "container-lg d-block" }, linhas))
+        h("div", { class: this.hasAttribute("estatico") ? "" : "sticky-top" }, [
+          h("header", { class: "navbar bg-body position-relative z-1" }, h("div", { class: "container-lg d-block" }, linhas)),
+          barraPagina,
+        ])
       );
     }
   }

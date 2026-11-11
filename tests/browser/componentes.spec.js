@@ -40,23 +40,23 @@ test.describe("painel", () => {
     for (const nome of ["dsgovbr-header", "dsgovbr-footer", "dsgovbr-breadcrumb"]) {
       await expect(page.locator(nome)).toHaveCSS("display", "contents");
     }
-    // o <header> gerado é o que gruda no topo, relativo ao <body>
-    await expect(page.locator("header")).toHaveCSS("position", "sticky");
+    // o wrapper gerado (header + barra da página) é o que gruda no topo, relativo ao <body>
+    await expect(page.locator("dsgovbr-header > .sticky-top")).toHaveCSS("position", "sticky");
   });
 
   test("breadcrumb: último item é a página atual e o primeiro é link", async ({ page }) => {
-    const itens = page.locator("header .breadcrumb .breadcrumb-item");
+    const itens = page.locator("dsgovbr-header .breadcrumb .breadcrumb-item");
     await expect(itens).toHaveCount(3);
     await expect(itens.nth(0).getByRole("link", { name: "Início" })).toBeVisible();
     await expect(itens.nth(2)).toHaveAttribute("aria-current", "page");
     await expect(itens.nth(2)).toHaveClass(/active/);
     await expect(itens.nth(2).locator("a")).toHaveCount(0);
-    await expect(page.locator("header .breadcrumb")).toHaveClass(/mb-1/); // compacto dentro do header
+    await expect(page.locator("dsgovbr-header .breadcrumb")).toHaveClass(/mb-1/); // compacto dentro do header
   });
 
   test("header: título da página, ação e usuário vêm dos atributos e slots", async ({ page }) => {
-    await expect(page.locator("header h1")).toHaveText("Usuários");
-    await expect(page.locator("header").getByRole("button", { name: "Adicionar usuário" })).toBeVisible();
+    await expect(page.locator("dsgovbr-header h1")).toHaveText("Usuários");
+    await expect(page.locator("dsgovbr-header").getByRole("button", { name: "Adicionar usuário" })).toBeVisible();
     await page.getByRole("button", { name: "Maria Silva" }).click();
     await expect(page.getByRole("link", { name: "Meu perfil" })).toBeVisible();
     await expect(page.locator("header .dropdown-menu.show .dropdown-divider")).toHaveCount(1);
@@ -174,7 +174,19 @@ test.describe("API dos elementos", () => {
   });
 
   test("o header com estatico não fixa no topo", async ({ page }) => {
-    await expect(page.locator("main dsgovbr-header header")).not.toHaveClass(/sticky-top/);
+    await expect(page.locator("main dsgovbr-header .sticky-top")).toHaveCount(0);
+  });
+
+  test("o <header> termina antes da barra da página (breadcrumb e título ficam fora dele)", async ({ page }) => {
+    await page.goto(PAINEL);
+    await expect(page.locator("header .breadcrumb")).toHaveCount(0);
+    await expect(page.locator("header h1")).toHaveCount(0);
+    const [cab, barra] = await page.evaluate(() => {
+      const c = document.querySelector("dsgovbr-header header").getBoundingClientRect();
+      const b = document.querySelector("dsgovbr-header h1").getBoundingClientRect();
+      return [c.bottom, b.top];
+    });
+    expect(barra).toBeGreaterThanOrEqual(cab);
   });
 
   test("o rodapé do menu de exemplo e a pasta do catálogo funcionam", async ({ page }) => {
