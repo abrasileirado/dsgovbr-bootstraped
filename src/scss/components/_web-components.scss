@@ -22,8 +22,9 @@ dsgovbr-breadcrumb {
   }
 }
 
-// Header rolado: a linha de cima (logo, assinatura e ações) some e fica só a do
-// título e da busca, como o Header "sticky" do GOV.BR DS.
-dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-topo {
+// Header rolado: a linha de cima (logo, assinatura e ações) e o subtítulo somem e
+// fica só o título e a busca, como o Header "sticky" do GOV.BR DS.
+dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-topo,
+dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-subtitulo {
   display: none !important; // vence o .d-flex do Bootstrap (!important)
 }

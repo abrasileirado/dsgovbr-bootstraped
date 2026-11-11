@@ -122,6 +122,8 @@ test.describe("painel", () => {
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     await expect(host).toHaveAttribute("data-dsgovbr-rolado", "");
     await expect(topo).toBeHidden();
+    await expect(page.getByText("Gestão de usuários e permissões")).toBeHidden();
+    await expect(page.locator("dsgovbr-header .navbar-brand")).toBeVisible();
     await expect(page.getByRole("button", { name: "Abrir menu" })).toBeVisible();
     await expect(page.getByRole("search")).toBeVisible();
     await expect(page.locator("dsgovbr-header h1")).toBeInViewport();
@@ -133,6 +135,7 @@ test.describe("painel", () => {
     await page.evaluate(() => window.scrollTo(0, 0));
     await expect(host).not.toHaveAttribute("data-dsgovbr-rolado", "");
     await expect(topo).toBeVisible();
+    await expect(page.getByText("Gestão de usuários e permissões")).toBeVisible();
   });
 
   test("sem erro de console ao montar", async ({ page }) => {
