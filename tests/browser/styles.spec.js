@@ -448,6 +448,25 @@ test.describe("header, menu e footer (issue #45)", () => {
     expect(vr.opacity).toBe("1");
   });
 
+  test("painel: header, breadcrumb, título e ação ficam fixos ao rolar (issue #58)", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 500 });
+    await page.goto("/exemplos/admin.html");
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    await expect(page.locator("header")).toHaveCSS("position", "sticky");
+    const topo = await page.locator("header").boundingBox();
+    expect(topo.y).toBe(0);
+    for (const alvo of [
+      page.locator("header .breadcrumb"),
+      page.locator("header h1"),
+      page.getByRole("button", { name: "Adicionar usuário" }),
+    ]) {
+      await expect(alvo).toBeInViewport();
+      const caixa = await alvo.boundingBox();
+      expect(caixa.y + caixa.height).toBeLessThanOrEqual(topo.height);
+    }
+  });
+
   test("painel: Menu em offcanvas com pasta, ativo em --active, foco e Escape", async ({ page }) => {
     await page.goto("/exemplos/admin.html");
     const menu = page.locator("#menu-principal");

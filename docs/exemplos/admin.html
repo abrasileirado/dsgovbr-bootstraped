@@ -18,8 +18,10 @@
 <body>
   <a class="visually-hidden-focusable" href="#conteudo">Ir para o conteúdo</a>
 
-  <!-- Header do GOV.BR DS composto com a navbar do Bootstrap -->
-  <header class="navbar bg-body">
+  <!-- Header do GOV.BR DS composto com a navbar do Bootstrap. Fica fixo no topo
+       (.sticky-top) junto com o breadcrumb, o título da página e as ações, para
+       o usuário não perder a referência ao rolar. -->
+  <header class="navbar bg-body sticky-top">
     <div class="container-lg d-block">
       <!-- linha de cima: logo, divisor, assinatura e ações -->
       <div class="d-flex align-items-center gap-3">
@@ -90,6 +92,21 @@
           <button class="btn btn-link btn-sm rounded-circle" type="submit" aria-label="Pesquisar"><i class="fas fa-search" aria-hidden="true"></i></button>
         </form>
       </div>
+
+      <!-- linha da página: breadcrumb, título e ações (também fixas no topo) -->
+      <div class="border-top mt-2 pt-2">
+        <nav aria-label="Trilha de navegação">
+          <ol class="breadcrumb mb-1">
+            <li class="breadcrumb-item"><a href="#">Início</a></li>
+            <li class="breadcrumb-item"><a href="#">Cadastros</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Usuários</li>
+          </ol>
+        </nav>
+        <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between">
+          <h1 class="h3 m-0">Usuários</h1>
+          <button type="button" class="btn btn-primary">Adicionar usuário</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -148,19 +165,6 @@
   </div>
 
   <main class="container-lg py-4" id="conteudo" tabindex="-1">
-    <nav aria-label="Trilha de navegação">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Início</a></li>
-        <li class="breadcrumb-item"><a href="#">Cadastros</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Usuários</li>
-      </ol>
-    </nav>
-
-    <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between mb-3">
-      <h1 class="h3 m-0">Usuários</h1>
-      <button type="button" class="btn btn-primary">Adicionar usuário</button>
-    </div>
-
     <div class="alert alert-success alert-dismissible" role="alert">
       O usuário "João Souza" foi alterado com sucesso.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
