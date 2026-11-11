@@ -52,7 +52,8 @@
   <h2>Header (<code>&lt;dsgovbr-header&gt;</code>)</h2>
   <p>
     Abaixo, com <code>estatico</code> para não grudar no topo desta página. No exemplo de painel ele fica fixo
-    (<code>.sticky-top</code>), junto com o breadcrumb, o título e as ações da página.
+    (<code>.sticky-top</code>), junto com o breadcrumb, o título e as ações da página; ao rolar, a linha de cima
+    (logo, assinatura e ações) some e fica só a do título e da busca (atributo <code>data-dsgovbr-rolado</code> no host).
   </p>
   <dsgovbr-header estatico logo="../exemplos/img/logo.svg" logo-alt="Página inicial do sistema"
                   assinatura="Ministério Exemplo" titulo="Administração do Sistema" subtitulo="Gestão de usuários e permissões"
@@ -92,7 +93,7 @@
       <tr><td><code>modo</code></td><td>Botão de modo claro/escuro (<code>data-dsgovbr-modo</code>); exige <code>dsgovbr-bootstraped-modo.js</code>.</td></tr>
       <tr><td><code>usuario</code></td><td>Nome do usuário autenticado; abre o dropdown com os filhos <code>slot="usuario"</code> (um filho que não seja <code>&lt;a&gt;</code>, como <code>&lt;hr&gt;</code>, vira divisor).</td></tr>
       <tr><td><code>pagina</code></td><td>Título da página (<code>&lt;h1&gt;</code>), na barra logo abaixo do <code>&lt;header&gt;</code> (fora dele, como no GOV.BR DS), que gruda no topo junto com ele.</td></tr>
-      <tr><td><code>estatico</code></td><td>Não fixa o header no topo.</td></tr>
+      <tr><td><code>estatico</code></td><td>Não fixa o header no topo (e não recolhe a linha de cima ao rolar).</td></tr>
     </tbody>
   </table>
   <p>

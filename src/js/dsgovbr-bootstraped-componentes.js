@@ -338,9 +338,61 @@
   // as duas grudam juntas no topo (.sticky-top); `estatico` desliga a fixação.
   // O host usa `display: contents` (ver o CSS do tema), então o wrapper gerado é
   // que gruda no topo, relativo ao <body>.
+  //
+  // Ao rolar a página, a linha de cima (logo, assinatura e ações) some e fica só a
+  // do título e da busca (atributo data-dsgovbr-rolado no host; o CSS faz o resto).
+  // Há histerese (recolhe depois de 100px, volta com menos de 20px) e páginas
+  // curtas não recolhem, para a mudança de altura não gerar vai-e-volta.
   class Header extends Base {
     static get observedAttributes() {
       return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "modo", "usuario", "pagina", "estatico"];
+    }
+
+    connectedCallback() {
+      super.connectedCallback();
+      if (this._montado) {
+        this.ouvirRolagem();
+      }
+    }
+
+    disconnectedCallback() {
+      this.pararRolagem();
+    }
+
+    ouvirRolagem() {
+      var self = this;
+      this.pararRolagem();
+      if (this.hasAttribute("estatico")) {
+        this.removeAttribute("data-dsgovbr-rolado");
+        return;
+      }
+      var agendado = false;
+      function atualizar() {
+        agendado = false;
+        var rolado = self.hasAttribute("data-dsgovbr-rolado");
+        var y = window.pageYOffset;
+        var sobra = document.documentElement.scrollHeight - window.innerHeight;
+        if (!rolado && y > 100 && sobra > 300) {
+          self.setAttribute("data-dsgovbr-rolado", "");
+        } else if (rolado && y < 20) {
+          self.removeAttribute("data-dsgovbr-rolado");
+        }
+      }
+      this._rolagem = function () {
+        if (!agendado) {
+          agendado = true;
+          window.requestAnimationFrame(atualizar);
+        }
+      };
+      window.addEventListener("scroll", this._rolagem, { passive: true });
+      atualizar();
+    }
+
+    pararRolagem() {
+      if (this._rolagem) {
+        window.removeEventListener("scroll", this._rolagem);
+        this._rolagem = null;
+      }
     }
 
     ler() {
@@ -388,7 +440,7 @@
         ]);
       }
 
-      var cima = h("div", { class: "d-flex align-items-center gap-3" }, [
+      var cima = h("div", { class: "dsgovbr-header-topo d-flex align-items-center gap-3" }, [
         logo ? h("a", { href: href }, h("img", { src: logo, height: "40", alt: this.attr("logo-alt", "") })) : null,
         assinatura ? h("div", { class: "vr d-none d-sm-block" }) : null,
         assinatura ? h("span", { class: "navbar-text p-0 fw-medium d-none d-sm-block" }, assinatura) : null,
@@ -501,7 +553,7 @@
         m.breadcrumb.forEach(function (el) {
           el.setAttribute("compacto", "");
         });
-        barraPagina = h("div", { class: "bg-body border-bottom" }, h("div", { class: "container-lg py-2" }, [].concat(
+        barraPagina = h("div", { class: "bg-body" }, h("div", { class: "container-lg py-2" }, [].concat(
           m.breadcrumb,
           h("div", { class: "d-flex flex-wrap gap-3 align-items-center justify-content-between" }, [
             pagina ? h("h1", { class: "h3 m-0" }, pagina) : null,
@@ -518,6 +570,7 @@
           barraPagina,
         ])
       );
+      this.ouvirRolagem();
     }
   }
 

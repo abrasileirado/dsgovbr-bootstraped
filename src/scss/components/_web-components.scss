@@ -21,3 +21,9 @@ dsgovbr-breadcrumb {
     visibility: hidden;
   }
 }
+
+// Header rolado: a linha de cima (logo, assinatura e ações) some e fica só a do
+// título e da busca, como o Header "sticky" do GOV.BR DS.
+dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-topo {
+  display: none !important; // vence o .d-flex do Bootstrap (!important)
+}

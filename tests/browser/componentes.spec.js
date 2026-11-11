@@ -111,6 +111,30 @@ test.describe("painel", () => {
     }
   });
 
+  test("ao rolar, a linha de cima do header some; ao voltar ao topo, reaparece", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 500 });
+    await page.goto(PAINEL);
+    const topo = page.locator("dsgovbr-header .dsgovbr-header-topo");
+    const host = page.locator("dsgovbr-header");
+    await expect(topo).toBeVisible();
+    const alto = (await page.locator("dsgovbr-header header").boundingBox()).height;
+
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await expect(host).toHaveAttribute("data-dsgovbr-rolado", "");
+    await expect(topo).toBeHidden();
+    await expect(page.getByRole("button", { name: "Abrir menu" })).toBeVisible();
+    await expect(page.getByRole("search")).toBeVisible();
+    await expect(page.locator("dsgovbr-header h1")).toBeInViewport();
+    expect((await page.locator("dsgovbr-header header").boundingBox()).height).toBeLessThan(alto);
+    // estável: sem vai-e-volta depois de recolher
+    await page.waitForTimeout(300);
+    await expect(host).toHaveAttribute("data-dsgovbr-rolado", "");
+
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(host).not.toHaveAttribute("data-dsgovbr-rolado", "");
+    await expect(topo).toBeVisible();
+  });
+
   test("sem erro de console ao montar", async ({ page }) => {
     const erros = [];
     page.on("pageerror", (e) => erros.push(e.message));
@@ -175,6 +199,8 @@ test.describe("API dos elementos", () => {
 
   test("o header com estatico não fixa no topo", async ({ page }) => {
     await expect(page.locator("main dsgovbr-header .sticky-top")).toHaveCount(0);
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await expect(page.locator("main dsgovbr-header")).not.toHaveAttribute("data-dsgovbr-rolado", "");
   });
 
   test("o <header> termina antes da barra da página (breadcrumb e título ficam fora dele)", async ({ page }) => {
