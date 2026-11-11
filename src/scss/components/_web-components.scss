@@ -1,0 +1,23 @@
+// Web components opcionais (src/js/dsgovbr-bootstraped-componentes.js):
+// <dsgovbr-header>, <dsgovbr-footer> e <dsgovbr-breadcrumb> não geram caixa
+// própria (display: contents): o <header>, o <footer> e o <nav> que eles montam
+// é que participam do layout. Assim o .sticky-top do header continua
+// relativo ao <body> e os seletores do tema (header, footer, .navbar...) valem
+// igual aos do HTML escrito à mão. <dsgovbr-menu> é o próprio .offcanvas.
+//
+// Enquanto o JS não montou o componente, esconde a declaração crua (filhos
+// antes da transformação) para ela não "piscar" na tela.
+dsgovbr-header,
+dsgovbr-footer,
+dsgovbr-breadcrumb {
+  display: contents;
+}
+
+dsgovbr-header,
+dsgovbr-menu,
+dsgovbr-footer,
+dsgovbr-breadcrumb {
+  &:not([data-dsgovbr-montado]) {
+    visibility: hidden;
+  }
+}

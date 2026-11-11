@@ -474,11 +474,15 @@ test.describe("header, menu e footer (issue #45)", () => {
     await abrir.click();
     await expect(menu).toHaveClass(/show/);
     await expect(menu).toBeFocused();
+    await page.mouse.move(900, 500); // o cursor sobre um item mudaria o estilo (hover) medido abaixo
     const ativo = await css(page, "#menu-principal .list-group-item.active", ["background-color", "color"]);
     expect(ativo["background-color"]).toBe("rgb(12, 50, 111)");
     expect(ativo.color).toBe("rgb(255, 255, 255)");
-    const item = await css(page, "#menu-principal .list-group-item:not(.active)", ["color", "padding-top"]);
-    expect(item.color).toBe("rgb(19, 81, 180)");
+    // a saída do hover é uma transição (.2s): espera o repouso
+    await expect
+      .poll(async () => (await css(page, "#menu-principal .list-group-item:not(.active)", ["color"])).color)
+      .toBe("rgb(19, 81, 180)");
+    const item = await css(page, "#menu-principal .list-group-item:not(.active)", ["padding-top"]);
     expect(item["padding-top"]).toBe("16px");
     const sub = await css(page, "#menu-cadastros > .list-group", ["background-color"]);
     expect(sub["background-color"]).toBe("rgb(248, 248, 248)");
@@ -497,9 +501,9 @@ test.describe("header, menu e footer (issue #45)", () => {
   test("painel no celular: menu cabe na tela e busca abre por Collapse", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto("/exemplos/admin.html");
-    await expect(page.locator("#busca-header")).toBeHidden();
+    await expect(page.locator("header form[role=search]")).toBeHidden();
     await page.getByRole("button", { name: "Abrir busca" }).click();
-    await expect(page.locator("#busca-geral")).toBeVisible();
+    await expect(page.getByLabel("Texto da pesquisa")).toBeVisible();
     await page.getByRole("button", { name: "Abrir menu" }).click();
     const menu = page.locator("#menu-principal");
     await expect(menu).toHaveClass(/show/);

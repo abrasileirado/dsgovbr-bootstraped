@@ -56,6 +56,9 @@ Nenhum outro CSS do Bootstrap precisa ser carregado — a build é autônoma
 Modo claro/escuro: o JS opcional `dist/dsgovbr-bootstraped-modo.js` alterna o
 `data-bs-theme` por um botão com `data-dsgovbr-modo` (ver
 [Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html#modo-claro-escuro-opcional)).
+Web components opcionais (`<dsgovbr-header>`, `<dsgovbr-menu>`, `<dsgovbr-footer>` e
+`<dsgovbr-breadcrumb>`): `dist/dsgovbr-bootstraped-componentes.js` (ver
+[Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html#web-components-de-header-menu-footer-e-breadcrumb-opcional)).
 Guia completo: [Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html) ·
 [Setup de desenvolvimento](https://abrasileirado.github.io/dsgovbr-bootstraped/setup.html).
 

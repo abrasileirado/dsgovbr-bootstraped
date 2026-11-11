@@ -90,6 +90,57 @@ botão com ``data-dsgovbr-modo``:
 
 Exemplo no header do `painel administrativo <exemplos/admin.html>`__.
 
+Web components de header, menu, footer e breadcrumb (opcional)
+---------------------------------------------------------------
+
+O JS opcional ``dist/dsgovbr-bootstraped-componentes.js`` (sem dependência) define
+quatro custom elements que encapsulam as composições do `painel administrativo
+<exemplos/admin.html>`__: ``<dsgovbr-header>``, ``<dsgovbr-menu>``,
+``<dsgovbr-footer>`` e ``<dsgovbr-breadcrumb>``. Eles geram as classes Bootstrap
+em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue com
+``defer`` e mantenha o ``bootstrap.bundle`` (que abre o menu, os dropdowns e a busca):
+
+.. code:: html
+
+   <script src="dist/dsgovbr-bootstraped-modo.js"></script>
+   <script src="dist/dsgovbr-bootstraped-componentes.js" defer></script>
+   <script src="bootstrap.bundle.min.js" defer></script>
+   ...
+   <dsgovbr-header logo="logo.svg" logo-alt="Página inicial" assinatura="Ministério Exemplo"
+                   titulo="Sistema" menu="menu-principal" busca modo usuario="Maria Silva"
+                   pagina="Usuários">
+     <a slot="usuario" href="/perfil">Meu perfil</a>
+     <dsgovbr-breadcrumb slot="breadcrumb">
+       <a href="/">Início</a>
+       <span>Usuários</span>
+     </dsgovbr-breadcrumb>
+     <button slot="acoes" type="button" class="btn btn-primary">Adicionar usuário</button>
+   </dsgovbr-header>
+
+   <dsgovbr-menu id="menu-principal" titulo="Sistema" logo="logo.svg">
+     <a href="/" icone="fas fa-home">Início</a>
+     <details open icone="fas fa-users">
+       <summary>Cadastros</summary>
+       <a href="/usuarios" icone="fas fa-user" atual>Usuários</a>
+     </details>
+   </dsgovbr-menu>
+
+   <dsgovbr-footer logo="logo-negativo.svg" logo-alt="Logo do sistema">
+     <nav slot="coluna" titulo="Sistema"><a href="/sobre">Sobre</a></nav>
+     <p slot="aviso">Texto legal.</p>
+   </dsgovbr-footer>
+
+- O header fica fixo no topo (``.sticky-top``) junto com o breadcrumb, o título da
+  página e as ações; ``estatico`` desliga a fixação.
+- Cada componente lê filhos e atributos uma vez, ao conectar, e troca o conteúdo
+  pelo HTML final. Mudar um atributo depois remonta; valores viram texto, nunca HTML.
+- O skip link e o ``<main id="conteudo">`` continuam no HTML da página.
+- Enquanto não monta, o CSS esconde o componente (``visibility: hidden`` até o
+  atributo ``data-dsgovbr-montado``); sem o JS ele permanece oculto.
+
+Todos os atributos e slots estão em `Web components
+<componentes/web-components.html>`__ (catálogo).
+
 Quando o pacote for publicado no npm (planejado)
 ------------------------------------------------
 

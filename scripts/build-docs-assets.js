@@ -15,6 +15,8 @@ const COPIES = [
   ["dist/dsgovbr-bootstraped.min.css", "docs/assets/css/dsgovbr-bootstraped.css"],
   // seletor de modo claro/escuro (opcional)
   ["dist/dsgovbr-bootstraped-modo.js", "docs/assets/js/dsgovbr-bootstraped-modo.js"],
+  // web components de header, menu, footer e breadcrumb (opcional)
+  ["dist/dsgovbr-bootstraped-componentes.js", "docs/assets/js/dsgovbr-bootstraped-componentes.js"],
   // Bootstrap puro, para a página de comparação "antes/depois", e seu JS
   ["vendor/bootstrap/dist/css/bootstrap.min.css", "docs/assets/vendor/bootstrap/css/bootstrap.min.css"],
   ["vendor/bootstrap/dist/js/bootstrap.bundle.min.js", "docs/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"],

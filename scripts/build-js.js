@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const ARQUIVOS = ["dsgovbr-bootstraped-modo.js"];
+const ARQUIVOS = ["dsgovbr-bootstraped-modo.js", "dsgovbr-bootstraped-componentes.js"];
 
 for (const nome of ARQUIVOS) {
   const de = path.join(ROOT, "src/js", nome);

@@ -1,0 +1,47 @@
+"use strict";
+
+// JS opcional dos web components (src/js/dsgovbr-bootstraped-componentes.js).
+// O comportamento no navegador é coberto por tests/browser/componentes.spec.js;
+// aqui ficam as verificações que não precisam de DOM: sintaxe, os elementos
+// definidos e o empacotamento (dist, site, pacote npm e release).
+
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const vm = require("node:vm");
+const { read } = require("./helpers");
+
+const ARQUIVO = "dsgovbr-bootstraped-componentes.js";
+const ELEMENTOS = ["dsgovbr-breadcrumb", "dsgovbr-menu", "dsgovbr-footer", "dsgovbr-header"];
+
+test("o JS tem sintaxe válida", () => {
+  assert.doesNotThrow(() => new vm.Script(read(`src/js/${ARQUIVO}`), { filename: ARQUIVO }));
+});
+
+test("define os quatro custom elements, sem Shadow DOM nem innerHTML", () => {
+  const js = read(`src/js/${ARQUIVO}`);
+  for (const nome of ELEMENTOS) {
+    assert.ok(js.includes(`"${nome}"`), `${nome} não é definido`);
+  }
+  assert.ok(!/attachShadow/.test(js), "light DOM: o CSS do tema precisa valer (sem Shadow DOM)");
+  assert.ok(!/innerHTML|insertAdjacentHTML/.test(js), "atributos não podem virar HTML (XSS)");
+});
+
+test("sem custom elements, o script não faz nada nem lança erro", () => {
+  const janela = { document: { createElement() {} } };
+  janela.window = janela;
+  assert.doesNotThrow(() => vm.runInNewContext(read(`src/js/${ARQUIVO}`), janela));
+});
+
+test("o arquivo é copiado para dist/ e para docs/assets/ e entra na release e no teste do pacote", () => {
+  assert.match(read("scripts/build-js.js"), new RegExp(ARQUIVO.replace(/\./g, "\\.")));
+  assert.match(read("scripts/build-docs-assets.js"), new RegExp(`dist/${ARQUIVO}`));
+  assert.match(read("scripts/test-package.js"), new RegExp(`src/js/${ARQUIVO}`));
+  assert.match(read(".github/workflows/release.yml"), new RegExp(`dist/${ARQUIVO}`));
+  assert.ok(require("../package.json").files.includes("src/js/"), "src/js/ precisa estar em files do package.json");
+});
+
+test("o CSS do tema esconde o componente até montar e usa display: contents nos wrappers", () => {
+  const css = read("dist/dsgovbr-bootstraped.css");
+  assert.match(css, /dsgovbr-header,\s*\ndsgovbr-footer,\s*\ndsgovbr-breadcrumb \{\s*\n\s*display: contents;/);
+  assert.match(css, /dsgovbr-menu:not\(\[data-dsgovbr-montado\]\)/);
+});

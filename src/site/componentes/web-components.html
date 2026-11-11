@@ -1,0 +1,185 @@
+<!-- title: Web components: Header, Menu, Footer e Breadcrumb — dsgovbr-bootstraped -->
+<!-- status: Experimental -->
+<h1>Web components (<code>&lt;dsgovbr-header&gt;</code>, <code>-menu</code>, <code>-footer</code>, <code>-breadcrumb</code>)</h1>
+<p>
+  JS opcional que encapsula as composições do
+  <a href="../exemplos/admin.html">exemplo de painel</a> (Header, Menu, Footer e Breadcrumb do GOV.BR DS)
+  em custom elements. Eles geram as mesmas classes Bootstrap documentadas nas outras páginas,
+  em <em>light DOM</em> (sem Shadow DOM): o CSS do tema e o seu continuam valendo. O JS do Bootstrap
+  (<code>bootstrap.bundle</code>) segue sendo quem abre o menu, os dropdowns e a busca.
+</p>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="../assets/js/dsgovbr-bootstraped-componentes.js" defer></script>
+
+<section>
+  <h2>Uso</h2>
+  <p>
+    Carregue o arquivo com <code>defer</code> (ou no fim do <code>&lt;body&gt;</code>), para os filhos já
+    existirem quando o componente monta. O skip link e o <code>&lt;main id="conteudo"&gt;</code> ficam no HTML
+    da página, antes do header.
+  </p>
+<pre><code>&lt;link rel="stylesheet" href="dist/dsgovbr-bootstraped.min.css"&gt;
+&lt;script src="dist/dsgovbr-bootstraped-modo.js"&gt;&lt;/script&gt;          &lt;!-- opcional: botão de modo escuro --&gt;
+&lt;script src="dist/dsgovbr-bootstraped-componentes.js" defer&gt;&lt;/script&gt;
+&lt;script src="bootstrap.bundle.min.js" defer&gt;&lt;/script&gt;</code></pre>
+  <p>
+    Cada componente lê os filhos e os atributos <strong>uma vez</strong>, ao conectar, e troca o conteúdo
+    pelo HTML final: o que você escreve é só a declaração. Mudar um atributo depois remonta o componente.
+    Os filhos usam <code>slot="nome"</code> só como marcador de função (não é Shadow DOM) e
+    <code>icone="fas fa-home"</code> traz as classes do ícone. Os valores viram texto e atributos, nunca HTML.
+  </p>
+</section>
+
+<section>
+  <h2>Breadcrumb (<code>&lt;dsgovbr-breadcrumb&gt;</code>)</h2>
+  <dsgovbr-breadcrumb>
+    <a href="#">Início</a>
+    <a href="#">Cadastros</a>
+    <span>Usuários</span>
+  </dsgovbr-breadcrumb>
+<pre><code>&lt;dsgovbr-breadcrumb rotulo="Trilha de navegação"&gt;
+  &lt;a href="/"&gt;Início&lt;/a&gt;
+  &lt;a href="/cadastros"&gt;Cadastros&lt;/a&gt;
+  &lt;span&gt;Usuários&lt;/span&gt;   &lt;!-- o último é a página atual (aria-current="page") --&gt;
+&lt;/dsgovbr-breadcrumb&gt;</code></pre>
+  <p>
+    Atributos: <code>rotulo</code> (<code>aria-label</code> do <code>&lt;nav&gt;</code>; padrão "Trilha de navegação") e
+    <code>compacto</code> (margem inferior reduzida, aplicada automaticamente dentro do header).
+  </p>
+</section>
+
+<section>
+  <h2>Header (<code>&lt;dsgovbr-header&gt;</code>)</h2>
+  <p>
+    Abaixo, com <code>estatico</code> para não grudar no topo desta página. No exemplo de painel ele fica fixo
+    (<code>.sticky-top</code>), junto com o breadcrumb, o título e as ações da página.
+  </p>
+  <dsgovbr-header estatico logo="../exemplos/img/logo.svg" logo-alt="Página inicial do sistema"
+                  assinatura="Ministério Exemplo" titulo="Administração do Sistema" subtitulo="Gestão de usuários e permissões"
+                  menu="menu-demo" busca usuario="Maria Silva" pagina="Usuários">
+    <a slot="acesso-rapido" href="#">Documentação</a>
+    <a slot="acesso-rapido" href="#">Exemplos</a>
+    <a slot="funcionalidade" href="#" icone="fas fa-headset">Suporte</a>
+    <a slot="usuario" href="#">Meu perfil</a>
+    <hr slot="usuario">
+    <a slot="usuario" href="#">Sair</a>
+    <dsgovbr-breadcrumb slot="breadcrumb">
+      <a href="#">Início</a>
+      <span>Usuários</span>
+    </dsgovbr-breadcrumb>
+    <button slot="acoes" type="button" class="btn btn-primary">Adicionar usuário</button>
+  </dsgovbr-header>
+<pre><code>&lt;dsgovbr-header logo="logo.svg" logo-alt="Página inicial" href="/"
+                assinatura="Ministério Exemplo"
+                titulo="Sistema" subtitulo="Gestão de usuários"
+                menu="menu-principal" busca modo usuario="Maria Silva" pagina="Usuários"&gt;
+  &lt;a slot="acesso-rapido" href="/docs"&gt;Documentação&lt;/a&gt;
+  &lt;a slot="funcionalidade" href="#" icone="fas fa-headset"&gt;Suporte&lt;/a&gt;
+  &lt;a slot="usuario" href="/perfil"&gt;Meu perfil&lt;/a&gt;
+  &lt;hr slot="usuario"&gt;
+  &lt;a slot="usuario" href="/sair"&gt;Sair&lt;/a&gt;
+  &lt;dsgovbr-breadcrumb slot="breadcrumb"&gt;…&lt;/dsgovbr-breadcrumb&gt;
+  &lt;button slot="acoes" class="btn btn-primary"&gt;Adicionar&lt;/button&gt;
+&lt;/dsgovbr-header&gt;</code></pre>
+  <table>
+    <thead><tr><th>Atributo</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td><code>logo</code>, <code>logo-alt</code>, <code>href</code></td><td>Logo (link para <code>href</code>, padrão <code>#</code>) e o texto alternativo dele.</td></tr>
+      <tr><td><code>assinatura</code></td><td>Texto ao lado do logo, depois de um divisor (a partir de <code>sm</code>).</td></tr>
+      <tr><td><code>titulo</code>, <code>subtitulo</code></td><td>Segunda linha: título do sistema (<code>.navbar-brand</code>) e subtítulo.</td></tr>
+      <tr><td><code>menu</code></td><td><code>id</code> de um <code>&lt;dsgovbr-menu&gt;</code>: mostra o botão que abre o menu.</td></tr>
+      <tr><td><code>busca</code></td><td>Campo de busca (recolhido por Collapse abaixo de <code>lg</code>).</td></tr>
+      <tr><td><code>modo</code></td><td>Botão de modo claro/escuro (<code>data-dsgovbr-modo</code>); exige <code>dsgovbr-bootstraped-modo.js</code>.</td></tr>
+      <tr><td><code>usuario</code></td><td>Nome do usuário autenticado; abre o dropdown com os filhos <code>slot="usuario"</code> (um filho que não seja <code>&lt;a&gt;</code>, como <code>&lt;hr&gt;</code>, vira divisor).</td></tr>
+      <tr><td><code>pagina</code></td><td>Título da página (<code>&lt;h1&gt;</code>) na linha fixa de baixo.</td></tr>
+      <tr><td><code>estatico</code></td><td>Não fixa o header no topo.</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Slots: <code>acesso-rapido</code> (links; viram menu em telas menores que <code>xl</code>),
+    <code>funcionalidade</code> (links com <code>icone</code>; o texto vira o nome acessível), <code>usuario</code>,
+    <code>breadcrumb</code> (um <code>&lt;dsgovbr-breadcrumb&gt;</code>) e <code>acoes</code> (HTML livre, ex.: botões da página).
+  </p>
+</section>
+
+<section>
+  <h2>Menu (<code>&lt;dsgovbr-menu&gt;</code>)</h2>
+  <p>
+    O próprio elemento é o <code>.offcanvas.offcanvas-start</code>: o <code>id</code> dele é o alvo do botão do header.
+  </p>
+  <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu-demo" aria-controls="menu-demo">Abrir o menu de exemplo</button>
+  <dsgovbr-menu id="menu-demo" titulo="Administração do Sistema" logo="../exemplos/img/logo.svg">
+    <a href="#" icone="fas fa-home">Início</a>
+    <details open icone="fas fa-users">
+      <summary>Cadastros</summary>
+      <a href="#" icone="fas fa-user" atual>Usuários</a>
+      <a href="#" icone="fas fa-user-shield">Grupos e permissões</a>
+    </details>
+    <a href="#" icone="fas fa-cog">Configurações</a>
+    <div slot="rodape">
+      <p class="small text-center p-3 m-0">Conteúdo publicado sob a licença <strong>Creative Commons Atribuição 4.0</strong>.</p>
+    </div>
+  </dsgovbr-menu>
+<pre><code>&lt;dsgovbr-menu id="menu-principal" titulo="Sistema" logo="logo.svg"&gt;
+  &lt;a href="/" icone="fas fa-home"&gt;Início&lt;/a&gt;
+  &lt;details open icone="fas fa-users" id="menu-cadastros"&gt;   &lt;!-- pasta (Collapse) --&gt;
+    &lt;summary&gt;Cadastros&lt;/summary&gt;
+    &lt;a href="/usuarios" icone="fas fa-user" atual&gt;Usuários&lt;/a&gt;
+  &lt;/details&gt;
+  &lt;div slot="rodape"&gt;HTML livre: logos, links externos, redes sociais, licença&lt;/div&gt;
+&lt;/dsgovbr-menu&gt;</code></pre>
+  <p>
+    Atributos: <code>titulo</code>, <code>logo</code>, <code>rotulo</code> (<code>aria-label</code> do <code>&lt;nav&gt;</code>; padrão "Menu principal") e
+    <code>rotulo-fechar</code> (padrão "Fechar o menu"). <code>atual</code> marca o item da página (<code>.active</code> e
+    <code>aria-current="page"</code>); <code>open</code> na <code>&lt;details&gt;</code> deixa a pasta aberta; o <code>id</code> dela, se houver,
+    vira o do Collapse.
+  </p>
+</section>
+
+<section>
+  <h2>Footer (<code>&lt;dsgovbr-footer&gt;</code>)</h2>
+  <dsgovbr-footer logo="../exemplos/img/logo-negativo.svg" logo-alt="Logo do sistema"
+                  assinatura="../exemplos/img/logo-negativo.svg" assinatura-alt="Assinatura do órgão">
+    <nav slot="coluna" titulo="Sistema">
+      <a href="#">Sobre</a>
+      <a href="#">Termos de uso</a>
+    </nav>
+    <nav slot="coluna" titulo="Ajuda">
+      <a href="#">Fale conosco</a>
+    </nav>
+    <a slot="rede" href="#" icone="fab fa-facebook-f">Facebook</a>
+    <a slot="rede" href="#" icone="fab fa-youtube">YouTube</a>
+    <p slot="aviso">Projeto não oficial, sem endosso do governo. <strong>Licença MIT.</strong></p>
+  </dsgovbr-footer>
+<pre><code>&lt;dsgovbr-footer logo="logo-negativo.svg" logo-alt="Logo do sistema"
+                assinatura="assinatura.svg" assinatura-alt="Assinatura do órgão"&gt;
+  &lt;nav slot="coluna" titulo="Sistema"&gt;&lt;a href="/sobre"&gt;Sobre&lt;/a&gt;…&lt;/nav&gt;
+  &lt;a slot="rede" href="…" icone="fab fa-facebook-f"&gt;Facebook&lt;/a&gt;
+  &lt;p slot="aviso"&gt;Texto legal (aceita HTML)&lt;/p&gt;
+&lt;/dsgovbr-footer&gt;</code></pre>
+  <p>
+    Sempre no modo escuro (<code>data-bs-theme="dark"</code> no <code>&lt;footer&gt;</code>), com fundo <code>--background-dark</code>.
+    Atributos: <code>logo</code>, <code>logo-alt</code>, <code>assinatura</code>, <code>assinatura-alt</code> e
+    <code>rotulo-redes</code> (padrão "Redes sociais"). Cada coluna é um <code>&lt;nav&gt;</code> com o <code>titulo</code> como
+    <code>&lt;h2&gt;</code> e <code>aria-label</code>; o nome acessível de cada rede é o texto do link.
+  </p>
+</section>
+
+<section>
+  <h2>Acessibilidade</h2>
+  <ul>
+    <li>O host de <code>&lt;dsgovbr-header&gt;</code>, <code>-footer</code> e <code>-breadcrumb</code> usa <code>display: contents</code>: os landmarks <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code> e <code>&lt;nav&gt;</code> reais é que existem na árvore.</li>
+    <li>Botões só com ícone têm <code>aria-label</code>; o ícone é <code>aria-hidden</code>. Menu, dropdowns e busca usam os atributos <code>data-bs-*</code> do Bootstrap (foco, Escape e <code>aria-expanded</code> vêm do plugin).</li>
+    <li>Antes de montar, o CSS esconde o componente (<code>visibility: hidden</code> até o atributo <code>data-dsgovbr-montado</code>), para a declaração crua não "piscar". Sem o JS, ele fica oculto.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação ao GOV.BR DS</h2>
+  <ul>
+    <li>Não usam as classes <code>.br-*</code> nem o JS do GOV.BR DS: o resultado é o das composições Bootstrap documentadas em Navbar, Offcanvas, List group e Breadcrumb.</li>
+    <li>O recolhimento de níveis do breadcrumb e a anatomia completa do <code>.br-header</code> (menu de links, mais de uma linha de ações) não são reproduzidos; o que não está nos atributos e slots acima pode ser feito com HTML livre nos slots <code>acoes</code> e <code>rodape</code>.</li>
+    <li>O conteúdo é lido uma vez: adicionar filhos depois de montado não atualiza o componente (altere um atributo ou recrie o elemento).</li>
+    <li>Experimental: a API (atributos e slots) pode mudar antes da 1.0.</li>
+  </ul>
+</section>
