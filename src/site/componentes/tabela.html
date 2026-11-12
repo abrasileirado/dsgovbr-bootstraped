@@ -1,0 +1,115 @@
+<!-- title: Componente: Tabela — dsgovbr-bootstraped -->
+<!-- status: Experimental -->
+<h1>Tabela (<code>&lt;dsgovbr-tabela&gt;</code>)</h1>
+<p>
+  JS opcional (<code>dsgovbr-bootstraped-componentes.js</code>) com as partes do <em>Table</em> do GOV.BR DS: tabela,
+  busca, filtros, menu de ferramentas (densidade), barra de itens selecionados e paginação. Usa só classes e plugins do
+  Bootstrap (<code>.table</code>, <code>.table-responsive</code>, <code>.collapse</code>, <code>.dropdown</code>,
+  <code>.btn-group</code>, <code>.form-check</code>, <code>.input-group</code>, <code>.card</code>, <code>.badge</code>), então o
+  <code>bootstrap.bundle</code> precisa estar carregado. O <code>&lt;table&gt;</code> é o do autor (HTML semântico); o
+  componente o decora.
+</p>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="../assets/js/dsgovbr-bootstraped-componentes.js" defer></script>
+
+<section id="demo">
+  <h2>Exemplo completo</h2>
+  <dsgovbr-tabela id="tabela-demo" titulo="Selecione usuário para modificar" busca ferramentas selecionavel
+                  total="42" por-pagina="10" opcoes-por-pagina="10,25,50" pagina="1">
+    <table>
+      <caption class="visually-hidden">Usuários</caption>
+      <thead>
+        <tr><th scope="col">Usuário</th><th scope="col">E-mail</th><th scope="col">Ativo</th><th scope="col"><span class="visually-hidden">Ações</span></th></tr>
+      </thead>
+      <tbody>
+        <tr data-valor="1"><td>Ana Pereira</td><td>ana.pereira@exemplo.gov.br</td><td><span class="badge text-bg-success">Sim</span></td><td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> Ana Pereira</span></a></td></tr>
+        <tr data-valor="2"><td>João Souza</td><td>joao.souza@exemplo.gov.br</td><td><span class="badge text-bg-success">Sim</span></td><td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> João Souza</span></a></td></tr>
+        <tr data-valor="3"><td>Carla Lima</td><td>carla.lima@exemplo.gov.br</td><td><span class="badge text-bg-secondary">Não</span></td><td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> Carla Lima</span></a></td></tr>
+      </tbody>
+    </table>
+    <dsgovbr-filtro nome="ativo" rotulo="Ativo">
+      <dsgovbr-opcao valor="1">Sim</dsgovbr-opcao>
+      <dsgovbr-opcao valor="0">Não</dsgovbr-opcao>
+    </dsgovbr-filtro>
+    <dsgovbr-filtro nome="grupo" rotulo="Grupos">
+      <dsgovbr-opcao valor="gestores">Gestores</dsgovbr-opcao>
+      <dsgovbr-opcao valor="atendimento">Atendimento</dsgovbr-opcao>
+    </dsgovbr-filtro>
+    <dsgovbr-lote-acao acao="excluir" icone="fas fa-trash">Excluir</dsgovbr-lote-acao>
+    <dsgovbr-lote-acao acao="download" icone="fas fa-download">Download</dsgovbr-lote-acao>
+    <dsgovbr-acoes>
+      <button type="button" class="btn btn-primary">Adicionar usuário</button>
+    </dsgovbr-acoes>
+  </dsgovbr-tabela>
+  <p class="small mt-3">Sem <code>acao</code>, busca e filtros não enviam nada: só disparam os eventos. Veja o último evento:</p>
+  <pre tabindex="0" id="tabela-demo-evento"><code>(nenhum ainda)</code></pre>
+  <script>
+    (function () {
+      var saida = document.querySelector("#tabela-demo-evento code");
+      ["busca", "filtro", "selecao", "acao", "densidade"].forEach(function (tipo) {
+        document.addEventListener("dsgovbr:tabela-" + tipo, function (e) {
+          saida.textContent = "dsgovbr:tabela-" + tipo + " " + JSON.stringify(e.detail);
+        });
+      });
+      document.addEventListener("dsgovbr:pagina", function (e) {
+        saida.textContent = "dsgovbr:pagina " + JSON.stringify(e.detail);
+      });
+    })();
+  </script>
+</section>
+
+<section>
+  <h2>Estados: vazio e carregando</h2>
+  <dsgovbr-tabela id="tabela-vazia" titulo="Sem resultados" vazio="Nenhum usuário encontrado.">
+    <table><thead><tr><th scope="col">Usuário</th><th scope="col">E-mail</th></tr></thead><tbody></tbody></table>
+  </dsgovbr-tabela>
+  <dsgovbr-tabela id="tabela-carregando" titulo="Carregando" carregando>
+    <table><thead><tr><th scope="col">Usuário</th><th scope="col">E-mail</th></tr></thead><tbody></tbody></table>
+  </dsgovbr-tabela>
+</section>
+
+<section>
+  <h2>Uso</h2>
+<pre tabindex="0"><code>&lt;dsgovbr-tabela titulo="Usuários" busca ferramentas selecionavel acao="/usuarios/"
+                total="42" por-pagina="10" opcoes-por-pagina="10,25,50" pagina="1"
+                paginacao-href="?p={pagina}"&gt;
+  &lt;table&gt; … &lt;tr data-valor="7"&gt; … &lt;/table&gt;
+  &lt;dsgovbr-filtro nome="ativo" rotulo="Ativo"&gt;
+    &lt;dsgovbr-opcao valor="1"&gt;Sim&lt;/dsgovbr-opcao&gt;
+  &lt;/dsgovbr-filtro&gt;
+  &lt;dsgovbr-lote-acao acao="excluir" icone="fas fa-trash"&gt;Excluir&lt;/dsgovbr-lote-acao&gt;
+  &lt;dsgovbr-acoes&gt;&lt;button class="btn btn-primary"&gt;Adicionar&lt;/button&gt;&lt;/dsgovbr-acoes&gt;
+&lt;/dsgovbr-tabela&gt;
+
+tabela.addEventListener("dsgovbr:tabela-selecao", (e) =&gt; console.log(e.detail.valores));</code></pre>
+  <table>
+    <thead><tr><th>Atributo</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td><code>titulo</code></td><td>Título da tabela (<code>&lt;h2&gt;</code>), à esquerda da barra de ferramentas.</td></tr>
+      <tr><td><code>busca</code>, <code>busca-nome</code>, <code>busca-valor</code>, <code>busca-placeholder</code></td><td>Mostra a lupa que abre o campo de busca; <code>name</code> do campo (padrão <code>q</code>), valor inicial e dica (padrão "Buscar nesta listagem").</td></tr>
+      <tr><td>filhos <code>&lt;dsgovbr-filtro nome rotulo&gt;</code></td><td>Mostram o funil e o painel de filtros: um dropdown por filtro (com <code>&lt;dsgovbr-opcao valor selecionada&gt;</code> como checkbox), "Filtros:" com os aplicados, Filtrar e Limpar todos os filtros.</td></tr>
+      <tr><td><code>acao</code></td><td>URL do <code>&lt;form method="get"&gt;</code> de busca e filtros: com ela o envio é nativo (servidor); sem ela, só os eventos.</td></tr>
+      <tr><td><code>ferramentas</code>, <code>densidade</code></td><td>Menu de três pontos com "Densidade" (<code>alta</code> = <code>.table-sm</code>, <code>media</code>, <code>baixa</code>); o atributo reflete a escolha.</td></tr>
+      <tr><td><code>selecionavel</code>, <code>selecao-nome</code></td><td>Coluna de checkboxes (<code>name</code> padrão <code>selecionados</code>; o valor vem de <code>data-valor</code> da linha) e barra "N itens selecionados" com as <code>&lt;dsgovbr-lote-acao acao icone&gt;</code>.</td></tr>
+      <tr><td><code>total</code> / <code>total-paginas</code>, <code>pagina</code>, <code>por-pagina</code>, <code>opcoes-por-pagina</code>, <code>paginacao-href</code></td><td>Rodapé com <a href="paginacao.html#web-component"><code>&lt;dsgovbr-paginacao compacta&gt;</code></a>; o evento <code>dsgovbr:pagina</code> sobe até a tabela.</td></tr>
+      <tr><td><code>vazio</code>, <code>carregando</code></td><td>Mensagem sem linhas e estado carregando (<code>aria-busy</code>).</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Eventos (todos sobem): <code>dsgovbr:tabela-busca</code> e <code>dsgovbr:tabela-filtro</code> (<code>detail</code>:
+    <code>termo</code>, <code>filtros</code>; canceláveis), <code>dsgovbr:tabela-selecao</code> (<code>quantidade</code>,
+    <code>valores</code>), <code>dsgovbr:tabela-acao</code> (<code>acao</code>, <code>valores</code>) e
+    <code>dsgovbr:tabela-densidade</code>. Não aninhe o componente dentro de outro <code>&lt;form&gt;</code>.
+  </p>
+</section>
+
+<section>
+  <h2>Diferenças conhecidas em relação ao GOV.BR DS</h2>
+  <ul>
+    <li>Não usa <code>.br-table</code> nem o <code>BRTable</code>: o <code>&lt;table&gt;</code> fica com as classes do Bootstrap e o componente cuida das ferramentas ao redor.</li>
+    <li>Sem ordenação, colunas fixas e rolagem infinita; a ordenação deve ser feita pela aplicação (<code>aria-sort</code> nos cabeçalhos).</li>
+    <li>A linha selecionada usa <code>.table-active</code> na cor <code>--selected</code> do GOV.BR DS; o seletor de página da paginação compacta é um <code>&lt;select&gt;</code> nativo.</li>
+    <li>O conteúdo é lido uma vez: linhas novas depois de montado não ganham checkbox sozinhas (remonte alterando um atributo).</li>
+    <li>Experimental: atributos, elementos e eventos podem mudar antes da 1.0.</li>
+  </ul>
+</section>

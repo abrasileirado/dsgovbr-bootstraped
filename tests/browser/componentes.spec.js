@@ -30,7 +30,7 @@ test.describe("painel", () => {
     await expect(page.getByRole("navigation", { name: "Trilha de navegação" })).toBeVisible();
     await expect(page.getByRole("navigation", { name: "Acesso rápido" })).toHaveCount(0); // é <ul>, não <nav>
     await expect(page.getByRole("list", { name: "Acesso rápido" })).toBeVisible();
-    await expect(page.getByRole("search")).toBeVisible();
+    await expect(page.locator("dsgovbr-header").getByRole("search")).toBeVisible();
     for (const nome of ["Sistema", "Ajuda", "Privacidade"]) {
       await expect(page.getByRole("navigation", { name: nome, exact: true })).toBeVisible();
     }
@@ -125,7 +125,7 @@ test.describe("painel", () => {
     await expect(page.getByText("Gestão de usuários e permissões")).toBeHidden();
     await expect(page.locator("dsgovbr-header .navbar-brand")).toBeVisible();
     await expect(page.getByRole("button", { name: "Abrir menu" })).toBeVisible();
-    await expect(page.getByRole("search")).toBeVisible();
+    await expect(page.locator("dsgovbr-header").getByRole("search")).toBeVisible();
     await expect(page.locator("dsgovbr-header h1")).toBeInViewport();
     expect((await page.locator("dsgovbr-header header").boundingBox()).height).toBeLessThan(alto);
     // estável: sem vai-e-volta depois de recolher

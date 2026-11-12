@@ -84,61 +84,43 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
     </div>
 
-    <div class="card mb-4">
-      <div class="card-body">
-        <form class="row g-3 align-items-end">
-          <div class="col-md-6">
-            <label for="busca" class="form-label">Buscar por nome ou e-mail</label>
-            <input type="search" class="form-control" id="busca">
-          </div>
-          <div class="col-md-3">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="somente-ativos" checked>
-              <label class="form-check-label" for="somente-ativos">Somente ativos</label>
-            </div>
-          </div>
-          <div class="col-md-3 text-md-end">
-            <button type="submit" class="btn btn-outline-primary">Filtrar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <caption>3 de 42 usuários</caption>
+    <!-- Listagem: tabela, busca, filtros, ferramentas (densidade), seleção em lote e paginação -->
+    <dsgovbr-tabela titulo="Selecione usuário para modificar" busca ferramentas selecionavel
+                    total="42" por-pagina="10" opcoes-por-pagina="10,25,50" pagina="1">
+      <table>
+        <caption class="visually-hidden">Usuários</caption>
         <thead>
           <tr><th scope="col">Nome</th><th scope="col">E-mail</th><th scope="col">Grupo</th><th scope="col">Situação</th><th scope="col"><span class="visually-hidden">Ações</span></th></tr>
         </thead>
         <tbody>
-          <tr>
+          <tr data-valor="1">
             <td>Ana Pereira</td><td>ana.pereira@exemplo.gov.br</td><td>Gestores</td>
             <td><span class="badge text-bg-success">Ativo</span></td>
             <td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> Ana Pereira</span></a></td>
           </tr>
-          <tr>
+          <tr data-valor="2">
             <td>João Souza</td><td>joao.souza@exemplo.gov.br</td><td>Atendimento</td>
             <td><span class="badge text-bg-success">Ativo</span></td>
             <td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> João Souza</span></a></td>
           </tr>
-          <tr>
+          <tr data-valor="3">
             <td>Carla Lima</td><td>carla.lima@exemplo.gov.br</td><td>Atendimento</td>
             <td><span class="badge text-bg-secondary">Inativo</span></td>
             <td class="text-end"><a class="btn btn-link btn-sm" href="#">Editar<span class="visually-hidden"> Carla Lima</span></a></td>
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <nav aria-label="Paginação de usuários">
-      <ul class="pagination">
-        <li class="page-item disabled"><span class="page-link" aria-disabled="true">Anterior</span></li>
-        <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
-      </ul>
-    </nav>
+      <dsgovbr-filtro nome="ativo" rotulo="Ativo">
+        <dsgovbr-opcao valor="1">Sim</dsgovbr-opcao>
+        <dsgovbr-opcao valor="0">Não</dsgovbr-opcao>
+      </dsgovbr-filtro>
+      <dsgovbr-filtro nome="grupo" rotulo="Grupos">
+        <dsgovbr-opcao valor="gestores">Gestores</dsgovbr-opcao>
+        <dsgovbr-opcao valor="atendimento">Atendimento</dsgovbr-opcao>
+      </dsgovbr-filtro>
+      <dsgovbr-lote-acao acao="excluir" icone="fas fa-trash">Excluir</dsgovbr-lote-acao>
+      <dsgovbr-lote-acao acao="download" icone="fas fa-download">Download</dsgovbr-lote-acao>
+    </dsgovbr-tabela>
   </main>
 
   <!-- Footer do GOV.BR DS como web component: sempre no modo escuro (--background-dark) -->

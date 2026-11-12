@@ -223,6 +223,9 @@ no Pages) num Chromium real, em ``tests/browser/``:
   no painel e em ``/componentes/web-components.html``: montagem, landmarks, menu
   (offcanvas, pasta, item atual), header, footer, ``aria-pressed`` do modo escuro,
   remontagem por atributo, atributos sem HTML (XSS) e carga síncrona no ``<head>``.
+- ``tabela.spec.js``: ``<dsgovbr-tabela>``: busca, filtros (chips, Filtrar, Limpar), um painel por vez,
+  densidade, seleção e barra de itens selecionados, ações em lote, paginação, ``acao`` (form GET),
+  vazio/carregando, remontagem sem perder o estado e axe (claro e escuro).
 - ``campo.spec.js``: ``<dsgovbr-campo>``: rótulo, ajuda, erro e sucesso ligados por ``aria-*``, prefixo/sufixo,
   select, radio, checkbox e switch, valor enviado ao ``FormData``, remontagem sem perder o digitado
   nem o foco, ``validar()``, texto sem HTML (XSS) e axe (claro e escuro).
