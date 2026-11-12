@@ -54,7 +54,7 @@ test.describe("painel", () => {
     await expect(page.locator("dsgovbr-header .breadcrumb")).toHaveClass(/mb-1/); // compacto dentro do header
   });
 
-  test("header: título da página, ação e usuário vêm dos atributos e slots", async ({ page }) => {
+  test("header: título da página, ação e usuário vêm dos atributos e dos elementos filhos", async ({ page }) => {
     await expect(page.locator("dsgovbr-header h1")).toHaveText("Usuários");
     await expect(page.locator("dsgovbr-header").getByRole("button", { name: "Adicionar usuário" })).toBeVisible();
     await page.getByRole("button", { name: "Maria Silva" }).click();
@@ -138,6 +138,26 @@ test.describe("painel", () => {
     await expect(page.getByText("Gestão de usuários e permissões")).toBeVisible();
   });
 
+  test("menu: o rodapé tem logos, itens externos, redes e aviso, montados dos elementos filhos", async ({ page }) => {
+    await page.getByRole("button", { name: "Abrir menu" }).click();
+    const rodape = page.locator("#menu-principal .mt-auto");
+    await expect(rodape.getByRole("img", { name: "Logo do órgão" })).toBeVisible();
+    await expect(rodape.getByRole("img", { name: "Logo do governo" })).toBeVisible();
+    await expect(rodape.getByRole("link", { name: "Portal do órgão" })).toBeVisible();
+    await expect(rodape.locator("a .fa-external-link-square-alt")).toHaveCount(2);
+    for (const rede of ["Facebook", "Twitter", "YouTube"]) {
+      await expect(rodape.getByRole("link", { name: rede })).toBeVisible();
+    }
+  });
+
+  test("os elementos filhos são consumidos: não sobra nenhum no DOM montado", async ({ page }) => {
+    const sobras = await page.evaluate(() =>
+      ["dsgovbr-item", "dsgovbr-pasta", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso", "dsgovbr-menu-rodape",
+        "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes"]
+        .filter((tag) => document.querySelector(tag)));
+    expect(sobras).toEqual([]);
+  });
+
   test("sem erro de console ao montar", async ({ page }) => {
     const erros = [];
     page.on("pageerror", (e) => erros.push(e.message));
@@ -198,6 +218,23 @@ test.describe("API dos elementos", () => {
     expect(r.imgs).toBe(0);
     expect(r.titulo).toContain("<img");
     expect(await page.evaluate(() => window.__xss)).toBe(false);
+  });
+
+  test("elemento filho fora de um pai não aparece; <a> vale no lugar de <dsgovbr-item>", async ({ page }) => {
+    const r = await page.evaluate(() => {
+      const solto = document.createElement("dsgovbr-item");
+      solto.textContent = "Solto";
+      document.body.append(solto);
+      const bc = document.createElement("dsgovbr-breadcrumb");
+      bc.innerHTML = '<a href="/">Raiz</a><dsgovbr-item href="/x">Meio</dsgovbr-item><dsgovbr-item>Folha</dsgovbr-item>';
+      document.body.append(bc);
+      return {
+        solto: getComputedStyle(solto).display,
+        links: bc.querySelectorAll("li a").length,
+        atual: bc.querySelector(".active").textContent,
+      };
+    });
+    expect(r).toEqual({ solto: "none", links: 2, atual: "Folha" });
   });
 
   test("o header com estatico não fixa no topo", async ({ page }) => {

@@ -11,13 +11,13 @@
 //   <script src="dsgovbr-bootstraped-cookies.js"></script>   <!-- no <head>, para a API estar pronta cedo -->
 //
 //   <dsgovbr-cookiebar declaracao="/cookies">
-//     <p slot="texto">Usamos cookies para melhorar sua experiência.</p>
-//     <div slot="grupo" nome="desempenho" rotulo="Desempenho">Medem o uso do site.</div>
-//     <div slot="grupo" nome="funcionais" rotulo="Funcionais">Lembram suas preferências.</div>
+//     <dsgovbr-cookies-texto>Usamos cookies para melhorar sua experiência.</dsgovbr-cookies-texto>
+//     <dsgovbr-cookies-grupo nome="desempenho" rotulo="Desempenho">Medem o uso do site.</dsgovbr-cookies-grupo>
+//     <dsgovbr-cookies-grupo nome="funcionais" rotulo="Funcionais">Lembram suas preferências.</dsgovbr-cookies-grupo>
 //   </dsgovbr-cookiebar>
 //
 // O grupo "estritamente necessários" (nome `necessarios`) é criado sozinho, sempre
-// ativo e bloqueado; para trocar o texto dele, declare um grupo com `necessario`.
+// ativo e bloqueado; para trocar o texto dele, declare um <dsgovbr-cookies-grupo necessario>.
 // A barra só aparece sem escolha salva (localStorage); depois dela aparece só o
 // botão flutuante (`sem-botao` o desliga, para quem já tem outro acionador, como o do
 // header). Atributos: `titulo` (padrão "Aviso de cookies"), `declaracao` (link da
@@ -183,9 +183,10 @@
     return (el.textContent || "").replace(/\s+/g, " ").trim();
   }
 
-  function doSlot(host, nome) {
+  // Filhos diretos com a tag (ex.: "dsgovbr-cookies-grupo").
+  function filhos(host, tag) {
     return Array.prototype.filter.call(host.children, function (el) {
-      return el.getAttribute("slot") === nome;
+      return el.localName === tag;
     });
   }
 
@@ -242,7 +243,7 @@
     }
 
     ler() {
-      var grupos = doSlot(this, "grupo")
+      var grupos = filhos(this, "dsgovbr-cookies-grupo")
         .map(function (el) {
           return {
             nome: el.getAttribute("nome") || "",
@@ -264,7 +265,7 @@
       if (!grupos.some(function (g) { return g.necessario; })) {
         grupos.unshift(NECESSARIOS);
       }
-      var texto_ = doSlot(this, "texto");
+      var texto_ = filhos(this, "dsgovbr-cookies-texto");
       return {
         grupos: grupos,
         textoNos: texto_.length ? Array.prototype.slice.call(texto_[0].childNodes) : [],
@@ -421,6 +422,14 @@
       bs.Modal.getOrCreateInstance(this._modal).hide();
     }
   }
+
+  // Elementos-dado: só carregam atributos e conteúdo para o <dsgovbr-cookiebar>, que
+  // os troca pelo HTML final (o CSS os oculta se sobrarem fora dele).
+  ["dsgovbr-cookies-grupo", "dsgovbr-cookies-texto"].forEach(function (nome) {
+    if (!window.customElements.get(nome)) {
+      window.customElements.define(nome, class extends HTMLElement {});
+    }
+  });
 
   if (!window.customElements.get("dsgovbr-cookiebar")) {
     window.customElements.define("dsgovbr-cookiebar", Cookiebar);

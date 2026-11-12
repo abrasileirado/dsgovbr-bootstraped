@@ -45,3 +45,14 @@ test("o CSS do tema esconde o componente até montar e usa display: contents nos
   assert.match(css, /dsgovbr-header,\s*\ndsgovbr-footer,\s*\ndsgovbr-breadcrumb,\s*\ndsgovbr-cookiebar \{\s*\n\s*display: contents;/);
   assert.match(css, /dsgovbr-menu:not\(\[data-dsgovbr-montado\]\)/);
 });
+
+test("define os elementos filhos (dado) e o JS não usa mais slot= nem details", () => {
+  const js = read(`src/js/${ARQUIVO}`);
+  for (const nome of ["dsgovbr-item", "dsgovbr-pasta", "dsgovbr-menu-rodape", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso",
+    "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes"]) {
+    assert.ok(js.includes(`"${nome}"`), `${nome} não é definido`);
+  }
+  assert.ok(!/getAttribute\("slot"\)/.test(js), "a convenção slot= foi substituída por elementos filhos");
+  const css = read("dist/dsgovbr-bootstraped.css");
+  assert.match(css, /dsgovbr-item,[\s\S]*dsgovbr-cookies-texto \{\s*\n\s*display: none;/);
+});
