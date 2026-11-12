@@ -1,4 +1,4 @@
-<!-- title: Componente: Cookiebar (consentimento) — dsgovbr-bootstraped -->
+<!-- title: Componente: Cookiebar (consentimento) — dsgovbr-bootstrapped -->
 <!-- status: Experimental -->
 <h1>Cookiebar (<code>&lt;dsgovbr-cookiebar&gt;</code>)</h1>
 <p>
@@ -8,17 +8,17 @@
   escolha. A aparência estática do aviso está em <a href="auxiliares.html#cookiebar-secao">Auxiliares</a>.
 </p>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<script src="../assets/js/dsgovbr-bootstraped-cookies.js"></script>
+<script src="../assets/js/dsgovbr-bootstrapped-cookies.js"></script>
 
 <section>
   <h2>Uso</h2>
   <p>
     Esta página tem um <code>&lt;dsgovbr-cookiebar&gt;</code>: sem escolha salva a barra aparece no rodapé; depois
     da escolha fica só o botão no canto inferior esquerdo. Para ver a barra de novo, chame
-    <code>dsgovbrCookies.limpar()</code> ou apague a chave <code>dsgovbr-bootstraped:cookies</code> do
+    <code>dsgovbrCookies.limpar()</code> ou apague a chave <code>dsgovbr-bootstrapped:cookies</code> do
     <code>localStorage</code>.
   </p>
-<pre tabindex="0"><code>&lt;script src="dist/dsgovbr-bootstraped-cookies.js"&gt;&lt;/script&gt;   &lt;!-- no &lt;head&gt;: a API fica pronta cedo --&gt;
+<pre tabindex="0"><code>&lt;script src="dist/dsgovbr-bootstrapped-cookies.js"&gt;&lt;/script&gt;   &lt;!-- no &lt;head&gt;: a API fica pronta cedo --&gt;
 ...
 &lt;dsgovbr-cookiebar declaracao="/cookies"&gt;
   &lt;dsgovbr-cookies-texto&gt;Usamos cookies para melhorar sua experiência.&lt;/dsgovbr-cookies-texto&gt;
@@ -53,7 +53,7 @@ document.documentElement.addEventListener("dsgovbr:cookies", (e) =&gt; {
 });
 if (dsgovbrCookies.permitido("desempenho")) carregarAnalytics(); // escolha de visitas anteriores</code></pre>
   <p>
-    A escolha fica no <code>localStorage</code> (<code>dsgovbr-bootstraped:cookies</code>); se ele estiver
+    A escolha fica no <code>localStorage</code> (<code>dsgovbr-bootstrapped:cookies</code>); se ele estiver
     bloqueado, vale só para a página aberta. O evento dispara a cada mudança, não ao carregar:
     use <code>permitido()</code> para a escolha de visitas anteriores.
   </p>

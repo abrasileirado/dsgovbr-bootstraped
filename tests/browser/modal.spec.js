@@ -1,6 +1,6 @@
 "use strict";
 
-// <dsgovbr-modal> (src/js/dsgovbr-bootstraped-componentes.js), demonstrado em
+// <dsgovbr-modal> (src/js/dsgovbr-bootstrapped-componentes.js), demonstrado em
 // /componentes/modal.html#web-component. Reusa o plugin Modal do Bootstrap: aqui
 // ficam abrir/fechar por acionador e API, Escape, backdrop estático, retorno do
 // foco, contenção por Tab, evento e axe com o modal aberto (claro e escuro).

@@ -1,6 +1,6 @@
 "use strict";
 
-// Web components (src/js/dsgovbr-bootstraped-componentes.js) usados em
+// Web components (src/js/dsgovbr-bootstrapped-componentes.js) usados em
 // docs/exemplos/admin.html e demonstrados em /componentes/web-components.html.
 // O visual está em visual.spec.js e a a11y (axe) em a11y.spec.js.
 
@@ -266,8 +266,8 @@ test.describe("API dos elementos", () => {
 
 test("script síncrono no <head> (antes do parser terminar) monta depois do DOMContentLoaded", async ({ page }) => {
   const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Sync</title>
-    <link rel="stylesheet" href="/assets/css/dsgovbr-bootstraped.css">
-    <script src="/assets/js/dsgovbr-bootstraped-componentes.js"></script></head>
+    <link rel="stylesheet" href="/assets/css/dsgovbr-bootstrapped.css">
+    <script src="/assets/js/dsgovbr-bootstrapped-componentes.js"></script></head>
     <body><main id="c"><dsgovbr-breadcrumb><a href="#">A</a><span>B</span></dsgovbr-breadcrumb></main></body></html>`;
   await page.route("**/sincrono.html", (route) => route.fulfill({ contentType: "text/html", body: html }));
   await page.goto("/sincrono.html");

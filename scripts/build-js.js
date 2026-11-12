@@ -9,9 +9,9 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const ARQUIVOS = [
-  "dsgovbr-bootstraped-modo.js",
-  "dsgovbr-bootstraped-componentes.js",
-  "dsgovbr-bootstraped-cookies.js",
+  "dsgovbr-bootstrapped-modo.js",
+  "dsgovbr-bootstrapped-componentes.js",
+  "dsgovbr-bootstrapped-cookies.js",
 ];
 
 for (const nome of ARQUIVOS) {

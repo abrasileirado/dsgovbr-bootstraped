@@ -1,6 +1,6 @@
 "use strict";
 
-// Consentimento de cookies (src/js/dsgovbr-bootstraped-cookies.js): barra,
+// Consentimento de cookies (src/js/dsgovbr-bootstrapped-cookies.js): barra,
 // modal de configurações, botão flutuante, API e evento, na página de
 // /componentes/cookiebar.html. O visual está em visual.spec.js e a a11y de
 // repouso em a11y.spec.js; aqui o axe roda também com o modal aberto e no escuro.
@@ -9,7 +9,7 @@ const { test, expect } = require("./fixtures");
 const AxeBuilder = require("@axe-core/playwright").default;
 
 const PAGINA = "/componentes/cookiebar.html";
-const CHAVE = "dsgovbr-bootstraped:cookies";
+const CHAVE = "dsgovbr-bootstrapped:cookies";
 
 test.use({ viewport: { width: 1280, height: 800 } });
 

@@ -1,6 +1,6 @@
 "use strict";
 
-// Seletor de modo claro/escuro (src/js/dsgovbr-bootstraped-modo.js), usado no
+// Seletor de modo claro/escuro (src/js/dsgovbr-bootstrapped-modo.js), usado no
 // header de docs/exemplos/admin.html: segue o sistema por padrão, alterna pelo
 // botão, guarda a escolha e mantém o aria-pressed em dia.
 

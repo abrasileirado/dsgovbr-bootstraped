@@ -13,7 +13,7 @@ function janela() {
   // customElements e HTMLElement de mentira: o script define as classes e as registra no vazio
   const janelaGlobal = { customElements: { get: () => undefined, define() {} } };
   janelaGlobal.window = janelaGlobal;
-  vm.runInNewContext(read("src/js/dsgovbr-bootstraped-componentes.js"), { window: janelaGlobal, document: { addEventListener() {} }, HTMLElement: class {} });
+  vm.runInNewContext(read("src/js/dsgovbr-bootstrapped-componentes.js"), { window: janelaGlobal, document: { addEventListener() {} }, HTMLElement: class {} });
   return (...args) => JSON.parse(JSON.stringify(janelaGlobal.dsgovbrPaginacao.janela(...args)));
 }
 

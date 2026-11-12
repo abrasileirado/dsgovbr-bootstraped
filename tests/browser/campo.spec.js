@@ -1,6 +1,6 @@
 "use strict";
 
-// <dsgovbr-campo> (src/js/dsgovbr-bootstraped-componentes.js), demonstrado em
+// <dsgovbr-campo> (src/js/dsgovbr-bootstrapped-componentes.js), demonstrado em
 // /componentes/formularios.html#web-component. O controle é nativo e fica dentro do
 // <form>: aqui, ligação de rótulo/ajuda/erro, valor enviado ao form, remontagem sem
 // perder o digitado, validação nativa e axe (claro e escuro).

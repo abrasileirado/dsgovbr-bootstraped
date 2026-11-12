@@ -6,7 +6,7 @@
 //
 // Cada fragmento começa com um cabeçalho de comentários, um por linha:
 //
-//   <!-- title: Componente: Modal — dsgovbr-bootstraped -->   (obrigatório)
+//   <!-- title: Componente: Modal — dsgovbr-bootstrapped -->   (obrigatório)
 //   <!-- status: Não suportado -->                            (opcional)
 //   <!-- bootstrap: modal -->                                 (opcional)
 //

@@ -8,8 +8,8 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { read, block, decl } = require("./helpers");
 
-const css = read("dist/dsgovbr-bootstraped.css");
-const min = read("dist/dsgovbr-bootstraped.min.css");
+const css = read("dist/dsgovbr-bootstrapped.css");
+const min = read("dist/dsgovbr-bootstrapped.min.css");
 
 test("RF-03: nenhuma classe .br-* no CSS (sem dependência oculta do GOV.BR DS)", () => {
   assert.doesNotMatch(css, /\.br-[a-z]/);

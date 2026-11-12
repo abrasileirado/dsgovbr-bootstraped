@@ -27,7 +27,7 @@ test("padrão: GOV.BR DS ativo, com a Rawline", async ({ page }) => {
   await page.goto("/componentes/botao.html");
   await expect(page.locator(CHAVE)).toBeChecked();
   const s = await estado(page);
-  expect(s.href).toBe("../assets/css/dsgovbr-bootstraped.css");
+  expect(s.href).toBe("../assets/css/dsgovbr-bootstrapped.css");
   expect(s.fonteDesligada).toBe(false);
   expect(s.atributo).toBe("dsgovbr");
   expect(s.corPrimaria).toBe("#1351b4");

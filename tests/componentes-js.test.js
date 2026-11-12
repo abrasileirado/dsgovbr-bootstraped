@@ -1,6 +1,6 @@
 "use strict";
 
-// JS opcional dos web components (src/js/dsgovbr-bootstraped-componentes.js).
+// JS opcional dos web components (src/js/dsgovbr-bootstrapped-componentes.js).
 // O comportamento no navegador é coberto por tests/browser/componentes.spec.js;
 // aqui ficam as verificações que não precisam de DOM: sintaxe, os elementos
 // definidos e o empacotamento (dist, site, pacote npm e release).
@@ -10,7 +10,7 @@ const assert = require("node:assert/strict");
 const vm = require("node:vm");
 const { read } = require("./helpers");
 
-const ARQUIVO = "dsgovbr-bootstraped-componentes.js";
+const ARQUIVO = "dsgovbr-bootstrapped-componentes.js";
 const ELEMENTOS = ["dsgovbr-breadcrumb", "dsgovbr-menu", "dsgovbr-footer", "dsgovbr-header"];
 
 test("o JS tem sintaxe válida", () => {
@@ -41,7 +41,7 @@ test("o arquivo é copiado para dist/ e para docs/assets/ e entra na release e n
 });
 
 test("o CSS do tema esconde o componente até montar e usa display: contents nos wrappers", () => {
-  const css = read("dist/dsgovbr-bootstraped.css");
+  const css = read("dist/dsgovbr-bootstrapped.css");
   // asserções com ok(): se falhar, não despeja o CSS inteiro na saída
   const contents = /(dsgovbr-header,[\s\S]*?) \{\s*\n\s*display: contents;/.exec(css);
   assert.ok(contents, "regra display: contents dos wrappers");
@@ -60,7 +60,7 @@ test("define os elementos filhos (dado) e o JS não usa mais slot= nem details",
     assert.ok(js.includes(`"${nome}"`), `${nome} não é definido`);
   }
   assert.ok(!/getAttribute\("slot"\)/.test(js), "a convenção slot= foi substituída por elementos filhos");
-  const css = read("dist/dsgovbr-bootstraped.css");
+  const css = read("dist/dsgovbr-bootstrapped.css");
   const dados = /(dsgovbr-item,[\s\S]*?) \{\s*\n\s*display: none;/.exec(css);
   assert.ok(dados, "regra display: none dos elementos-dado");
   for (const nome of ["dsgovbr-item", "dsgovbr-cookies-texto", "dsgovbr-ajuda", "dsgovbr-opcao"]) {

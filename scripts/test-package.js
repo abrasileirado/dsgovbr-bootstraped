@@ -12,7 +12,7 @@ const os = require("os");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const PKG = "@abrasileirado/dsgovbr-bootstraped";
+const PKG = "@abrasileirado/dsgovbr-bootstrapped";
 
 const OPTS = { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] };
 
@@ -47,7 +47,7 @@ function compile(consumerDir, scssName, cssName) {
 }
 
 function main() {
-  if (!fs.existsSync(path.join(ROOT, "dist", "dsgovbr-bootstraped.css"))) {
+  if (!fs.existsSync(path.join(ROOT, "dist", "dsgovbr-bootstrapped.css"))) {
     throw new Error("dist/ não encontrado: rode `npm run build` antes de `npm test`");
   }
 
@@ -66,14 +66,14 @@ function main() {
 
     const pkgDir = path.join(consumer, "node_modules", ...PKG.split("/"));
     for (const rel of [
-      "dist/dsgovbr-bootstraped.min.css",
+      "dist/dsgovbr-bootstrapped.min.css",
       "src/scss/index.scss",
-      "dist/dsgovbr-bootstraped-modo.js",
-      "src/js/dsgovbr-bootstraped-modo.js",
-      "dist/dsgovbr-bootstraped-componentes.js",
-      "src/js/dsgovbr-bootstraped-componentes.js",
-      "dist/dsgovbr-bootstraped-cookies.js",
-      "src/js/dsgovbr-bootstraped-cookies.js",
+      "dist/dsgovbr-bootstrapped-modo.js",
+      "src/js/dsgovbr-bootstrapped-modo.js",
+      "dist/dsgovbr-bootstrapped-componentes.js",
+      "src/js/dsgovbr-bootstrapped-componentes.js",
+      "dist/dsgovbr-bootstrapped-cookies.js",
+      "src/js/dsgovbr-bootstrapped-cookies.js",
       "vendor/bootstrap/scss/bootstrap.scss",
       "vendor/bootstrap/LICENSE",
       "THIRD_PARTY_NOTICES.md",

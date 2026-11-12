@@ -1,14 +1,14 @@
 {
-  "name": "@abrasileirado/dsgovbr-bootstraped",
-  "version": "0.18.0",
+  "name": "@abrasileirado/dsgovbr-bootstrapped",
+  "version": "1.0.0",
   "description": "Camada de compatibilidade visual não oficial entre o Bootstrap 5 e o Design System GOV.BR (DSGovBR)",
   "license": "MIT",
   "author": "Kelson da Costa Medeiros",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abrasileirado/dsgovbr-bootstraped.git"
+    "url": "git+https://github.com/abrasileirado/dsgovbr-bootstrapped.git"
   },
-  "homepage": "https://abrasileirado.github.io/dsgovbr-bootstraped/",
+  "homepage": "https://abrasileirado.github.io/dsgovbr-bootstrapped/",
   "files": [
     "dist/",
     "src/scss/",
@@ -19,11 +19,11 @@
     "LICENSE",
     "THIRD_PARTY_NOTICES.md"
   ],
-  "style": "./dist/dsgovbr-bootstraped.css",
+  "style": "./dist/dsgovbr-bootstrapped.css",
   "sass": "./src/scss/index.scss",
   "scripts": {
-    "build:css": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.css --style=expanded --source-map",
-    "build:css:min": "sass src/scss/index.scss:dist/dsgovbr-bootstraped.min.css --style=compressed --no-source-map",
+    "build:css": "sass src/scss/index.scss:dist/dsgovbr-bootstrapped.css --style=expanded --source-map",
+    "build:css:min": "sass src/scss/index.scss:dist/dsgovbr-bootstrapped.min.css --style=compressed --no-source-map",
     "build:js": "node scripts/build-js.js",
     "build:docs-assets": "node scripts/build-docs-assets.js",
     "build:site": "node scripts/build-site.js",

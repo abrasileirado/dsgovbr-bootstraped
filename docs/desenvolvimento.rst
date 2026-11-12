@@ -19,32 +19,32 @@ dependências entre elas (uma issue geralmente depende da anterior estar conclu�
 +--------------------------------------------------------------------------+----------------------------+------------+
 | Issue                                                                    | Marco                      | Estimativa |
 +==========================================================================+============================+============+
-| `#2 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/2>`__   | Estrutura inicial:         | 6h         |
+| `#2 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/2>`__   | Estrutura inicial:         | 6h         |
 |                                                                          | submodules (Bootstrap +    |            |
 |                                                                          | govbr-ds-core) e scaffold  |            |
 |                                                                          | do projeto                 |            |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#3 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/3>`__   | Prova de conceito: tokens  | 8h         |
+| `#3 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/3>`__   | Prova de conceito: tokens  | 8h         |
 |                                                                          | de fundação + adaptação de |            |
 |                                                                          | ``.btn``                   |            |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#4 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/4>`__   | Adaptação: campos de       | 8h         |
+| `#4 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/4>`__   | Adaptação: campos de       | 8h         |
 |                                                                          | texto, checkbox e radio    |            |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#5 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/5>`__   | Adaptação: alert e card    | 6h         |
+| `#5 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/5>`__   | Adaptação: alert e card    | 6h         |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#6 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/6>`__   | Matriz pública de suporte  | 10h        |
+| `#6 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/6>`__   | Matriz pública de suporte  | 10h        |
 |                                                                          | + página de showcase dos   |            |
 |                                                                          | componentes                |            |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#7 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/7>`__   | Exemplo(s) de uso concreto | 6h         |
+| `#7 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/7>`__   | Exemplo(s) de uso concreto | 6h         |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#8 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/8>`__   | Documentação: Getting      | 4h         |
+| `#8 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/8>`__   | Documentação: Getting      | 4h         |
 |                                                                          | Started e Setup            |            |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#9 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/9>`__   | README.md com screenshots  | 3h         |
+| `#9 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/9>`__   | README.md com screenshots  | 3h         |
 +--------------------------------------------------------------------------+----------------------------+------------+
-| `#10 <https://github.com/abrasileirado/dsgovbr-bootstraped/issues/10>`__ | Pipeline de CI/CD de       | 6h         |
+| `#10 <https://github.com/abrasileirado/dsgovbr-bootstrapped/issues/10>`__ | Pipeline de CI/CD de       | 6h         |
 |                                                                          | release                    |            |
 +--------------------------------------------------------------------------+----------------------------+------------+
 
@@ -95,7 +95,7 @@ Criando uma nova página de componente
 
    .. code:: html
 
-      <!-- title: Componente: <Nome> — dsgovbr-bootstraped -->
+      <!-- title: Componente: <Nome> — dsgovbr-bootstrapped -->
       <!-- status: Não suportado -->
       <!-- bootstrap: <slug> -->
 
@@ -219,7 +219,7 @@ no Pages) num Chromium real, em ``tests/browser/``:
 - ``tema.spec.js``: a chave *Aplicar GOV.BR DS* (padrão ligado, ``?tema=``,
   persistência entre páginas, valor inválido) e os plugins que o catálogo
   inicia (tooltip, popover, toast) e o modal.
-- ``componentes.spec.js``: web components (``src/js/dsgovbr-bootstraped-componentes.js``)
+- ``componentes.spec.js``: web components (``src/js/dsgovbr-bootstrapped-componentes.js``)
   no painel e em ``/componentes/web-components.html``: montagem, landmarks, menu
   (offcanvas, pasta, item atual), header, footer, ``aria-pressed`` do modo escuro,
   remontagem por atributo, atributos sem HTML (XSS) e carga síncrona no ``<head>``.
@@ -236,7 +236,7 @@ no Pages) num Chromium real, em ``tests/browser/``:
   evento ``dsgovbr:pagina``, foco depois de remontar, itens por página, variante compacta,
   ``href``, limites e axe (claro e escuro).
 - ``cookiebar.spec.js``: ``<dsgovbr-cookiebar>`` e ``dsgovbrCookies``
-  (``src/js/dsgovbr-bootstraped-cookies.js``): barra, modal de configurações, botão
+  (``src/js/dsgovbr-bootstrapped-cookies.js``): barra, modal de configurações, botão
   flutuante, evento, ``localStorage`` e axe (claro e escuro, modal aberto).
 - ``modo.spec.js``: seletor de modo claro/escuro.
 - ``a11y.spec.js``: axe-core (WCAG 2 A/AA) nas páginas de componentes e no exemplo

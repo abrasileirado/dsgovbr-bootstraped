@@ -1,6 +1,6 @@
 "use strict";
 
-// <dsgovbr-paginacao> (src/js/dsgovbr-bootstraped-componentes.js), demonstrado em
+// <dsgovbr-paginacao> (src/js/dsgovbr-bootstrapped-componentes.js), demonstrado em
 // /componentes/paginacao.html#web-component. A a11y de repouso está em a11y.spec.js
 // e o visual em visual.spec.js; aqui: lógica, eventos, foco, teclado e axe nos estados.
 

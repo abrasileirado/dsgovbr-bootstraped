@@ -1,4 +1,4 @@
-dsgovbr-bootstraped — Documentação
+dsgovbr-bootstrapped — Documentação
 ==================================
 
 .. br-alerta:: warning
@@ -9,7 +9,7 @@ dsgovbr-bootstraped — Documentação
 Propósito
 ---------
 
-O **dsgovbr-bootstraped** fornece uma camada de integração visual entre o Bootstrap 5 e o Padrão Digital de Governo (GOV.BR DS). Aplicações continuam usando a API de classes do Bootstrap, como ``.btn``, ``.form-control`` e ``.alert``, enquanto adotam, nos subconjuntos explicitamente suportados, tokens e características visuais derivados do GOV.BR DS.
+O **dsgovbr-bootstrapped** fornece uma camada de integração visual entre o Bootstrap 5 e o Padrão Digital de Governo (GOV.BR DS). Aplicações continuam usando a API de classes do Bootstrap, como ``.btn``, ``.form-control`` e ``.alert``, enquanto adotam, nos subconjuntos explicitamente suportados, tokens e características visuais derivados do GOV.BR DS.
 
 O projeto **não** pressupõe que juntar os arquivos SCSS dos dois projetos produza componentes equivalentes. Estilos, estrutura HTML e comportamento JavaScript são contratos diferentes; a compatibilidade será analisada e documentada por componente.
 
@@ -29,7 +29,7 @@ Documentos
 - :doc:`Análise de modal e navegação <analise-modal-navegacao>`: diferenças de estrutura, comportamento e acessibilidade em relação ao Bootstrap; os componentes seguem não suportados até validação própria.
 - `Componentes <componentes/index.html>`__: catálogo demonstrativo com todos os componentes do Bootstrap 5.3 (variantes, tamanhos, estados e diferenças conhecidas em relação ao GOV.BR DS), com a chave *Aplicar GOV.BR DS* para comparar com o Bootstrap puro; cada página também serve como fixture de teste.
 - `Exemplos <exemplos/index.html>`__: telas completas montadas só com classes Bootstrap, para ver os componentes compostos num caso de uso real.
-- `Comparação lado a lado <exemplos/comparacao-tema.html>`__: o mesmo HTML renderizado com o `Bootstrap padrão <exemplos/comparacao-padrao.html>`__ e com o dsgovbr-bootstraped.
+- `Comparação lado a lado <exemplos/comparacao-tema.html>`__: o mesmo HTML renderizado com o `Bootstrap padrão <exemplos/comparacao-padrao.html>`__ e com o dsgovbr-bootstrapped.
 
 Público-alvo
 ------------
@@ -58,7 +58,7 @@ O formato exato dos entry points SCSS/CSS, a política de incluir ou não o CSS 
 Referências de trabalho
 -----------------------
 
-- `Repositório do projeto <https://github.com/abrasileirado/dsgovbr-bootstraped>`__.
+- `Repositório do projeto <https://github.com/abrasileirado/dsgovbr-bootstrapped>`__.
 - `Padrão Digital de Governo <https://www.gov.br/ds>`__.
 - `Bootstrap 5 — personalização com Sass <https://getbootstrap.com/docs/5.3/customize/sass/>`__.
 - `npm — publicação de pacotes públicos com escopo <https://docs.npmjs.com/creating-and-publishing-scoped-public-packages/>`__.
@@ -80,5 +80,5 @@ A licença aplicável a cada dependência e artefato incorporado deverá ser con
    :hidden:
    :caption: Demonstrações
 
-   Componentes <https://abrasileirado.github.io/dsgovbr-bootstraped/componentes/index.html>
-   Exemplos <https://abrasileirado.github.io/dsgovbr-bootstraped/exemplos/index.html>
+   Componentes <https://abrasileirado.github.io/dsgovbr-bootstrapped/componentes/index.html>
+   Exemplos <https://abrasileirado.github.io/dsgovbr-bootstrapped/exemplos/index.html>

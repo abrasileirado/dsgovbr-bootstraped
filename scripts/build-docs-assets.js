@@ -12,13 +12,13 @@ const ROOT = path.join(__dirname, "..");
 
 const COPIES = [
   // nosso CSS compilado (minificado)
-  ["dist/dsgovbr-bootstraped.min.css", "docs/assets/css/dsgovbr-bootstraped.css"],
+  ["dist/dsgovbr-bootstrapped.min.css", "docs/assets/css/dsgovbr-bootstrapped.css"],
   // seletor de modo claro/escuro (opcional)
-  ["dist/dsgovbr-bootstraped-modo.js", "docs/assets/js/dsgovbr-bootstraped-modo.js"],
+  ["dist/dsgovbr-bootstrapped-modo.js", "docs/assets/js/dsgovbr-bootstrapped-modo.js"],
   // web components de header, menu, footer e breadcrumb (opcional)
-  ["dist/dsgovbr-bootstraped-componentes.js", "docs/assets/js/dsgovbr-bootstraped-componentes.js"],
+  ["dist/dsgovbr-bootstrapped-componentes.js", "docs/assets/js/dsgovbr-bootstrapped-componentes.js"],
   // consentimento de cookies: <dsgovbr-cookiebar> e API (opcional)
-  ["dist/dsgovbr-bootstraped-cookies.js", "docs/assets/js/dsgovbr-bootstraped-cookies.js"],
+  ["dist/dsgovbr-bootstrapped-cookies.js", "docs/assets/js/dsgovbr-bootstrapped-cookies.js"],
   // Bootstrap puro, para a página de comparação "antes/depois", e seu JS
   ["vendor/bootstrap/dist/css/bootstrap.min.css", "docs/assets/vendor/bootstrap/css/bootstrap.min.css"],
   ["vendor/bootstrap/dist/js/bootstrap.bundle.min.js", "docs/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"],
