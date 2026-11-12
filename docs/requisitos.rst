@@ -416,8 +416,8 @@ de decisões tomadas com o mantenedor após essa inspeção.
 |              |                           | variáveis de ``_tokens.scss`` e                        |
 |              |                           | ``_bootstrap-settings.scss`` são ``!default``: o       |
 |              |                           | consumidor sobrescreve tokens (ex.: ``$primary``)      |
-|              |                           | definindo-os **antes** de importar                     |
-|              |                           | ``@abrasileirado/dsgovbr-bootstrapped/src/scss/index``. |
+|              |                           | definindo-os **antes** de importar:                    |
+|              |                           | ``@abrasileirado/dsgovbr-bootstrapped/src/scss/index`` |
 |              |                           | Mantido ``@import`` (o Bootstrap 5.3.8 ainda não usa   |
 |              |                           | ``@use``/``@forward`` internamente); sem campo         |
 |              |                           | ``exports``, para não restringir caminhos profundos.   |
@@ -461,7 +461,7 @@ de decisões tomadas com o mantenedor após essa inspeção.
 |              |                           | não se afirma equivalência. Tabelas por componente em  |
 |              |                           | ``docs/componentes/botao.html`` e ``alertas.html``.    |
 +--------------+---------------------------+--------------------------------------------------------+
-| DP-07        | Nome do pacote            | Escopo ``@abrasileirado/dsgovbr-bootstrapped`` **em     |
+| DP-07        | Nome do pacote            | Escopo ``@abrasileirado/dsgovbr-bootstrapped`` **em    |
 |              |                           | uso**: publicado no npm (0.1.1 em diante; a 0.1.0 foi  |
 |              |                           | uma publicação manual com metadados incorretos e       |
 |              |                           | permanece no registro). Publicação automatizada por    |
