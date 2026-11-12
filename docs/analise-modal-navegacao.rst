@@ -130,6 +130,19 @@ Critérios para uma futura issue de implementação
    plugin Bootstrap documentados. Se for necessário markup ``.br-*`` ou JavaScript
    novo, tratar como integração diferente, não como adaptação compatível.
 
+Atualização (issue #67)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+O ``<dsgovbr-modal>`` (``dsgovbr-bootstraped-componentes.js``) segue a recomendação
+acima: monta o markup do Bootstrap e reusa o plugin ``Modal`` (foco, Escape, backdrop
+e retorno ao acionador continuam sendo os do Bootstrap). Cobre, em
+``tests/browser/modal.spec.js``, modal padrão e estático, abrir/fechar por API e
+acionador, Escape, clique no backdrop, evento ``dsgovbr:modal``, rolagem, contenção
+de foco, retorno ao acionador e axe com o modal aberto, no claro e no escuro. A
+decisão de **não** converter para ``.br-modal``/``.br-scrim`` permanece, e o suporte
+vale só para as opções testadas (``tamanho``, ``rolagem``, ``centralizado`` e
+``estatico``).
+
 **Custo/risco:** alto. São muitos estados globais e caminhos assíncronos, e uma
 diferença de foco ou rolagem pode tornar o diálogo inacessível mesmo quando a
 captura está visualmente correta. Requer suíte de navegador estável antes de

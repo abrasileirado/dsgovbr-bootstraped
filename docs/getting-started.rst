@@ -163,6 +163,32 @@ paginação (``.pagination``) com janela de páginas e reticências, seletor "Ex
 
 Todos os atributos em `Paginação <componentes/paginacao.html#web-component>`__ (catálogo).
 
+Modal (opcional)
+----------------
+
+O ``<dsgovbr-modal>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, monta o markup do
+modal só com classes do Bootstrap e reusa o plugin ``Modal`` (exige o ``bootstrap.bundle``). O
+próprio elemento é o ``.modal``; o conteúdo livre vira o corpo e ``<dsgovbr-acoes>`` o rodapé:
+
+.. code:: html
+
+   <button data-dsgovbr-modal-abrir="#confirmar">Abrir</button>
+
+   <dsgovbr-modal id="confirmar" titulo="Confirmar envio" centralizado>
+     Depois de enviada, a solicitação não poderá ser alterada.
+     <dsgovbr-acoes>
+       <button class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+       <button class="btn btn-primary" data-bs-dismiss="modal">Enviar</button>
+     </dsgovbr-acoes>
+   </dsgovbr-modal>
+
+- Atributos: ``titulo``, ``tamanho`` (``sm``, ``lg``, ``xl``, ``tela-cheia``), ``rolagem``,
+  ``centralizado`` e ``estatico`` (sem Escape nem clique fora).
+- API: ``abrir()``, ``fechar()``, ``alternar()`` e ``aberto``; evento ``dsgovbr:modal``
+  (``event.detail.aberto``); ``data-bs-toggle="modal"`` também funciona.
+
+Detalhes em `Modal <componentes/modal.html#web-component>`__ (catálogo).
+
 Consentimento de cookies (opcional)
 -----------------------------------
 
