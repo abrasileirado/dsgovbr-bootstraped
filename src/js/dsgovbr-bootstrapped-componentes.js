@@ -1463,6 +1463,8 @@
   // Ação em lote nativa (aplicações renderizadas no servidor): lote-metodo="post", lote-acao-url,
   // lote-campo e selecao-nome; campos extras (CSRF...) por <dsgovbr-campo-oculto nome valor>
   // (para="lote", padrão, "consulta" ou "ambos"). O evento dsgovbr:tabela-acao é cancelável.
+  // Filtros: <dsgovbr-filtro unico> aceita uma opção só (como rádio); valor-consulta trata o valor
+  // da opção como pedaço de query string ("a=1&b=2"), expandido em campos ao enviar.
   // Não aninhe o componente dentro de outro <form> (ele tem o próprio).
   var DENSIDADES = [["alta", "Alta"], ["media", "Média"], ["baixa", "Baixa"]];
 
@@ -1481,6 +1483,8 @@
           return {
             nome: f.getAttribute("nome") || "",
             rotulo: f.getAttribute("rotulo") || f.getAttribute("nome") || "",
+            unico: f.hasAttribute("unico"),
+            consulta: f.hasAttribute("valor-consulta"),
             opcoes: filhos(f, "dsgovbr-opcao").map(function (o) {
               return { valor: o.getAttribute("valor") !== null ? o.getAttribute("valor") : texto(o), texto: texto(o), selecionada: o.hasAttribute("selecionada") };
             }),
@@ -1515,7 +1519,8 @@
       var termo = form && form.elements[this.attr("busca-nome", "q")] ? form.elements[this.attr("busca-nome", "q")].value : "";
       var filtros = {};
       Array.prototype.forEach.call(this.querySelectorAll("input[data-tabela-filtro]:checked"), function (c) {
-        (filtros[c.name] = filtros[c.name] || []).push(c.value);
+        var nome = c.getAttribute("data-filtro-nome") || c.name;
+        (filtros[nome] = filtros[nome] || []).push(c.value);
       });
       return { termo: termo, filtros: filtros };
     }
@@ -1687,11 +1692,14 @@
             var marcados = anterior ? anterior.filtros[f.nome] || [] : null;
             return h("div", { class: "dropdown" }, [
               h("button", { type: "button", class: "btn btn-outline-primary btn-sm rounded-pill dropdown-toggle", "data-bs-toggle": "dropdown", "data-bs-auto-close": "outside", "aria-expanded": "false" }, f.rotulo),
-              h("div", { class: "dropdown-menu p-2" }, f.opcoes.map(function (o, j) {
+              h("div", { class: "dropdown-menu p-2", role: "group", "aria-label": f.rotulo }, f.opcoes.map(function (o, j) {
                 var idCampo = idMenu + "-" + j;
                 return h("div", { class: "form-check mx-2 my-1" }, [
-                  h("input", { class: "form-check-input", type: "checkbox", id: idCampo, name: f.nome, value: o.valor,
-                    checked: marcados ? marcados.indexOf(o.valor) !== -1 : o.selecionada, "data-tabela-filtro": true, "data-rotulo-filtro": f.rotulo, "data-rotulo-opcao": o.texto }),
+                  // valor-consulta: o valor da opção é um pedaço de query string ("a=1&b=2") expandido em
+                  // vários campos ao enviar; sem name o checkbox em si não é enviado
+                  h("input", { class: "form-check-input", type: "checkbox", id: idCampo, name: f.consulta ? false : f.nome, value: o.valor,
+                    checked: marcados ? marcados.indexOf(o.valor) !== -1 : o.selecionada, "data-tabela-filtro": true, "data-filtro-nome": f.nome,
+                    "data-tabela-unico": f.unico, "data-tabela-consulta-valor": f.consulta, "data-rotulo-filtro": f.rotulo, "data-rotulo-opcao": o.texto }),
                   h("label", { class: "form-check-label", for: idCampo }, o.texto),
                 ]);
               })),
@@ -1709,7 +1717,9 @@
               ]),
             ]))));
         }
-        paineis = h("form", { method: "get", action: this.attr("acao", "") || false, role: "search", "aria-label": "Busca e filtros da listagem", "data-tabela-consulta": true }, corpoPaineis);
+        // campos ocultos para="consulta"/"ambos" (ordenação atual...) seguem na busca e nos filtros
+        var camposConsulta = camposOcultos(m.campos.filter(function (c) { return c.para === "consulta" || c.para === "ambos"; }));
+        paineis = h("form", { method: "get", action: this.attr("acao", "") || false, role: "search", "aria-label": "Busca e filtros da listagem", "data-tabela-consulta": true }, [corpoPaineis].concat(camposConsulta));
       }
 
       // ---- barra de itens selecionados (azul) com as ações em lote
@@ -1795,6 +1805,14 @@
         } else if (alvo.matches("input[data-tabela-linha]")) {
           self.atualizarSelecao(true);
         } else if (alvo.matches("input[data-tabela-filtro]")) {
+          if (alvo.checked && alvo.hasAttribute("data-tabela-unico")) {
+            // filtro único: marcar uma opção desmarca as outras do mesmo filtro
+            Array.prototype.forEach.call(self.querySelectorAll("input[data-tabela-filtro]"), function (outro) {
+              if (outro !== alvo && outro.getAttribute("data-filtro-nome") === alvo.getAttribute("data-filtro-nome")) {
+                outro.checked = false;
+              }
+            });
+          }
           self.atualizarChips();
         } else if (alvo.matches("input[data-tabela-densidade]")) {
           self._quieto = true;
@@ -1831,6 +1849,14 @@
         if (!e.target.matches || !e.target.matches("form[data-tabela-consulta]")) {
           return;
         }
+        // valor-consulta: expande cada opção marcada em campos ocultos antes do envio nativo
+        var formConsulta = e.target;
+        Array.prototype.forEach.call(formConsulta.querySelectorAll("input[data-tabela-expandido]"), function (campo) { campo.remove(); });
+        Array.prototype.forEach.call(self.querySelectorAll("input[data-tabela-consulta-valor]:checked"), function (opcao) {
+          new URLSearchParams(opcao.value).forEach(function (valor, nome) {
+            formConsulta.append(h("input", { type: "hidden", name: nome, value: valor, "data-tabela-expandido": true }));
+          });
+        });
         var origem = e.submitter && e.submitter.getAttribute("data-acao") ? e.submitter.getAttribute("data-acao") : "busca";
         var evento = self.avisar(origem, self.consulta(), true);
         if (evento.defaultPrevented || !self.hasAttribute("acao")) {

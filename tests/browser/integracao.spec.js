@@ -322,3 +322,78 @@ test.describe("#78 ações em lote da tabela", () => {
     expect(page.url()).toContain("web-components.html"); // continua na página
   });
 });
+
+test.describe("#79 filtro de escolha única e valor-consulta", () => {
+  const FILTROS = `<dsgovbr-filtro nome="status" rotulo="Status" unico>
+      <dsgovbr-opcao valor="novo">Novo</dsgovbr-opcao><dsgovbr-opcao valor="aberto">Aberto</dsgovbr-opcao><dsgovbr-opcao valor="fechado">Fechado</dsgovbr-opcao>
+    </dsgovbr-filtro>
+    <dsgovbr-filtro nome="tags" rotulo="Tags"><dsgovbr-opcao valor="a">A</dsgovbr-opcao><dsgovbr-opcao valor="b">B</dsgovbr-opcao></dsgovbr-filtro>`;
+
+  test("unico: marcar uma opção desmarca as outras do mesmo filtro; o chip mostra só a escolhida", async ({ page }) => {
+    await montarTabela(page, {}, FILTROS);
+    const status = page.locator('#t-teste input[data-filtro-nome="status"]');
+    await status.nth(0).evaluate((el) => el.click());
+    await status.nth(1).evaluate((el) => el.click());
+    await expect(status.nth(0)).not.toBeChecked();
+    await expect(status.nth(1)).toBeChecked();
+    await expect(page.locator("#t-teste [data-tabela-chips] .badge")).toHaveText(["Status: Aberto"]);
+    await status.nth(1).evaluate((el) => el.click()); // clicar na marcada a desmarca
+    await expect(status.nth(1)).not.toBeChecked();
+    await expect(page.locator("#t-teste [data-tabela-chips] .badge")).toHaveCount(0);
+  });
+
+  test("sem unico o filtro continua de seleção múltipla; unico não afeta outros filtros", async ({ page }) => {
+    await montarTabela(page, {}, FILTROS);
+    const tags = page.locator('#t-teste input[data-filtro-nome="tags"]');
+    await tags.nth(0).evaluate((el) => el.click());
+    await tags.nth(1).evaluate((el) => el.click());
+    await expect(tags.nth(0)).toBeChecked();
+    await expect(tags.nth(1)).toBeChecked();
+    await page.locator('#t-teste input[data-filtro-nome="status"]').nth(0).evaluate((el) => el.click());
+    await expect(tags.nth(0)).toBeChecked();
+    await expect(page.locator("#t-teste [role=group][aria-label=Status]")).toHaveCount(1);
+  });
+
+  test("evento dsgovbr:tabela-filtro leva um só valor no filtro único", async ({ page }) => {
+    await montarTabela(page, {}, FILTROS);
+    const detalhe = await page.evaluate(() => {
+      const t = document.querySelector("#t-teste");
+      let d = null;
+      t.addEventListener("dsgovbr:tabela-filtro", (e) => { d = e.detail; e.preventDefault(); });
+      const op = t.querySelectorAll('input[data-filtro-nome="status"]');
+      op[0].click();
+      op[2].click();
+      t.querySelector("form[data-tabela-consulta]").requestSubmit(t.querySelector('[data-acao="filtro"]'));
+      return d;
+    });
+    expect(detalhe.filtros).toEqual({ status: ["fechado"] });
+  });
+
+  test("valor-consulta expande o valor em vários campos no GET; campos para=consulta seguem", async ({ page }) => {
+    await page.route("**/lista/**", (route) => route.fulfill({ contentType: "text/html", body: "<title>lista</title>" }));
+    await montarTabela(
+      page,
+      { acao: "/lista/", busca: true, "busca-nome": "q" },
+      `<dsgovbr-filtro nome="criado" rotulo="Criado em" unico valor-consulta>
+         <dsgovbr-opcao valor="criado__gte=2026-11-01&amp;criado__lt=2026-12-01">Este mês</dsgovbr-opcao>
+         <dsgovbr-opcao valor="criado__gte=2026-01-01&amp;criado__lt=2027-01-01">Este ano</dsgovbr-opcao>
+       </dsgovbr-filtro>
+       <dsgovbr-campo-oculto nome="o" valor="-1.2" para="consulta"></dsgovbr-campo-oculto>
+       <dsgovbr-campo-oculto nome="csrfmiddlewaretoken" valor="segredo"></dsgovbr-campo-oculto>`
+    );
+    // o checkbox não tem name (não é enviado em si)
+    expect(await page.locator("#t-teste input[data-tabela-filtro]").first().getAttribute("name")).toBeNull();
+    await page.locator('#t-teste input[data-filtro-nome="criado"]').nth(0).evaluate((el) => el.click());
+    await page.locator("#t-teste input[type=search]").evaluate((el) => { el.value = "abc"; });
+    const [pedido] = await Promise.all([
+      page.waitForRequest("**/lista/**"),
+      page.locator("#t-teste form[data-tabela-consulta]").evaluate((f) => f.requestSubmit(f.querySelector('[data-acao="filtro"]'))),
+    ]);
+    const url = new URL(pedido.url());
+    expect(url.pathname).toBe("/lista/");
+    expect([...url.searchParams.entries()].sort()).toEqual(
+      [["criado__gte", "2026-11-01"], ["criado__lt", "2026-12-01"], ["o", "-1.2"], ["q", "abc"]]
+    );
+    expect(url.search).not.toContain("segredo"); // o CSRF (para=lote) nunca vai na URL
+  });
+});
