@@ -1,5 +1,5 @@
 /*!
- * dsgovbr-bootstraped — web components de header, menu, footer, breadcrumb e paginação (opcional)
+ * dsgovbr-bootstraped — web components de header, menu, footer, breadcrumb, paginação e modal (opcional)
  * Licensed under MIT (https://github.com/abrasileirado/dsgovbr-bootstraped/blob/main/LICENSE)
  */
 // Custom elements em light DOM (sem Shadow DOM): geram as mesmas classes
@@ -10,7 +10,7 @@
 //   <script src="dsgovbr-bootstraped-componentes.js" defer></script>
 //
 // Elementos: <dsgovbr-breadcrumb>, <dsgovbr-menu>, <dsgovbr-footer>,
-// <dsgovbr-header> e <dsgovbr-paginacao>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
+// <dsgovbr-header>, <dsgovbr-paginacao> e <dsgovbr-modal>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
 // troca o conteúdo pelo HTML final (o conteúdo original é só a declaração).
 // Mudar um atributo depois remonta o componente. O modo claro/escuro continua
 // no JS à parte (dsgovbr-bootstraped-modo.js); o header só renderiza o botão.
@@ -866,6 +866,136 @@
     }
   }
 
+  // --------------------------------------------------------------------- modal
+  // O próprio elemento é o .modal.fade (como o <dsgovbr-menu> é o offcanvas): o `id`
+  // dele é o alvo de `data-bs-toggle="modal"` e de `data-dsgovbr-modal-abrir="#id"`.
+  //
+  // <dsgovbr-modal id="confirmar" titulo="Confirmar envio" tamanho="lg" rolagem centralizado estatico>
+  //   Depois de enviada, a solicitação não poderá ser alterada.   (conteúdo livre = corpo)
+  //   <dsgovbr-acoes>                                             (rodapé; HTML livre)
+  //     <button class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+  //     <button class="btn btn-primary" data-bs-dismiss="modal">Enviar</button>
+  //   </dsgovbr-acoes>
+  // </dsgovbr-modal>
+  //
+  // Reusa o plugin Modal do Bootstrap (foco, Escape, backdrop, retorno ao acionador):
+  // exige o bootstrap.bundle. `tamanho`: sm, lg, xl ou tela-cheia. `estatico`: não fecha
+  // com Escape nem clicando fora. API: abrir(), fechar(), alternar() e `aberto`.
+  // Avisa com `dsgovbr:modal` (bubbles; detail { aberto }) ao abrir e ao fechar.
+  var TAMANHOS_MODAL = { sm: "modal-sm", lg: "modal-lg", xl: "modal-xl", "tela-cheia": "modal-fullscreen" };
+
+  function instanciaModal(el) {
+    var bs = window.bootstrap;
+    if (!bs || !bs.Modal) {
+      throw new Error("dsgovbr-modal: carregue o bootstrap.bundle para abrir o modal");
+    }
+    return bs.Modal.getOrCreateInstance(el);
+  }
+
+  class ModalDialogo extends Base {
+    static get observedAttributes() {
+      return ["titulo", "tamanho", "rolagem", "centralizado", "estatico", "rotulo-fechar"];
+    }
+
+    ler() {
+      return {
+        acoes: nosDe(this, "dsgovbr-acoes"),
+        corpo: Array.prototype.filter.call(this.childNodes, function (no) {
+          return !(no.nodeType === 1 && no.localName === "dsgovbr-acoes");
+        }),
+      };
+    }
+
+    get aberto() {
+      return this.classList.contains("show");
+    }
+
+    // O plugin só devolve o foco ao acionador quando aberto por data-bs-toggle; por API
+    // (e por data-dsgovbr-modal-abrir) quem devolve é o componente.
+    abrir() {
+      var origem = document.activeElement;
+      var instancia = instanciaModal(this);
+      if (!this.aberto && origem && origem !== document.body && !this.contains(origem)) {
+        this.addEventListener("hidden.bs.modal", function () {
+          if (origem.isConnected && origem.offsetParent !== null) {
+            origem.focus();
+          }
+        }, { once: true });
+      }
+      instancia.show();
+    }
+
+    fechar() {
+      instanciaModal(this).hide();
+    }
+
+    alternar() {
+      if (this.aberto) {
+        this.fechar();
+      } else {
+        this.abrir();
+      }
+    }
+
+    montar() {
+      var self = this;
+      var id = this.id || (this.id = proximoId("modal"));
+      var idTitulo = id + "-titulo";
+      var m = this._modelo;
+      this.classList.add("modal", "fade");
+      this.setAttribute("tabindex", "-1");
+      this.setAttribute("aria-labelledby", idTitulo);
+      if (this.hasAttribute("estatico")) {
+        this.setAttribute("data-bs-backdrop", "static");
+        this.setAttribute("data-bs-keyboard", "false");
+      } else {
+        this.removeAttribute("data-bs-backdrop");
+        this.removeAttribute("data-bs-keyboard");
+      }
+
+      var dialogo = "modal-dialog" + (TAMANHOS_MODAL[this.attr("tamanho", "")] ? " " + TAMANHOS_MODAL[this.attr("tamanho", "")] : "") +
+        (this.hasAttribute("rolagem") ? " modal-dialog-scrollable" : "") + (this.hasAttribute("centralizado") ? " modal-dialog-centered" : "");
+
+      var conteudo = [
+        h("div", { class: "modal-header" }, [
+          h("h2", { class: "modal-title", id: idTitulo }, this.attr("titulo", "")),
+          h("button", { type: "button", class: "btn-close", "data-bs-dismiss": "modal", "aria-label": this.attr("rotulo-fechar", "Fechar") }),
+        ]),
+        h("div", { class: "modal-body" }, m.corpo),
+      ];
+      if (m.acoes.length) {
+        conteudo.push(h("div", { class: "modal-footer" }, m.acoes));
+      }
+      this.replaceChildren(h("div", { class: dialogo }, h("div", { class: "modal-content" }, conteudo)));
+
+      if (!this._ouvintesModal) { // o host (.modal) é quem recebe os eventos do plugin; não muda ao remontar
+        this._ouvintesModal = true;
+        ["shown", "hidden"].forEach(function (nome) {
+          self.addEventListener(nome + ".bs.modal", function (evento) {
+            if (evento.target === self) {
+              self.dispatchEvent(new CustomEvent("dsgovbr:modal", { bubbles: true, detail: { aberto: nome === "shown" } }));
+            }
+          });
+        });
+      }
+    }
+  }
+
+  // Acionador sem JS próprio: <button data-dsgovbr-modal-abrir="#id">.
+  document.addEventListener("click", function (evento) {
+    var gatilho = evento.target && evento.target.closest ? evento.target.closest("[data-dsgovbr-modal-abrir]") : null;
+    if (!gatilho) {
+      return;
+    }
+    evento.preventDefault();
+    var alvo = document.querySelector(gatilho.getAttribute("data-dsgovbr-modal-abrir"));
+    if (alvo && typeof alvo.abrir === "function") {
+      alvo.abrir();
+    } else {
+      console.error("data-dsgovbr-modal-abrir: não há <dsgovbr-modal> em", gatilho.getAttribute("data-dsgovbr-modal-abrir"));
+    }
+  });
+
   // Elementos-dado: só carregam atributos e conteúdo para o componente pai, que os
   // troca pelo HTML final. Definidos para ficarem "upgraded" e documentados; o CSS
   // os oculta se sobrarem fora de um pai.
@@ -886,6 +1016,7 @@
     ["dsgovbr-footer", Footer],
     ["dsgovbr-header", Header],
     ["dsgovbr-paginacao", Paginacao],
+    ["dsgovbr-modal", ModalDialogo],
   ].forEach(function (par) {
     if (!window.customElements.get(par[0])) {
       window.customElements.define(par[0], par[1]);

@@ -68,10 +68,79 @@
   </div>
 </section>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="../assets/js/dsgovbr-bootstraped-componentes.js" defer></script>
+
+<section id="web-component">
+  <h2>Web component (<code>&lt;dsgovbr-modal&gt;</code>)</h2>
+  <p>
+    JS opcional (<code>dsgovbr-bootstraped-componentes.js</code>) que monta o markup do modal (cabeçalho com
+    título e <code>.btn-close</code>, corpo e rodapé de ações) só com as classes do Bootstrap e reusa o plugin
+    Modal: foco, Escape, backdrop e retorno ao acionador são os do Bootstrap, então o
+    <code>bootstrap.bundle</code> precisa estar carregado. O próprio elemento é o <code>.modal.fade</code>.
+  </p>
+  <p>
+    <button type="button" class="btn btn-primary" data-dsgovbr-modal-abrir="#wc-modal">Abrir (data-dsgovbr-modal-abrir)</button>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#wc-modal-estatico">Abrir estático e grande (data-bs-toggle)</button>
+  </p>
+
+  <dsgovbr-modal id="wc-modal" titulo="Confirmar envio" centralizado>
+    Depois de enviada, a solicitação não poderá ser alterada.
+    <dsgovbr-acoes>
+      <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Enviar</button>
+    </dsgovbr-acoes>
+  </dsgovbr-modal>
+
+  <dsgovbr-modal id="wc-modal-estatico" titulo="Termos de uso" tamanho="lg" rolagem estatico>
+    <p>Este modal não fecha com Escape nem clicando fora: só pelos botões.</p>
+    <p>Conteúdo longo, para mostrar a rolagem interna.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+    <dsgovbr-acoes>
+      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Li e aceito</button>
+    </dsgovbr-acoes>
+  </dsgovbr-modal>
+
+<pre tabindex="0"><code>&lt;button data-dsgovbr-modal-abrir="#confirmar"&gt;Abrir&lt;/button&gt;   &lt;!-- ou data-bs-toggle="modal" data-bs-target="#confirmar" --&gt;
+
+&lt;dsgovbr-modal id="confirmar" titulo="Confirmar envio" centralizado&gt;
+  Depois de enviada, a solicitação não poderá ser alterada.
+  &lt;dsgovbr-acoes&gt;
+    &lt;button class="btn btn-outline-primary" data-bs-dismiss="modal"&gt;Cancelar&lt;/button&gt;
+    &lt;button class="btn btn-primary" data-bs-dismiss="modal"&gt;Enviar&lt;/button&gt;
+  &lt;/dsgovbr-acoes&gt;
+&lt;/dsgovbr-modal&gt;
+
+document.querySelector("#confirmar").abrir();   // fechar(), alternar(), aberto
+document.addEventListener("dsgovbr:modal", (e) =&gt; console.log(e.detail.aberto));</code></pre>
+  <table>
+    <thead><tr><th>Atributo</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td><code>id</code></td><td>Alvo de <code>data-bs-toggle="modal"</code> e de <code>data-dsgovbr-modal-abrir</code>; gerado se faltar.</td></tr>
+      <tr><td><code>titulo</code></td><td>Título (<code>&lt;h2 class="modal-title"&gt;</code>), que dá o nome acessível do diálogo.</td></tr>
+      <tr><td><code>tamanho</code></td><td><code>sm</code>, <code>lg</code>, <code>xl</code> ou <code>tela-cheia</code>.</td></tr>
+      <tr><td><code>rolagem</code>, <code>centralizado</code></td><td><code>.modal-dialog-scrollable</code> e <code>.modal-dialog-centered</code>.</td></tr>
+      <tr><td><code>estatico</code></td><td>Backdrop estático e sem Escape: a pessoa precisa escolher.</td></tr>
+      <tr><td><code>rotulo-fechar</code></td><td><code>aria-label</code> do botão de fechar (padrão "Fechar").</td></tr>
+    </tbody>
+  </table>
+  <p>
+    O conteúdo livre vira o corpo; <code>&lt;dsgovbr-acoes&gt;</code> vira o rodapé. Eventos do plugin
+    (<code>shown.bs.modal</code>, <code>hidden.bs.modal</code>...) continuam disparando; além deles, o elemento avisa com
+    <code>dsgovbr:modal</code> (<code>detail.aberto</code>).
+  </p>
+</section>
+
 <section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS</h2>
   <ul>
     <li>Resolvido por tokens e CSS: sem raio e sem borda, sombra suave, largura de 500px, título de 16,8px em negrito, cabeçalho e rodapé sem divisor e fundo escurecido como o <em>Scrim</em> (preto a 45%).</li>
     <li>O backdrop continua sendo o do plugin Bootstrap, não o componente <em>Scrim</em> (sem as variações de foco e de texto sobre o fundo).</li>
+    <li>O <a href="#web-component">web component</a> não usa <code>.br-modal</code> nem o <code>BRModal</code>: monta o markup do Bootstrap e reusa o plugin, como recomenda a análise #38.</li>
   </ul>
 </section>
