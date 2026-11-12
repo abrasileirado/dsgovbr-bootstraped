@@ -1,2 +1,2 @@
 sphinx>=8.1,<10
-dsgovbr-sphinx-theme==0.1.0
+dsgovbr-sphinx-theme==3.7.0.0

@@ -59,12 +59,7 @@ def _copiar_estaticos(app: Any, exception: Exception | None) -> None:
     # As diretivas br-* usam o CSS empacotado no tema; aqui publicamos o CSS
     # recém-compilado deste repositório, para a documentação refletir o código atual.
     if CSS_LOCAL.is_file():
-        # O dsgovbr-sphinx-theme 0.1.0 ainda referencia o caminho com a grafia
-        # antiga (vendor/dsgovbr-bootstraped/dsgovbr-bootstraped.min.css, fixo em
-        # componentes.py). Enquanto o tema não for renomeado, sobrescrevemos esse
-        # caminho exato com o CSS recém-compilado.
-        destino = saida / "_static" / "vendor" / "dsgovbr-bootstraped" / "dsgovbr-bootstraped.min.css"
-        destino.parent.mkdir(parents=True, exist_ok=True)
+        destino = saida / "_static" / "vendor" / "dsgovbr-bootstrapped" / CSS_LOCAL.name
         shutil.copy2(CSS_LOCAL, destino)
 
 
