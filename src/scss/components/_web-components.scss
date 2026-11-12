@@ -56,6 +56,20 @@ dsgovbr-header[data-dsgovbr-rolado] .dsgovbr-header-subtitulo {
   box-shadow: $govbr-shadow-lg;
 }
 
+// Sugestões da busca do header (busca-autocomplete): lista logo abaixo do campo, por
+// cima do conteúdo; o formulário da busca ganha .position-relative.
+$dsgovbr-autocomplete-altura-maxima: 280px;
+
+.dsgovbr-autocomplete {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: var(--#{$prefix}dropdown-zindex, 1000);
+  max-height: $dsgovbr-autocomplete-altura-maxima;
+  overflow-y: auto;
+}
+
 // Elementos-dado dos web components (itens, pastas, colunas, redes, grupos de
 // cookies...): o componente pai os lê e os troca pelo HTML final; sobrando fora
 // de um pai, não aparecem.
@@ -78,8 +92,43 @@ dsgovbr-erro,
 dsgovbr-sucesso,
 dsgovbr-opcao,
 dsgovbr-filtro,
-dsgovbr-lote-acao {
+dsgovbr-lote-acao,
+dsgovbr-campo-oculto {
   display: none;
+}
+
+// Avatar do usuário no botão do <dsgovbr-header> (usuario-avatar / usuario-inicial).
+$dsgovbr-avatar-tamanho: 1.5rem;
+
+.dsgovbr-avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $dsgovbr-avatar-tamanho;
+  height: $dsgovbr-avatar-tamanho;
+  overflow: hidden;
+  font-weight: bolder;
+  border-radius: 50%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Pasta aninhada do <dsgovbr-menu>: cada nível recua um pouco mais.
+$dsgovbr-menu-recuo: 1rem;
+
+.dsgovbr-menu-sub {
+  padding-left: $dsgovbr-menu-recuo;
+}
+
+// Item com metodo="post": o <form> não cria caixa; o botão dentro dele se comporta como
+// o link (dropdown-item, list-group-item, nav-link...) filho direto do pai.
+.dsgovbr-form-item {
+  display: contents;
 }
 
 // <dsgovbr-tabela>: densidade das linhas (a "alta" usa .table-sm do Bootstrap), linha

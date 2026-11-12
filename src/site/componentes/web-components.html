@@ -39,8 +39,9 @@
   <table>
     <thead><tr><th>Elemento</th><th>Atributos</th><th>Onde</th></tr></thead>
     <tbody>
-      <tr><td><code>&lt;dsgovbr-item&gt;</code></td><td><code>href</code>, <code>icone</code> (classes do ícone), <code>atual</code> (página atual), <code>externo</code> (ícone de link externo); o texto é o rótulo</td><td>menu, pasta, coluna do footer, acesso rápido, funcionalidades, menu do usuário, breadcrumb, rodapé do menu</td></tr>
-      <tr><td><code>&lt;dsgovbr-pasta&gt;</code></td><td><code>rotulo</code>, <code>icone</code>, <code>aberta</code>, <code>id</code> (do Collapse); filhos: itens</td><td>menu</td></tr>
+      <tr><td><code>&lt;dsgovbr-item&gt;</code></td><td><code>href</code>, <code>icone</code> (classes do ícone), <code>atual</code> (página atual), <code>externo</code> (ícone de link externo), <code>icone-cor</code> (<code>.text-&lt;cor&gt;</code> no ícone), <code>badge</code>, <code>badge-cor</code> (pílula à direita no menu; cor do Bootstrap, padrão <code>primary</code>), <code>metodo="post"</code> (vira um <code>&lt;form method="post" action="href"&gt;</code> com um botão e os <code>&lt;dsgovbr-campo-oculto&gt;</code> filhos, como o "Sair"); o texto é o rótulo</td><td>menu, pasta, coluna do footer, acesso rápido, funcionalidades, menu do usuário, breadcrumb, rodapé do menu</td></tr>
+      <tr><td><code>&lt;dsgovbr-campo-oculto&gt;</code></td><td><code>nome</code>, <code>valor</code>; vira <code>&lt;input type="hidden"&gt;</code> no form do item com <code>metodo="post"</code> (ex.: o token CSRF)</td><td>item</td></tr>
+      <tr><td><code>&lt;dsgovbr-pasta&gt;</code></td><td><code>rotulo</code>, <code>icone</code>, <code>icone-cor</code>, <code>aberta</code>, <code>id</code> (do Collapse); filhos: itens e outras pastas (vários níveis; a filha ganha id <code>&lt;pai&gt;-&lt;n&gt;</code> se não tiver)</td><td>menu</td></tr>
       <tr><td><code>&lt;dsgovbr-menu-rodape&gt;</code></td><td><code>rotulo-redes</code>; filhos: <code>dsgovbr-logo</code>, itens (<code>externo</code>), <code>dsgovbr-rede</code>, <code>dsgovbr-aviso</code></td><td>menu</td></tr>
       <tr><td><code>&lt;dsgovbr-coluna&gt;</code></td><td><code>titulo</code>; filhos: itens</td><td>footer</td></tr>
       <tr><td><code>&lt;dsgovbr-rede&gt;</code></td><td><code>href</code>, <code>icone</code>; o texto é o nome acessível</td><td>footer, rodapé do menu</td></tr>
@@ -124,14 +125,18 @@
   <table>
     <thead><tr><th>Atributo</th><th>Efeito</th></tr></thead>
     <tbody>
-      <tr><td><code>logo</code>, <code>logo-alt</code>, <code>href</code></td><td>Logo (link para <code>href</code>, padrão <code>#</code>) e o texto alternativo dele.</td></tr>
+      <tr><td><code>logo</code>, <code>logo-alt</code>, <code>href</code>, <code>logo-href</code></td><td>Logo (link para <code>href</code>, padrão <code>#</code>) e o texto alternativo dele. <code>href</code> também é o link do título; <code>logo-href</code> dá ao logo outro destino (ex.: o portal do órgão).</td></tr>
       <tr><td><code>assinatura</code></td><td>Texto ao lado do logo, depois de um divisor (a partir de <code>sm</code>).</td></tr>
       <tr><td><code>titulo</code>, <code>subtitulo</code></td><td>Segunda linha: título do sistema (<code>.navbar-brand</code>) e subtítulo.</td></tr>
       <tr><td><code>menu</code></td><td><code>id</code> de um <code>&lt;dsgovbr-menu&gt;</code>: mostra o botão que abre o menu.</td></tr>
       <tr><td><code>busca</code></td><td>Campo de busca (recolhido por Collapse abaixo de <code>lg</code>).</td></tr>
+      <tr><td><code>busca-acao</code>, <code>busca-nome</code>, <code>busca-valor</code>, <code>busca-id</code></td><td>Para aplicações renderizadas no servidor: URL do <code>&lt;form method="get"&gt;</code> da busca, <code>name</code> do campo (padrão <code>q</code> quando há <code>busca-acao</code>), valor inicial e <code>id</code> do campo (para atalhos como "Ir para a busca"). Sem <code>busca-acao</code> o formulário não envia a lugar nenhum, como antes.</td></tr>
+      <tr><td><code>busca-autocomplete</code></td><td>URL (caminho local, da mesma origem) de um endpoint JSON que recebe <code>?&lt;busca-nome&gt;=termo</code> e devolve <code>["a", "b"]</code> ou <code>[{"label": "A", "value": "a"}]</code>. A lista aparece abaixo do campo depois de 300&nbsp;ms e 2 ou mais caracteres, como um <em>combobox</em> ARIA: setas movem a opção ativa, <kbd>Enter</kbd> escolhe e envia, <kbd>Esc</kbd> fecha. O texto das sugestões nunca vira HTML.</td></tr>
       <tr><td><code>modo</code></td><td>Botão de modo claro/escuro (<code>data-dsgovbr-modo</code>); exige <code>dsgovbr-bootstrapped-modo.js</code>.</td></tr>
       <tr><td><code>cookies</code></td><td>Botão de ação rápida (ícone de cookie) que abre as configurações do <a href="cookiebar.html"><code>&lt;dsgovbr-cookiebar&gt;</code></a> (<code>data-dsgovbr-cookies-abrir</code>); exige <code>dsgovbr-bootstrapped-cookies.js</code>. Use <code>sem-botao</code> no cookiebar para não duplicar o botão flutuante.</td></tr>
       <tr><td><code>usuario</code></td><td>Nome do usuário autenticado; abre o dropdown com os itens de <code>&lt;dsgovbr-usuario-menu&gt;</code> (<code>&lt;dsgovbr-divisor&gt;</code> vira divisor).</td></tr>
+      <tr><td><code>usuario-avatar</code>, <code>usuario-inicial</code>, <code>usuario-papel</code></td><td>Foto (URL, decorativa: <code>alt</code> vazio) ou inicial (1 ou 2 letras) no botão do usuário, no lugar do ícone; e o papel (perfil, cargo) em texto pequeno abaixo do nome completo, no topo do dropdown.</td></tr>
+      <tr><td><code>entrar</code>, <code>entrar-rotulo</code></td><td>Sem <code>usuario</code>: botão "Entrar" (ou o rótulo dado) que leva à URL de <code>entrar</code>.</td></tr>
       <tr><td><code>pagina</code></td><td>Título da página (<code>&lt;h1&gt;</code>), na barra logo abaixo do <code>&lt;header&gt;</code> (fora dele, como no GOV.BR DS), que gruda no topo junto com ele.</td></tr>
       <tr><td><code>estatico</code></td><td>Não fixa o header no topo (e não recolhe a linha de cima ao rolar).</td></tr>
     </tbody>

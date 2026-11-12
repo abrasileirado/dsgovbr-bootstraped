@@ -55,7 +55,7 @@ test("define os elementos filhos (dado) e o JS não usa mais slot= nem details",
   const js = read(`src/js/${ARQUIVO}`);
   for (const nome of ["dsgovbr-item", "dsgovbr-pasta", "dsgovbr-menu-rodape", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso",
     "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes",
-    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao",
+    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao", "dsgovbr-campo-oculto",
     "dsgovbr-filtro", "dsgovbr-lote-acao", "dsgovbr-paginacao", "dsgovbr-modal", "dsgovbr-campo", "dsgovbr-tabela"]) {
     assert.ok(js.includes(`"${nome}"`), `${nome} não é definido`);
   }

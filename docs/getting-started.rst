@@ -133,6 +133,9 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
      <dsgovbr-aviso>Texto legal.</dsgovbr-aviso>
    </dsgovbr-footer>
 
+- Em aplicações renderizadas no servidor, ``busca-acao="/busca/"`` (e ``busca-nome``, ``busca-valor``,
+  ``busca-id``) liga o formulário da busca; ``busca-autocomplete="/busca/sugestoes/"`` mostra sugestões
+  (JSON, mesma origem) com teclado e ARIA ``combobox``.
 - O header fica fixo no topo (``.sticky-top``) junto com o breadcrumb, o título da
   página e as ações; ``estatico`` desliga a fixação.
 - Cada componente lê filhos e atributos uma vez, ao conectar, e troca o conteúdo
@@ -184,6 +187,9 @@ plugins do Bootstrap (exige o ``bootstrap.bundle``):
 
 - Busca e filtros ficam num ``<form method="get">``: com ``acao`` o envio é nativo (servidor); sem
   ela, só os eventos ``dsgovbr:tabela-busca`` e ``dsgovbr:tabela-filtro``.
+- Ação em lote nativa: ``lote-metodo="post"`` envia a ação, os selecionados e os
+  ``<dsgovbr-campo-oculto nome valor>`` (ex.: CSRF) para ``lote-acao-url`` (padrão: a página atual); o evento
+  ``dsgovbr:tabela-acao`` é cancelável.
 - Seleção: checkbox por linha (``name="selecionados"``, valor de ``data-valor``);
   ``dsgovbr:tabela-selecao`` e ``dsgovbr:tabela-acao`` (``detail.valores``).
 
