@@ -1,5 +1,5 @@
 dsgovbr-bootstrapped — Documentação
-==================================
+===================================
 
 .. br-alerta:: warning
    :titulo: Projeto não oficial
