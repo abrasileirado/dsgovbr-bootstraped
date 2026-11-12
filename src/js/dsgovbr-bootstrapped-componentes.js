@@ -16,6 +16,9 @@
 // Mudar um atributo depois remonta o componente. O modo claro/escuro continua
 // no JS à parte (dsgovbr-bootstrapped-modo.js); o header só renderiza o botão.
 //
+// Item com POST: <dsgovbr-item href="/sair/" metodo="post"><dsgovbr-campo-oculto nome="csrfmiddlewaretoken" valor="…"></dsgovbr-campo-oculto>Sair</dsgovbr-item>
+// vira um <form method="post"> com o botão (vale onde o item é aceito: menu, rodapé, header, footer).
+//
 // Filhos declarativos: o pai lê elementos-dado (<dsgovbr-item>, <dsgovbr-pasta>,
 // <dsgovbr-coluna>, <dsgovbr-rede>, <dsgovbr-logo>, <dsgovbr-aviso>...) e os troca
 // pelo HTML final; eles não renderizam nada sozinhos (o CSS os oculta fora de um
@@ -80,7 +83,36 @@
       icone: a.getAttribute("icone"),
       atual: a.hasAttribute("atual"),
       externo: a.hasAttribute("externo"),
+      // metodo="post": o item vira um <form method="post"> com um botão (ex.: sair da sessão)
+      metodo: (a.getAttribute("metodo") || "").toLowerCase() === "post" ? "post" : "",
+      campos: lerCampos(a),
     };
+  }
+
+  // <dsgovbr-campo-oculto nome="csrfmiddlewaretoken" valor="…"> -> campos <input type="hidden">
+  // enviados junto (item com metodo="post", ações em lote da tabela...).
+  function lerCampos(raiz) {
+    return filhos(raiz, "dsgovbr-campo-oculto").map(function (c) {
+      return { nome: c.getAttribute("nome") || "", valor: c.getAttribute("valor") || "" };
+    });
+  }
+
+  function camposOcultos(campos) {
+    return campos.filter(function (c) { return c.nome; }).map(function (c) {
+      return h("input", { type: "hidden", name: c.nome, value: c.valor });
+    });
+  }
+
+  // Item como link (<a href>) ou, com metodo="post", como <form method="post" action="href">
+  // com os campos ocultos e um <button type="submit"> que leva a mesma classe e o mesmo
+  // conteúdo. O form usa display: contents (ver o CSS do tema): não muda o layout do pai.
+  function itemEl(l, classe, conteudo, extra) {
+    if (l.metodo !== "post") {
+      return h("a", Object.assign({ class: classe, href: l.href }, extra), conteudo);
+    }
+    return h("form", { class: "dsgovbr-form-item", method: "post", action: l.href }, camposOcultos(l.campos).concat(
+      h("button", Object.assign({ class: classe, type: "submit" }, extra), conteudo)
+    ));
   }
 
   // Itens (<dsgovbr-item> ou <a>) filhos diretos de um elemento.
@@ -230,10 +262,11 @@
       this.setAttribute("aria-labelledby", idTitulo);
 
       function link(l) {
-        return h(
-          "a",
-          { class: "list-group-item list-group-item-action" + (l.atual ? " active" : ""), href: l.href, "aria-current": l.atual ? "page" : false },
-          [icone(l.icone), l.texto]
+        return itemEl(
+          l,
+          "list-group-item list-group-item-action" + (l.atual ? " active" : ""),
+          [icone(l.icone), l.texto],
+          { "aria-current": l.atual ? "page" : false }
         );
       }
 
@@ -272,7 +305,7 @@
         }
         if (rodape.links.length) {
           partes.push(h("div", { class: "px-5 py-3 border-bottom" }, rodape.links.map(function (l, i) {
-            return h("a", { class: "d-block text-decoration-none" + (i < rodape.links.length - 1 ? " mb-3" : ""), href: l.href },
+            return itemEl(l, "d-block text-decoration-none" + (i < rodape.links.length - 1 ? " mb-3" : ""),
               [l.texto, l.externo ? icone("fas fa-external-link-square-alt", "ms-1") : null]);
           })));
         }
@@ -338,7 +371,7 @@
                 h(
                   "nav",
                   { class: "nav flex-column", "aria-label": col.titulo },
-                  col.links.map(function (l) { return h("a", { class: "nav-link", href: l.href }, l.texto); })
+                  col.links.map(function (l) { return itemEl(l, "nav-link", l.texto); })
                 ),
               ]);
             })
@@ -691,13 +724,13 @@
           h(
             "ul",
             { class: "navbar-nav flex-row d-none d-xl-flex", "aria-label": "Acesso rápido" },
-            m.acessoRapido.map(function (l) { return h("li", { class: "nav-item" }, h("a", { class: "nav-link px-2", href: l.href }, l.texto)); })
+            m.acessoRapido.map(function (l) { return h("li", { class: "nav-item" }, itemEl(l, "nav-link px-2", l.texto)); })
           ),
           dropdown(
             "Abrir acesso rápido",
             "fas fa-ellipsis-v",
             "Acesso rápido",
-            m.acessoRapido.map(function (l) { return h("li", {}, h("a", { class: "dropdown-item", href: l.href }, l.texto)); }),
+            m.acessoRapido.map(function (l) { return h("li", {}, itemEl(l, "dropdown-item", l.texto)); }),
             "d-xl-none"
           )
         );
@@ -708,10 +741,10 @@
           acoesTopo.append(h("div", { class: "vr mx-1" }));
         }
         var desktop = h("div", { class: "d-none d-xl-flex" }, m.funcionalidades.map(function (l) {
-          return h("a", { class: botaoRedondo, href: l.href, "aria-label": l.texto }, icone(l.icone));
+          return itemEl(l, botaoRedondo, icone(l.icone), { "aria-label": l.texto });
         }));
         var itensCelular = m.funcionalidades.map(function (l) {
-          return h("li", {}, h("a", { class: "dropdown-item", href: l.href }, [icone(l.icone, "me-2"), l.texto]));
+          return h("li", {}, itemEl(l, "dropdown-item", [icone(l.icone, "me-2"), l.texto]));
         });
         if (cookies) {
           // abre as configurações do <dsgovbr-cookiebar> (dsgovbr-bootstrapped-cookies.js)
@@ -757,7 +790,7 @@
               "ul",
               { class: "dropdown-menu dropdown-menu-end" },
               m.usuario.map(function (l) {
-                return h("li", {}, l ? h("a", { class: "dropdown-item", href: l.href }, l.texto) : h("hr", { class: "dropdown-divider" }));
+                return h("li", {}, l ? itemEl(l, "dropdown-item", l.texto) : h("hr", { class: "dropdown-divider" }));
               })
             ),
           ])
@@ -1783,7 +1816,7 @@
   [
     "dsgovbr-item", "dsgovbr-pasta", "dsgovbr-menu-rodape", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso",
     "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes",
-    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao", "dsgovbr-filtro", "dsgovbr-lote-acao",
+    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao", "dsgovbr-filtro", "dsgovbr-lote-acao", "dsgovbr-campo-oculto",
   ].forEach(function (nome) {
     if (!window.customElements.get(nome)) {
       window.customElements.define(nome, class extends HTMLElement {});

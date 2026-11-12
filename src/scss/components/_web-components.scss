@@ -92,8 +92,15 @@ dsgovbr-erro,
 dsgovbr-sucesso,
 dsgovbr-opcao,
 dsgovbr-filtro,
-dsgovbr-lote-acao {
+dsgovbr-lote-acao,
+dsgovbr-campo-oculto {
   display: none;
+}
+
+// Item com metodo="post": o <form> não cria caixa; o botão dentro dele se comporta como
+// o link (dropdown-item, list-group-item, nav-link...) filho direto do pai.
+.dsgovbr-form-item {
+  display: contents;
 }
 
 // <dsgovbr-tabela>: densidade das linhas (a "alta" usa .table-sm do Bootstrap), linha

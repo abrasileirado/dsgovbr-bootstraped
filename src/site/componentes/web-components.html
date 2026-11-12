@@ -39,7 +39,8 @@
   <table>
     <thead><tr><th>Elemento</th><th>Atributos</th><th>Onde</th></tr></thead>
     <tbody>
-      <tr><td><code>&lt;dsgovbr-item&gt;</code></td><td><code>href</code>, <code>icone</code> (classes do ícone), <code>atual</code> (página atual), <code>externo</code> (ícone de link externo); o texto é o rótulo</td><td>menu, pasta, coluna do footer, acesso rápido, funcionalidades, menu do usuário, breadcrumb, rodapé do menu</td></tr>
+      <tr><td><code>&lt;dsgovbr-item&gt;</code></td><td><code>href</code>, <code>icone</code> (classes do ícone), <code>atual</code> (página atual), <code>externo</code> (ícone de link externo), <code>metodo="post"</code> (vira um <code>&lt;form method="post" action="href"&gt;</code> com um botão e os <code>&lt;dsgovbr-campo-oculto&gt;</code> filhos, como o "Sair"); o texto é o rótulo</td><td>menu, pasta, coluna do footer, acesso rápido, funcionalidades, menu do usuário, breadcrumb, rodapé do menu</td></tr>
+      <tr><td><code>&lt;dsgovbr-campo-oculto&gt;</code></td><td><code>nome</code>, <code>valor</code>; vira <code>&lt;input type="hidden"&gt;</code> no form do item com <code>metodo="post"</code> (ex.: o token CSRF)</td><td>item</td></tr>
       <tr><td><code>&lt;dsgovbr-pasta&gt;</code></td><td><code>rotulo</code>, <code>icone</code>, <code>aberta</code>, <code>id</code> (do Collapse); filhos: itens</td><td>menu</td></tr>
       <tr><td><code>&lt;dsgovbr-menu-rodape&gt;</code></td><td><code>rotulo-redes</code>; filhos: <code>dsgovbr-logo</code>, itens (<code>externo</code>), <code>dsgovbr-rede</code>, <code>dsgovbr-aviso</code></td><td>menu</td></tr>
       <tr><td><code>&lt;dsgovbr-coluna&gt;</code></td><td><code>titulo</code>; filhos: itens</td><td>footer</td></tr>

@@ -152,3 +152,92 @@ test.describe("#76 busca do header", () => {
     expect(await page.evaluate(() => window.__xss)).toBeUndefined();
   });
 });
+
+// Cria <dsgovbr-menu id="m-teste"> com o HTML dos filhos e o monta.
+async function montarMenu(page, filhos, atributos = {}) {
+  await page.evaluate(
+    ({ filhos, atributos }) => {
+      const m = document.createElement("dsgovbr-menu");
+      m.id = "m-teste";
+      m.setAttribute("titulo", "Menu de teste");
+      for (const [nome, valor] of Object.entries(atributos)) m.setAttribute(nome, valor === true ? "" : valor);
+      m.innerHTML = filhos;
+      document.body.append(m);
+    },
+    { filhos, atributos }
+  );
+  await expect(page.locator("#m-teste")).toHaveAttribute("data-dsgovbr-montado", "");
+}
+
+test.describe("#77 item com POST", () => {
+  const SAIR = '<dsgovbr-item href="/sair/" metodo="post"><dsgovbr-campo-oculto nome="csrfmiddlewaretoken" valor="abc123"></dsgovbr-campo-oculto><dsgovbr-campo-oculto nome="next" valor="/inicio/?a=1&amp;b=2"></dsgovbr-campo-oculto>Sair</dsgovbr-item>';
+
+  test("no menu do usuário vira form POST com os campos ocultos e envia", async ({ page }) => {
+    await page.route("**/sair/", (route) =>
+      route.fulfill({ contentType: "text/html", body: "<title>saiu</title>" })
+    );
+    await montarHeader(page, { usuario: "Maria" }, `<dsgovbr-usuario-menu><dsgovbr-item href="/perfil/">Perfil</dsgovbr-item><dsgovbr-divisor></dsgovbr-divisor>${SAIR}</dsgovbr-usuario-menu>`);
+    const form = page.locator("#h-teste form.dsgovbr-form-item");
+    await expect(form).toHaveAttribute("method", "post");
+    await expect(form).toHaveAttribute("action", "/sair/");
+    await expect(form.locator("input[type=hidden]")).toHaveCount(2);
+    await expect(form.locator('input[name="csrfmiddlewaretoken"]')).toHaveValue("abc123");
+    await expect(form.locator('input[name="next"]')).toHaveValue("/inicio/?a=1&b=2");
+    await expect(form.locator("button")).toHaveClass(/dropdown-item/);
+    // o item sem metodo continua sendo link
+    await expect(page.locator("#h-teste a.dropdown-item", { hasText: "Perfil" })).toHaveAttribute("href", "/perfil/");
+
+    // o header fixo do catálogo cobre o dropdown nesta página: dispara o clique direto
+    const [pedido] = await Promise.all([
+      page.waitForRequest("**/sair/"),
+      form.locator("button").dispatchEvent("click"),
+    ]);
+    expect(pedido.method()).toBe("POST");
+    expect(pedido.postData()).toContain("csrfmiddlewaretoken=abc123");
+    expect(pedido.postData()).toContain("next=%2Finicio%2F%3Fa%3D1%26b%3D2");
+  });
+
+  test("funciona no menu, no rodapé do menu, no acesso rápido, nas funcionalidades e no footer", async ({ page }) => {
+    await montarMenu(
+      page,
+      `<dsgovbr-item href="/a/" metodo="post">Ação do menu</dsgovbr-item>
+       <dsgovbr-pasta rotulo="Pasta"><dsgovbr-item href="/b/" metodo="post">Ação da pasta</dsgovbr-item></dsgovbr-pasta>
+       <dsgovbr-menu-rodape><dsgovbr-item href="/c/" metodo="post" externo>Ação do rodapé</dsgovbr-item></dsgovbr-menu-rodape>`
+    );
+    await expect(page.locator("#m-teste form.dsgovbr-form-item")).toHaveCount(3);
+    await expect(page.locator("#m-teste form button.list-group-item")).toHaveCount(2);
+    await expect(page.locator("#m-teste form button.d-block")).toHaveCount(1);
+
+    await montarHeader(
+      page,
+      {},
+      `<dsgovbr-acesso-rapido><dsgovbr-item href="/r/" metodo="post">Rápido</dsgovbr-item></dsgovbr-acesso-rapido>
+       <dsgovbr-funcionalidades><dsgovbr-item href="/f/" metodo="post" icone="fas fa-bell">Aviso</dsgovbr-item></dsgovbr-funcionalidades>`
+    );
+    await expect(page.locator('#h-teste form[action="/r/"] button.nav-link')).toHaveCount(1);
+    await expect(page.locator('#h-teste form[action="/r/"] button.dropdown-item')).toHaveCount(1);
+    await expect(page.locator('#h-teste form[action="/f/"] button[aria-label="Aviso"]')).toHaveCount(1);
+
+    await page.evaluate(() => {
+      const f = document.createElement("dsgovbr-footer");
+      f.id = "f-teste";
+      f.innerHTML = '<dsgovbr-coluna titulo="Conta"><dsgovbr-item href="/g/" metodo="post">Sair do rodapé</dsgovbr-item></dsgovbr-coluna>';
+      document.body.append(f);
+    });
+    await expect(page.locator('#f-teste form[action="/g/"] button.nav-link')).toHaveText("Sair do rodapé");
+  });
+
+  test("o form não cria caixa (display: contents) e sem metodo o item segue como link", async ({ page }) => {
+    await montarMenu(page, '<dsgovbr-item href="/x/" metodo="post">Com post</dsgovbr-item><dsgovbr-item href="/y/">Link</dsgovbr-item><dsgovbr-item href="/z/" metodo="get">Get</dsgovbr-item>');
+    expect(await page.locator("#m-teste form.dsgovbr-form-item").evaluate((el) => getComputedStyle(el).display)).toBe("contents");
+    await expect(page.locator("#m-teste a.list-group-item")).toHaveCount(2); // só metodo="post" muda
+    await expect(page.locator("#m-teste form")).toHaveCount(1);
+  });
+
+  test("campos ocultos viram atributos, nunca HTML", async ({ page }) => {
+    await montarMenu(page, '<dsgovbr-item href="/x/" metodo="post"><dsgovbr-campo-oculto nome="a" valor=\'"><img src=x onerror="window.__xss=true">\'></dsgovbr-campo-oculto>X</dsgovbr-item>');
+    await expect(page.locator('#m-teste input[name="a"]')).toHaveValue('"><img src=x onerror="window.__xss=true">');
+    expect(await page.locator("#m-teste img").count()).toBe(0);
+    expect(await page.evaluate(() => window.__xss)).toBeUndefined();
+  });
+});
