@@ -43,17 +43,27 @@ test("o arquivo é copiado para dist/ e para docs/assets/ e entra na release e n
 test("o CSS do tema esconde o componente até montar e usa display: contents nos wrappers", () => {
   const css = read("dist/dsgovbr-bootstraped.css");
   // asserções com ok(): se falhar, não despeja o CSS inteiro na saída
-  assert.ok(/dsgovbr-header,\s*\ndsgovbr-footer,\s*\ndsgovbr-breadcrumb,\s*\ndsgovbr-cookiebar,\s*\ndsgovbr-paginacao \{\s*\n\s*display: contents;/.test(css), "wrappers com display: contents");
+  const contents = /(dsgovbr-header,[\s\S]*?) \{\s*\n\s*display: contents;/.exec(css);
+  assert.ok(contents, "regra display: contents dos wrappers");
+  for (const nome of ["dsgovbr-header", "dsgovbr-footer", "dsgovbr-breadcrumb", "dsgovbr-cookiebar", "dsgovbr-paginacao", "dsgovbr-campo"]) {
+    assert.ok(contents[1].includes(nome), `${nome} com display: contents`);
+  }
   assert.ok(/dsgovbr-menu:not\(\[data-dsgovbr-montado\]\)/.test(css), "oculta até montar");
 });
 
 test("define os elementos filhos (dado) e o JS não usa mais slot= nem details", () => {
   const js = read(`src/js/${ARQUIVO}`);
   for (const nome of ["dsgovbr-item", "dsgovbr-pasta", "dsgovbr-menu-rodape", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso",
-    "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes"]) {
+    "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes",
+    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao",
+    "dsgovbr-paginacao", "dsgovbr-modal", "dsgovbr-campo"]) {
     assert.ok(js.includes(`"${nome}"`), `${nome} não é definido`);
   }
   assert.ok(!/getAttribute\("slot"\)/.test(js), "a convenção slot= foi substituída por elementos filhos");
   const css = read("dist/dsgovbr-bootstraped.css");
-  assert.match(css, /dsgovbr-item,[\s\S]*dsgovbr-cookies-texto \{\s*\n\s*display: none;/);
+  const dados = /(dsgovbr-item,[\s\S]*?) \{\s*\n\s*display: none;/.exec(css);
+  assert.ok(dados, "regra display: none dos elementos-dado");
+  for (const nome of ["dsgovbr-item", "dsgovbr-cookies-texto", "dsgovbr-ajuda", "dsgovbr-opcao"]) {
+    assert.ok(dados[1].includes(nome), `${nome} oculto fora de um pai`);
+  }
 });

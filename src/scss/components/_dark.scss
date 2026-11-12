@@ -47,3 +47,9 @@
 [data-bs-theme="dark"] .page-link:hover:not(:disabled):not([aria-disabled="true"]) {
   @include govbr-hover($govbr-interactive-dark);
 }
+
+// Texto do addon de campo (.input-group-text): o Bootstrap usa a cor fixa do campo
+// (escura); no fundo escuro segue a cor do texto do tema.
+[data-bs-theme="dark"] .input-group-text {
+  color: var(--#{$prefix}body-color);
+}

@@ -1,5 +1,5 @@
 /*!
- * dsgovbr-bootstraped — web components de header, menu, footer, breadcrumb, paginação e modal (opcional)
+ * dsgovbr-bootstraped — web components de header, menu, footer, breadcrumb, paginação, modal e campo (opcional)
  * Licensed under MIT (https://github.com/abrasileirado/dsgovbr-bootstraped/blob/main/LICENSE)
  */
 // Custom elements em light DOM (sem Shadow DOM): geram as mesmas classes
@@ -10,7 +10,7 @@
 //   <script src="dsgovbr-bootstraped-componentes.js" defer></script>
 //
 // Elementos: <dsgovbr-breadcrumb>, <dsgovbr-menu>, <dsgovbr-footer>,
-// <dsgovbr-header>, <dsgovbr-paginacao> e <dsgovbr-modal>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
+// <dsgovbr-header>, <dsgovbr-paginacao>, <dsgovbr-modal> e <dsgovbr-campo>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
 // troca o conteúdo pelo HTML final (o conteúdo original é só a declaração).
 // Mudar um atributo depois remonta o componente. O modo claro/escuro continua
 // no JS à parte (dsgovbr-bootstraped-modo.js); o header só renderiza o botão.
@@ -996,12 +996,230 @@
     }
   });
 
+  // --------------------------------------------------------------------- campo
+  // <dsgovbr-campo tipo="email" nome="email" rotulo="E-mail" obrigatorio valor=""
+  //                placeholder="" tamanho="sm|lg" prefixo="@" sufixo=".gov.br"
+  //                ajuda="Texto de ajuda" erro="Informe um e-mail válido" sucesso="">
+  //   <dsgovbr-ajuda>Texto de ajuda</dsgovbr-ajuda>   (também aceito; o atributo vence)
+  //   <dsgovbr-erro>…</dsgovbr-erro>  <dsgovbr-sucesso>…</dsgovbr-sucesso>
+  //   <dsgovbr-opcao valor="a" selecionada desabilitada>Texto</dsgovbr-opcao>  (select e radio)
+  // </dsgovbr-campo>
+  //
+  // Gera rótulo + CONTROLE NATIVO (<input>, <select> ou <textarea>) + ajuda + feedback,
+  // com `for`/`id`/`aria-describedby`/`aria-invalid` ligados sozinhos, só com classes do
+  // Bootstrap (.form-label, .form-control, .form-select, .form-check, .form-switch,
+  // .form-text, .invalid-feedback, .valid-feedback, .input-group). Como o controle é real
+  // e fica dentro do <form>, o valor é enviado normalmente e os eventos input/change e a
+  // validação nativa (`required`, `pattern`...) funcionam sem nada a mais.
+  //
+  // `tipo`: text (padrão), email, password, number, search, tel, url, date, textarea,
+  // select, checkbox, switch ou radio (grupo, com <dsgovbr-opcao>). `erro` / `sucesso`
+  // vazios limpam o estado. Também: `desabilitado`, `somente-leitura`, `autocomplete`,
+  // `linhas` (textarea), `marcado` (checkbox/switch) e, repassados ao controle, `min`,
+  // `max`, `step`, `pattern`, `maxlength`, `minlength` e `inputmode`.
+  // API: `controle` (elemento nativo ou, no radio, o primeiro), `valor` (get/set) e
+  // `validar()` (checkValidity + marca o campo com a mensagem nativa).
+  var REPASSADOS = ["min", "max", "step", "pattern", "maxlength", "minlength", "inputmode"];
+  var TIPOS_CAMPO = ["text", "email", "password", "number", "search", "tel", "url", "date", "time", "datetime-local", "month", "week", "color", "file"];
+
+  class Campo extends Base {
+    static get observedAttributes() {
+      return ["tipo", "nome", "rotulo", "valor", "placeholder", "obrigatorio", "desabilitado", "somente-leitura", "tamanho",
+        "autocomplete", "linhas", "ajuda", "erro", "sucesso", "prefixo", "sufixo", "marcado"].concat(REPASSADOS);
+    }
+
+    ler() {
+      var self = this;
+      var primeiro = function (tag) {
+        var el = filhos(self, tag)[0];
+        return el ? texto(el) : "";
+      };
+      return {
+        ajuda: primeiro("dsgovbr-ajuda"),
+        erro: primeiro("dsgovbr-erro"),
+        sucesso: primeiro("dsgovbr-sucesso"),
+        opcoes: filhos(this, "dsgovbr-opcao").map(function (o) {
+          return { valor: o.getAttribute("valor") !== null ? o.getAttribute("valor") : texto(o), texto: texto(o), selecionada: o.hasAttribute("selecionada"), desabilitada: o.hasAttribute("desabilitada") };
+        }),
+      };
+    }
+
+    attributeChangedCallback(nome, antigo, novo) {
+      if (nome === "valor" || nome === "marcado" || nome === "tipo") {
+        this._descartar = true; // o autor mudou o valor: não restaura o digitado
+      }
+      super.attributeChangedCallback(nome, antigo, novo);
+    }
+
+    get controle() {
+      return this.querySelector("input, select, textarea");
+    }
+
+    get valor() {
+      var c = this.controle;
+      if (!c) {
+        return "";
+      }
+      if (this.attr("tipo", "text") === "radio") {
+        var marcado = this.querySelector("input:checked");
+        return marcado ? marcado.value : "";
+      }
+      return c.type === "checkbox" ? (c.checked ? c.value : "") : c.value;
+    }
+
+    set valor(v) {
+      var c = this.controle;
+      if (!c) {
+        return;
+      }
+      if (this.attr("tipo", "text") === "radio") {
+        Array.prototype.forEach.call(this.querySelectorAll("input"), function (r) { r.checked = r.value === String(v); });
+      } else if (c.type === "checkbox") {
+        c.checked = Boolean(v);
+      } else {
+        c.value = v;
+      }
+    }
+
+    // Valida pelo navegador e mostra a mensagem nativa como erro do campo.
+    validar() {
+      var c = this.controle;
+      if (!c || c.checkValidity()) {
+        this.setAttribute("erro", "");
+        return true;
+      }
+      this.setAttribute("erro", c.validationMessage);
+      return false;
+    }
+
+    montar() {
+      var self = this;
+      var m = this._modelo;
+      var id = this._uid || (this._uid = proximoId("campo"));
+      var idControle = id + "-controle";
+      var tipo = this.attr("tipo", "text");
+      var tamanho = this.attr("tamanho", "");
+      var rotulo = this.attr("rotulo", "");
+      var obrigatorio = this.hasAttribute("obrigatorio");
+      var ajuda = this.hasAttribute("ajuda") ? this.getAttribute("ajuda") : m.ajuda;
+      var erro = this.hasAttribute("erro") ? this.getAttribute("erro") : m.erro;
+      var sucesso = !erro && (this.hasAttribute("sucesso") ? this.getAttribute("sucesso") : m.sucesso);
+      var idAjuda = ajuda ? id + "-ajuda" : null;
+      var idFeedback = erro || sucesso ? id + "-feedback" : null;
+      var descreve = [idAjuda, idFeedback].filter(Boolean).join(" ") || false;
+
+      // Guarda o que a pessoa digitou/escolheu e o foco: remontar (ex.: erro novo) não pode apagá-los.
+      var anterior = null;
+      if (!this._descartar && this._montadoControle) {
+        anterior = { valor: this.valor, marcado: this.controle && this.controle.type === "checkbox" ? this.controle.checked : null };
+      }
+      this._descartar = false;
+      var tinhaFoco = this.contains(document.activeElement) ? document.activeElement.getAttribute("data-campo") : null;
+
+      var estadoClasse = erro ? " is-invalid" : sucesso ? " is-valid" : "";
+      function comuns(extra) {
+        var a = {
+          id: idControle, name: self.attr("nome", "") || false, required: obrigatorio, disabled: self.hasAttribute("desabilitado"),
+          "aria-describedby": descreve, "aria-invalid": erro ? "true" : false, "data-campo": "controle",
+        };
+        REPASSADOS.forEach(function (n) { if (self.hasAttribute(n)) { a[n] = self.getAttribute(n); } });
+        return Object.assign(a, extra);
+      }
+
+      var corpo = [];
+      var feedback = function () {
+        return [
+          ajuda ? h("div", { class: "form-text", id: idAjuda }, ajuda) : null,
+          erro ? h("div", { class: "invalid-feedback d-block", id: idFeedback }, erro) : null,
+          sucesso ? h("div", { class: "valid-feedback d-block", id: idFeedback }, sucesso) : null,
+        ];
+      };
+
+      if (tipo === "checkbox" || tipo === "switch") {
+        var caixa = h("input", comuns({
+          class: "form-check-input" + estadoClasse, type: "checkbox", value: this.attr("valor", "on"),
+          role: tipo === "switch" ? "switch" : false, checked: this.hasAttribute("marcado"),
+        }));
+        corpo.push(h("div", { class: "form-check" + (tipo === "switch" ? " form-switch" : "") }, [
+          caixa,
+          h("label", { class: "form-check-label", for: idControle }, rotulo),
+        ]));
+        corpo = corpo.concat(feedback());
+      } else if (tipo === "radio") {
+        var grupo = h("fieldset", { "aria-describedby": descreve });
+        grupo.append(h("legend", { class: "form-label fs-6" }, [rotulo, obrigatorio ? h("span", { "aria-hidden": "true" }, " *") : null]));
+        m.opcoes.forEach(function (o, i) {
+          var idOpcao = idControle + "-" + (i + 1);
+          grupo.append(h("div", { class: "form-check" }, [
+            h("input", { class: "form-check-input" + estadoClasse, type: "radio", id: i === 0 ? idControle : idOpcao, name: self.attr("nome", id), value: o.valor,
+              checked: self.hasAttribute("valor") ? self.getAttribute("valor") === o.valor : o.selecionada, disabled: o.desabilitada || self.hasAttribute("desabilitado"),
+              required: obrigatorio, "aria-invalid": erro ? "true" : false, "data-campo": i === 0 ? "controle" : false }),
+            h("label", { class: "form-check-label", for: i === 0 ? idControle : idOpcao }, o.texto),
+          ]));
+        });
+        corpo.push(grupo);
+        corpo = corpo.concat(feedback());
+      } else {
+        var controle;
+        var classeTam = tamanho === "sm" || tamanho === "lg" ? tamanho : "";
+        if (tipo === "select") {
+          controle = h("select", comuns({ class: "form-select" + (classeTam ? " form-select-" + classeTam : "") + estadoClasse }),
+            m.opcoes.map(function (o) {
+              return h("option", { value: o.valor, selected: self.hasAttribute("valor") ? self.getAttribute("valor") === o.valor : o.selecionada, disabled: o.desabilitada }, o.texto);
+            }));
+        } else if (tipo === "textarea") {
+          controle = h("textarea", comuns({
+            class: "form-control" + (classeTam ? " form-control-" + classeTam : "") + estadoClasse, rows: this.attr("linhas", "3"),
+            placeholder: this.attr("placeholder", "") || false, readonly: this.hasAttribute("somente-leitura"), autocomplete: this.attr("autocomplete", "") || false,
+          }), this.attr("valor", ""));
+        } else {
+          controle = h("input", comuns({
+            class: "form-control" + (classeTam ? " form-control-" + classeTam : "") + estadoClasse, type: TIPOS_CAMPO.indexOf(tipo) !== -1 ? tipo : "text",
+            value: this.hasAttribute("valor") ? this.getAttribute("valor") : false, placeholder: this.attr("placeholder", "") || false,
+            readonly: this.hasAttribute("somente-leitura"), autocomplete: this.attr("autocomplete", "") || false,
+          }));
+        }
+        var prefixo = this.attr("prefixo", "");
+        var sufixo = this.attr("sufixo", "");
+        corpo.push(h("label", { class: "form-label", for: idControle }, [rotulo, obrigatorio ? h("span", { "aria-hidden": "true" }, " *") : null]));
+        corpo.push(prefixo || sufixo
+          ? h("div", { class: "input-group" + (classeTam ? " input-group-" + classeTam : "") }, [
+              prefixo ? h("span", { class: "input-group-text" }, prefixo) : null, controle, sufixo ? h("span", { class: "input-group-text" }, sufixo) : null,
+            ])
+          : controle);
+        corpo = corpo.concat(feedback());
+      }
+
+      this.replaceChildren(h("div", { class: "mb-3" }, corpo));
+      this._montadoControle = true;
+
+      // Restaura o que a pessoa já tinha feito no campo e devolve o foco.
+      if (anterior) {
+        var c = this.controle;
+        if (tipo === "radio") {
+          Array.prototype.forEach.call(this.querySelectorAll("input"), function (r) { r.checked = r.value === anterior.valor; });
+        } else if (c && c.type === "checkbox" && anterior.marcado !== null) {
+          c.checked = anterior.marcado;
+        } else if (c && c.type !== "file") {
+          c.value = anterior.valor;
+        }
+      }
+      if (tinhaFoco) {
+        var alvo = this.controle;
+        if (alvo) {
+          alvo.focus();
+        }
+      }
+    }
+  }
+
   // Elementos-dado: só carregam atributos e conteúdo para o componente pai, que os
   // troca pelo HTML final. Definidos para ficarem "upgraded" e documentados; o CSS
   // os oculta se sobrarem fora de um pai.
   [
     "dsgovbr-item", "dsgovbr-pasta", "dsgovbr-menu-rodape", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso",
     "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes",
+    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao",
   ].forEach(function (nome) {
     if (!window.customElements.get(nome)) {
       window.customElements.define(nome, class extends HTMLElement {});
@@ -1017,6 +1235,7 @@
     ["dsgovbr-header", Header],
     ["dsgovbr-paginacao", Paginacao],
     ["dsgovbr-modal", ModalDialogo],
+    ["dsgovbr-campo", Campo],
   ].forEach(function (par) {
     if (!window.customElements.get(par[0])) {
       window.customElements.define(par[0], par[1]);
