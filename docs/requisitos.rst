@@ -4,7 +4,7 @@ Requisitos de software
 - **Versão do documento:** 0.2 (decisões atualizadas após inspeção do código-fonte upstream).
 - **Estado:** especificação; não descreve funcionalidades já implementadas.
 - **Projeto:** integração comunitária e não oficial da API de classes Bootstrap 5 com aspectos visuais do GOV.BR DS.
-- **Repositório:** https://github.com/abrasileirado/dsgovbr-bootstraped.
+- **Repositório:** https://github.com/abrasileirado/dsgovbr-bootstrapped.
 
 1. Contexto e problema
 ----------------------
@@ -60,7 +60,7 @@ A composição SCSS dos projetos é uma oportunidade de reaproveitamento, **não
 
 - A compatibilidade é fixada em **Bootstrap v5.3.8** e **@govbr-ds/core v3.7.0**, ambos incluídos como git submodules apontando para os repositórios oficiais upstream (não forks) e fixados por tag (ver DP-01/DP-03).
 - A versão ou revisão de GOV.BR DS usada como referência deve ser explicitamente fixada antes da implementação. Não se deve depender de ``latest`` na geração de releases.
-- O pacote npm ``@abrasileirado/dsgovbr-bootstraped`` já está publicado (ver DP-07).
+- O pacote npm ``@abrasileirado/dsgovbr-bootstrapped`` já está publicado (ver DP-07).
 - O projeto distingue contrato **visual**, contrato de **markup** e contrato de **comportamento**. A aprovação em um contrato não implica aprovação nos outros.
 - Qualquer versão que contenha CSS pronto deverá informar se ele é **autônomo** (inclui Bootstrap) ou **camada adicional** (exige Bootstrap carregado separadamente), com ordem de carregamento e cobertura demonstradas.
 - Cores, medidas e nomes de tokens nos artefatos finais devem vir das fontes versionadas escolhidas; não são definidos por suposição neste documento.
@@ -417,7 +417,7 @@ de decisões tomadas com o mantenedor após essa inspeção.
 |              |                           | ``_bootstrap-settings.scss`` são ``!default``: o       |
 |              |                           | consumidor sobrescreve tokens (ex.: ``$primary``)      |
 |              |                           | definindo-os **antes** de importar                     |
-|              |                           | ``@abrasileirado/dsgovbr-bootstraped/src/scss/index``. |
+|              |                           | ``@abrasileirado/dsgovbr-bootstrapped/src/scss/index``. |
 |              |                           | Mantido ``@import`` (o Bootstrap 5.3.8 ainda não usa   |
 |              |                           | ``@use``/``@forward`` internamente); sem campo         |
 |              |                           | ``exports``, para não restringir caminhos profundos.   |
@@ -461,7 +461,7 @@ de decisões tomadas com o mantenedor após essa inspeção.
 |              |                           | não se afirma equivalência. Tabelas por componente em  |
 |              |                           | ``docs/componentes/botao.html`` e ``alertas.html``.    |
 +--------------+---------------------------+--------------------------------------------------------+
-| DP-07        | Nome do pacote            | Escopo ``@abrasileirado/dsgovbr-bootstraped`` **em     |
+| DP-07        | Nome do pacote            | Escopo ``@abrasileirado/dsgovbr-bootstrapped`` **em     |
 |              |                           | uso**: publicado no npm (0.1.1 em diante; a 0.1.0 foi  |
 |              |                           | uma publicação manual com metadados incorretos e       |
 |              |                           | permanece no registro). Publicação automatizada por    |

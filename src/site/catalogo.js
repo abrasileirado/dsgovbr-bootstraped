@@ -10,7 +10,7 @@
 (function () {
   "use strict";
 
-  var CHAVE = "dsgovbr-bootstraped:tema";
+  var CHAVE = "dsgovbr-bootstrapped:tema";
   var TEMAS = ["dsgovbr", "bootstrap"];
 
   function lerArmazenado() {

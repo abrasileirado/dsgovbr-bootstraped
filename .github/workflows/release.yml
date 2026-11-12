@@ -54,7 +54,7 @@ jobs:
 
       - name: Publicar no npm
         # Requer "Trusted Publisher" configurado uma única vez pelo mantenedor
-        # em https://www.npmjs.com/package/@abrasileirado/dsgovbr-bootstraped
+        # em https://www.npmjs.com/package/@abrasileirado/dsgovbr-bootstrapped
         # → Settings → Trusted Publishers, apontando para este repositório e
         # este workflow, com "Allow npm publish" habilitado (DP-07 em
         # docs/requisitos.rst). Sem isso, esta etapa falha (fail-fast) —
@@ -69,7 +69,7 @@ jobs:
             --draft \
             --title "$GITHUB_REF_NAME" \
             --generate-notes \
-            dist/dsgovbr-bootstraped.css \
-            dist/dsgovbr-bootstraped.min.css \
-            dist/dsgovbr-bootstraped.css.map             dist/dsgovbr-bootstraped-modo.js             dist/dsgovbr-bootstraped-componentes.js             dist/dsgovbr-bootstraped-cookies.js
+            dist/dsgovbr-bootstrapped.css \
+            dist/dsgovbr-bootstrapped.min.css \
+            dist/dsgovbr-bootstrapped.css.map             dist/dsgovbr-bootstrapped-modo.js             dist/dsgovbr-bootstrapped-componentes.js             dist/dsgovbr-bootstrapped-cookies.js
           gh release edit "$GITHUB_REF_NAME" --draft=false

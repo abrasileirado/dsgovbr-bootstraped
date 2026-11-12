@@ -13,7 +13,7 @@ por tag (DP-01/DP-03 em :doc:`requisitos`):
 
 .. code:: bash
 
-   git clone --recurse-submodules https://github.com/abrasileirado/dsgovbr-bootstraped.git
+   git clone --recurse-submodules https://github.com/abrasileirado/dsgovbr-bootstrapped.git
 
 Se já clonou sem ``--recurse-submodules``:
 
@@ -31,9 +31,9 @@ Instalar e compilar
 
 Gera:
 
-- ``dist/dsgovbr-bootstraped.css``, ``.min.css`` e ``.css.map`` — artefatos do
+- ``dist/dsgovbr-bootstrapped.css``, ``.min.css`` e ``.css.map`` — artefatos do
   pacote.
-- ``docs/assets/css/dsgovbr-bootstraped.css`` — cópia usada pelas páginas de
+- ``docs/assets/css/dsgovbr-bootstrapped.css`` — cópia usada pelas páginas de
   documentação (``docs/componentes/``, ``docs/exemplos/``); é gerada a cada
   build e não é versionada (``.gitignore``).
 - ``docs/componentes/*.html`` — gerado a partir do template em

@@ -133,7 +133,7 @@ Critérios para uma futura issue de implementação
 Atualização (issue #67)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-O ``<dsgovbr-modal>`` (``dsgovbr-bootstraped-componentes.js``) segue a recomendação
+O ``<dsgovbr-modal>`` (``dsgovbr-bootstrapped-componentes.js``) segue a recomendação
 acima: monta o markup do Bootstrap e reusa o plugin ``Modal`` (foco, Escape, backdrop
 e retorno ao acionador continuam sendo os do Bootstrap). Cobre, em
 ``tests/browser/modal.spec.js``, modal padrão e estático, abrir/fechar por API e

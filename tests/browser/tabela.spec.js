@@ -1,6 +1,6 @@
 "use strict";
 
-// <dsgovbr-tabela> (src/js/dsgovbr-bootstraped-componentes.js), demonstrado em
+// <dsgovbr-tabela> (src/js/dsgovbr-bootstrapped-componentes.js), demonstrado em
 // /componentes/tabela.html: tabela, busca, filtros, ferramentas (densidade), seleção
 // com barra de itens selecionados e paginação, mais axe nos estados (claro e escuro).
 

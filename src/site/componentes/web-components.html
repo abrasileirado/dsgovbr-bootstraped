@@ -1,4 +1,4 @@
-<!-- title: Web components: Header, Menu, Footer e Breadcrumb — dsgovbr-bootstraped -->
+<!-- title: Web components: Header, Menu, Footer e Breadcrumb — dsgovbr-bootstrapped -->
 <!-- status: Experimental -->
 <h1>Web components (<code>&lt;dsgovbr-header&gt;</code>, <code>-menu</code>, <code>-footer</code>, <code>-breadcrumb</code>)</h1>
 <p>
@@ -9,7 +9,7 @@
   (<code>bootstrap.bundle</code>) segue sendo quem abre o menu, os dropdowns e a busca.
 </p>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<script src="../assets/js/dsgovbr-bootstraped-componentes.js" defer></script>
+<script src="../assets/js/dsgovbr-bootstrapped-componentes.js" defer></script>
 
 <section>
   <h2>Uso</h2>
@@ -18,9 +18,9 @@
     existirem quando o componente monta. O skip link e o <code>&lt;main id="conteudo"&gt;</code> ficam no HTML
     da página, antes do header.
   </p>
-<pre tabindex="0"><code>&lt;link rel="stylesheet" href="dist/dsgovbr-bootstraped.min.css"&gt;
-&lt;script src="dist/dsgovbr-bootstraped-modo.js"&gt;&lt;/script&gt;          &lt;!-- opcional: botão de modo escuro --&gt;
-&lt;script src="dist/dsgovbr-bootstraped-componentes.js" defer&gt;&lt;/script&gt;
+<pre tabindex="0"><code>&lt;link rel="stylesheet" href="dist/dsgovbr-bootstrapped.min.css"&gt;
+&lt;script src="dist/dsgovbr-bootstrapped-modo.js"&gt;&lt;/script&gt;          &lt;!-- opcional: botão de modo escuro --&gt;
+&lt;script src="dist/dsgovbr-bootstrapped-componentes.js" defer&gt;&lt;/script&gt;
 &lt;script src="bootstrap.bundle.min.js" defer&gt;&lt;/script&gt;</code></pre>
   <p>
     Cada componente lê os filhos e os atributos <strong>uma vez</strong>, ao conectar, e troca o conteúdo
@@ -129,8 +129,8 @@
       <tr><td><code>titulo</code>, <code>subtitulo</code></td><td>Segunda linha: título do sistema (<code>.navbar-brand</code>) e subtítulo.</td></tr>
       <tr><td><code>menu</code></td><td><code>id</code> de um <code>&lt;dsgovbr-menu&gt;</code>: mostra o botão que abre o menu.</td></tr>
       <tr><td><code>busca</code></td><td>Campo de busca (recolhido por Collapse abaixo de <code>lg</code>).</td></tr>
-      <tr><td><code>modo</code></td><td>Botão de modo claro/escuro (<code>data-dsgovbr-modo</code>); exige <code>dsgovbr-bootstraped-modo.js</code>.</td></tr>
-      <tr><td><code>cookies</code></td><td>Botão de ação rápida (ícone de cookie) que abre as configurações do <a href="cookiebar.html"><code>&lt;dsgovbr-cookiebar&gt;</code></a> (<code>data-dsgovbr-cookies-abrir</code>); exige <code>dsgovbr-bootstraped-cookies.js</code>. Use <code>sem-botao</code> no cookiebar para não duplicar o botão flutuante.</td></tr>
+      <tr><td><code>modo</code></td><td>Botão de modo claro/escuro (<code>data-dsgovbr-modo</code>); exige <code>dsgovbr-bootstrapped-modo.js</code>.</td></tr>
+      <tr><td><code>cookies</code></td><td>Botão de ação rápida (ícone de cookie) que abre as configurações do <a href="cookiebar.html"><code>&lt;dsgovbr-cookiebar&gt;</code></a> (<code>data-dsgovbr-cookies-abrir</code>); exige <code>dsgovbr-bootstrapped-cookies.js</code>. Use <code>sem-botao</code> no cookiebar para não duplicar o botão flutuante.</td></tr>
       <tr><td><code>usuario</code></td><td>Nome do usuário autenticado; abre o dropdown com os itens de <code>&lt;dsgovbr-usuario-menu&gt;</code> (<code>&lt;dsgovbr-divisor&gt;</code> vira divisor).</td></tr>
       <tr><td><code>pagina</code></td><td>Título da página (<code>&lt;h1&gt;</code>), na barra logo abaixo do <code>&lt;header&gt;</code> (fora dele, como no GOV.BR DS), que gruda no topo junto com ele.</td></tr>
       <tr><td><code>estatico</code></td><td>Não fixa o header no topo (e não recolhe a linha de cima ao rolar).</td></tr>

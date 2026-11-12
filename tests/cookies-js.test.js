@@ -1,6 +1,6 @@
 "use strict";
 
-// JS opcional de consentimento (src/js/dsgovbr-bootstraped-cookies.js). O
+// JS opcional de consentimento (src/js/dsgovbr-bootstrapped-cookies.js). O
 // comportamento no navegador é coberto por tests/browser/cookiebar.spec.js; aqui
 // a API roda num contexto isolado (vm) com localStorage e DOM de mentira.
 
@@ -9,7 +9,7 @@ const assert = require("node:assert/strict");
 const vm = require("node:vm");
 const { read } = require("./helpers");
 
-const ARQUIVO = "dsgovbr-bootstraped-cookies.js";
+const ARQUIVO = "dsgovbr-bootstrapped-cookies.js";
 
 function carregar({ storage, semStorage = false } = {}) {
   const dados = storage || {};
@@ -60,7 +60,7 @@ test("API: definir grava, normaliza para booleano, ignora necessarios e dispara 
   const ctx = carregar();
   const { api, dados } = ctx;
   api.definir({ desempenho: true, funcionais: "sim", necessarios: false }, "salvar");
-  assert.deepEqual(JSON.parse(dados["dsgovbr-bootstraped:cookies"]), { v: 1, grupos: { desempenho: true, funcionais: false } });
+  assert.deepEqual(JSON.parse(dados["dsgovbr-bootstrapped:cookies"]), { v: 1, grupos: { desempenho: true, funcionais: false } });
   assert.deepEqual(api.escolha(), { necessarios: true, desempenho: true, funcionais: false });
   assert.equal(api.permitido("desempenho"), true);
   assert.equal(api.permitido("funcionais"), false);
@@ -88,9 +88,9 @@ test("API: entradas inválidas dão erro claro", () => {
 });
 
 test("API: JSON ilegível ou de outra versão vira 'sem escolha'", () => {
-  assert.equal(carregar({ storage: { "dsgovbr-bootstraped:cookies": "{não é json" } }).api.escolha(), null);
-  assert.equal(carregar({ storage: { "dsgovbr-bootstraped:cookies": JSON.stringify({ v: 9, grupos: { a: true } }) } }).api.escolha(), null);
-  const ok = carregar({ storage: { "dsgovbr-bootstraped:cookies": JSON.stringify({ v: 1, grupos: { desempenho: true } }) } });
+  assert.equal(carregar({ storage: { "dsgovbr-bootstrapped:cookies": "{não é json" } }).api.escolha(), null);
+  assert.equal(carregar({ storage: { "dsgovbr-bootstrapped:cookies": JSON.stringify({ v: 9, grupos: { a: true } }) } }).api.escolha(), null);
+  const ok = carregar({ storage: { "dsgovbr-bootstrapped:cookies": JSON.stringify({ v: 1, grupos: { desempenho: true } }) } });
   assert.equal(ok.api.permitido("desempenho"), true);
 });
 

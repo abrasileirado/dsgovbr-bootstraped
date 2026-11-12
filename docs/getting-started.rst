@@ -10,24 +10,24 @@ Estado atual
 
 O pacote **ainda não foi publicado no npm** (ver DP-07 em
 :doc:`requisitos`). Por enquanto, a única forma de usar o
-dsgovbr-bootstraped é clonando este repositório e compilando localmente.
+dsgovbr-bootstrapped é clonando este repositório e compilando localmente.
 
 Usando a partir deste repositório
 ---------------------------------
 
 .. code:: bash
 
-   git clone --recurse-submodules https://github.com/abrasileirado/dsgovbr-bootstraped.git
-   cd dsgovbr-bootstraped
+   git clone --recurse-submodules https://github.com/abrasileirado/dsgovbr-bootstrapped.git
+   cd dsgovbr-bootstrapped
    npm install
    npm run build
 
-O CSS pronto fica em ``dist/dsgovbr-bootstraped.css`` (ou ``.min.css``,
+O CSS pronto fica em ``dist/dsgovbr-bootstrapped.css`` (ou ``.min.css``,
 minificado). Inclua no seu HTML:
 
 .. code:: html
 
-   <link rel="stylesheet" href="caminho/para/dsgovbr-bootstraped.min.css">
+   <link rel="stylesheet" href="caminho/para/dsgovbr-bootstrapped.min.css">
 
 Nenhum outro CSS do Bootstrap precisa ser carregado: a build é **autônoma**
 (DP-02 em :doc:`requisitos`) — o arquivo já inclui o Bootstrap inteiro
@@ -46,7 +46,7 @@ Pré-requisitos externos
 
   A Rawline é SIL OFL 1.1 (conforme as próprias fontes). O CDN não envia CORS,
   então não aceita ``integrity``; para usar SRI, hospede a fonte você mesmo — ver
-  `THIRD_PARTY_NOTICES <https://github.com/abrasileirado/dsgovbr-bootstraped/blob/main/THIRD_PARTY_NOTICES.md>`__.
+  `THIRD_PARTY_NOTICES <https://github.com/abrasileirado/dsgovbr-bootstrapped/blob/main/THIRD_PARTY_NOTICES.md>`__.
 
 - **Ícones Font Awesome 5**: não incluídos. Só são necessários se você for
   replicar manualmente ícones do GOV.BR DS (nenhum componente do MVP atual
@@ -68,14 +68,14 @@ Modo claro/escuro (opcional)
 ----------------------------
 
 O CSS já pinta o modo escuro pelo ``data-bs-theme="dark"`` do Bootstrap 5.3. Para
-o usuário alternar, carregue o JS opcional ``dist/dsgovbr-bootstraped-modo.js``
+o usuário alternar, carregue o JS opcional ``dist/dsgovbr-bootstrapped-modo.js``
 (sem dependência) de forma **síncrona no ``<head>``**, depois do CSS, e marque o
 botão com ``data-dsgovbr-modo``:
 
 .. code:: html
 
-   <link rel="stylesheet" href="dist/dsgovbr-bootstraped.min.css">
-   <script src="dist/dsgovbr-bootstraped-modo.js"></script>
+   <link rel="stylesheet" href="dist/dsgovbr-bootstrapped.min.css">
+   <script src="dist/dsgovbr-bootstrapped-modo.js"></script>
    ...
    <button class="btn btn-link btn-sm rounded-circle" type="button"
            data-dsgovbr-modo aria-pressed="false" aria-label="Modo escuro" title="Modo escuro">
@@ -93,7 +93,7 @@ Exemplo no header do `painel administrativo <exemplos/admin.html>`__.
 Web components de header, menu, footer e breadcrumb (opcional)
 ---------------------------------------------------------------
 
-O JS opcional ``dist/dsgovbr-bootstraped-componentes.js`` (sem dependência) define
+O JS opcional ``dist/dsgovbr-bootstrapped-componentes.js`` (sem dependência) define
 quatro custom elements que encapsulam as composições do `painel administrativo
 <exemplos/admin.html>`__: ``<dsgovbr-header>``, ``<dsgovbr-menu>``,
 ``<dsgovbr-footer>`` e ``<dsgovbr-breadcrumb>``. Eles geram as classes Bootstrap
@@ -102,8 +102,8 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
 
 .. code:: html
 
-   <script src="dist/dsgovbr-bootstraped-modo.js"></script>
-   <script src="dist/dsgovbr-bootstraped-componentes.js" defer></script>
+   <script src="dist/dsgovbr-bootstrapped-modo.js"></script>
+   <script src="dist/dsgovbr-bootstrapped-componentes.js" defer></script>
    <script src="bootstrap.bundle.min.js" defer></script>
    ...
    <dsgovbr-header logo="logo.svg" logo-alt="Página inicial" assinatura="Ministério Exemplo"
@@ -147,7 +147,7 @@ Todos os atributos e elementos filhos (``<dsgovbr-item>``, ``<dsgovbr-pasta>``, 
 Paginação (opcional)
 --------------------
 
-O ``<dsgovbr-paginacao>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, monta a
+O ``<dsgovbr-paginacao>``, no mesmo ``dist/dsgovbr-bootstrapped-componentes.js``, monta a
 paginação (``.pagination``) com janela de páginas e reticências, seletor "Exibir", texto
 "1-10 de 100 itens" e a variante ``compacta`` (rodapé de tabela). Só classes do Bootstrap:
 
@@ -166,7 +166,7 @@ Todos os atributos em `Paginação <componentes/paginacao.html#web-component>`__
 Tabela (opcional)
 -----------------
 
-O ``<dsgovbr-tabela>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, junta as partes do *Table*
+O ``<dsgovbr-tabela>``, no mesmo ``dist/dsgovbr-bootstrapped-componentes.js``, junta as partes do *Table*
 do GOV.BR DS ao redor do seu ``<table>``: busca, filtros, menu de ferramentas (densidade), barra de
 itens selecionados com ações em lote e paginação (``<dsgovbr-paginacao compacta>``). Só classes e
 plugins do Bootstrap (exige o ``bootstrap.bundle``):
@@ -193,7 +193,7 @@ Todos os atributos e eventos em `Tabela <componentes/tabela.html>`__ (catálogo)
 Campo de formulário (opcional)
 ------------------------------
 
-O ``<dsgovbr-campo>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, gera rótulo + **controle
+O ``<dsgovbr-campo>``, no mesmo ``dist/dsgovbr-bootstrapped-componentes.js``, gera rótulo + **controle
 nativo** + ajuda + feedback, com ``for``/``id``/``aria-describedby``/``aria-invalid`` ligados sozinhos, só
 com classes do Bootstrap. O ``<input>``, ``<select>`` ou ``<textarea>`` é real e fica dentro do
 ``<form>``: o valor é enviado normalmente e a validação nativa funciona.
@@ -219,7 +219,7 @@ Detalhes em `Formulários <componentes/formularios.html#web-component>`__ (catá
 Modal (opcional)
 ----------------
 
-O ``<dsgovbr-modal>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, monta o markup do
+O ``<dsgovbr-modal>``, no mesmo ``dist/dsgovbr-bootstrapped-componentes.js``, monta o markup do
 modal só com classes do Bootstrap e reusa o plugin ``Modal`` (exige o ``bootstrap.bundle``). O
 próprio elemento é o ``.modal``; o conteúdo livre vira o corpo e ``<dsgovbr-acoes>`` o rodapé:
 
@@ -245,7 +245,7 @@ Detalhes em `Modal <componentes/modal.html#web-component>`__ (catálogo).
 Consentimento de cookies (opcional)
 -----------------------------------
 
-O JS opcional ``dist/dsgovbr-bootstraped-cookies.js`` (sem dependência) traz o
+O JS opcional ``dist/dsgovbr-bootstrapped-cookies.js`` (sem dependência) traz o
 ``<dsgovbr-cookiebar>`` (barra de consentimento, configurações por grupo num modal e
 botão flutuante que as reabre) e a API ``window.dsgovbrCookies``. Carregue de forma
 **síncrona no ``<head>``**, para a API estar pronta cedo, e mantenha o
@@ -253,7 +253,7 @@ botão flutuante que as reabre) e a API ``window.dsgovbrCookies``. Carregue de f
 
 .. code:: html
 
-   <script src="dist/dsgovbr-bootstraped-cookies.js"></script>
+   <script src="dist/dsgovbr-bootstrapped-cookies.js"></script>
    ...
    <dsgovbr-cookiebar declaracao="/cookies">
      <dsgovbr-cookies-texto>Usamos cookies para melhorar sua experiência. Veja a nossa</dsgovbr-cookies-texto>
@@ -278,11 +278,11 @@ Quando o pacote for publicado no npm (planejado)
 
 .. code:: bash
 
-   npm install @abrasileirado/dsgovbr-bootstraped
+   npm install @abrasileirado/dsgovbr-bootstrapped
 
 .. code:: html
 
-   <link rel="stylesheet" href="node_modules/@abrasileirado/dsgovbr-bootstraped/dist/dsgovbr-bootstraped.min.css">
+   <link rel="stylesheet" href="node_modules/@abrasileirado/dsgovbr-bootstrapped/dist/dsgovbr-bootstrapped.min.css">
 
 Compilando a partir do SCSS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -295,7 +295,7 @@ Defina as variáveis **antes** de importar a entrada (todas são ``!default``):
 
    // seu-estilo.scss
    $primary: #0b5cad; // sobrescreve o azul do GOV.BR DS
-   @import "@abrasileirado/dsgovbr-bootstraped/src/scss/index";
+   @import "@abrasileirado/dsgovbr-bootstrapped/src/scss/index";
 
 Compile com Dart Sass apontando o ``node_modules`` como load path
 (``sass --load-path=node_modules seu-estilo.scss saida.css``) ou use o
