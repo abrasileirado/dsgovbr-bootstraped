@@ -94,7 +94,7 @@ test("compacta: Exibir, informação, seletor de página e setas", async ({ page
   await el.getByRole("button", { name: "Próxima página" }).click();
   await expect(el.getByLabel("Página", { exact: true })).toHaveValue("6");
   await el.getByLabel("Página", { exact: true }).selectOption("10");
-  await expect(el.locator('[aria-label="Próxima página"]')).toHaveAttribute("aria-disabled", "true");
+  await expect(el.getByRole("button", { name: "Próxima página" })).toBeDisabled();
   await expect(el.getByRole("button", { name: "Página anterior" })).toBeEnabled();
 });
 
@@ -143,6 +143,7 @@ test("janela(): primeira e última sempre, uma página só no vão vira a págin
 test("axe: lista, compacta e estados desabilitados, no claro e no escuro", async ({ page }) => {
   for (const modo of ["light", "dark"]) {
     await page.evaluate((m) => document.documentElement.setAttribute("data-bs-theme", m), modo);
+    await page.waitForTimeout(300); // as cores dos botões têm transição (.15s)
     await page.evaluate(() => { document.querySelector("#pag-lista").pagina = 1; });
     const { violations } = await new AxeBuilder({ page })
       .include("#web-component")

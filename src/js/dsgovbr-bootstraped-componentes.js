@@ -1,5 +1,5 @@
 /*!
- * dsgovbr-bootstraped — web components de header, menu, footer, breadcrumb, paginação, modal e campo (opcional)
+ * dsgovbr-bootstraped — web components de header, menu, footer, breadcrumb, paginação, modal, campo e tabela (opcional)
  * Licensed under MIT (https://github.com/abrasileirado/dsgovbr-bootstraped/blob/main/LICENSE)
  */
 // Custom elements em light DOM (sem Shadow DOM): geram as mesmas classes
@@ -10,7 +10,8 @@
 //   <script src="dsgovbr-bootstraped-componentes.js" defer></script>
 //
 // Elementos: <dsgovbr-breadcrumb>, <dsgovbr-menu>, <dsgovbr-footer>,
-// <dsgovbr-header>, <dsgovbr-paginacao>, <dsgovbr-modal> e <dsgovbr-campo>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
+// <dsgovbr-header>, <dsgovbr-paginacao>, <dsgovbr-modal>, <dsgovbr-campo> e
+// <dsgovbr-tabela>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
 // troca o conteúdo pelo HTML final (o conteúdo original é só a declaração).
 // Mudar um atributo depois remonta o componente. O modo claro/escuro continua
 // no JS à parte (dsgovbr-bootstraped-modo.js); o header só renderiza o botão.
@@ -790,8 +791,12 @@
 
       function controle(rotulo, pagina, desabilitado, foco, classe, conteudo) {
         if (desabilitado) {
-          // no .pagination o desabilitado é o .page-item.disabled (do <li>); no botão, o próprio .btn
-          return h("span", { class: classe + (classe.indexOf("btn") === 0 ? " disabled" : ""), "aria-disabled": "true", "aria-label": rotulo }, conteudo);
+          // lista: o desabilitado é o .page-item.disabled (do <li>) e o texto já nomeia o controle;
+          // botão de ícone: <button disabled> nativo, com o nome em aria-label
+          if (classe.indexOf("btn") === 0) {
+            return h("button", { type: "button", class: classe, disabled: true, "aria-label": rotulo }, conteudo);
+          }
+          return h("span", { class: classe, "aria-disabled": "true" }, conteudo);
         }
         var url = alvo(pagina);
         var el = h(url ? "a" : "button", { class: classe, href: url, type: url ? false : "button", "aria-label": rotulo, "data-foco": foco }, conteudo);
@@ -1213,13 +1218,394 @@
     }
   }
 
+  // -------------------------------------------------------------------- tabela
+  // <dsgovbr-tabela titulo="Selecione usuário para modificar" busca filtros ferramentas
+  //                 selecionavel total="42" por-pagina="10" opcoes-por-pagina="10,25,50"
+  //                 acao="/usuarios/" densidade="media" vazio="Nenhum usuário.">
+  //   <table> … </table>                          (a tabela de verdade: thead, tbody, <tr data-valor="id">)
+  //   <dsgovbr-filtro nome="ativo" rotulo="Ativo">
+  //     <dsgovbr-opcao valor="1">Sim</dsgovbr-opcao> <dsgovbr-opcao valor="0">Não</dsgovbr-opcao>
+  //   </dsgovbr-filtro>
+  //   <dsgovbr-lote-acao acao="excluir" icone="fas fa-trash">Excluir</dsgovbr-lote-acao>
+  //   <dsgovbr-acoes><button class="btn btn-primary">Adicionar usuário</button></dsgovbr-acoes>
+  // </dsgovbr-tabela>
+  //
+  // As seis partes do Table do GOV.BR DS, só com classes do Bootstrap (.table,
+  // .table-responsive, .collapse, .dropdown, .btn, .btn-group, .btn-check, .form-check,
+  // .input-group, .badge, .card):
+  //   1. tabela     o <table> do autor é decorado (classes, coluna de seleção) e mantido;
+  //   2. busca      (`busca`) lupa que abre o campo "Buscar nesta listagem" + Pesquisar;
+  //   3. filtros    (<dsgovbr-filtro>) funil que abre o painel com um dropdown por filtro,
+  //                 "Filtros:" com os aplicados, Filtrar e Limpar todos os filtros;
+  //   4. ferramentas (`ferramentas`) três pontos: "Densidade" (Alta, Média, Baixa);
+  //   5. seleção    (`selecionavel`) checkbox por linha e no cabeçalho; barra azul "N
+  //                 itens selecionados" com as <dsgovbr-lote-acao>; linha com .table-active;
+  //   6. paginação  (`total`/`total-paginas`) <dsgovbr-paginacao compacta> no rodapé.
+  //
+  // Busca e filtros ficam num <form method="get">: com `acao` o envio é nativo (renderização
+  // no servidor, ex.: Django); sem `acao` não envia e só dispara os eventos. Eventos (bubbles):
+  //   dsgovbr:tabela-busca / dsgovbr:tabela-filtro  detail { termo, filtros }  (cancelável)
+  //   dsgovbr:tabela-selecao                        detail { quantidade, valores }
+  //   dsgovbr:tabela-acao                           detail { acao, valores }
+  //   dsgovbr:tabela-densidade                      detail { densidade }
+  //   dsgovbr:pagina                                (do <dsgovbr-paginacao>, ver acima)
+  // Não aninhe o componente dentro de outro <form> (ele tem o próprio).
+  var DENSIDADES = [["alta", "Alta"], ["media", "Média"], ["baixa", "Baixa"]];
+
+  class Tabela extends Base {
+    static get observedAttributes() {
+      return ["titulo", "busca", "busca-nome", "busca-valor", "busca-placeholder", "acao", "ferramentas", "selecionavel", "selecao-nome",
+        "total", "total-paginas", "pagina", "por-pagina", "opcoes-por-pagina", "paginacao-href", "vazio", "carregando"];
+    }
+
+    ler() {
+      var tabela = Array.prototype.find.call(this.children, function (el) { return el.localName === "table"; });
+      return {
+        tabela: tabela || null,
+        filtros: filhos(this, "dsgovbr-filtro").map(function (f) {
+          return {
+            nome: f.getAttribute("nome") || "",
+            rotulo: f.getAttribute("rotulo") || f.getAttribute("nome") || "",
+            opcoes: filhos(f, "dsgovbr-opcao").map(function (o) {
+              return { valor: o.getAttribute("valor") !== null ? o.getAttribute("valor") : texto(o), texto: texto(o), selecionada: o.hasAttribute("selecionada") };
+            }),
+          };
+        }),
+        lote: filhos(this, "dsgovbr-lote-acao").map(function (a) {
+          return { acao: a.getAttribute("acao") || "", icone: a.getAttribute("icone"), texto: texto(a) };
+        }),
+        acoes: nosDe(this, "dsgovbr-acoes"),
+      };
+    }
+
+    attributeChangedCallback(nome, antigo, novo) {
+      if (!this._quieto) {
+        super.attributeChangedCallback(nome, antigo, novo);
+      }
+    }
+
+    get densidade() {
+      var d = this.attr("densidade", "media");
+      return DENSIDADES.some(function (x) { return x[0] === d; }) ? d : "media";
+    }
+
+    get valoresSelecionados() {
+      return Array.prototype.map.call(this.querySelectorAll("input[data-tabela-linha]:checked"), function (c) { return c.value; });
+    }
+
+    // Busca e filtros lidos do formulário (o que seria enviado).
+    consulta() {
+      var form = this.querySelector("form[data-tabela-consulta]");
+      var termo = form && form.elements[this.attr("busca-nome", "q")] ? form.elements[this.attr("busca-nome", "q")].value : "";
+      var filtros = {};
+      Array.prototype.forEach.call(this.querySelectorAll("input[data-tabela-filtro]:checked"), function (c) {
+        (filtros[c.name] = filtros[c.name] || []).push(c.value);
+      });
+      return { termo: termo, filtros: filtros };
+    }
+
+    avisar(tipo, detalhe, cancelavel) {
+      var evento = new CustomEvent("dsgovbr:tabela-" + tipo, { bubbles: true, cancelable: Boolean(cancelavel), detail: detalhe });
+      this.dispatchEvent(evento);
+      return evento;
+    }
+
+    // Insere (ou tira) a coluna de checkboxes na tabela do autor, sem duplicar.
+    decorarSelecao(tabela, ativo) {
+      var nome = this.attr("selecao-nome", "selecionados");
+      var existentes = tabela.querySelectorAll("[data-dsgovbr-selecao]");
+      if (!ativo) {
+        Array.prototype.forEach.call(existentes, function (c) { c.remove(); });
+        return;
+      }
+      Array.prototype.forEach.call(tabela.querySelectorAll("input[data-tabela-linha]"), function (c) { c.name = nome; });
+      var cab = tabela.querySelector("thead tr");
+      if (cab && !cab.querySelector("th[data-dsgovbr-selecao]")) {
+        cab.insertBefore(h("th", { scope: "col", "data-dsgovbr-selecao": true },
+          h("div", { class: "form-check mb-0" }, h("input", { class: "form-check-input", type: "checkbox", "aria-label": "Selecionar todas as linhas", "data-tabela-todas": true }))), cab.firstChild);
+      }
+      Array.prototype.forEach.call(tabela.querySelectorAll("tbody tr"), function (linha, i) {
+        if (linha.querySelector("td[data-dsgovbr-selecao]")) {
+          return; // já decorada (linhas novas ganham o checkbox ao remontar)
+        }
+        var primeira = linha.querySelector("th, td");
+        var rotuloLinha = linha.getAttribute("data-rotulo") || (primeira ? texto(primeira) : "") || String(i + 1);
+        linha.insertBefore(h("td", { "data-dsgovbr-selecao": true },
+          h("div", { class: "form-check mb-0" }, h("input", {
+            class: "form-check-input", type: "checkbox", name: nome, value: linha.getAttribute("data-valor") || String(i + 1),
+            "aria-label": "Selecionar " + rotuloLinha, "data-tabela-linha": true,
+          }))), linha.firstChild);
+      });
+    }
+
+    // Reflete a seleção: linhas, "selecionar todas", barra e contador.
+    atualizarSelecao(avisar) {
+      var linhas = this.querySelectorAll("input[data-tabela-linha]");
+      var marcadas = this.valoresSelecionados;
+      Array.prototype.forEach.call(linhas, function (c) {
+        var tr = c.closest("tr");
+        if (tr) {
+          tr.classList.toggle("table-active", c.checked);
+        }
+      });
+      var todas = this.querySelector("input[data-tabela-todas]");
+      if (todas) {
+        todas.checked = linhas.length > 0 && marcadas.length === linhas.length;
+        todas.indeterminate = marcadas.length > 0 && marcadas.length < linhas.length;
+      }
+      var barra = this.querySelector("[data-tabela-barra]");
+      if (barra) {
+        barra.hidden = marcadas.length === 0;
+        barra.querySelector("[data-tabela-contador]").textContent = marcadas.length + (marcadas.length === 1 ? " item selecionado" : " itens selecionados");
+      }
+      if (avisar) {
+        this.avisar("selecao", { quantidade: marcadas.length, valores: marcadas });
+      }
+    }
+
+    aplicarDensidade() {
+      var d = this.densidade;
+      var raiz = this.querySelector("[data-tabela-raiz]");
+      var tabela = this._modelo.tabela;
+      if (raiz) {
+        raiz.setAttribute("data-densidade", d);
+      }
+      if (tabela) {
+        tabela.classList.toggle("table-sm", d === "alta");
+      }
+    }
+
+    montar() {
+      var self = this;
+      var m = this._modelo;
+      var id = this._uid || (this._uid = proximoId("tabela"));
+      var idPaineis = id + "-paineis";
+      var idBusca = id + "-busca";
+      var idFiltros = id + "-filtros";
+      var comBusca = this.hasAttribute("busca");
+      var comFiltros = m.filtros.length > 0;
+      var comFerramentas = this.hasAttribute("ferramentas");
+      var selecionavel = this.hasAttribute("selecionavel") && Boolean(m.tabela);
+      var nomeBusca = this.attr("busca-nome", "q");
+
+      // O que a pessoa já digitou/marcou nos painéis sobrevive a uma remontagem.
+      var anterior = this.querySelector("form[data-tabela-consulta]") ? this.consulta() : null;
+      var tinhaFoco = this.contains(document.activeElement) ? document.activeElement.getAttribute("data-foco") : null;
+
+      if (m.tabela) {
+        m.tabela.classList.add("table", "table-hover", "align-middle");
+        m.tabela.classList.add("mb-0");
+        this.decorarSelecao(m.tabela, selecionavel);
+      }
+
+      function botaoFerramenta(rotulo, iconeClasses, alvo) {
+        return h("button", { type: "button", class: "btn btn-link btn-sm rounded-circle", "data-bs-toggle": "collapse", "data-bs-target": "#" + alvo,
+          "aria-expanded": "false", "aria-controls": alvo, "aria-label": rotulo, title: rotulo, "data-foco": alvo }, icone(iconeClasses));
+      }
+
+      // ---- barra de ferramentas: título, busca, filtros, ferramentas e ações da página
+      var ferramentas = h("div", { class: "d-flex align-items-center gap-1 ms-auto" });
+      if (comBusca) {
+        ferramentas.append(botaoFerramenta("Buscar na listagem", "fas fa-search", idBusca));
+      }
+      if (comFiltros) {
+        ferramentas.append(botaoFerramenta("Filtrar a listagem", "fas fa-filter", idFiltros));
+      }
+      if (comFerramentas) {
+        var radios = DENSIDADES.map(function (d) {
+          var idRadio = id + "-densidade-" + d[0];
+          return [
+            h("input", { type: "radio", class: "btn-check", name: id + "-densidade", id: idRadio, value: d[0], checked: self.densidade === d[0], "data-tabela-densidade": true }),
+            h("label", { class: "btn btn-outline-primary btn-sm", for: idRadio }, d[1]),
+          ];
+        });
+        ferramentas.append(h("div", { class: "dropdown" }, [
+          h("button", { type: "button", class: "btn btn-link btn-sm rounded-circle", "data-bs-toggle": "dropdown", "data-bs-auto-close": "outside", "aria-expanded": "false", "aria-label": "Ferramentas da tabela", title: "Ferramentas da tabela" }, icone("fas fa-ellipsis-v")),
+          h("div", { class: "dropdown-menu dropdown-menu-end p-3" }, [
+            h("p", { class: "small mb-2", id: id + "-densidade-rotulo" }, "Densidade"),
+            h("div", { class: "btn-group", role: "group", "aria-labelledby": id + "-densidade-rotulo" }, [].concat.apply([], radios)),
+          ]),
+        ]));
+      }
+      var cabecalho = h("div", { class: "d-flex flex-wrap align-items-center gap-2 mb-3" }, [
+        this.hasAttribute("titulo") ? h("h2", { class: "h4 m-0" }, this.getAttribute("titulo")) : null,
+        ferramentas,
+      ].concat(m.acoes.length ? [h("div", { class: "d-flex gap-2" }, m.acoes)] : []));
+
+      // ---- painéis de busca e de filtros (um aberto por vez), num <form method="get">
+      var paineis = null;
+      if (comBusca || comFiltros) {
+        var corpoPaineis = h("div", { id: idPaineis });
+        if (comBusca) {
+          corpoPaineis.append(h("div", { class: "collapse", id: idBusca, "data-bs-parent": "#" + idPaineis },
+            h("div", { class: "d-flex gap-3 mb-3" }, [
+              h("input", { type: "search", class: "form-control", name: nomeBusca, value: anterior ? anterior.termo : this.attr("busca-valor", ""),
+                placeholder: this.attr("busca-placeholder", "Buscar nesta listagem"), "aria-label": this.attr("busca-placeholder", "Buscar nesta listagem") }),
+              h("button", { type: "submit", class: "btn btn-primary", "data-acao": "busca" }, "Pesquisar"),
+            ])));
+        }
+        if (comFiltros) {
+          var chips = h("span", { class: "d-inline-flex flex-wrap gap-1 align-items-center", "data-tabela-chips": true });
+          var lista = m.filtros.map(function (f, i) {
+            var idMenu = id + "-filtro-" + i;
+            var marcados = anterior ? anterior.filtros[f.nome] || [] : null;
+            return h("div", { class: "dropdown" }, [
+              h("button", { type: "button", class: "btn btn-outline-primary btn-sm rounded-pill dropdown-toggle", "data-bs-toggle": "dropdown", "data-bs-auto-close": "outside", "aria-expanded": "false" }, f.rotulo),
+              h("div", { class: "dropdown-menu p-2" }, f.opcoes.map(function (o, j) {
+                var idCampo = idMenu + "-" + j;
+                return h("div", { class: "form-check mx-2 my-1" }, [
+                  h("input", { class: "form-check-input", type: "checkbox", id: idCampo, name: f.nome, value: o.valor,
+                    checked: marcados ? marcados.indexOf(o.valor) !== -1 : o.selecionada, "data-tabela-filtro": true, "data-rotulo-filtro": f.rotulo, "data-rotulo-opcao": o.texto }),
+                  h("label", { class: "form-check-label", for: idCampo }, o.texto),
+                ]);
+              })),
+            ]);
+          });
+          corpoPaineis.append(h("div", { class: "collapse", id: idFiltros, "data-bs-parent": "#" + idPaineis },
+            h("div", { class: "card shadow-sm mb-3" }, h("div", { class: "card-body" }, [
+              h("div", { class: "d-flex flex-wrap gap-2 mb-3" }, lista),
+              h("div", { class: "d-flex flex-wrap align-items-center justify-content-between gap-2" }, [
+                h("div", { class: "small d-flex flex-wrap align-items-center gap-2" }, [h("span", {}, "Filtros:"), chips]),
+                h("div", { class: "d-flex gap-2 ms-auto" }, [
+                  h("button", { type: "submit", class: "btn btn-primary btn-sm", "data-acao": "filtro" }, "Filtrar"),
+                  h("button", { type: "button", class: "btn btn-outline-primary btn-sm", "data-tabela-limpar": true }, "Limpar todos os filtros"),
+                ]),
+              ]),
+            ]))));
+        }
+        paineis = h("form", { method: "get", action: this.attr("acao", "") || false, role: "search", "aria-label": "Busca e filtros da listagem", "data-tabela-consulta": true }, corpoPaineis);
+      }
+
+      // ---- barra de itens selecionados (azul) com as ações em lote
+      var barra = null;
+      if (selecionavel) {
+        // `hidden` fica num wrapper: .d-flex (!important) venceria o [hidden] do próprio elemento
+        barra = h("div", { hidden: true, "data-tabela-barra": true },
+          h("div", { class: "bg-primary text-white d-flex flex-wrap align-items-center gap-3 px-3 py-2" }, [
+            h("span", { class: "fw-semibold me-auto", role: "status", "aria-live": "polite", "data-tabela-contador": true }),
+          ].concat(m.lote.map(function (a) {
+            return h("button", { type: "button", class: "btn btn-link text-white", "data-tabela-acao": a.acao }, [icone(a.icone, "me-2"), a.texto]);
+          }))));
+      }
+
+      // ---- tabela (responsiva) com estados de vazio e de carregamento
+      var corpo = h("div", { class: "table-responsive" }, m.tabela ? [m.tabela] : []);
+      var linhasDados = m.tabela ? m.tabela.querySelectorAll("tbody tr").length : 0;
+      var estados = [];
+      if (this.hasAttribute("carregando")) {
+        estados.push(h("div", { class: "text-center p-4", role: "status" }, [h("span", { class: "spinner-border spinner-border-sm me-2", "aria-hidden": "true" }), "Carregando…"]));
+      } else if (linhasDados === 0) {
+        estados.push(h("p", { class: "text-center text-body-secondary p-4 m-0" }, this.attr("vazio", "Nenhum registro encontrado.")));
+      }
+
+      // ---- rodapé: paginação compacta
+      var rodape = null;
+      if (this.hasAttribute("total") || this.hasAttribute("total-paginas")) {
+        var paginacao = document.createElement("dsgovbr-paginacao");
+        paginacao.setAttribute("compacta", "");
+        paginacao.setAttribute("rotulo", "Paginação da tabela");
+        ["total", "total-paginas", "pagina", "por-pagina", "opcoes-por-pagina"].forEach(function (n) {
+          if (self.hasAttribute(n)) {
+            paginacao.setAttribute(n, self.getAttribute(n));
+          }
+        });
+        if (this.hasAttribute("paginacao-href")) {
+          paginacao.setAttribute("href", this.getAttribute("paginacao-href"));
+        }
+        rodape = h("div", { class: "mt-3" }, paginacao);
+      }
+
+      var raiz = h("div", { "data-tabela-raiz": true, "aria-busy": this.hasAttribute("carregando") ? "true" : false },
+        [cabecalho, paineis, barra, corpo].concat(estados, [rodape]));
+      this.replaceChildren(raiz);
+      this.aplicarDensidade();
+      this.atualizarSelecao(false);
+      this.atualizarChips();
+
+      if (tinhaFoco) {
+        var alvo = this.querySelector('[data-foco="' + tinhaFoco + '"]');
+        if (alvo) {
+          alvo.focus();
+        }
+      }
+      this.ligar();
+    }
+
+    // "Filtros:" com um chip por opção marcada.
+    atualizarChips() {
+      var chips = this.querySelector("[data-tabela-chips]");
+      if (!chips) {
+        return;
+      }
+      var marcados = Array.prototype.map.call(this.querySelectorAll("input[data-tabela-filtro]:checked"), function (c) {
+        return h("span", { class: "badge rounded-pill text-bg-secondary" }, c.getAttribute("data-rotulo-filtro") + ": " + c.getAttribute("data-rotulo-opcao"));
+      });
+      chips.replaceChildren.apply(chips, marcados);
+    }
+
+    // Eventos por delegação no host: valem depois de qualquer remontagem.
+    ligar() {
+      if (this._ligado) {
+        return;
+      }
+      this._ligado = true;
+      var self = this;
+
+      this.addEventListener("change", function (e) {
+        var alvo = e.target;
+        if (alvo.matches("input[data-tabela-todas]")) {
+          Array.prototype.forEach.call(self.querySelectorAll("input[data-tabela-linha]"), function (c) { c.checked = alvo.checked; });
+          self.atualizarSelecao(true);
+        } else if (alvo.matches("input[data-tabela-linha]")) {
+          self.atualizarSelecao(true);
+        } else if (alvo.matches("input[data-tabela-filtro]")) {
+          self.atualizarChips();
+        } else if (alvo.matches("input[data-tabela-densidade]")) {
+          self._quieto = true;
+          self.setAttribute("densidade", alvo.value);
+          self._quieto = false;
+          self.aplicarDensidade();
+          self.avisar("densidade", { densidade: alvo.value });
+        }
+      });
+
+      this.addEventListener("click", function (e) {
+        var lote = e.target.closest ? e.target.closest("[data-tabela-acao]") : null;
+        if (lote) {
+          self.avisar("acao", { acao: lote.getAttribute("data-tabela-acao"), valores: self.valoresSelecionados });
+          return;
+        }
+        if (e.target.closest && e.target.closest("[data-tabela-limpar]")) {
+          Array.prototype.forEach.call(self.querySelectorAll("input[data-tabela-filtro]"), function (c) { c.checked = false; });
+          self.atualizarChips();
+          var filtrar = self.querySelector('[data-acao="filtro"]');
+          var form = self.querySelector("form[data-tabela-consulta]");
+          if (form && form.requestSubmit) {
+            form.requestSubmit(filtrar);
+          }
+        }
+      });
+
+      this.addEventListener("submit", function (e) {
+        if (!e.target.matches || !e.target.matches("form[data-tabela-consulta]")) {
+          return;
+        }
+        var origem = e.submitter && e.submitter.getAttribute("data-acao") ? e.submitter.getAttribute("data-acao") : "busca";
+        var evento = self.avisar(origem, self.consulta(), true);
+        if (evento.defaultPrevented || !self.hasAttribute("acao")) {
+          e.preventDefault();
+        }
+      });
+    }
+  }
+
   // Elementos-dado: só carregam atributos e conteúdo para o componente pai, que os
   // troca pelo HTML final. Definidos para ficarem "upgraded" e documentados; o CSS
   // os oculta se sobrarem fora de um pai.
   [
     "dsgovbr-item", "dsgovbr-pasta", "dsgovbr-menu-rodape", "dsgovbr-coluna", "dsgovbr-rede", "dsgovbr-logo", "dsgovbr-aviso",
     "dsgovbr-acesso-rapido", "dsgovbr-funcionalidades", "dsgovbr-usuario-menu", "dsgovbr-divisor", "dsgovbr-acoes",
-    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao",
+    "dsgovbr-ajuda", "dsgovbr-erro", "dsgovbr-sucesso", "dsgovbr-opcao", "dsgovbr-filtro", "dsgovbr-lote-acao",
   ].forEach(function (nome) {
     if (!window.customElements.get(nome)) {
       window.customElements.define(nome, class extends HTMLElement {});
@@ -1236,6 +1622,7 @@
     ["dsgovbr-paginacao", Paginacao],
     ["dsgovbr-modal", ModalDialogo],
     ["dsgovbr-campo", Campo],
+    ["dsgovbr-tabela", Tabela],
   ].forEach(function (par) {
     if (!window.customElements.get(par[0])) {
       window.customElements.define(par[0], par[1]);

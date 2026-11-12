@@ -163,6 +163,33 @@ paginação (``.pagination``) com janela de páginas e reticências, seletor "Ex
 
 Todos os atributos em `Paginação <componentes/paginacao.html#web-component>`__ (catálogo).
 
+Tabela (opcional)
+-----------------
+
+O ``<dsgovbr-tabela>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, junta as partes do *Table*
+do GOV.BR DS ao redor do seu ``<table>``: busca, filtros, menu de ferramentas (densidade), barra de
+itens selecionados com ações em lote e paginação (``<dsgovbr-paginacao compacta>``). Só classes e
+plugins do Bootstrap (exige o ``bootstrap.bundle``):
+
+.. code:: html
+
+   <dsgovbr-tabela titulo="Usuários" busca ferramentas selecionavel acao="/usuarios/"
+                   total="42" por-pagina="10" opcoes-por-pagina="10,25,50">
+     <table> … <tr data-valor="7"> … </table>
+     <dsgovbr-filtro nome="ativo" rotulo="Ativo">
+       <dsgovbr-opcao valor="1">Sim</dsgovbr-opcao>
+     </dsgovbr-filtro>
+     <dsgovbr-lote-acao acao="excluir" icone="fas fa-trash">Excluir</dsgovbr-lote-acao>
+   </dsgovbr-tabela>
+
+- Busca e filtros ficam num ``<form method="get">``: com ``acao`` o envio é nativo (servidor); sem
+  ela, só os eventos ``dsgovbr:tabela-busca`` e ``dsgovbr:tabela-filtro``.
+- Seleção: checkbox por linha (``name="selecionados"``, valor de ``data-valor``);
+  ``dsgovbr:tabela-selecao`` e ``dsgovbr:tabela-acao`` (``detail.valores``).
+
+Todos os atributos e eventos em `Tabela <componentes/tabela.html>`__ (catálogo); exemplo de listagem no
+`painel administrativo <exemplos/admin.html>`__.
+
 Campo de formulário (opcional)
 ------------------------------
 

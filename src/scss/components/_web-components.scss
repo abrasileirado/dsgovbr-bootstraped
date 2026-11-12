@@ -12,7 +12,8 @@ dsgovbr-footer,
 dsgovbr-breadcrumb,
 dsgovbr-cookiebar,
 dsgovbr-paginacao,
-dsgovbr-campo {
+dsgovbr-campo,
+dsgovbr-tabela {
   display: contents;
 }
 
@@ -75,6 +76,39 @@ dsgovbr-cookies-texto,
 dsgovbr-ajuda,
 dsgovbr-erro,
 dsgovbr-sucesso,
-dsgovbr-opcao {
+dsgovbr-opcao,
+dsgovbr-filtro,
+dsgovbr-lote-acao {
   display: none;
+}
+
+// <dsgovbr-tabela>: densidade das linhas (a "alta" usa .table-sm do Bootstrap), linha
+// selecionada na cor --selected do GOV.BR DS e botão de ferramenta aberto com o realce
+// de hover. O resto é Bootstrap puro.
+[data-tabela-raiz][data-densidade="baixa"] .table > :not(caption) > * > * {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+[data-tabela-raiz] .table {
+  --#{$prefix}table-active-bg: #{$govbr-selected};
+  --#{$prefix}table-active-color: #fff;
+}
+
+[data-tabela-raiz] .table-active a:not(.btn) {
+  color: inherit;
+}
+
+[data-tabela-raiz] .btn-link.rounded-circle[aria-expanded="true"] {
+  @include govbr-hover($govbr-interactive);
+}
+
+[data-bs-theme="dark"] [data-tabela-raiz] .btn-link.rounded-circle[aria-expanded="true"] {
+  @include govbr-hover($govbr-interactive-dark);
+}
+
+// Coluna de checkboxes da tabela: estreita, só o tamanho do controle.
+[data-tabela-raiz] [data-dsgovbr-selecao] {
+  width: 1%;
+  white-space: nowrap;
 }
