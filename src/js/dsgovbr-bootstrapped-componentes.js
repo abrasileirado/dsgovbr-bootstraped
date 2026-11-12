@@ -379,6 +379,163 @@
     }
   }
 
+  // ------------------------------------------------- autocomplete da busca (header)
+  // <dsgovbr-header busca busca-autocomplete="/busca/sugestoes/">: a cada digitação (depois
+  // de 300 ms e com 2 ou mais caracteres) pede `url?<nome>=<termo>` e mostra as
+  // sugestões numa lista logo abaixo do campo. O endpoint devolve JSON: ["a", "b"] ou
+  // [{"label": "A", "value": "a"}]. Padrão ARIA combobox: o foco fica no campo e as
+  // setas movem a opção ativa (aria-activedescendant); Enter escolhe, Escape fecha.
+  // Só aceita endpoint da mesma origem. Devolve uma função que desfaz os ouvintes do document.
+  var CAMINHO_LOCAL = /^\/(?!\/)[\w\-./%?=&+~:@,;!*()]*$/;
+
+  function normalizarSugestoes(dados) {
+    if (!Array.isArray(dados)) {
+      return [];
+    }
+    return dados.slice(0, 20).map(function (item) {
+      if (item !== null && typeof item === "object") {
+        var rotulo = item.label !== undefined ? item.label : item.value;
+        return { rotulo: String(rotulo === undefined ? "" : rotulo), valor: String(item.value !== undefined ? item.value : rotulo) };
+      }
+      return { rotulo: String(item), valor: String(item) };
+    });
+  }
+
+  function ligarAutocomplete(form, campo, url, nomeParametro) {
+    if (!CAMINHO_LOCAL.test(url) || typeof window.fetch !== "function") {
+      return function () {};
+    }
+    var idLista = campo.id + "-sugestoes";
+    var lista = h("div", { class: "list-group dsgovbr-autocomplete shadow", id: idLista, role: "listbox", "aria-label": "Sugestões de busca", hidden: true });
+    form.classList.add("position-relative");
+    form.append(lista);
+    campo.setAttribute("role", "combobox");
+    campo.setAttribute("autocomplete", "off");
+    campo.setAttribute("aria-autocomplete", "list");
+    campo.setAttribute("aria-expanded", "false");
+    campo.setAttribute("aria-controls", idLista);
+
+    var opcoes = [];
+    var ativa = -1;
+    var timer = null;
+    var aborto = null;
+
+    function fechar() {
+      lista.hidden = true;
+      campo.setAttribute("aria-expanded", "false");
+      campo.removeAttribute("aria-activedescendant");
+      ativa = -1;
+    }
+
+    function marcar(indice) {
+      ativa = indice;
+      opcoes.forEach(function (o, i) {
+        o.classList.toggle("active", i === indice);
+        o.setAttribute("aria-selected", String(i === indice));
+      });
+      if (indice >= 0) {
+        campo.setAttribute("aria-activedescendant", opcoes[indice].id);
+        opcoes[indice].scrollIntoView({ block: "nearest" });
+      } else {
+        campo.removeAttribute("aria-activedescendant");
+      }
+    }
+
+    function escolher(valor) {
+      campo.value = valor;
+      fechar();
+      if (form.requestSubmit) {
+        form.requestSubmit();
+      } else {
+        form.submit();
+      }
+    }
+
+    function mostrar(itens) {
+      opcoes = [];
+      ativa = -1;
+      campo.removeAttribute("aria-activedescendant");
+      lista.replaceChildren();
+      if (!itens.length) {
+        lista.append(h("div", { class: "list-group-item text-body-secondary", role: "status" }, "Nenhum resultado encontrado"));
+      }
+      itens.forEach(function (item, i) {
+        var opcao = h("button", { type: "button", class: "list-group-item list-group-item-action", role: "option", id: idLista + "-" + i, tabindex: "-1", "aria-selected": "false" }, item.rotulo);
+        opcao.addEventListener("click", function () { escolher(item.valor); });
+        lista.append(opcao);
+        opcoes.push(opcao);
+      });
+      lista.hidden = false;
+      campo.setAttribute("aria-expanded", "true");
+    }
+
+    function buscar(termo) {
+      if (aborto) {
+        aborto.abort();
+      }
+      aborto = window.AbortController ? new window.AbortController() : null;
+      var destino = new URL(url, window.location.href);
+      destino.searchParams.set(nomeParametro, termo);
+      window.fetch(destino.pathname + destino.search, aborto ? { signal: aborto.signal, headers: { Accept: "application/json" } } : { headers: { Accept: "application/json" } })
+        .then(function (resposta) {
+          if (!resposta.ok) {
+            throw new Error("HTTP " + resposta.status);
+          }
+          return resposta.json();
+        })
+        .then(function (dados) { mostrar(normalizarSugestoes(dados)); })
+        .catch(function (erro) {
+          if (!erro || erro.name !== "AbortError") {
+            fechar();
+          }
+        });
+    }
+
+    campo.addEventListener("input", function () {
+      window.clearTimeout(timer);
+      var termo = campo.value.trim();
+      if (termo.length < 2) {
+        if (aborto) {
+          aborto.abort();
+        }
+        fechar();
+        return;
+      }
+      timer = window.setTimeout(function () { buscar(termo); }, 300);
+    });
+
+    campo.addEventListener("keydown", function (e) {
+      var aberta = !lista.hidden && opcoes.length > 0;
+      if (e.key === "ArrowDown" && aberta) {
+        e.preventDefault();
+        marcar((ativa + 1) % opcoes.length);
+      } else if (e.key === "ArrowUp" && aberta) {
+        e.preventDefault();
+        marcar(ativa <= 0 ? opcoes.length - 1 : ativa - 1);
+      } else if (e.key === "Enter" && aberta && ativa >= 0) {
+        e.preventDefault();
+        opcoes[ativa].click();
+      } else if (e.key === "Escape" && !lista.hidden) {
+        e.preventDefault();
+        fechar();
+      }
+    });
+
+    function fora(e) {
+      if (!form.contains(e.target)) {
+        fechar();
+      }
+    }
+    document.addEventListener("click", fora);
+    return function () {
+      window.clearTimeout(timer);
+      if (aborto) {
+        aborto.abort();
+      }
+      document.removeEventListener("click", fora);
+    };
+  }
+
   // -------------------------------------------------------------------- header
   // <dsgovbr-header logo="logo.svg" logo-alt="Página inicial" href="/"
   //                 assinatura="Ministério Exemplo"
@@ -394,6 +551,9 @@
   //   <dsgovbr-breadcrumb>…</dsgovbr-breadcrumb>
   //   <dsgovbr-acoes><button class="btn btn-primary">Adicionar</button></dsgovbr-acoes>
   // </dsgovbr-header>
+  // Busca: `busca-acao` (URL do formulário GET; sem ela o formulário não envia a lugar nenhum),
+  // `busca-nome` (name do campo; padrão q com `busca-acao`), `busca-valor` (valor inicial),
+  // `busca-id` (id do campo, para atalhos) e `busca-autocomplete` (URL de sugestões, ver acima).
   // O <header> traz logo, ações, título do sistema e busca. O breadcrumb, o título
   // da página e as ações ficam numa barra logo abaixo dele, fora do <header>, e
   // as duas grudam juntas no topo (.sticky-top); `estatico` desliga a fixação.
@@ -406,7 +566,7 @@
   // curtas não recolhem, para a mudança de altura não gerar vai-e-volta.
   class Header extends Base {
     static get observedAttributes() {
-      return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "modo", "cookies", "usuario", "pagina", "estatico"];
+      return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "busca-acao", "busca-nome", "busca-valor", "busca-id", "busca-autocomplete", "modo", "cookies", "usuario", "pagina", "estatico"];
     }
 
     connectedCallback() {
@@ -418,6 +578,14 @@
 
     disconnectedCallback() {
       this.pararRolagem();
+      this.pararBusca();
+    }
+
+    pararBusca() {
+      if (this._pararAutocomplete) {
+        this._pararAutocomplete();
+        this._pararAutocomplete = null;
+      }
     }
 
     ouvirRolagem() {
@@ -599,6 +767,8 @@
 
       var linhas = [cima];
       var barraPagina = null; // breadcrumb, título e ações: fora do <header>
+      var formBusca = null;
+      var campoBusca = null;
 
       if (menu || titulo || subtitulo || busca) {
         var meio = h("div", { class: "d-flex flex-wrap align-items-start gap-3 mt-2" });
@@ -618,13 +788,17 @@
           ])
         );
         if (busca) {
-          meio.append(
-            h("form", { class: "collapse d-lg-block col-12 col-lg-5 col-xl-4", id: idBusca, role: "search" }, [
-              h("label", { class: "visually-hidden", for: idBusca + "-campo" }, "Texto da pesquisa"),
-              h("input", { class: "form-control", id: idBusca + "-campo", type: "search", placeholder: "O que você procura?" }),
-              h("button", { class: botaoRedondo, type: "submit", "aria-label": "Pesquisar" }, icone("fas fa-search")),
-            ])
-          );
+          var comAcao = this.hasAttribute("busca-acao");
+          var idCampo = this.attr("busca-id", idBusca + "-campo");
+          var nomeBusca = this.attr("busca-nome", comAcao ? "q" : "");
+          var valorBusca = this.attr("busca-valor", "");
+          campoBusca = h("input", { class: "form-control", id: idCampo, type: "search", name: nomeBusca || false, value: valorBusca || false, placeholder: "O que você procura?" });
+          formBusca = h("form", { class: "collapse d-lg-block col-12 col-lg-5 col-xl-4", id: idBusca, role: "search", method: comAcao ? "get" : false, action: comAcao ? this.getAttribute("busca-acao") : false }, [
+            h("label", { class: "visually-hidden", for: idCampo }, "Texto da pesquisa"),
+            campoBusca,
+            h("button", { class: botaoRedondo, type: "submit", "aria-label": "Pesquisar" }, icone("fas fa-search")),
+          ]);
+          meio.append(formBusca);
         }
         linhas.push(meio);
       }
@@ -650,6 +824,10 @@
           barraPagina,
         ])
       );
+      this.pararBusca();
+      if (formBusca && this.hasAttribute("busca-autocomplete")) {
+        this._pararAutocomplete = ligarAutocomplete(formBusca, campoBusca, this.getAttribute("busca-autocomplete"), this.attr("busca-nome", "q") || "q");
+      }
       this.ouvirRolagem();
     }
   }

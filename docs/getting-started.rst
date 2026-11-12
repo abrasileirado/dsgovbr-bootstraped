@@ -133,6 +133,9 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
      <dsgovbr-aviso>Texto legal.</dsgovbr-aviso>
    </dsgovbr-footer>
 
+- Em aplicações renderizadas no servidor, ``busca-acao="/busca/"`` (e ``busca-nome``, ``busca-valor``,
+  ``busca-id``) liga o formulário da busca; ``busca-autocomplete="/busca/sugestoes/"`` mostra sugestões
+  (JSON, mesma origem) com teclado e ARIA ``combobox``.
 - O header fica fixo no topo (``.sticky-top``) junto com o breadcrumb, o título da
   página e as ações; ``estatico`` desliga a fixação.
 - Cada componente lê filhos e atributos uma vez, ao conectar, e troca o conteúdo
