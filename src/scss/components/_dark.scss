@@ -36,3 +36,14 @@
   --#{$prefix}btn-color: #{$govbr-interactive-dark};
   --#{$prefix}btn-border-color: #{$govbr-interactive-dark};
 }
+
+// Paginação no fundo escuro: texto dos links em --interactive-dark (o azul padrão
+// não passa no contraste); o item atual e o desabilitado mantêm as cores do tema.
+[data-bs-theme="dark"] .pagination {
+  --#{$prefix}pagination-color: #{$govbr-interactive-dark};
+  --#{$prefix}pagination-hover-color: #{$govbr-interactive-dark};
+}
+
+[data-bs-theme="dark"] .page-link:hover:not(:disabled):not([aria-disabled="true"]) {
+  @include govbr-hover($govbr-interactive-dark);
+}

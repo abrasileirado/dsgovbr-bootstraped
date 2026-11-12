@@ -42,8 +42,9 @@ test("o arquivo é copiado para dist/ e para docs/assets/ e entra na release e n
 
 test("o CSS do tema esconde o componente até montar e usa display: contents nos wrappers", () => {
   const css = read("dist/dsgovbr-bootstraped.css");
-  assert.match(css, /dsgovbr-header,\s*\ndsgovbr-footer,\s*\ndsgovbr-breadcrumb,\s*\ndsgovbr-cookiebar \{\s*\n\s*display: contents;/);
-  assert.match(css, /dsgovbr-menu:not\(\[data-dsgovbr-montado\]\)/);
+  // asserções com ok(): se falhar, não despeja o CSS inteiro na saída
+  assert.ok(/dsgovbr-header,\s*\ndsgovbr-footer,\s*\ndsgovbr-breadcrumb,\s*\ndsgovbr-cookiebar,\s*\ndsgovbr-paginacao \{\s*\n\s*display: contents;/.test(css), "wrappers com display: contents");
+  assert.ok(/dsgovbr-menu:not\(\[data-dsgovbr-montado\]\)/.test(css), "oculta até montar");
 });
 
 test("define os elementos filhos (dado) e o JS não usa mais slot= nem details", () => {

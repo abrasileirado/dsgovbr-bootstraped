@@ -168,6 +168,8 @@ inicializados):
   - ``componentes-js.test.js``: o JS dos web components tem sintaxe válida,
     define os quatro elementos sem Shadow DOM nem ``innerHTML`` e entra em
     ``build-js``, ``build-docs-assets``, no teste do pacote e na release.
+  - ``paginacao-js.test.js``: a função ``dsgovbrPaginacao.janela`` (janela de páginas)
+    rodando num contexto isolado (``vm``), sem DOM.
   - ``cookies-js.test.js``: a API de ``dsgovbrCookies`` rodando num contexto isolado
     (``vm``) com ``localStorage`` de mentira (gravar, normalizar, evento, JSON
     inválido, armazenamento bloqueado) e o empacotamento do arquivo.
@@ -221,6 +223,9 @@ no Pages) num Chromium real, em ``tests/browser/``:
   no painel e em ``/componentes/web-components.html``: montagem, landmarks, menu
   (offcanvas, pasta, item atual), header, footer, ``aria-pressed`` do modo escuro,
   remontagem por atributo, atributos sem HTML (XSS) e carga síncrona no ``<head>``.
+- ``paginacao.spec.js``: ``<dsgovbr-paginacao>``: janela e reticências, atual, Anterior/Próxima,
+  evento ``dsgovbr:pagina``, foco depois de remontar, itens por página, variante compacta,
+  ``href``, limites e axe (claro e escuro).
 - ``cookiebar.spec.js``: ``<dsgovbr-cookiebar>`` e ``dsgovbrCookies``
   (``src/js/dsgovbr-bootstraped-cookies.js``): barra, modal de configurações, botão
   flutuante, evento, ``localStorage`` e axe (claro e escuro, modal aberto).
