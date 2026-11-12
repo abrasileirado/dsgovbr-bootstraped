@@ -93,7 +93,7 @@
   // enviados junto (item com metodo="post", ações em lote da tabela...).
   function lerCampos(raiz) {
     return filhos(raiz, "dsgovbr-campo-oculto").map(function (c) {
-      return { nome: c.getAttribute("nome") || "", valor: c.getAttribute("valor") || "" };
+      return { nome: c.getAttribute("nome") || "", valor: c.getAttribute("valor") || "", para: c.getAttribute("para") || "" };
     });
   }
 
@@ -1460,13 +1460,17 @@
   //   dsgovbr:tabela-acao                           detail { acao, valores }
   //   dsgovbr:tabela-densidade                      detail { densidade }
   //   dsgovbr:pagina                                (do <dsgovbr-paginacao>, ver acima)
+  // Ação em lote nativa (aplicações renderizadas no servidor): lote-metodo="post", lote-acao-url,
+  // lote-campo e selecao-nome; campos extras (CSRF...) por <dsgovbr-campo-oculto nome valor>
+  // (para="lote", padrão, "consulta" ou "ambos"). O evento dsgovbr:tabela-acao é cancelável.
   // Não aninhe o componente dentro de outro <form> (ele tem o próprio).
   var DENSIDADES = [["alta", "Alta"], ["media", "Média"], ["baixa", "Baixa"]];
 
   class Tabela extends Base {
     static get observedAttributes() {
       return ["titulo", "busca", "busca-nome", "busca-valor", "busca-placeholder", "acao", "ferramentas", "selecionavel", "selecao-nome",
-        "total", "total-paginas", "pagina", "por-pagina", "opcoes-por-pagina", "paginacao-href", "vazio", "carregando"];
+        "total", "total-paginas", "pagina", "por-pagina", "opcoes-por-pagina", "paginacao-href", "vazio", "carregando",
+        "lote-acao-url", "lote-metodo", "lote-campo"];
     }
 
     ler() {
@@ -1486,6 +1490,7 @@
           return { acao: a.getAttribute("acao") || "", icone: a.getAttribute("icone"), texto: texto(a) };
         }),
         acoes: nosDe(this, "dsgovbr-acoes"),
+        campos: lerCampos(this),
       };
     }
 
@@ -1572,6 +1577,26 @@
       if (avisar) {
         this.avisar("selecao", { quantidade: marcadas.length, valores: marcadas });
       }
+    }
+
+    // Envio nativo da ação em lote (lote-metodo="post" ou "get"): um <form> escondido leva
+    // a ação (lote-campo, padrão "acao"), os valores marcados (selecao-nome) e os
+    // <dsgovbr-campo-oculto> do componente (sem `para` ou com para="lote"/"ambos"), para
+    // lote-acao-url (padrão: a página atual, com a query string). Sem lote-metodo só há o evento.
+    enviarLote(acao, valores) {
+      var metodo = this.attr("lote-metodo", "").toLowerCase();
+      if ((metodo !== "post" && metodo !== "get") || !valores.length) {
+        return;
+      }
+      var nomeSelecao = this.attr("selecao-nome", "selecionados");
+      var campos = [h("input", { type: "hidden", name: this.attr("lote-campo", "acao"), value: acao })]
+        .concat(valores.map(function (v) { return h("input", { type: "hidden", name: nomeSelecao, value: v }); }))
+        .concat(camposOcultos(this._modelo.campos.filter(function (c) { return c.para === "" || c.para === "lote" || c.para === "ambos"; })));
+      var url = this.attr("lote-acao-url", "");
+      var form = h("form", { method: metodo, action: url || false, hidden: true }, campos);
+      document.body.append(form);
+      form.submit();
+      window.setTimeout(function () { form.remove(); }, 0);
     }
 
     aplicarDensidade() {
@@ -1783,7 +1808,12 @@
       this.addEventListener("click", function (e) {
         var lote = e.target.closest ? e.target.closest("[data-tabela-acao]") : null;
         if (lote) {
-          self.avisar("acao", { acao: lote.getAttribute("data-tabela-acao"), valores: self.valoresSelecionados });
+          var acaoLote = lote.getAttribute("data-tabela-acao");
+          var valoresLote = self.valoresSelecionados;
+          var evento = self.avisar("acao", { acao: acaoLote, valores: valoresLote }, true);
+          if (!evento.defaultPrevented) {
+            self.enviarLote(acaoLote, valoresLote);
+          }
           return;
         }
         if (e.target.closest && e.target.closest("[data-tabela-limpar]")) {

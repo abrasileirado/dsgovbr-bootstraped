@@ -187,6 +187,9 @@ plugins do Bootstrap (exige o ``bootstrap.bundle``):
 
 - Busca e filtros ficam num ``<form method="get">``: com ``acao`` o envio é nativo (servidor); sem
   ela, só os eventos ``dsgovbr:tabela-busca`` e ``dsgovbr:tabela-filtro``.
+- Ação em lote nativa: ``lote-metodo="post"`` envia a ação, os selecionados e os
+  ``<dsgovbr-campo-oculto nome valor>`` (ex.: CSRF) para ``lote-acao-url`` (padrão: a página atual); o evento
+  ``dsgovbr:tabela-acao`` é cancelável.
 - Seleção: checkbox por linha (``name="selecionados"``, valor de ``data-valor``);
   ``dsgovbr:tabela-selecao`` e ``dsgovbr:tabela-acao`` (``detail.valores``).
 

@@ -241,3 +241,84 @@ test.describe("#77 item com POST", () => {
     expect(await page.evaluate(() => window.__xss)).toBeUndefined();
   });
 });
+
+// Cria <dsgovbr-tabela id="t-teste"> com 3 linhas; atributos e filhos extras por parâmetro.
+async function montarTabela(page, atributos = {}, extras = "") {
+  await page.evaluate(
+    ({ atributos, extras }) => {
+      const t = document.createElement("dsgovbr-tabela");
+      t.id = "t-teste";
+      t.setAttribute("titulo", "Registros");
+      for (const [nome, valor] of Object.entries(atributos)) t.setAttribute(nome, valor === true ? "" : valor);
+      t.innerHTML = `<table><thead><tr><th scope="col">Nome</th></tr></thead><tbody>
+        <tr data-valor="1"><td>Ana</td></tr><tr data-valor="2"><td>João</td></tr><tr data-valor="3"><td>Carla</td></tr></tbody></table>${extras}`;
+      document.body.append(t);
+    },
+    { atributos, extras }
+  );
+  await expect(page.locator("#t-teste")).toHaveAttribute("data-dsgovbr-montado", "");
+}
+
+test.describe("#78 ações em lote da tabela", () => {
+  const LOTE = '<dsgovbr-lote-acao acao="excluir" icone="fas fa-trash">Excluir</dsgovbr-lote-acao>'
+    + '<dsgovbr-campo-oculto nome="csrfmiddlewaretoken" valor="tok"></dsgovbr-campo-oculto>'
+    + '<dsgovbr-campo-oculto nome="index" valor="0" para="lote"></dsgovbr-campo-oculto>'
+    + '<dsgovbr-campo-oculto nome="ordem" valor="2" para="consulta"></dsgovbr-campo-oculto>';
+  const ATRIBUTOS = { selecionavel: true, "selecao-nome": "_selected_action", "lote-metodo": "post", "lote-acao-url": "/lote/?filtro=x", "lote-campo": "action" };
+
+  test("envia ação, selecionados e campos ocultos por POST para lote-acao-url", async ({ page }) => {
+    await page.route("**/lote/**", (route) => route.fulfill({ contentType: "text/html", body: "<title>feito</title>" }));
+    await montarTabela(page, ATRIBUTOS, LOTE);
+    await page.locator('#t-teste input[data-tabela-linha][value="1"]').check();
+    await page.locator('#t-teste input[data-tabela-linha][value="3"]').check();
+    const [pedido] = await Promise.all([
+      page.waitForRequest("**/lote/**"),
+      page.locator("#t-teste [data-tabela-acao=excluir]").dispatchEvent("click"),
+    ]);
+    expect(pedido.method()).toBe("POST");
+    expect(pedido.url()).toMatch(/\/lote\/\?filtro=x$/);
+    const corpo = new URLSearchParams(pedido.postData());
+    expect(corpo.get("action")).toBe("excluir");
+    expect(corpo.getAll("_selected_action")).toEqual(["1", "3"]);
+    expect(corpo.get("csrfmiddlewaretoken")).toBe("tok");
+    expect(corpo.get("index")).toBe("0");
+    expect(corpo.has("ordem")).toBe(false); // para="consulta" não vai no lote
+  });
+
+  test("sem lote-acao-url envia para a página atual e o form temporário some", async ({ page }) => {
+    await page.route("**/web-components.html**", (route) => route.fulfill({ contentType: "text/html", body: "<title>mesma</title>" }));
+    await montarTabela(page, { selecionavel: true, "lote-metodo": "post" }, LOTE);
+    await page.locator('#t-teste input[data-tabela-linha][value="2"]').check();
+    const [pedido] = await Promise.all([
+      page.waitForRequest((r) => r.method() === "POST" && r.url().includes("web-components.html")),
+      page.locator("#t-teste [data-tabela-acao=excluir]").dispatchEvent("click"),
+    ]);
+    const corpo = new URLSearchParams(pedido.postData());
+    expect(corpo.get("acao")).toBe("excluir"); // lote-campo padrão
+    expect(corpo.getAll("selecionados")).toEqual(["2"]); // selecao-nome padrão
+  });
+
+  test("evento cancelado não envia e sem lote-metodo só há o evento", async ({ page }) => {
+    let enviou = 0;
+    await page.route("**/lote/**", (route) => { enviou += 1; route.fulfill({ contentType: "text/html", body: "x" }); });
+    await montarTabela(page, ATRIBUTOS, LOTE);
+    await page.evaluate(() => document.querySelector("#t-teste").addEventListener("dsgovbr:tabela-acao", (e) => e.preventDefault()));
+    await page.locator('#t-teste input[data-tabela-linha][value="1"]').check();
+    await page.locator("#t-teste [data-tabela-acao=excluir]").dispatchEvent("click");
+    await page.waitForTimeout(400);
+    expect(enviou).toBe(0);
+
+    await page.evaluate(() => document.querySelector("#t-teste").remove());
+    await montarTabela(page, { selecionavel: true }, LOTE);
+    const eventos = await page.evaluate(() => {
+      const t = document.querySelector("#t-teste");
+      const lista = [];
+      t.addEventListener("dsgovbr:tabela-acao", (e) => lista.push(e.detail));
+      t.querySelector('input[data-tabela-linha][value="1"]').click();
+      t.querySelector("[data-tabela-acao=excluir]").click();
+      return lista;
+    });
+    expect(eventos).toEqual([{ acao: "excluir", valores: ["1"] }]);
+    expect(page.url()).toContain("web-components.html"); // continua na página
+  });
+});
