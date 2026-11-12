@@ -618,6 +618,10 @@
   //   <dsgovbr-breadcrumb>…</dsgovbr-breadcrumb>
   //   <dsgovbr-acoes><button class="btn btn-primary">Adicionar</button></dsgovbr-acoes>
   // </dsgovbr-header>
+  // Logo: `logo-href` (link do logo; padrão `href`, que continua sendo o link do título).
+  // Usuário: `usuario-avatar` (URL da foto) ou `usuario-inicial` (1 ou 2 letras) no botão e
+  // `usuario-papel` (texto pequeno abaixo do nome completo, no topo do dropdown). Sem `usuario`,
+  // `entrar` (URL) e `entrar-rotulo` mostram o botão "Entrar".
   // Busca: `busca-acao` (URL do formulário GET; sem ela o formulário não envia a lugar nenhum),
   // `busca-nome` (name do campo; padrão q com `busca-acao`), `busca-valor` (valor inicial),
   // `busca-id` (id do campo, para atalhos) e `busca-autocomplete` (URL de sugestões, ver acima).
@@ -633,7 +637,8 @@
   // curtas não recolhem, para a mudança de altura não gerar vai-e-volta.
   class Header extends Base {
     static get observedAttributes() {
-      return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "busca-acao", "busca-nome", "busca-valor", "busca-id", "busca-autocomplete", "modo", "cookies", "usuario", "pagina", "estatico"];
+      return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "busca-acao", "busca-nome", "busca-valor", "busca-id", "busca-autocomplete", "modo", "cookies", "usuario", "pagina", "estatico",
+        "logo-href", "usuario-avatar", "usuario-inicial", "usuario-papel", "entrar", "entrar-rotulo"];
     }
 
     connectedCallback() {
@@ -746,7 +751,7 @@
       }
 
       var cima = h("div", { class: "dsgovbr-header-topo d-flex align-items-center gap-3" }, [
-        logo ? h("a", { href: href }, h("img", { src: logo, height: "40", alt: this.attr("logo-alt", "") })) : null,
+        logo ? h("a", { href: this.attr("logo-href", href) }, h("img", { src: logo, height: "40", alt: this.attr("logo-alt", "") })) : null,
         assinatura ? h("div", { class: "vr d-none d-sm-block" }) : null,
         assinatura ? h("span", { class: "navbar-text p-0 fw-medium d-none d-sm-block" }, assinatura) : null,
       ]);
@@ -813,21 +818,43 @@
       }
 
       if (usuario) {
+        // avatar: foto (usuario-avatar), inicial (usuario-inicial) ou o ícone de usuário; é decorativo
+        // (o nome já está no botão), por isso a imagem leva alt vazio
+        var fotoUsuario = this.attr("usuario-avatar", "");
+        var inicialUsuario = this.attr("usuario-inicial", "").slice(0, 2);
+        var avatar = fotoUsuario
+          ? h("span", { class: "dsgovbr-avatar text-bg-primary", "aria-hidden": "true" }, h("img", { src: fotoUsuario, alt: "" }))
+          : inicialUsuario
+            ? h("span", { class: "dsgovbr-avatar text-bg-primary", "aria-hidden": "true" }, inicialUsuario)
+            : icone("fas fa-user");
+        // com usuario-papel o dropdown abre com o nome completo e o papel (perfil, cargo)
+        var papel = this.attr("usuario-papel", "");
+        var identificacao = papel
+          ? [
+              h("li", {}, h("div", { class: "px-3 py-2 text-center" }, [h("p", { class: "fw-bold m-0" }, usuario), h("p", { class: "small m-0" }, papel)])),
+              h("li", {}, h("hr", { class: "dropdown-divider" })),
+            ]
+          : [];
         acoesTopo.append(
           h("div", { class: "dropdown ms-1" }, [
             h("button", { class: "btn btn-light btn-sm dropdown-toggle", type: "button", "data-bs-toggle": "dropdown", "aria-expanded": "false" }, [
-              icone("fas fa-user"),
+              avatar,
               h("span", { class: "d-none d-sm-inline" }, usuario),
               h("span", { class: "visually-hidden d-sm-none" }, usuario),
             ]),
             h(
               "ul",
               { class: "dropdown-menu dropdown-menu-end" },
-              m.usuario.map(function (l) {
+              identificacao.concat(m.usuario.map(function (l) {
                 return h("li", {}, l ? itemEl(l, "dropdown-item", l.texto) : h("hr", { class: "dropdown-divider" }));
-              })
+              }))
             ),
           ])
+        );
+      } else if (this.hasAttribute("entrar")) {
+        // sem usuário autenticado: botão que leva à tela de login
+        acoesTopo.append(
+          h("a", { class: "btn btn-light btn-sm ms-1", href: this.getAttribute("entrar") || "#" }, [icone("fas fa-user"), h("span", {}, this.attr("entrar-rotulo", "Entrar"))])
         );
       }
       cima.append(acoesTopo);

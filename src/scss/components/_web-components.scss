@@ -97,6 +97,27 @@ dsgovbr-campo-oculto {
   display: none;
 }
 
+// Avatar do usuário no botão do <dsgovbr-header> (usuario-avatar / usuario-inicial).
+$dsgovbr-avatar-tamanho: 1.5rem;
+
+.dsgovbr-avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $dsgovbr-avatar-tamanho;
+  height: $dsgovbr-avatar-tamanho;
+  overflow: hidden;
+  font-weight: bolder;
+  border-radius: 50%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 // Pasta aninhada do <dsgovbr-menu>: cada nível recua um pouco mais.
 $dsgovbr-menu-recuo: 1rem;
 

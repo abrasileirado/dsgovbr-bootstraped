@@ -463,3 +463,67 @@ test.describe("#80 menu: badge, cor do ícone e pastas aninhadas", () => {
     await expect(page.locator('#m-teste a[href="/u/"]')).toHaveClass(/list-group-item/);
   });
 });
+
+test.describe("#81 header: logo-href, avatar, papel e Entrar", () => {
+  const LOGO = { logo: "/exemplos/img/logo.svg", "logo-alt": "Logo", href: "/sistema/", titulo: "Sistema" };
+
+  test("logo-href separa o link do logo do link do título", async ({ page }) => {
+    await montarHeader(page, { ...LOGO, "logo-href": "https://www.gov.br/pt-br" });
+    await expect(page.locator("#h-teste a:has(img[alt=Logo])")).toHaveAttribute("href", "https://www.gov.br/pt-br");
+    await expect(page.locator("#h-teste .navbar-brand")).toHaveAttribute("href", "/sistema/");
+  });
+
+  test("sem logo-href o logo usa href, como antes", async ({ page }) => {
+    await montarHeader(page, LOGO);
+    await expect(page.locator("#h-teste a:has(img[alt=Logo])")).toHaveAttribute("href", "/sistema/");
+  });
+
+  test("usuario-avatar mostra a foto decorativa; usuario-inicial a letra; sem nenhum, o ícone", async ({ page }) => {
+    await montarHeader(page, { usuario: "Maria Silva", "usuario-avatar": "/exemplos/img/logo.svg" });
+    const botao = page.locator("#h-teste .dropdown-toggle");
+    await expect(botao.locator(".dsgovbr-avatar img")).toHaveAttribute("alt", "");
+    await expect(botao.locator(".dsgovbr-avatar")).toHaveAttribute("aria-hidden", "true");
+    await expect(botao.locator("i.fa-user")).toHaveCount(0);
+    expect((await botao.evaluate((el) => el.querySelector(".dsgovbr-avatar").getBoundingClientRect().width))).toBeGreaterThan(16);
+
+    await page.evaluate(() => document.querySelector("#h-teste").remove());
+    await montarHeader(page, { usuario: "Maria Silva", "usuario-inicial": "mso" });
+    await expect(page.locator("#h-teste .dsgovbr-avatar")).toHaveText("ms");
+
+    await page.evaluate(() => document.querySelector("#h-teste").remove());
+    await montarHeader(page, { usuario: "Maria Silva" });
+    await expect(page.locator("#h-teste .dropdown-toggle i")).toHaveClass(/fa-user/);
+    await expect(page.locator("#h-teste .dsgovbr-avatar")).toHaveCount(0);
+  });
+
+  test("usuario-papel abre o dropdown com o nome completo e o papel", async ({ page }) => {
+    await montarHeader(page, { usuario: "Maria Silva", "usuario-papel": "Gestora de contratos" }, '<dsgovbr-usuario-menu><dsgovbr-item href="/perfil/">Perfil</dsgovbr-item></dsgovbr-usuario-menu>');
+    const menu = page.locator("#h-teste .dropdown-menu");
+    await expect(menu.locator("p.fw-bold")).toHaveText("Maria Silva");
+    await expect(menu.locator("p.small")).toHaveText("Gestora de contratos");
+    await expect(menu.locator("li").first()).toContainText("Gestora de contratos");
+    await expect(menu.locator("a.dropdown-item")).toHaveText("Perfil");
+  });
+
+  test("sem usuario, entrar mostra o botão; com usuario ele some", async ({ page }) => {
+    await montarHeader(page, { entrar: "/entrar/?next=/admin/", "entrar-rotulo": "Acessar" });
+    const entrar = page.locator("#h-teste a.btn-light");
+    await expect(entrar).toHaveText("Acessar");
+    await expect(entrar).toHaveAttribute("href", "/entrar/?next=/admin/");
+    await expect(page.locator("#h-teste .dropdown-toggle")).toHaveCount(0);
+
+    await page.evaluate(() => document.querySelector("#h-teste").remove());
+    await montarHeader(page, { entrar: "/entrar/" });
+    await expect(page.locator("#h-teste a.btn-light")).toHaveText("Entrar"); // rótulo padrão
+
+    await page.evaluate(() => document.querySelector("#h-teste").remove());
+    await montarHeader(page, { entrar: "/entrar/", usuario: "Maria" });
+    await expect(page.locator("#h-teste a.btn-light")).toHaveCount(0);
+  });
+
+  test("sem os atributos novos nada muda: ícone de usuário, sem Entrar e sem papel", async ({ page }) => {
+    await montarHeader(page, { usuario: "Maria" });
+    await expect(page.locator("#h-teste .dropdown-menu p")).toHaveCount(0);
+    await expect(page.locator("#h-teste a.btn-light")).toHaveCount(0);
+  });
+});
