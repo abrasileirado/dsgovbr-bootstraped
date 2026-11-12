@@ -163,6 +163,32 @@ paginação (``.pagination``) com janela de páginas e reticências, seletor "Ex
 
 Todos os atributos em `Paginação <componentes/paginacao.html#web-component>`__ (catálogo).
 
+Campo de formulário (opcional)
+------------------------------
+
+O ``<dsgovbr-campo>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, gera rótulo + **controle
+nativo** + ajuda + feedback, com ``for``/``id``/``aria-describedby``/``aria-invalid`` ligados sozinhos, só
+com classes do Bootstrap. O ``<input>``, ``<select>`` ou ``<textarea>`` é real e fica dentro do
+``<form>``: o valor é enviado normalmente e a validação nativa funciona.
+
+.. code:: html
+
+   <form method="post">
+     <dsgovbr-campo tipo="email" nome="email" rotulo="E-mail" obrigatorio
+                    ajuda="Usamos só para avisos."></dsgovbr-campo>
+     <dsgovbr-campo tipo="select" nome="uf" rotulo="Estado" valor="RN">
+       <dsgovbr-opcao valor="RN">Rio Grande do Norte</dsgovbr-opcao>
+       <dsgovbr-opcao valor="PB">Paraíba</dsgovbr-opcao>
+     </dsgovbr-campo>
+   </form>
+
+- Tipos: texto e variações de ``type``, ``textarea``, ``select``, ``checkbox``, ``switch`` e ``radio``.
+- ``erro``/``sucesso`` (atributos ou ``<dsgovbr-erro>``/``<dsgovbr-sucesso>``) marcam o campo; um
+  atributo vazio limpa. Mudar um atributo remonta **sem perder** o digitado nem o foco.
+- Propriedades ``controle`` e ``valor`` e o método ``validar()``.
+
+Detalhes em `Formulários <componentes/formularios.html#web-component>`__ (catálogo).
+
 Modal (opcional)
 ----------------
 

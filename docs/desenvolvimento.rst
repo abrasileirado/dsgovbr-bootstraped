@@ -223,6 +223,9 @@ no Pages) num Chromium real, em ``tests/browser/``:
   no painel e em ``/componentes/web-components.html``: montagem, landmarks, menu
   (offcanvas, pasta, item atual), header, footer, ``aria-pressed`` do modo escuro,
   remontagem por atributo, atributos sem HTML (XSS) e carga síncrona no ``<head>``.
+- ``campo.spec.js``: ``<dsgovbr-campo>``: rótulo, ajuda, erro e sucesso ligados por ``aria-*``, prefixo/sufixo,
+  select, radio, checkbox e switch, valor enviado ao ``FormData``, remontagem sem perder o digitado
+  nem o foco, ``validar()``, texto sem HTML (XSS) e axe (claro e escuro).
 - ``modal.spec.js``: ``<dsgovbr-modal>``: markup montado, acionadores (``data-dsgovbr-modal-abrir`` e
   ``data-bs-toggle``), Escape, backdrop estático, retorno e contenção de foco, API, evento,
   texto sem HTML (XSS) e axe com o modal aberto (claro e escuro).

@@ -127,9 +127,77 @@
   </div>
 </section>
 
+<script src="../assets/js/dsgovbr-bootstraped-componentes.js" defer></script>
+
+<section id="web-component">
+  <h2>Web component (<code>&lt;dsgovbr-campo&gt;</code>)</h2>
+  <p>
+    JS opcional (<code>dsgovbr-bootstraped-componentes.js</code>) que gera rótulo, <strong>controle nativo</strong>
+    (<code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> ou <code>&lt;textarea&gt;</code>), ajuda e feedback, com
+    <code>for</code>, <code>id</code>, <code>aria-describedby</code> e <code>aria-invalid</code> ligados sozinhos, só com as
+    classes do Bootstrap acima. O controle é real e fica dentro do <code>&lt;form&gt;</code>: o valor é enviado normalmente e os
+    eventos <code>input</code>/<code>change</code> e a validação nativa funcionam sem nada a mais.
+  </p>
+  <form id="campos-wc" novalidate>
+    <dsgovbr-campo tipo="email" nome="email" rotulo="E-mail" obrigatorio placeholder="nome@orgao.gov.br" ajuda="Usamos só para avisos do sistema."></dsgovbr-campo>
+    <dsgovbr-campo id="wc-erro" tipo="text" nome="cpf" rotulo="CPF" valor="123" erro="Informe um CPF válido."></dsgovbr-campo>
+    <dsgovbr-campo tipo="text" nome="site" rotulo="Site" prefixo="https://" sufixo=".gov.br" sucesso="Endereço disponível."></dsgovbr-campo>
+    <dsgovbr-campo tipo="select" nome="uf" rotulo="Estado" valor="RN">
+      <dsgovbr-ajuda>Escolha o estado de residência.</dsgovbr-ajuda>
+      <dsgovbr-opcao valor="">Selecione</dsgovbr-opcao>
+      <dsgovbr-opcao valor="RN">Rio Grande do Norte</dsgovbr-opcao>
+      <dsgovbr-opcao valor="PB">Paraíba</dsgovbr-opcao>
+    </dsgovbr-campo>
+    <dsgovbr-campo tipo="textarea" nome="obs" rotulo="Observações" linhas="3"></dsgovbr-campo>
+    <dsgovbr-campo tipo="radio" nome="contato" rotulo="Preferência de contato" obrigatorio>
+      <dsgovbr-opcao valor="email" selecionada>E-mail</dsgovbr-opcao>
+      <dsgovbr-opcao valor="tel">Telefone</dsgovbr-opcao>
+      <dsgovbr-opcao valor="nenhum" desabilitada>Nenhum (indisponível)</dsgovbr-opcao>
+    </dsgovbr-campo>
+    <dsgovbr-campo tipo="checkbox" nome="termos" rotulo="Li e aceito os termos" marcado></dsgovbr-campo>
+    <dsgovbr-campo tipo="switch" nome="avisos" rotulo="Receber avisos por e-mail"></dsgovbr-campo>
+    <dsgovbr-campo tipo="text" nome="bloqueado" rotulo="Campo desabilitado" valor="Somente leitura" desabilitado></dsgovbr-campo>
+  </form>
+
+<pre tabindex="0"><code>&lt;script src="dist/dsgovbr-bootstraped-componentes.js" defer&gt;&lt;/script&gt;
+...
+&lt;form method="post"&gt;
+  &lt;dsgovbr-campo tipo="email" nome="email" rotulo="E-mail" obrigatorio
+                 ajuda="Usamos só para avisos."&gt;&lt;/dsgovbr-campo&gt;
+
+  &lt;dsgovbr-campo tipo="select" nome="uf" rotulo="Estado" valor="RN"&gt;
+    &lt;dsgovbr-opcao valor="RN"&gt;Rio Grande do Norte&lt;/dsgovbr-opcao&gt;
+    &lt;dsgovbr-opcao valor="PB"&gt;Paraíba&lt;/dsgovbr-opcao&gt;
+  &lt;/dsgovbr-campo&gt;
+&lt;/form&gt;
+
+campo.setAttribute("erro", "Informe um e-mail válido");   // erro="" limpa
+campo.validar();                                           // validação nativa -&gt; mostra a mensagem
+campo.valor = "x@y.gov.br"; campo.controle.focus();</code></pre>
+  <table>
+    <thead><tr><th>Atributo</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td><code>tipo</code></td><td><code>text</code> (padrão), <code>email</code>, <code>password</code>, <code>number</code>, <code>search</code>, <code>tel</code>, <code>url</code>, <code>date</code> e afins, <code>textarea</code>, <code>select</code>, <code>checkbox</code>, <code>switch</code> ou <code>radio</code> (grupo em <code>&lt;fieldset&gt;</code>, com <code>&lt;dsgovbr-opcao&gt;</code>).</td></tr>
+      <tr><td><code>nome</code>, <code>rotulo</code>, <code>valor</code>, <code>placeholder</code></td><td><code>name</code> do controle, texto do rótulo, valor inicial e dica.</td></tr>
+      <tr><td><code>obrigatorio</code></td><td><code>required</code> no controle e " *" (oculto para leitores de tela) no rótulo.</td></tr>
+      <tr><td><code>desabilitado</code>, <code>somente-leitura</code></td><td><code>disabled</code> e <code>readonly</code>.</td></tr>
+      <tr><td><code>tamanho</code></td><td><code>sm</code> ou <code>lg</code> (<code>.form-control-sm</code>/<code>-lg</code>, <code>.form-select-sm</code>/<code>-lg</code>).</td></tr>
+      <tr><td><code>prefixo</code>, <code>sufixo</code></td><td>Texto ao redor do controle (<code>.input-group</code>).</td></tr>
+      <tr><td><code>ajuda</code>, <code>erro</code>, <code>sucesso</code></td><td><code>.form-text</code>, <code>.invalid-feedback</code> + <code>.is-invalid</code> e <code>.valid-feedback</code> + <code>.is-valid</code>, com <code>aria-describedby</code> e <code>aria-invalid</code>. Valem sobre os filhos <code>&lt;dsgovbr-ajuda&gt;</code>, <code>&lt;dsgovbr-erro&gt;</code> e <code>&lt;dsgovbr-sucesso&gt;</code>; um atributo vazio limpa o estado. O erro vence o sucesso.</td></tr>
+      <tr><td><code>marcado</code>, <code>linhas</code>, <code>autocomplete</code></td><td>Estado inicial de checkbox/switch, linhas do <code>textarea</code> e <code>autocomplete</code>.</td></tr>
+      <tr><td><code>min</code>, <code>max</code>, <code>step</code>, <code>pattern</code>, <code>maxlength</code>, <code>minlength</code>, <code>inputmode</code></td><td>Repassados ao controle.</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Mudar um atributo (ex.: <code>erro</code>) remonta o campo <strong>sem perder</strong> o que a pessoa digitou, escolheu ou o foco.
+    Propriedades: <code>controle</code> (o elemento nativo), <code>valor</code> (leitura e escrita) e <code>validar()</code>.
+  </p>
+</section>
+
 <section>
   <h2>Diferenças conhecidas em relação à referência GOV.BR DS (RF-05)</h2>
   <ul>
+    <li>O <a href="#web-component">web component <code>&lt;dsgovbr-campo&gt;</code></a> não cria controle customizado nem usa <code>ElementInternals</code>: o <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> ou <code>&lt;textarea&gt;</code> é o nativo, dentro do <code>&lt;form&gt;</code>. Não há os estados <code>warning</code> e <code>info</code> do GOV.BR DS, nem máscara de entrada.</li>
     <li>Estados de validação: o GOV.BR DS usa borda de 2px na cor do estado. Aqui o desenho é o mesmo (borda de 1px + sombra interna de 1px na mesma cor), mas a espessura <em>computada</em> da borda segue 1px — escolha para não alterar a altura do campo. O GOV.BR DS também tem os estados <code>warning</code> e <code>info</code> nos campos, que o Bootstrap não tem (não replicados).</li>
     <li>Marca de seleção: o GOV.BR DS desenha o "check" com bordas rotacionadas via pseudo-elemento; mantemos o ícone SVG nativo do Bootstrap, recolorido pelo <code>$primary</code> já mapeado. Aproximação visual, não replicação de anatomia.</li>
     <li>Foco: campos de texto usam o foco do GOV.BR DS (borda dourada <code>#c2850c</code> + anel de 2px); <strong>checkbox e radio</strong> ainda usam o anel azul do Bootstrap, não o foco dourado.</li>
