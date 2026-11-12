@@ -59,6 +59,9 @@ Modo claro/escuro: o JS opcional `dist/dsgovbr-bootstraped-modo.js` alterna o
 Web components opcionais (`<dsgovbr-header>`, `<dsgovbr-menu>`, `<dsgovbr-footer>` e
 `<dsgovbr-breadcrumb>`): `dist/dsgovbr-bootstraped-componentes.js` (ver
 [Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html#web-components-de-header-menu-footer-e-breadcrumb-opcional)).
+Consentimento de cookies: `dist/dsgovbr-bootstraped-cookies.js` traz o `<dsgovbr-cookiebar>` e a
+API `window.dsgovbrCookies` (ver
+[Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html#consentimento-de-cookies-opcional)).
 Guia completo: [Getting Started](https://abrasileirado.github.io/dsgovbr-bootstraped/getting-started.html) ·
 [Setup de desenvolvimento](https://abrasileirado.github.io/dsgovbr-bootstraped/setup.html).
 

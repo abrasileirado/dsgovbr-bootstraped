@@ -168,6 +168,9 @@ inicializados):
   - ``componentes-js.test.js``: o JS dos web components tem sintaxe válida,
     define os quatro elementos sem Shadow DOM nem ``innerHTML`` e entra em
     ``build-js``, ``build-docs-assets``, no teste do pacote e na release.
+  - ``cookies-js.test.js``: a API de ``dsgovbrCookies`` rodando num contexto isolado
+    (``vm``) com ``localStorage`` de mentira (gravar, normalizar, evento, JSON
+    inválido, armazenamento bloqueado) e o empacotamento do arquivo.
   - ``site.test.js``: o catálogo cobre **todo** componente de
     ``vendor/bootstrap/site/src/content/docs/components/`` (uma página por
     ``<!-- bootstrap: <slug> -->``), o índice aponta para todas as páginas e
@@ -218,6 +221,9 @@ no Pages) num Chromium real, em ``tests/browser/``:
   no painel e em ``/componentes/web-components.html``: montagem, landmarks, menu
   (offcanvas, pasta, item atual), header, footer, ``aria-pressed`` do modo escuro,
   remontagem por atributo, atributos sem HTML (XSS) e carga síncrona no ``<head>``.
+- ``cookiebar.spec.js``: ``<dsgovbr-cookiebar>`` e ``dsgovbrCookies``
+  (``src/js/dsgovbr-bootstraped-cookies.js``): barra, modal de configurações, botão
+  flutuante, evento, ``localStorage`` e axe (claro e escuro, modal aberto).
 - ``modo.spec.js``: seletor de modo claro/escuro.
 - ``a11y.spec.js``: axe-core (WCAG 2 A/AA) nas páginas de componentes e no exemplo
   de login — RNF-02. Violação nova faz o teste falhar.

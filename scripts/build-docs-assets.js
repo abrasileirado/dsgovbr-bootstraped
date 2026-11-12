@@ -17,6 +17,8 @@ const COPIES = [
   ["dist/dsgovbr-bootstraped-modo.js", "docs/assets/js/dsgovbr-bootstraped-modo.js"],
   // web components de header, menu, footer e breadcrumb (opcional)
   ["dist/dsgovbr-bootstraped-componentes.js", "docs/assets/js/dsgovbr-bootstraped-componentes.js"],
+  // consentimento de cookies: <dsgovbr-cookiebar> e API (opcional)
+  ["dist/dsgovbr-bootstraped-cookies.js", "docs/assets/js/dsgovbr-bootstraped-cookies.js"],
   // Bootstrap puro, para a página de comparação "antes/depois", e seu JS
   ["vendor/bootstrap/dist/css/bootstrap.min.css", "docs/assets/vendor/bootstrap/css/bootstrap.min.css"],
   ["vendor/bootstrap/dist/js/bootstrap.bundle.min.js", "docs/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"],

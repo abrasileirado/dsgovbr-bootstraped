@@ -325,7 +325,7 @@
   // <dsgovbr-header logo="logo.svg" logo-alt="Página inicial" href="/"
   //                 assinatura="Ministério Exemplo"
   //                 titulo="Sistema" subtitulo="Gestão de usuários"
-  //                 menu="menu-principal" busca modo usuario="Maria Silva"
+  //                 menu="menu-principal" busca modo cookies usuario="Maria Silva"
   //                 pagina="Usuários">
   //   <a slot="acesso-rapido" href="/docs">Documentação</a>
   //   <a slot="funcionalidade" href="#" icone="fas fa-headset">Suporte</a>
@@ -345,7 +345,7 @@
   // curtas não recolhem, para a mudança de altura não gerar vai-e-volta.
   class Header extends Base {
     static get observedAttributes() {
-      return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "modo", "usuario", "pagina", "estatico"];
+      return ["logo", "logo-alt", "href", "assinatura", "titulo", "subtitulo", "menu", "busca", "modo", "cookies", "usuario", "pagina", "estatico"];
     }
 
     connectedCallback() {
@@ -419,6 +419,7 @@
       var menu = this.attr("menu", "");
       var busca = this.hasAttribute("busca");
       var modo = this.hasAttribute("modo");
+      var cookies = this.hasAttribute("cookies");
       var usuario = this.attr("usuario", "");
       var pagina = this.attr("pagina", "");
       var idBusca = id + "-busca";
@@ -465,7 +466,7 @@
         );
       }
 
-      if (m.funcionalidades.length || modo) {
+      if (m.funcionalidades.length || modo || cookies) {
         if (m.acessoRapido.length) {
           acoesTopo.append(h("div", { class: "vr mx-1" }));
         }
@@ -475,6 +476,16 @@
         var itensCelular = m.funcionalidades.map(function (l) {
           return h("li", {}, h("a", { class: "dropdown-item", href: l.href }, [icone(l.icone, "me-2"), l.texto]));
         });
+        if (cookies) {
+          // abre as configurações do <dsgovbr-cookiebar> (dsgovbr-bootstraped-cookies.js)
+          var rotuloCookies = "Configurações de cookies";
+          desktop.append(
+            h("button", { class: botaoRedondo, type: "button", "data-dsgovbr-cookies-abrir": true, "aria-label": rotuloCookies, title: rotuloCookies }, icone("fas fa-cookie-bite"))
+          );
+          itensCelular.push(
+            h("li", {}, h("button", { class: "dropdown-item", type: "button", "data-dsgovbr-cookies-abrir": true }, [icone("fas fa-cookie-bite", "me-2"), rotuloCookies]))
+          );
+        }
         if (modo) {
           var rotuloModo = "Modo escuro";
           var bd = botaoModo(botaoRedondo, { "aria-label": rotuloModo, title: rotuloModo });

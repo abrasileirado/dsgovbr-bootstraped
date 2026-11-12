@@ -29,3 +29,10 @@
 [data-bs-theme="dark"] .btn-link.rounded-circle:hover {
   @include govbr-hover($govbr-interactive-dark);
 }
+
+// .btn-outline-primary (ênfase secundária, com borda) no fundo escuro: texto e
+// borda em --interactive-dark; o azul padrão não passa no contraste sobre o fundo escuro.
+[data-bs-theme="dark"] .btn-outline-primary {
+  --#{$prefix}btn-color: #{$govbr-interactive-dark};
+  --#{$prefix}btn-border-color: #{$govbr-interactive-dark};
+}

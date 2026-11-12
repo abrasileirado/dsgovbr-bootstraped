@@ -107,7 +107,7 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
    <script src="bootstrap.bundle.min.js" defer></script>
    ...
    <dsgovbr-header logo="logo.svg" logo-alt="Página inicial" assinatura="Ministério Exemplo"
-                   titulo="Sistema" menu="menu-principal" busca modo usuario="Maria Silva"
+                   titulo="Sistema" menu="menu-principal" busca modo cookies usuario="Maria Silva"
                    pagina="Usuários">
      <a slot="usuario" href="/perfil">Meu perfil</a>
      <dsgovbr-breadcrumb slot="breadcrumb">
@@ -140,6 +140,37 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
 
 Todos os atributos e slots estão em `Web components
 <componentes/web-components.html>`__ (catálogo).
+
+Consentimento de cookies (opcional)
+-----------------------------------
+
+O JS opcional ``dist/dsgovbr-bootstraped-cookies.js`` (sem dependência) traz o
+``<dsgovbr-cookiebar>`` (barra de consentimento, configurações por grupo num modal e
+botão flutuante que as reabre) e a API ``window.dsgovbrCookies``. Carregue de forma
+**síncrona no ``<head>``**, para a API estar pronta cedo, e mantenha o
+``bootstrap.bundle`` (abre o modal):
+
+.. code:: html
+
+   <script src="dist/dsgovbr-bootstraped-cookies.js"></script>
+   ...
+   <dsgovbr-cookiebar declaracao="/cookies">
+     <p slot="texto">Usamos cookies para melhorar sua experiência. Veja a nossa</p>
+     <div slot="grupo" nome="desempenho" rotulo="Desempenho">Medem o uso do site.</div>
+     <div slot="grupo" nome="funcionais" rotulo="Funcionais">Lembram suas preferências.</div>
+   </dsgovbr-cookiebar>
+
+- O grupo "estritamente necessários" é criado sozinho (sempre ativo e bloqueado). A
+  barra só aparece sem escolha salva (``localStorage``); depois dela fica só o botão
+  flutuante (``sem-botao`` o desliga). Qualquer elemento com
+  ``data-dsgovbr-cookies-abrir`` abre as configurações; ``<dsgovbr-header cookies>``
+  já traz um botão de ação rápida assim.
+- API: ``dsgovbrCookies.escolha()``, ``.permitido("grupo")``, ``.definir({grupo: true})``,
+  ``.limpar()`` e ``.abrir()``. Toda mudança dispara ``dsgovbr:cookies`` no ``<html>``
+  (``event.detail.grupos`` e ``event.detail.origem``).
+
+Detalhes em `Cookiebar <componentes/cookiebar.html>`__ (catálogo); exemplo no
+`painel administrativo <exemplos/admin.html>`__.
 
 Quando o pacote for publicado no npm (planejado)
 ------------------------------------------------
