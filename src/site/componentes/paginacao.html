@@ -25,6 +25,58 @@
   <p>Use Tab para conferir o foco visível; passe o ponteiro sobre os links para ver o estado hover.</p>
 </section>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="../assets/js/dsgovbr-bootstraped-componentes.js" defer></script>
+
+<section id="web-component">
+  <h2>Web component (<code>&lt;dsgovbr-paginacao&gt;</code>)</h2>
+  <p>
+    JS opcional (<code>dsgovbr-bootstraped-componentes.js</code>) que monta a paginação com a lógica de janela
+    de páginas e reticências, em <em>light DOM</em>, só com as classes do Bootstrap
+    (<code>.pagination</code>, <code>.page-item</code>, <code>.page-link</code>, <code>.form-select</code>).
+  </p>
+
+  <h3 class="fs-6">Lista numerada (padrão)</h3>
+  <dsgovbr-paginacao id="pag-lista" total="500" por-pagina="10" pagina="12"></dsgovbr-paginacao>
+
+  <h3 class="fs-6 mt-4">Com itens por página e informação</h3>
+  <dsgovbr-paginacao id="pag-itens" total="100" pagina="1" opcoes-por-pagina="10,25,50" informacao></dsgovbr-paginacao>
+
+  <h3 class="fs-6 mt-4">Compacta (rodapé de tabela)</h3>
+  <dsgovbr-paginacao id="pag-compacta" total="100" pagina="2" opcoes-por-pagina="10,25,50" compacta></dsgovbr-paginacao>
+
+  <h3 class="fs-6 mt-4">Links reais (servidor)</h3>
+  <dsgovbr-paginacao id="pag-links" total-paginas="9" pagina="3" href="#pagina-{pagina}" janela="3"></dsgovbr-paginacao>
+
+<pre tabindex="0"><code>&lt;script src="dist/dsgovbr-bootstraped-componentes.js" defer&gt;&lt;/script&gt;
+...
+&lt;dsgovbr-paginacao total="100" por-pagina="10" pagina="1"
+                   opcoes-por-pagina="10,25,50" informacao&gt;&lt;/dsgovbr-paginacao&gt;
+
+document.addEventListener("dsgovbr:pagina", (e) =&gt; {
+  // e.detail: { pagina, porPagina, total, totalPaginas, origem }  (origem: "pagina", "por-pagina" ou "api")
+  carregar(e.detail.pagina, e.detail.porPagina);
+});</code></pre>
+  <table>
+    <thead><tr><th>Atributo</th><th>Efeito</th></tr></thead>
+    <tbody>
+      <tr><td><code>total</code></td><td>Total de itens; o número de páginas sai de <code>total</code> e <code>por-pagina</code>.</td></tr>
+      <tr><td><code>total-paginas</code></td><td>Número de páginas, quando não há total de itens.</td></tr>
+      <tr><td><code>pagina</code>, <code>por-pagina</code></td><td>Página atual (padrão 1) e itens por página (padrão: o primeiro de <code>opcoes-por-pagina</code>, ou 10). O componente mantém os dois em dia; também são propriedades (<code>el.pagina = 3</code>).</td></tr>
+      <tr><td><code>opcoes-por-pagina</code></td><td>Lista separada por vírgulas: mostra o seletor "Exibir".</td></tr>
+      <tr><td><code>informacao</code></td><td>Mostra "1-10 de 100 itens" (precisa de <code>total</code>).</td></tr>
+      <tr><td><code>compacta</code></td><td>Variante do rodapé de tabela: Exibir, informação, seletor "Página" e setas.</td></tr>
+      <tr><td><code>href</code></td><td>Modelo de URL, com <code>{pagina}</code>: os controles viram links reais (útil com renderização no servidor); o evento também é disparado.</td></tr>
+      <tr><td><code>janela</code></td><td>Páginas em volta da atual (padrão 5, mínimo 3); a primeira e a última sempre aparecem.</td></tr>
+      <tr><td><code>rotulo</code></td><td><code>aria-label</code> do <code>&lt;nav&gt;</code> (padrão "Paginação de resultados").</td></tr>
+    </tbody>
+  </table>
+  <p>
+    A lógica da janela também está em <code>dsgovbrPaginacao.janela(atual, totalPaginas, tamanho)</code>
+    (ex.: <code>janela(50, 100, 5)</code> devolve <code>[1, "…", 48, 49, 50, 51, 52, "…", 100]</code>).
+  </p>
+</section>
+
 <section>
   <h2>Uso acessível</h2>
   <ul>
@@ -38,7 +90,7 @@
   <h2>Diferenças e limites em relação ao GOV.BR DS</h2>
   <ul>
     <li>Estados ativo, desabilitado, foco e hover são estilizados no markup Bootstrap.</li>
-    <li>Esta adaptação não implementa seletor de itens por página, dropdowns de reticências ou lógica de navegação.</li>
+    <li>A seção estática acima não implementa seletor de itens por página, dropdowns de reticências nem lógica de navegação; o <a href="#web-component">web component</a> traz a janela de páginas com reticências, o seletor "Exibir" e a variante compacta. O seletor de página é um <code>&lt;select&gt;</code> nativo, não o dropdown do GOV.BR DS, e as reticências não abrem lista.</li>
     <li>Os tamanhos <code>.pagination-sm</code> e <code>.pagination-lg</code> mantêm os paddings Bootstrap; apenas o mínimo dos links é preservado em 32px.</li>
   </ul>
 </section>

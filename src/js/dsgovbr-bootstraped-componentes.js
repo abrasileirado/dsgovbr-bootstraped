@@ -1,5 +1,5 @@
 /*!
- * dsgovbr-bootstraped — web components de header, menu, footer e breadcrumb (opcional)
+ * dsgovbr-bootstraped — web components de header, menu, footer, breadcrumb e paginação (opcional)
  * Licensed under MIT (https://github.com/abrasileirado/dsgovbr-bootstraped/blob/main/LICENSE)
  */
 // Custom elements em light DOM (sem Shadow DOM): geram as mesmas classes
@@ -9,8 +9,8 @@
 //
 //   <script src="dsgovbr-bootstraped-componentes.js" defer></script>
 //
-// Elementos: <dsgovbr-breadcrumb>, <dsgovbr-menu>, <dsgovbr-footer> e
-// <dsgovbr-header>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
+// Elementos: <dsgovbr-breadcrumb>, <dsgovbr-menu>, <dsgovbr-footer>,
+// <dsgovbr-header> e <dsgovbr-paginacao>. Cada um lê os filhos e atributos UMA vez, ao conectar, e
 // troca o conteúdo pelo HTML final (o conteúdo original é só a declaração).
 // Mudar um atributo depois remonta o componente. O modo claro/escuro continua
 // no JS à parte (dsgovbr-bootstraped-modo.js); o header só renderiza o botão.
@@ -653,6 +653,219 @@
     }
   }
 
+  // ----------------------------------------------------------------- paginação
+  // <dsgovbr-paginacao total="100" por-pagina="10" pagina="1"
+  //                    opcoes-por-pagina="10,25,50" informacao compacta
+  //                    href="?pagina={pagina}" janela="5" rotulo="Paginação de resultados">
+  //
+  // Padrão: lista numerada (.pagination) com Anterior/Próxima e reticências.
+  // `compacta`: "Exibir N", "1-10 de 100 itens", "Página N" (select) e setas, como o
+  // rodapé da tabela do GOV.BR DS. `total` é o número de itens; sem ele, use
+  // `total-paginas`. Com `href` ({pagina} vira o número) os botões são links reais
+  // (servidor); sem ele, são botões. Toda troca dispara `dsgovbr:pagina` no
+  // elemento (bubbles): detail { pagina, porPagina, total, totalPaginas, origem }.
+  // `pagina` e `por-pagina` são atributos (e propriedades) que o componente mantém em dia.
+
+  // Páginas a mostrar: sempre a primeira e a última, `tamanho` páginas em volta da
+  // atual e "…" onde faltam várias (se falta uma só, mostra a página).
+  function janelaPaginas(atual, total, tamanho) {
+    var n = Math.max(3, Math.floor(tamanho) || 5);
+    atual = Math.min(Math.max(1, Math.floor(atual) || 1), Math.max(1, total));
+    var saida = [];
+    function faixa(de, ate) {
+      for (var i = de; i <= ate; i++) {
+        saida.push(i);
+      }
+    }
+    if (total <= n + 2) {
+      faixa(1, total);
+      return saida;
+    }
+    var inicio = Math.max(1, Math.min(atual - Math.floor(n / 2), total - n + 1));
+    var fim = Math.min(total, inicio + n - 1);
+    if (inicio > 1) {
+      saida.push(1);
+      if (inicio === 3) {
+        saida.push(2);
+      } else if (inicio > 3) {
+        saida.push("…");
+      }
+    }
+    faixa(inicio, fim);
+    if (fim < total) {
+      if (fim === total - 2) {
+        saida.push(total - 1);
+      } else if (fim < total - 2) {
+        saida.push("…");
+      }
+      saida.push(total);
+    }
+    return saida;
+  }
+
+  window.dsgovbrPaginacao = { janela: janelaPaginas };
+
+  function inteiro(valor, padrao) {
+    var n = parseInt(valor, 10);
+    return isNaN(n) ? padrao : n;
+  }
+
+  class Paginacao extends Base {
+    static get observedAttributes() {
+      return ["total", "total-paginas", "pagina", "por-pagina", "opcoes-por-pagina", "informacao", "compacta", "href", "janela", "rotulo"];
+    }
+
+    ler() {
+      return null; // sem filhos: tudo vem dos atributos
+    }
+
+    get pagina() {
+      return this.estado().pagina;
+    }
+
+    set pagina(valor) {
+      this.ir(inteiro(valor, 1), "api");
+    }
+
+    get porPagina() {
+      return this.estado().porPagina;
+    }
+
+    // Estado a partir dos atributos, já normalizado (página dentro de 1..totalPaginas).
+    estado() {
+      var opcoes = this.attr("opcoes-por-pagina", "").split(",").map(function (v) { return inteiro(v.trim(), 0); }).filter(function (v) { return v > 0; });
+      var porPagina = Math.max(1, inteiro(this.attr("por-pagina", ""), opcoes[0] || 10));
+      var total = Math.max(0, inteiro(this.attr("total", ""), 0));
+      var temTotal = this.hasAttribute("total");
+      var totalPaginas = temTotal ? Math.max(1, Math.ceil(total / porPagina)) : Math.max(1, inteiro(this.attr("total-paginas", ""), 1));
+      var pagina = Math.min(Math.max(1, inteiro(this.attr("pagina", ""), 1)), totalPaginas);
+      return { opcoes: opcoes, porPagina: porPagina, total: total, temTotal: temTotal, totalPaginas: totalPaginas, pagina: pagina };
+    }
+
+    // Vai para a página (ou muda os itens por página): atualiza os atributos, remonta e avisa.
+    ir(pagina, origem, porPagina) {
+      var e = this.estado();
+      var novaPorPagina = porPagina || e.porPagina;
+      var temTotal = e.temTotal;
+      var totalPaginas = temTotal ? Math.max(1, Math.ceil(e.total / novaPorPagina)) : e.totalPaginas;
+      var nova = Math.min(Math.max(1, pagina), totalPaginas);
+      if (nova === e.pagina && novaPorPagina === e.porPagina) {
+        return;
+      }
+      this._foco = this.contains(document.activeElement) ? document.activeElement.getAttribute("data-foco") : null;
+      this._quieto = true; // monta uma vez só, depois dos dois atributos
+      if (novaPorPagina !== e.porPagina) {
+        this.setAttribute("por-pagina", String(novaPorPagina));
+      }
+      this.setAttribute("pagina", String(nova));
+      this._quieto = false;
+      this.montar();
+      this.avisar(origem);
+    }
+
+    attributeChangedCallback(nome, antigo, novo) {
+      if (!this._quieto) {
+        super.attributeChangedCallback(nome, antigo, novo);
+      }
+    }
+
+    avisar(origem) {
+      var e = this.estado();
+      this.dispatchEvent(new CustomEvent("dsgovbr:pagina", {
+        bubbles: true,
+        detail: { pagina: e.pagina, porPagina: e.porPagina, total: e.temTotal ? e.total : null, totalPaginas: e.totalPaginas, origem: origem },
+      }));
+    }
+
+    montar() {
+      var self = this;
+      var e = this.estado();
+      var compacta = this.hasAttribute("compacta");
+      var id = this._uid || (this._uid = proximoId("paginacao"));
+      var modelo = this.attr("href", "");
+
+      function alvo(pagina) {
+        return modelo ? modelo.replace("{pagina}", String(pagina)) : null;
+      }
+
+      function controle(rotulo, pagina, desabilitado, foco, classe, conteudo) {
+        if (desabilitado) {
+          // no .pagination o desabilitado é o .page-item.disabled (do <li>); no botão, o próprio .btn
+          return h("span", { class: classe + (classe.indexOf("btn") === 0 ? " disabled" : ""), "aria-disabled": "true", "aria-label": rotulo }, conteudo);
+        }
+        var url = alvo(pagina);
+        var el = h(url ? "a" : "button", { class: classe, href: url, type: url ? false : "button", "aria-label": rotulo, "data-foco": foco }, conteudo);
+        el.addEventListener("click", function () { self.ir(pagina, "pagina"); });
+        return el;
+      }
+
+      function seletor(rotulo, idCampo, opcoes, atual, aoMudar, foco) {
+        var sel = h("select", { class: "form-select form-select-sm w-auto", id: idCampo, "data-foco": foco },
+          opcoes.map(function (o) { return h("option", { value: String(o.valor), selected: o.valor === atual }, o.texto); }));
+        sel.addEventListener("change", function () { aoMudar(parseInt(sel.value, 10)); });
+        return h("div", { class: "d-flex align-items-center gap-2" }, [h("label", { class: "small", for: idCampo }, rotulo), sel]);
+      }
+
+      var partes = [];
+
+      if (e.opcoes.length) {
+        var opcoes = e.opcoes.indexOf(e.porPagina) === -1 ? e.opcoes.concat(e.porPagina) : e.opcoes;
+        partes.push(seletor("Exibir", id + "-por-pagina", opcoes.map(function (v) { return { valor: v, texto: String(v) }; }), e.porPagina,
+          function (v) { self.ir(1, "por-pagina", v); }, "por-pagina"));
+      }
+
+      if ((compacta || this.hasAttribute("informacao")) && e.temTotal) {
+        var de = e.total ? (e.pagina - 1) * e.porPagina + 1 : 0;
+        var ate = Math.min(e.pagina * e.porPagina, e.total);
+        partes.push(h("span", { class: "small" }, e.total ? de + "-" + ate + " de " + e.total + " itens" : "0 itens"));
+      }
+
+      if (compacta) {
+        var paginas = [];
+        for (var i = 1; i <= e.totalPaginas; i++) {
+          paginas.push({ valor: i, texto: String(i) });
+        }
+        var direita = h("div", { class: "d-flex align-items-center gap-2 ms-auto" }, [
+          seletor("Página", id + "-pagina", paginas, e.pagina, function (v) { self.ir(v, "pagina"); }, "pagina"),
+          h("div", { class: "vr" }),
+          controle("Página anterior", e.pagina - 1, e.pagina <= 1, "anterior", "btn btn-link btn-sm rounded-circle", icone("fas fa-angle-left")),
+          controle("Próxima página", e.pagina + 1, e.pagina >= e.totalPaginas, "proxima", "btn btn-link btn-sm rounded-circle", icone("fas fa-angle-right")),
+        ]);
+        partes.push(direita);
+      } else {
+        var itens = [];
+        function item(conteudo, classe, atributos) {
+          return h("li", Object.assign({ class: "page-item" + (classe ? " " + classe : "") }, atributos || {}), conteudo);
+        }
+        itens.push(item(controle("Página anterior", e.pagina - 1, e.pagina <= 1, "anterior", "page-link", "Anterior"), e.pagina <= 1 ? "disabled" : ""));
+        janelaPaginas(e.pagina, e.totalPaginas, inteiro(this.attr("janela", ""), 5)).forEach(function (p) {
+          if (p === "…") {
+            itens.push(item(h("span", { class: "page-link" }, "…"), "disabled", { "aria-hidden": "true" }));
+          } else if (p === e.pagina) {
+            itens.push(item(h("span", { class: "page-link", "aria-label": "Página " + p }, String(p)), "active", { "aria-current": "page" }));
+          } else {
+            itens.push(item(controle("Página " + p, p, false, "p-" + p, "page-link", String(p))));
+          }
+        });
+        itens.push(item(controle("Próxima página", e.pagina + 1, e.pagina >= e.totalPaginas, "proxima", "page-link", "Próxima"), e.pagina >= e.totalPaginas ? "disabled" : ""));
+        partes.push(h("ul", { class: "pagination mb-0" }, itens));
+      }
+
+      var foco = this._foco;
+      this._foco = null;
+      this.replaceChildren(h("nav", { class: "d-flex flex-wrap align-items-center justify-content-between gap-3", "aria-label": this.attr("rotulo", "Paginação de resultados") }, partes));
+
+      if (foco) { // o elemento focado foi recriado: devolve o foco ao equivalente
+        var igual = this.querySelector('[data-foco="' + foco + '"]');
+        var proximo = this.querySelector('[data-foco="proxima"]') || this.querySelector('[data-foco="anterior"]');
+        var alvoFoco = igual || proximo;
+        if (alvoFoco) {
+          alvoFoco.focus();
+        }
+      }
+    }
+  }
+
   // Elementos-dado: só carregam atributos e conteúdo para o componente pai, que os
   // troca pelo HTML final. Definidos para ficarem "upgraded" e documentados; o CSS
   // os oculta se sobrarem fora de um pai.
@@ -672,6 +885,7 @@
     ["dsgovbr-menu", Menu],
     ["dsgovbr-footer", Footer],
     ["dsgovbr-header", Header],
+    ["dsgovbr-paginacao", Paginacao],
   ].forEach(function (par) {
     if (!window.customElements.get(par[0])) {
       window.customElements.define(par[0], par[1]);

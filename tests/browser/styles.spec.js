@@ -200,7 +200,8 @@ test.describe("paginação", () => {
   });
 
   test("hover destaca sem remover foco visível; desabilitado não navega", async ({ page }) => {
-    const next = page.getByRole("link", { name: "Próxima" });
+    const estatica = page.locator("main > section").first(); // a paginação estática; o web component vem depois
+    const next = estatica.getByRole("link", { name: "Próxima" });
     await next.hover();
     await expect
       .poll(async () => (await css(page, "a.page-link:hover", ["background-image"]))["background-image"])
@@ -208,8 +209,8 @@ test.describe("paginação", () => {
     await next.focus();
     const focus = await css(page, "a.page-link:focus-visible", ["outline-style", "outline-width", "outline-color", "outline-offset"]);
     expect(focus).toMatchObject({ "outline-style": "dashed", "outline-width": "4px", "outline-color": "rgb(194, 133, 12)", "outline-offset": "4px" });
-    await expect(page.locator(".page-item.disabled .page-link")).toHaveAttribute("aria-disabled", "true");
-    await expect(page.locator(".page-item.active .page-link")).toHaveAttribute("aria-current", "page");
+    await expect(estatica.locator(".page-item.disabled .page-link")).toHaveAttribute("aria-disabled", "true");
+    await expect(estatica.locator(".page-item.active .page-link")).toHaveAttribute("aria-current", "page");
   });
 });
 

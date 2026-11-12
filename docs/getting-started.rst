@@ -144,6 +144,25 @@ em *light DOM* (sem Shadow DOM), então o CSS do tema vale sem ajuste. Carregue 
 Todos os atributos e elementos filhos (``<dsgovbr-item>``, ``<dsgovbr-pasta>``, ``<dsgovbr-coluna>``, ``<dsgovbr-rede>``...) estão em `Web components
 <componentes/web-components.html>`__ (catálogo).
 
+Paginação (opcional)
+--------------------
+
+O ``<dsgovbr-paginacao>``, no mesmo ``dist/dsgovbr-bootstraped-componentes.js``, monta a
+paginação (``.pagination``) com janela de páginas e reticências, seletor "Exibir", texto
+"1-10 de 100 itens" e a variante ``compacta`` (rodapé de tabela). Só classes do Bootstrap:
+
+.. code:: html
+
+   <dsgovbr-paginacao total="100" por-pagina="10" pagina="1"
+                      opcoes-por-pagina="10,25,50" informacao></dsgovbr-paginacao>
+
+- Com ``href="?pagina={pagina}"`` os controles viram links reais (renderização no servidor).
+- Toda troca dispara ``dsgovbr:pagina`` (``event.detail``: ``pagina``, ``porPagina``,
+  ``total``, ``totalPaginas`` e ``origem``); ``pagina`` e ``por-pagina`` são atributos e
+  propriedades mantidos em dia.
+
+Todos os atributos em `Paginação <componentes/paginacao.html#web-component>`__ (catálogo).
+
 Consentimento de cookies (opcional)
 -----------------------------------
 
