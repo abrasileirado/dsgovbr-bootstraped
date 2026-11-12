@@ -61,6 +61,7 @@ A composição SCSS dos projetos é uma oportunidade de reaproveitamento, **não
 - A compatibilidade é fixada em **Bootstrap v5.3.8** e **@govbr-ds/core v3.7.0**, ambos incluídos como git submodules apontando para os repositórios oficiais upstream (não forks) e fixados por tag (ver DP-01/DP-03).
 - A versão ou revisão de GOV.BR DS usada como referência deve ser explicitamente fixada antes da implementação. Não se deve depender de ``latest`` na geração de releases.
 - O pacote npm ``@abrasileirado/dsgovbr-bootstrapped`` já está publicado (ver DP-07).
+- A versão do pacote acompanha o GOV.BR DS de referência: ``major.minor`` é a do ``@govbr-ds/core`` (hoje 3.7) e o ``patch`` conta as revisões do projeto. O npm exige semver de 3 partes, por isso não há quarta posição.
 - O projeto distingue contrato **visual**, contrato de **markup** e contrato de **comportamento**. A aprovação em um contrato não implica aprovação nos outros.
 - Qualquer versão que contenha CSS pronto deverá informar se ele é **autônomo** (inclui Bootstrap) ou **camada adicional** (exige Bootstrap carregado separadamente), com ordem de carregamento e cobertura demonstradas.
 - Cores, medidas e nomes de tokens nos artefatos finais devem vir das fontes versionadas escolhidas; não são definidos por suposição neste documento.
