@@ -97,6 +97,13 @@ dsgovbr-campo-oculto {
   display: none;
 }
 
+// Pasta aninhada do <dsgovbr-menu>: cada nível recua um pouco mais.
+$dsgovbr-menu-recuo: 1rem;
+
+.dsgovbr-menu-sub {
+  padding-left: $dsgovbr-menu-recuo;
+}
+
 // Item com metodo="post": o <form> não cria caixa; o botão dentro dele se comporta como
 // o link (dropdown-item, list-group-item, nav-link...) filho direto do pai.
 .dsgovbr-form-item {

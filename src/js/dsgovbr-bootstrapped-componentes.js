@@ -81,6 +81,9 @@
       href: a.getAttribute("href") || "#",
       texto: texto(a),
       icone: a.getAttribute("icone"),
+      iconeCor: a.getAttribute("icone-cor") || "",
+      badge: a.getAttribute("badge") || "",
+      badgeCor: a.getAttribute("badge-cor") || "",
       atual: a.hasAttribute("atual"),
       externo: a.hasAttribute("externo"),
       // metodo="post": o item vira um <form method="post"> com um botão (ex.: sair da sessão)
@@ -205,6 +208,8 @@
   // ---------------------------------------------------------------------- menu
   // O próprio elemento é o offcanvas (.offcanvas.offcanvas-start): o `id` dele é
   // o alvo do botão de abrir (<dsgovbr-header menu="id">).
+  // O <dsgovbr-item> aceita badge="3" badge-cor="danger" (pílula à direita) e icone-cor="warning"
+  // (.text-warning no ícone); o <dsgovbr-pasta> pode conter outras pastas, em vários níveis.
   //
   // <dsgovbr-menu id="menu-principal" titulo="Sistema" logo="logo.svg">
   //   <dsgovbr-item href="/" icone="fas fa-home">Início</dsgovbr-item>
@@ -224,21 +229,25 @@
     }
 
     ler() {
-      var itens = [];
-      Array.prototype.forEach.call(this.children, function (el) {
+      // item (link) ou pasta; a pasta pode ter itens e outras pastas (vários níveis)
+      function lerNo(el) {
         if (ehItem(el)) {
-          itens.push({ tipo: "link", link: lerLink(el) });
-        } else if (el.localName === "dsgovbr-pasta") {
-          itens.push({
+          return { tipo: "link", link: lerLink(el) };
+        }
+        if (el.localName === "dsgovbr-pasta") {
+          return {
             tipo: "pasta",
             id: el.id || null,
             rotulo: el.getAttribute("rotulo") || "",
             icone: el.getAttribute("icone"),
+            iconeCor: el.getAttribute("icone-cor") || "",
             aberta: el.hasAttribute("aberta"),
-            links: lerItens(el),
-          });
+            nos: Array.prototype.map.call(el.children, lerNo).filter(Boolean),
+          };
         }
-      });
+        return null;
+      }
+      var itens = Array.prototype.map.call(this.children, lerNo).filter(Boolean);
       var rodape = filhos(this, "dsgovbr-menu-rodape")[0];
       return {
         itens: itens,
@@ -261,13 +270,46 @@
       this.setAttribute("tabindex", "-1");
       this.setAttribute("aria-labelledby", idTitulo);
 
+      // cor do Bootstrap (primary, danger...): só letras e hífen, para virar .text-<cor> / .text-bg-<cor>
+      function cor(valor, padrao) {
+        return /^[a-z][a-z-]*$/.test(valor) ? valor : padrao;
+      }
+
+      function icones(classes, corDoIcone) {
+        return icone(classes, corDoIcone ? "text-" + cor(corDoIcone, "body") : "");
+      }
+
       function link(l) {
         return itemEl(
           l,
           "list-group-item list-group-item-action" + (l.atual ? " active" : ""),
-          [icone(l.icone), l.texto],
+          [
+            icones(l.icone, l.iconeCor),
+            l.texto,
+            l.badge ? h("span", { class: "badge rounded-pill float-end text-bg-" + cor(l.badgeCor, "primary") }, l.badge) : null,
+          ],
           { "aria-current": l.atual ? "page" : false }
         );
+      }
+
+      // Pasta: botão + Collapse; as pastas filhas ficam dentro, recuadas (.dsgovbr-menu-sub).
+      function pasta(item, alvo, filha) {
+        var interior = h("div", { class: "list-group list-group-flush" });
+        item.nos.forEach(function (no, j) {
+          if (no.tipo === "link") {
+            interior.append(link(no.link));
+          } else {
+            interior.append.apply(interior, pasta(no, no.id || alvo + "-" + (j + 1), true));
+          }
+        });
+        return [
+          h(
+            "button",
+            { class: "list-group-item list-group-item-action", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#" + alvo, "aria-expanded": String(item.aberta), "aria-controls": alvo },
+            [icones(item.icone, item.iconeCor), item.rotulo]
+          ),
+          h("div", { class: "collapse" + (filha ? " dsgovbr-menu-sub" : "") + (item.aberta ? " show" : ""), id: alvo }, interior),
+        ];
       }
 
       var lista = h("div", { class: "list-group list-group-flush" });
@@ -276,15 +318,7 @@
           lista.append(link(item.link));
           return;
         }
-        var alvo = item.id || id + "-pasta-" + (i + 1);
-        lista.append(
-          h(
-            "button",
-            { class: "list-group-item list-group-item-action", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#" + alvo, "aria-expanded": String(item.aberta), "aria-controls": alvo },
-            [icone(item.icone), item.rotulo]
-          ),
-          h("div", { class: "collapse" + (item.aberta ? " show" : ""), id: alvo }, h("div", { class: "list-group list-group-flush" }, item.links.map(link)))
-        );
+        lista.append.apply(lista, pasta(item, item.id || id + "-pasta-" + (i + 1), false));
       });
 
       var cabecalho = h("div", { class: "offcanvas-header" }, [

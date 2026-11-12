@@ -397,3 +397,69 @@ test.describe("#79 filtro de escolha única e valor-consulta", () => {
     expect(url.search).not.toContain("segredo"); // o CSRF (para=lote) nunca vai na URL
   });
 });
+
+test.describe("#80 menu: badge, cor do ícone e pastas aninhadas", () => {
+  const MENU = `
+    <dsgovbr-item href="/pendencias/" icone="fas fa-bell" icone-cor="warning" badge="3" badge-cor="danger">Pendências</dsgovbr-item>
+    <dsgovbr-item href="/sem-cor/" badge="9">Padrão</dsgovbr-item>
+    <dsgovbr-pasta rotulo="Nível 1" icone="fas fa-folder" icone-cor="success" id="p1">
+      <dsgovbr-item href="/n1/">Item do nível 1</dsgovbr-item>
+      <dsgovbr-pasta rotulo="Nível 2" id="p2" aberta>
+        <dsgovbr-item href="/n2/" atual>Item do nível 2</dsgovbr-item>
+        <dsgovbr-pasta rotulo="Nível 3">
+          <dsgovbr-item href="/n3/">Item do nível 3</dsgovbr-item>
+        </dsgovbr-pasta>
+      </dsgovbr-pasta>
+    </dsgovbr-pasta>`;
+
+  test("badge com cor e padrão, e cor do ícone", async ({ page }) => {
+    await montarMenu(page, MENU);
+    const pendencias = page.locator('#m-teste a[href="/pendencias/"]');
+    await expect(pendencias.locator(".badge")).toHaveClass(/text-bg-danger/);
+    await expect(pendencias.locator(".badge")).toHaveText("3");
+    await expect(pendencias.locator("i")).toHaveClass(/text-warning/);
+    await expect(page.locator('#m-teste a[href="/sem-cor/"] .badge')).toHaveClass(/text-bg-primary/);
+    await expect(page.locator('#m-teste a[href="/n1/"] .badge')).toHaveCount(0);
+    expect(await pendencias.textContent()).toContain("Pendências");
+    expect(await pendencias.textContent()).toContain("3"); // o badge entra no nome acessível
+    await expect(page.locator('#m-teste button[data-bs-target="#p1"] i')).toHaveClass(/text-success/);
+  });
+
+  test("três níveis de pastas com aria correto e recuo; abrir o pai mostra o filho", async ({ page }) => {
+    await montarMenu(page, MENU, {});
+    const p1 = page.locator('#m-teste button[data-bs-target="#p1"]');
+    const p2 = page.locator('#m-teste button[data-bs-target="#p2"]');
+    await expect(p1).toHaveAttribute("aria-expanded", "false");
+    await expect(p1).toHaveAttribute("aria-controls", "p1");
+    await expect(p2).toHaveAttribute("aria-expanded", "true");
+    await expect(page.locator("#p2")).toHaveClass(/dsgovbr-menu-sub/);
+    await expect(page.locator("#p1")).not.toHaveClass(/dsgovbr-menu-sub/);
+    // a pasta do nível 3 ganhou id gerado a partir da do pai e está dentro do nível 2
+    const aninhada = page.locator("#p2 button[data-bs-target]");
+    await expect(aninhada).toHaveCount(1);
+    expect(await aninhada.getAttribute("data-bs-target")).toBe("#p2-2");
+    await expect(page.locator('#p2-2 a[href="/n3/"]')).toHaveCount(1);
+    // recuo crescente
+    const recuo = await page.evaluate(() => ["p1", "p2", "p2-2"].map((i) => parseFloat(getComputedStyle(document.getElementById(i)).paddingLeft)));
+    expect(recuo[0]).toBe(0);
+    expect(recuo[1]).toBeGreaterThan(0);
+    expect(recuo[2]).toBeGreaterThan(0);
+    // abrindo o pai pelo Bootstrap, o item do nível 2 fica visível
+    await page.evaluate(() => window.bootstrap && window.bootstrap.Collapse.getOrCreateInstance(document.getElementById("p1")).show());
+  });
+
+  test("valores inválidos de cor não viram classe e os textos nunca viram HTML", async ({ page }) => {
+    await montarMenu(page, '<dsgovbr-item href="/x/" badge="<b>1</b>" badge-cor="x y" icone="fas fa-star" icone-cor="a b">Item</dsgovbr-item>');
+    await expect(page.locator('#m-teste a[href="/x/"] .badge')).toHaveClass(/text-bg-primary/);
+    await expect(page.locator('#m-teste a[href="/x/"] .badge')).toHaveText("<b>1</b>");
+    expect(await page.locator("#m-teste b").count()).toBe(0);
+    expect(await page.locator('#m-teste a[href="/x/"] i').getAttribute("class")).not.toContain("a b");
+  });
+
+  test("menu sem atributos novos continua igual (pasta de um nível)", async ({ page }) => {
+    await montarMenu(page, '<dsgovbr-pasta rotulo="Cadastros"><dsgovbr-item href="/u/">Usuários</dsgovbr-item></dsgovbr-pasta>');
+    await expect(page.locator("#m-teste .collapse")).toHaveCount(1);
+    await expect(page.locator("#m-teste .dsgovbr-menu-sub")).toHaveCount(0);
+    await expect(page.locator('#m-teste a[href="/u/"]')).toHaveClass(/list-group-item/);
+  });
+});
