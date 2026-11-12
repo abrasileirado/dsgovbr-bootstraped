@@ -47,6 +47,10 @@ para obter versões e arquivos publicados.
 Para as decisões e recomendações sobre modal, navbar, dropdown e navegação GOV.BR,
 consulte a [análise de compatibilidade](https://abrasileirado.github.io/dsgovbr-bootstrapped/analise-modal-navegacao.html).
 
+## Versionamento
+
+A partir da 3.7.0, `major.minor` acompanha a versão do GOV.BR DS (`@govbr-ds/core`) de referência (hoje v3.7.0) e o `patch` conta as revisões deste projeto sobre essa referência. Assim, a 3.7.x é a camada para o GOV.BR DS 3.7. O npm exige semver de 3 partes, então não há quarta posição (como no `dsgovbr-sphinx-theme`, que usa `X.Y.Z.n`).
+
 ## Início rápido
 
 ```bash
