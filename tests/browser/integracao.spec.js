@@ -1,7 +1,7 @@
 "use strict";
 
 // Recursos dos web components para aplicações renderizadas no servidor (issues
-// #76 a #81): busca do header com ação e autocomplete, itens que enviam por POST,
+// #76 a #81 e #87): busca do header com ação e autocomplete, itens que enviam por POST,
 // ações em lote e filtros da tabela e menu com badge e pastas aninhadas. Os
 // elementos são criados por script na página do catálogo; as rotas de rede são
 // simuladas com page.route.
@@ -525,5 +525,38 @@ test.describe("#81 header: logo-href, avatar, papel e Entrar", () => {
     await montarHeader(page, { usuario: "Maria" });
     await expect(page.locator("#h-teste .dropdown-menu p")).toHaveCount(0);
     await expect(page.locator("#h-teste a.btn-light")).toHaveCount(0);
+  });
+});
+
+test.describe("#87 header: modo-rotulo e modo-icone", () => {
+  test("sem os atributos o botão de modo continua com rótulo e ícone padrão", async ({ page }) => {
+    await montarHeader(page, { modo: true });
+    const desktop = page.locator("#h-teste .d-xl-flex [data-dsgovbr-modo]");
+    await expect(desktop).toHaveAttribute("aria-label", "Modo escuro");
+    await expect(desktop).toHaveAttribute("title", "Modo escuro");
+    await expect(desktop.locator("i")).toHaveClass(/fa-adjust/);
+    const celular = page.locator("#h-teste .dropdown-item[data-dsgovbr-modo]");
+    await expect(celular).toHaveText("Modo escuro");
+    await expect(celular.locator("i")).toHaveClass(/fa-adjust/);
+  });
+
+  test("modo-rotulo e modo-icone personalizam os dois botões", async ({ page }) => {
+    await montarHeader(page, { modo: true, "modo-rotulo": "Alto contraste", "modo-icone": "fas fa-moon" });
+    const desktop = page.locator("#h-teste .d-xl-flex [data-dsgovbr-modo]");
+    await expect(desktop).toHaveAttribute("aria-label", "Alto contraste");
+    await expect(desktop).toHaveAttribute("title", "Alto contraste");
+    await expect(desktop.locator("i")).toHaveClass(/fa-moon/);
+    await expect(desktop.locator("i.fa-adjust")).toHaveCount(0);
+    const celular = page.locator("#h-teste .dropdown-item[data-dsgovbr-modo]");
+    await expect(celular).toHaveText("Alto contraste");
+    await expect(celular.locator("i")).toHaveClass(/fa-moon me-2/);
+  });
+
+  test("o rótulo nunca vira HTML e mudar o atributo remonta o botão", async ({ page }) => {
+    await montarHeader(page, { modo: true, "modo-rotulo": "<b>Escuro</b>" });
+    await expect(page.locator("#h-teste .dropdown-item[data-dsgovbr-modo]")).toHaveText("<b>Escuro</b>");
+    expect(await page.locator("#h-teste b").count()).toBe(0);
+    await page.evaluate(() => document.querySelector("#h-teste").setAttribute("modo-rotulo", "Tema"));
+    await expect(page.locator("#h-teste .d-xl-flex [data-dsgovbr-modo]")).toHaveAttribute("aria-label", "Tema");
   });
 });
